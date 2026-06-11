@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2-7 Single Draw Trainer</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🂢</text></svg>">
+</head>
+<body>
+<header>
+  <h1>♠ 2-7 Single Draw Trainer</h1>
+  <p class="tagline">Deuce-to-seven no-limit lowball — learn it, drill it, play it.</p>
+  <nav>
+    <button class="tab on" data-tab="learn">📖 Learn</button>
+    <button class="tab" data-tab="play">🃏 Play</button>
+    <button class="tab" data-tab="drill">🎯 Drills</button>
+  </nav>
+</header>
+
+<main>
+  <!-- LEARN -->
+  <section id="panel-learn" class="panel">
+    <div id="lessons"></div>
+  </section>
+
+  <!-- PLAY -->
+  <section id="panel-play" class="panel hidden">
+    <div id="game-setup" class="setup">
+      <h2>Practice table</h2>
+      <p>No-limit 2-7 single draw. Blinds 5/10, stacks of 1,000. The bots play a
+      reasonable tight-aggressive game (and occasionally snow you). Turn the coach
+      on to get advice at every decision.</p>
+      <label>Opponents:
+        <select id="bot-count">
+          <option value="1">1 (heads-up)</option>
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="5">5 (full ring)</option>
+        </select>
+      </label>
+      <button class="btn primary" id="start-game">Sit down ▶</button>
+    </div>
+
+    <div id="game-area" class="hidden">
+      <div class="table-wrap">
+        <div class="table">
+          <div id="seats"></div>
+          <div class="table-center">
+            <div id="pot"></div>
+            <div id="phase"></div>
+          </div>
+          <div id="my-area"></div>
+        </div>
+        <div class="side">
+          <label class="coach-label"><input type="checkbox" id="coach-toggle" checked> Coach mode</label>
+          <div id="coach" class="coach-box"></div>
+          <div id="log" class="log"></div>
+        </div>
+      </div>
+      <div id="controls" class="controls"></div>
+    </div>
+  </section>
+
+  <!-- DRILLS -->
+  <section id="panel-drill" class="panel hidden">
+    <div class="drill-block">
+      <h2>Which hand wins?</h2>
+      <p>Reading lowball hands fast is half the battle. Pick the winner — watch out for straights, flushes and high aces.</p>
+      <div id="duel-area"></div>
+    </div>
+    <div class="drill-block">
+      <h2>Decision quiz</h2>
+      <p>Twelve spots covering the strategy from the course.</p>
+      <div id="quiz-area"></div>
+    </div>
+  </section>
+</main>
+
+<footer>Built for home-game prep · One draw, no limit, lowest hand wins · Aces high, straights &amp; flushes hurt</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
