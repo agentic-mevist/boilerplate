@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metaphoric Raccoons — associative cards for self-reflection</title>
+  <meta name="description" content="An online metaphoric association card tool. Draw a card, notice what it stirs in you, and name your association. A gentle prototype for self-reflection." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦝</text></svg>" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="title-block">
+      <h1>Metaphoric&nbsp;Raccoons</h1>
+      <p class="tagline">Associative cards for gentle self-reflection</p>
+    </div>
+    <div class="header-actions">
+      <button id="how-btn" class="ghost-btn" type="button">How it works</button>
+      <button id="reset-btn" class="ghost-btn" type="button">Start over</button>
+    </div>
+  </header>
+
+  <section class="intention">
+    <label for="intention-input">Hold a question in mind <span class="optional">(optional — it stays on this device)</span></label>
+    <input id="intention-input" type="text" maxlength="160"
+      placeholder="e.g. What do I need right now? What is this feeling about?" autocomplete="off" />
+  </section>
+
+  <main id="table" class="table" aria-label="Card table">
+    <div id="deck" class="deck" role="button" tabindex="0" aria-label="Deck of cards — draw a card">
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+      <div class="deck-label">draw a card</div>
+    </div>
+
+    <div id="prompt-bar" class="prompt-bar" hidden>
+      <span id="prompt-text"></span>
+      <button id="prompt-next" class="prompt-next" type="button" title="Another question">↻</button>
+    </div>
+
+    <div id="empty-deck-note" class="empty-deck-note" hidden>
+      The deck is empty. Sit with what is on the table — or start over.
+    </div>
+  </main>
+
+  <div id="note-popover" class="note-popover" hidden>
+    <p class="note-popover-hint">What does this card stir in you? Name it in a few words.</p>
+    <textarea id="note-input" rows="3" maxlength="280" placeholder="my association…"></textarea>
+    <div class="note-popover-actions">
+      <button id="note-return" class="ghost-btn small" type="button">Return to deck</button>
+      <button id="note-save" class="solid-btn small" type="button">Save</button>
+    </div>
+  </div>
+
+  <dialog id="how-dialog" class="how-dialog">
+    <h2>How metaphoric cards work</h2>
+    <p>
+      Metaphoric (associative) cards are a projective tool used in counselling and
+      self-exploration. The image on a card has no fixed meaning — whatever you see
+      in it comes from <em>you</em>. The associations that surface can reveal feelings,
+      memories and needs that are hard to reach by thinking alone.
+    </p>
+    <ol>
+      <li><strong>Hold a question</strong> in mind — or simply stay open.</li>
+      <li><strong>Draw a card</strong> from the deck and look at it without hurry.</li>
+      <li><strong>Notice</strong> what catches your eye first, the mood, where you would be in the picture.</li>
+      <li><strong>Name your association</strong> — click the card and write a few words.</li>
+      <li><strong>Arrange</strong> the cards on the table; their positions can speak too.</li>
+    </ol>
+    <p class="fine">
+      There are no right answers and no fortune-telling here. This is a prototype for
+      reflection, not a substitute for therapy. Everything you write stays in your browser.
+    </p>
+    <form method="dialog"><button class="solid-btn">Begin</button></form>
+  </dialog>
+
+  <footer class="site-footer">
+    a quiet little tool · your notes never leave this device
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
