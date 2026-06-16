@@ -161,14 +161,17 @@ function drawCard() {
   const id = pool[Math.floor(Math.random() * pool.length)];
 
   const r = tableRect();
-  const cardW = deckEl.offsetWidth;
-  const cardH = deckEl.offsetHeight;
-  const maxX = Math.max(0.3, 1 - (cardW + 18) / r.width);
+  const deckR = deckEl.getBoundingClientRect();
+  const cardW = deckR.width;
+  const cardH = deckR.height;
+  // cards must land to the right of the deck column, never on top of it
+  const maxX = Math.max(0.4, 1 - (cardW + 18) / r.width);
+  const minX = Math.min(maxX - 0.02, (deckR.right - r.left + 22) / r.width);
   const maxY = Math.max(0.1, 1 - (cardH + 18) / r.height);
   const entry = {
     id,
-    x: clamp(0.3 + Math.random() * 0.45, 0.28, maxX),
-    y: clamp(0.1 + Math.random() * 0.42, 0.05, Math.min(0.62, maxY)),
+    x: clamp(minX + Math.random() * Math.max(0.02, maxX - minX), minX, maxX),
+    y: clamp(0.06 + Math.random() * 0.4, 0.04, Math.min(0.5, maxY)),
     tilt: +(Math.random() * 8 - 4).toFixed(1),
   };
   state.drawn.push(entry);
@@ -274,13 +277,21 @@ async function openShare() {
 }
 
 function fillShare(url) {
-  shareMessage.value = TG_GREETING + " " + url;
-  // открыть Telegram с уже готовым сообщением; адресата выбирают одним касанием
-  shareTg.href = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(TG_GREETING)}`;
+  const full = TG_GREETING + " " + url;
+  shareMessage.value = full;
+  // открыть личный чат с Дарьей и подставить текст сообщения
+  shareTg.href = "https://t.me/dariametelskaya?text=" + encodeURIComponent(full);
   shareTg.classList.remove("is-disabled");
   shareMessage.style.height = "auto";
   shareMessage.style.height = shareMessage.scrollHeight + 2 + "px";
 }
+
+// на части клиентов текст из ссылки не подставляется — кладём его и в буфер обмена
+shareTg.addEventListener("click", () => {
+  copyText(shareMessage.value).then((ok) => {
+    if (ok) toast("Сообщение скопировано — если оно не подставится, вставьте его в чат");
+  });
+});
 
 async function copyText(text) {
   try {

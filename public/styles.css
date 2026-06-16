@@ -220,16 +220,24 @@ h1 {
 
 /* ---------- deck ---------- */
 
-.deck {
+.deck-col {
   position: absolute;
-  left: 36px;
-  top: 36px;
+  left: 34px;
+  top: 32px;
   width: var(--card-w);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  z-index: 5;
+}
+
+.deck {
+  position: relative;
+  width: 100%;
   height: var(--card-h);
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  z-index: 5;
   outline: none;
 }
 
@@ -264,14 +272,12 @@ h1 {
 .deck:focus-visible .deck-card:nth-child(3) { transform: translate(-3px, -5px) rotate(-2deg); }
 
 .deck-label {
-  position: absolute;
-  bottom: -26px;
-  width: 100%;
   text-align: center;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(244, 236, 223, 0.78);
+  margin-top: 2px;
 }
 
 .deck.empty { cursor: default; }
@@ -280,15 +286,29 @@ h1 {
 .deck.empty .deck-card:nth-child(3) { opacity: 0.4; }
 
 .deck-count {
-  position: absolute;
-  left: 36px;
-  top: calc(36px + var(--card-h) + 36px);
-  max-width: 200px;
   color: rgba(244, 236, 223, 0.82);
   line-height: 1.4;
+  margin-top: 2px;
 }
 .deck-count strong { display: block; font-family: var(--font-serif); font-size: 1rem; font-weight: 600; }
 .deck-count span { font-size: 0.78rem; color: rgba(244, 236, 223, 0.6); }
+
+.deck-actions { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 3px; }
+.felt-btn {
+  flex: 1 1 auto;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.42rem 0.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #f3ece0;
+  background: rgba(244, 236, 223, 0.12);
+  border: 1px solid rgba(244, 236, 223, 0.32);
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+.felt-btn:hover { background: rgba(244, 236, 223, 0.22); transform: translateY(-1px); }
 
 /* ---------- cards on the table ---------- */
 
@@ -495,8 +515,7 @@ h1 {
   .intention { padding: 0.5rem 1.1rem 0.8rem; }
   .shared-banner { margin: 0 1.1rem 0.4rem; }
   .table { margin: 0.3rem 0.7rem 0.8rem; min-height: 460px; }
-  .deck { left: 18px; top: 18px; }
-  .deck-count { left: 18px; top: calc(18px + var(--card-h) + 34px); max-width: 150px; }
+  .deck-col { left: 16px; top: 16px; }
   .deck-count strong { font-size: 0.9rem; }
   .site-footer { padding: 0.5rem 1.1rem 1.1rem; }
 }
