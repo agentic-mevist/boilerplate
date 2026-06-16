@@ -23,7 +23,7 @@ function validSpread(data) {
   return (
     Array.isArray(data) &&
     data.length > 0 &&
-    data.length <= 40 &&
+    data.length <= 60 &&
     data.every(
       (r) =>
         Array.isArray(r) &&

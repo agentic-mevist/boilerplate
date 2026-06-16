@@ -4,6 +4,13 @@ const CARDS = [
   "crossroads", "reflection", "ascent", "shelter", "letting-go",
   "mask", "lantern", "key", "bridge", "garden",
   "thread", "campfire", "teatime", "boat", "shadow",
+  "doors", "window-rain", "kite", "sprout", "burden",
+  "memories", "cocoon", "tug-of-war", "embrace", "apart",
+  "well", "treasure", "kintsugi", "umbrella", "sunrise",
+  "starfield", "maze", "anchor", "floating", "stone-door",
+  "compass", "clock", "spilled", "swing", "seasons",
+  "fishing", "free-bird", "cliff-edge", "lighthouse", "roots",
+  "offering", "map", "balance-stones", "tightrope", "balloon-ride",
 ];
 const DECK_TOTAL = 50; // заявленный размер колоды; остальные карты появятся позже
 const STORAGE_KEY = "metaphoric-raccoons-v2";
