@@ -1,7 +1,8 @@
 {
-  "name": "metaphoric-raccoons",
+  "name": "raccoons-lotosinbloom",
   "compatibility_date": "2026-06-01",
-  "assets": {
-    "directory": "./public"
-  }
+  "pages_build_output_dir": "./public",
+  "kv_namespaces": [
+    { "binding": "SHARE", "id": "20f379cc3bdb4e738adf6f24c01454fb" }
+  ]
 }

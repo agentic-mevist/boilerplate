@@ -1,9 +1,13 @@
 /* Метафорические Еноты — стол ассоциативных карт */
 
-const CARDS = ["crossroads", "reflection", "ascent", "shelter", "letting-go"];
+const CARDS = [
+  "crossroads", "reflection", "ascent", "shelter", "letting-go",
+  "mask", "lantern", "key", "bridge", "garden",
+  "thread", "campfire", "teatime", "boat", "shadow",
+];
 const DECK_TOTAL = 50; // заявленный размер колоды; остальные карты появятся позже
 const STORAGE_KEY = "metaphoric-raccoons-v2";
-const COACH_TG = "https://t.me/dariametelskaya";
+const TG_GREETING = "Здравствуйте, Дарья! Хочу обсудить с вами свой расклад метафорических карт:";
 
 const table = document.getElementById("table");
 const deckEl = document.getElementById("deck");
@@ -14,6 +18,7 @@ const sharedBanner = document.getElementById("shared-banner");
 const howDialog = document.getElementById("how-dialog");
 const shareDialog = document.getElementById("share-dialog");
 const shareMessage = document.getElementById("share-message");
+const shareTg = document.getElementById("share-tg");
 const zoom = document.getElementById("zoom");
 const zoomImg = document.getElementById("zoom-img");
 const toastEl = document.getElementById("toast");
@@ -61,25 +66,29 @@ function toast(text) {
   toast._t = setTimeout(() => { toastEl.hidden = true; }, 2600);
 }
 
-/* ---------- share link encoding ---------- */
+/* ---------- share spread <-> compact payload ---------- */
 
-function encodeState(drawn) {
-  const payload = drawn.map((d) => [
+function payloadOf(drawn) {
+  return drawn.map((d) => [
     CARDS.indexOf(d.id),
     +Number(d.x).toFixed(3),
     +Number(d.y).toFixed(3),
     +Number(d.tilt).toFixed(1),
   ]);
-  return btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-function decodeState(token) {
+function spreadFrom(arr) {
+  if (!Array.isArray(arr)) return null;
+  return arr.filter((r) => CARDS[r[0]]).map((r) => ({ id: CARDS[r[0]], x: r[1], y: r[2], tilt: r[3] }));
+}
+
+// fallback if the API is unreachable: encode the whole spread inline (longer URL)
+function encodeInline(drawn) {
+  return btoa(JSON.stringify(payloadOf(drawn))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function decodeInline(token) {
   try {
-    const b64 = token.replace(/-/g, "+").replace(/_/g, "/");
-    const arr = JSON.parse(atob(b64));
-    return arr
-      .filter((r) => CARDS[r[0]])
-      .map((r) => ({ id: CARDS[r[0]], x: r[1], y: r[2], tilt: r[3] }));
+    return spreadFrom(JSON.parse(atob(token.replace(/-/g, "+").replace(/_/g, "/"))));
   } catch (_) { return null; }
 }
 
@@ -233,13 +242,38 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !zoom.hi
 
 /* ---------- discuss / share ---------- */
 
-discussBtn.addEventListener("click", () => {
-  const token = encodeState(state.drawn);
-  const url = location.origin + location.pathname + "?s=" + token;
-  const msg = `Здравствуйте, Дарья! Хочу обсудить с вами свой расклад метафорических карт: ${url}`;
-  shareMessage.value = msg;
+discussBtn.addEventListener("click", openShare);
+
+async function openShare() {
   shareDialog.showModal();
-});
+  shareMessage.value = "Готовлю ссылку…";
+  shareMessage.style.height = "auto";
+  shareTg.classList.add("is-disabled");
+
+  let url;
+  try {
+    const res = await fetch("/api/share", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payloadOf(state.drawn)),
+    });
+    if (!res.ok) throw new Error("api");
+    const data = await res.json();
+    url = location.origin + location.pathname + "?s=" + data.id;
+  } catch (_) {
+    url = location.origin + location.pathname + "?s=" + encodeInline(state.drawn);
+  }
+  fillShare(url);
+}
+
+function fillShare(url) {
+  shareMessage.value = TG_GREETING + " " + url;
+  // открыть Telegram с уже готовым сообщением; адресата выбирают одним касанием
+  shareTg.href = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(TG_GREETING)}`;
+  shareTg.classList.remove("is-disabled");
+  shareMessage.style.height = "auto";
+  shareMessage.style.height = shareMessage.scrollHeight + 2 + "px";
+}
 
 async function copyText(text) {
   try {
@@ -256,11 +290,6 @@ document.getElementById("share-copy").addEventListener("click", async () => {
   toast(ok ? "Сообщение скопировано" : "Скопируйте текст вручную");
 });
 
-document.getElementById("share-tg").addEventListener("click", () => {
-  copyText(shareMessage.value).then((ok) => {
-    if (ok) toast("Сообщение скопировано — вставьте его в чат с Дарьей");
-  });
-});
 
 /* ---------- intention, reset, intro ---------- */
 
@@ -291,17 +320,29 @@ window.addEventListener("resize", () => {
 
 /* ---------- init ---------- */
 
-function init() {
-  const params = new URLSearchParams(location.search);
-  const token = params.get("s");
-  const shared = token && decodeState(token);
+async function loadShared(token) {
+  if (/^[a-z2-9]{6,16}$/.test(token)) {
+    try {
+      const res = await fetch("/api/s/" + token);
+      if (res.ok) return spreadFrom(await res.json());
+    } catch (_) {}
+  }
+  return decodeInline(token); // inline-encoded fallback link
+}
 
-  if (shared && shared.length) {
-    sharedView = true;
-    state = { drawn: shared, intention: "", seenIntro: true };
-    renderAll();
-    sharedBanner.hidden = false;
-    return;
+async function init() {
+  const token = new URLSearchParams(location.search).get("s");
+
+  if (token) {
+    const shared = await loadShared(token);
+    if (shared && shared.length) {
+      sharedView = true;
+      state = { drawn: shared, intention: "", seenIntro: true };
+      renderAll();
+      sharedBanner.hidden = false;
+      return;
+    }
+    toast("Расклад по ссылке не найден");
   }
 
   load();
