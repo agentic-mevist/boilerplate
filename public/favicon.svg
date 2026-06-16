@@ -1,0 +1,19 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Лотос в цвету">
+  <defs>
+    <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a7a6d"/>
+      <stop offset="1" stop-color="#274039"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8b85a"/>
+      <stop offset="1" stop-color="#b07f24"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#petal)" stroke="#fdf8ee" stroke-width="1.3" stroke-linejoin="round">
+    <path d="M32 9 C25 23 25 35 32 44 C39 35 39 23 32 9 Z" transform="rotate(-56 32 45)"/>
+    <path d="M32 9 C25 23 25 35 32 44 C39 35 39 23 32 9 Z" transform="rotate(56 32 45)"/>
+    <path d="M32 9 C25 23 25 35 32 44 C39 35 39 23 32 9 Z" transform="rotate(-28 32 45)"/>
+    <path d="M32 9 C25 23 25 35 32 44 C39 35 39 23 32 9 Z" transform="rotate(28 32 45)"/>
+    <path d="M32 7 C24 22 24 35 32 45 C40 35 40 22 32 7 Z" fill="url(#core)"/>
+  </g>
+</svg>

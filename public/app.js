@@ -1,49 +1,32 @@
-/* Metaphoric Raccoons — associative card table */
+/* Метафорические Еноты — стол ассоциативных карт */
 
 const CARDS = ["crossroads", "reflection", "ascent", "shelter", "letting-go"];
-
-const PROMPTS = [
-  "What caught your eye first?",
-  "What is the mood of this picture?",
-  "Where would you be in this scene?",
-  "What happened just before this moment?",
-  "What does this remind you of in your own life?",
-  "What would you say to the raccoon?",
-  "What does the raccoon need right now — and do you?",
-  "If this card had a title, what would it be?",
-  "What in this picture do you want to look away from?",
-  "What will happen next in this scene?",
-];
-
-const STORAGE_KEY = "metaphoric-raccoons-v1";
+const DECK_TOTAL = 50; // заявленный размер колоды; остальные карты появятся позже
+const STORAGE_KEY = "metaphoric-raccoons-v2";
+const COACH_TG = "https://t.me/dariametelskaya";
 
 const table = document.getElementById("table");
 const deckEl = document.getElementById("deck");
-const promptBar = document.getElementById("prompt-bar");
-const promptText = document.getElementById("prompt-text");
-const emptyNote = document.getElementById("empty-deck-note");
-const popover = document.getElementById("note-popover");
-const noteInput = document.getElementById("note-input");
+const deckLabel = document.getElementById("deck-label");
 const intentionInput = document.getElementById("intention-input");
+const discussBtn = document.getElementById("discuss-btn");
+const sharedBanner = document.getElementById("shared-banner");
 const howDialog = document.getElementById("how-dialog");
+const shareDialog = document.getElementById("share-dialog");
+const shareMessage = document.getElementById("share-message");
+const zoom = document.getElementById("zoom");
+const zoomImg = document.getElementById("zoom-img");
+const toastEl = document.getElementById("toast");
 
-let state = {
-  deck: shuffle([...CARDS]),
-  drawn: [], // { id, x, y (fractions of table), tilt, note }
-  intention: "",
-  seenIntro: false,
-};
-
+let state = { drawn: [], intention: "", seenIntro: false };
 let zTop = 10;
-let activeCardId = null; // card whose note popover is open
-let promptIdx = Math.floor(Math.random() * PROMPTS.length);
+let sharedView = false;
 
 /* ---------- persistence ---------- */
 
 function save() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (_) { /* private mode etc. — just don't persist */ }
+  if (sharedView) return; // не затираем собственный расклад, пока смотрим чужой
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (_) {}
 }
 
 function load() {
@@ -51,10 +34,8 @@ function load() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
     const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed.deck) && Array.isArray(parsed.drawn)) {
-      state = { ...state, ...parsed };
-    }
-  } catch (_) { /* corrupted state — start fresh */ }
+    if (Array.isArray(parsed.drawn)) state = { ...state, ...parsed };
+  } catch (_) {}
 }
 
 /* ---------- helpers ---------- */
@@ -66,20 +47,43 @@ function shuffle(arr) {
   }
   return arr;
 }
+function tableRect() { return table.getBoundingClientRect(); }
+function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
+function cardEl(id) { return table.querySelector(`.card[data-id="${id}"]`); }
 
-function tableRect() {
-  return table.getBoundingClientRect();
+function onTableIds() { return state.drawn.map((d) => d.id); }
+function availableToDraw() { return CARDS.filter((id) => !onTableIds().includes(id)); }
+
+function toast(text) {
+  toastEl.textContent = text;
+  toastEl.hidden = false;
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { toastEl.hidden = true; }, 2600);
 }
 
-function clamp(v, min, max) {
-  return Math.min(max, Math.max(min, v));
+/* ---------- share link encoding ---------- */
+
+function encodeState(drawn) {
+  const payload = drawn.map((d) => [
+    CARDS.indexOf(d.id),
+    +Number(d.x).toFixed(3),
+    +Number(d.y).toFixed(3),
+    +Number(d.tilt).toFixed(1),
+  ]);
+  return btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function decodeState(token) {
+  try {
+    const b64 = token.replace(/-/g, "+").replace(/_/g, "/");
+    const arr = JSON.parse(atob(b64));
+    return arr
+      .filter((r) => CARDS[r[0]])
+      .map((r) => ({ id: CARDS[r[0]], x: r[1], y: r[2], tilt: r[3] }));
+  } catch (_) { return null; }
 }
 
 /* ---------- rendering ---------- */
-
-function cardEl(id) {
-  return table.querySelector(`.card[data-id="${id}"]`);
-}
 
 function renderCard(entry, { dealing = false } = {}) {
   const el = document.createElement("div");
@@ -87,17 +91,13 @@ function renderCard(entry, { dealing = false } = {}) {
   el.dataset.id = entry.id;
   el.style.setProperty("--tilt", entry.tilt + "deg");
   el.style.zIndex = ++zTop;
-
   el.innerHTML = `
     <div class="card-inner">
       <div class="card-face card-front">
-        <img src="cards/${entry.id}.webp" alt="metaphoric card" draggable="false" />
+        <img src="cards/${entry.id}.webp" alt="Метафорическая карта" draggable="false" />
       </div>
       <div class="card-face card-back"></div>
-    </div>
-    <div class="card-note"></div>`;
-
-  el.querySelector(".card-note").textContent = entry.note || "";
+    </div>`;
   positionCard(el, entry);
   table.appendChild(el);
 
@@ -109,12 +109,10 @@ function renderCard(entry, { dealing = false } = {}) {
     el.classList.add("dealing", "face-down");
     el.addEventListener("animationend", () => {
       el.classList.remove("dealing");
-      // flip face-up shortly after landing
       setTimeout(() => el.classList.remove("face-down"), 120);
     }, { once: true });
   }
-
-  makeDraggable(el, entry);
+  makeInteractive(el, entry);
   return el;
 }
 
@@ -127,82 +125,83 @@ function positionCard(el, entry) {
 function renderAll() {
   table.querySelectorAll(".card").forEach((el) => el.remove());
   state.drawn.forEach((entry) => renderCard(entry));
-  updateDeck();
   intentionInput.value = state.intention || "";
+  updateDeck();
 }
 
 function updateDeck() {
-  const empty = state.deck.length === 0;
+  const empty = availableToDraw().length === 0;
   deckEl.classList.toggle("empty", empty);
   deckEl.setAttribute("aria-disabled", String(empty));
-  emptyNote.hidden = !empty;
-  promptBar.hidden = state.drawn.length === 0;
+  deckLabel.textContent = empty ? "карты разложены" : "вытянуть карту";
+  discussBtn.hidden = state.drawn.length === 0;
 }
 
-/* ---------- drawing a card ---------- */
+/* ---------- drawing ---------- */
 
 function drawCard() {
-  if (state.deck.length === 0) return;
-  const id = state.deck.shift();
+  const pool = availableToDraw();
+  if (pool.length === 0) return;
+  const id = pool[Math.floor(Math.random() * pool.length)];
 
   const r = tableRect();
-  const cardW = table.querySelector(".deck").offsetWidth;
-  // land somewhere in the middle-right area, with slight randomness
-  const x = clamp(0.32 + Math.random() * 0.45, 0.05, 1 - (cardW + 20) / r.width);
-  const y = clamp(0.12 + Math.random() * 0.45, 0.04, 0.6);
+  const cardW = deckEl.offsetWidth;
+  const cardH = deckEl.offsetHeight;
+  const maxX = Math.max(0.3, 1 - (cardW + 18) / r.width);
+  const maxY = Math.max(0.1, 1 - (cardH + 18) / r.height);
   const entry = {
     id,
-    x,
-    y,
-    tilt: (Math.random() * 8 - 4).toFixed(1),
-    note: "",
+    x: clamp(0.3 + Math.random() * 0.45, 0.28, maxX),
+    y: clamp(0.1 + Math.random() * 0.42, 0.05, Math.min(0.62, maxY)),
+    tilt: +(Math.random() * 8 - 4).toFixed(1),
   };
   state.drawn.push(entry);
   renderCard(entry, { dealing: true });
-  nextPrompt();
   updateDeck();
   save();
 }
 
 deckEl.addEventListener("click", drawCard);
 deckEl.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" || e.key === " ") {
-    e.preventDefault();
-    drawCard();
-  }
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); drawCard(); }
 });
 
-/* ---------- dragging ---------- */
+/* ---------- shuffle ---------- */
 
-function makeDraggable(el, entry) {
+document.getElementById("shuffle-btn").addEventListener("click", () => {
+  deckEl.animate(
+    [
+      { transform: "rotate(0deg)" },
+      { transform: "rotate(-4deg) translateX(-4px)" },
+      { transform: "rotate(4deg) translateX(4px)" },
+      { transform: "rotate(0deg)" },
+    ],
+    { duration: 380, easing: "ease-in-out" }
+  );
+  toast("Колода перемешана");
+});
+
+/* ---------- drag + zoom ---------- */
+
+function makeInteractive(el, entry) {
   let startX, startY, origLeft, origTop, moved;
 
   el.addEventListener("pointerdown", (e) => {
     if (e.button !== 0 && e.pointerType === "mouse") return;
-    closePopover();
     el.setPointerCapture(e.pointerId);
     el.style.zIndex = ++zTop;
-    startX = e.clientX;
-    startY = e.clientY;
-    origLeft = el.offsetLeft;
-    origTop = el.offsetTop;
+    startX = e.clientX; startY = e.clientY;
+    origLeft = el.offsetLeft; origTop = el.offsetTop;
     moved = false;
 
     const onMove = (ev) => {
-      const dx = ev.clientX - startX;
-      const dy = ev.clientY - startY;
-      if (!moved && Math.hypot(dx, dy) > 5) {
-        moved = true;
-        el.classList.add("dragging");
-      }
+      const dx = ev.clientX - startX, dy = ev.clientY - startY;
+      if (!moved && Math.hypot(dx, dy) > 6) { moved = true; el.classList.add("dragging"); }
       if (!moved) return;
       const r = tableRect();
-      const left = clamp(origLeft + dx, -el.offsetWidth * 0.3, r.width - el.offsetWidth * 0.7);
-      const top = clamp(origTop + dy, 0, r.height - el.offsetHeight * 0.5);
-      el.style.left = left + "px";
-      el.style.top = top + "px";
+      el.style.left = clamp(origLeft + dx, -el.offsetWidth * 0.3, r.width - el.offsetWidth * 0.7) + "px";
+      el.style.top = clamp(origTop + dy, 0, r.height - el.offsetHeight * 0.5) + "px";
     };
-
     const onUp = () => {
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerup", onUp);
@@ -214,125 +213,104 @@ function makeDraggable(el, entry) {
         entry.y = el.offsetTop / r.height;
         save();
       } else {
-        openPopover(el, entry);
+        openZoom(entry.id);
       }
     };
-
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerup", onUp);
     el.addEventListener("pointercancel", onUp);
   });
 }
 
-/* ---------- note popover ---------- */
-
-function openPopover(el, entry) {
-  activeCardId = entry.id;
-  noteInput.value = entry.note || "";
-  popover.hidden = false;
-
-  const cardR = el.getBoundingClientRect();
-  const popW = popover.offsetWidth;
-  const popH = popover.offsetHeight;
-  let left = cardR.right + 12;
-  if (left + popW > window.innerWidth - 8) left = cardR.left - popW - 12;
-  if (left < 8) left = clamp(cardR.left, 8, window.innerWidth - popW - 8);
-  const top = clamp(cardR.top, 8, window.innerHeight - popH - 8);
-  popover.style.left = left + "px";
-  popover.style.top = top + "px";
-  noteInput.focus();
+function openZoom(id) {
+  zoomImg.src = `cards/${id}.webp`;
+  zoom.hidden = false;
 }
+function closeZoom() { zoom.hidden = true; zoomImg.removeAttribute("src"); }
+document.getElementById("zoom-close").addEventListener("click", closeZoom);
+zoom.addEventListener("click", (e) => { if (e.target === zoom) closeZoom(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !zoom.hidden) closeZoom(); });
 
-function closePopover() {
-  popover.hidden = true;
-  activeCardId = null;
-}
+/* ---------- discuss / share ---------- */
 
-function activeEntry() {
-  return state.drawn.find((d) => d.id === activeCardId);
-}
-
-document.getElementById("note-save").addEventListener("click", () => {
-  const entry = activeEntry();
-  if (entry) {
-    entry.note = noteInput.value.trim();
-    cardEl(entry.id).querySelector(".card-note").textContent = entry.note;
-    save();
-  }
-  closePopover();
+discussBtn.addEventListener("click", () => {
+  const token = encodeState(state.drawn);
+  const url = location.origin + location.pathname + "?s=" + token;
+  const msg = `Здравствуйте, Дарья! Хочу обсудить с вами свой расклад метафорических карт: ${url}`;
+  shareMessage.value = msg;
+  shareDialog.showModal();
 });
 
-document.getElementById("note-return").addEventListener("click", () => {
-  const entry = activeEntry();
-  if (entry) {
-    state.drawn = state.drawn.filter((d) => d !== entry);
-    state.deck.push(entry.id);
-    shuffle(state.deck);
-    cardEl(entry.id)?.remove();
-    updateDeck();
-    save();
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (_) {
+    shareMessage.select();
+    try { return document.execCommand("copy"); } catch (_) { return false; }
   }
-  closePopover();
-});
-
-noteInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    document.getElementById("note-save").click();
-  }
-  if (e.key === "Escape") closePopover();
-});
-
-document.addEventListener("pointerdown", (e) => {
-  if (!popover.hidden && !popover.contains(e.target) && !e.target.closest(".card")) {
-    closePopover();
-  }
-});
-
-/* ---------- prompts ---------- */
-
-function nextPrompt() {
-  promptIdx = (promptIdx + 1 + Math.floor(Math.random() * (PROMPTS.length - 1))) % PROMPTS.length;
-  promptText.textContent = PROMPTS[promptIdx];
 }
 
-document.getElementById("prompt-next").addEventListener("click", nextPrompt);
+document.getElementById("share-copy").addEventListener("click", async () => {
+  const ok = await copyText(shareMessage.value);
+  toast(ok ? "Сообщение скопировано" : "Скопируйте текст вручную");
+});
+
+document.getElementById("share-tg").addEventListener("click", () => {
+  copyText(shareMessage.value).then((ok) => {
+    if (ok) toast("Сообщение скопировано — вставьте его в чат с Дарьей");
+  });
+});
 
 /* ---------- intention, reset, intro ---------- */
 
-intentionInput.addEventListener("input", () => {
-  state.intention = intentionInput.value;
-  save();
-});
+intentionInput.addEventListener("input", () => { state.intention = intentionInput.value; save(); });
 
-document.getElementById("reset-btn").addEventListener("click", () => {
-  if (state.drawn.length && !confirm("Clear the table and reshuffle the deck?")) return;
-  closePopover();
-  state.deck = shuffle([...CARDS]);
-  state.drawn = [];
-  state.intention = "";
+function startOver() {
+  closeZoom();
+  if (sharedView) {
+    sharedView = false;
+    sharedBanner.hidden = true;
+    history.replaceState(null, "", location.pathname);
+  }
+  state = { drawn: [], intention: "", seenIntro: true };
   renderAll();
   save();
-});
+}
 
+document.getElementById("reset-btn").addEventListener("click", () => {
+  if (state.drawn.length && !confirm("Очистить стол и собрать колоду заново?")) return;
+  startOver();
+});
+document.getElementById("own-spread-btn").addEventListener("click", startOver);
 document.getElementById("how-btn").addEventListener("click", () => howDialog.showModal());
 
-/* keep fractional positions correct on resize */
 window.addEventListener("resize", () => {
-  state.drawn.forEach((entry) => {
-    const el = cardEl(entry.id);
-    if (el) positionCard(el, entry);
-  });
+  state.drawn.forEach((entry) => { const el = cardEl(entry.id); if (el) positionCard(el, entry); });
 });
 
 /* ---------- init ---------- */
 
-load();
-nextPrompt();
-renderAll();
+function init() {
+  const params = new URLSearchParams(location.search);
+  const token = params.get("s");
+  const shared = token && decodeState(token);
 
-if (!state.seenIntro) {
-  howDialog.showModal();
-  state.seenIntro = true;
-  save();
+  if (shared && shared.length) {
+    sharedView = true;
+    state = { drawn: shared, intention: "", seenIntro: true };
+    renderAll();
+    sharedBanner.hidden = false;
+    return;
+  }
+
+  load();
+  renderAll();
+  if (!state.seenIntro) {
+    howDialog.showModal();
+    state.seenIntro = true;
+    save();
+  }
 }
+
+init();

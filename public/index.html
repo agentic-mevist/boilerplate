@@ -1,85 +1,185 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Metaphoric Raccoons — associative cards for self-reflection</title>
-  <meta name="description" content="An online metaphoric association card tool. Draw a card, notice what it stirs in you, and name your association. A gentle prototype for self-reflection." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <title>Метафорические карты онлайн · Метафорические Еноты</title>
+  <meta name="description" content="Бесплатные метафорические (ассоциативные) карты онлайн для саморефлексии и работы с подсознанием. Вытяните карту, разложите колоду и обсудите свой расклад с коучем. Проект «Лотос в цвету»." />
+  <meta name="keywords" content="метафорические карты онлайн, метафорические ассоциативные карты, мак карты, ассоциативные карты онлайн, психологические карты, саморефлексия" />
+  <link rel="canonical" href="https://raccoons.lotosinbloom.ru/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#2e4a43" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Лотос в цвету" />
+  <meta property="og:title" content="Метафорические карты онлайн · Метафорические Еноты" />
+  <meta property="og:description" content="Бесплатные метафорические ассоциативные карты онлайн для бережной саморефлексии. Вытяните карту и обсудите свой расклад с коучем." />
+  <meta property="og:url" content="https://raccoons.lotosinbloom.ru/" />
+  <meta property="og:image" content="https://raccoons.lotosinbloom.ru/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Метафорические карты онлайн · Метафорические Еноты" />
+  <meta name="twitter:description" content="Бесплатные метафорические ассоциативные карты онлайн для бережной саморефлексии." />
+  <meta name="twitter:image" content="https://raccoons.lotosinbloom.ru/og.jpg" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦝</text></svg>" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Метафорические Еноты — метафорические карты онлайн",
+    "url": "https://raccoons.lotosinbloom.ru/",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "ru",
+    "description": "Бесплатные метафорические (ассоциативные) карты онлайн для саморефлексии и работы с подсознанием.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" },
+    "provider": {
+      "@type": "Organization",
+      "name": "Лотос в цвету",
+      "url": "https://lotosinbloom.ru/"
+    }
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
-    <div class="title-block">
-      <h1>Metaphoric&nbsp;Raccoons</h1>
-      <p class="tagline">Associative cards for gentle self-reflection</p>
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4a7a6d"/><stop offset="1" stop-color="#274039"/>
+          </linearGradient>
+          <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#e8b85a"/><stop offset="1" stop-color="#b07f24"/>
+          </linearGradient>
+        </defs>
+        <g fill="url(#petal)" stroke="#fdf8ee" stroke-width="1.3" stroke-linejoin="round">
+          <path d="M32 9 C25 23 25 35 32 44 C39 35 39 23 32 9 Z" transform="rotate(-56 32 45)"/>
+          <path d="M32 9 C25 23 25 35 32 44 C39 35 39 23 32 9 Z" transform="rotate(56 32 45)"/>
+          <path d="M32 9 C25 23 25 35 32 44 C39 35 39 23 32 9 Z" transform="rotate(-28 32 45)"/>
+          <path d="M32 9 C25 23 25 35 32 44 C39 35 39 23 32 9 Z" transform="rotate(28 32 45)"/>
+          <path d="M32 7 C24 22 24 35 32 45 C40 35 40 22 32 7 Z" fill="url(#core)"/>
+        </g>
+      </svg>
+      <div class="brand-text">
+        <h1>Метафорические&nbsp;Еноты</h1>
+        <p class="tagline">Метафорические карты онлайн для бережной саморефлексии</p>
+      </div>
     </div>
-    <div class="header-actions">
-      <button id="how-btn" class="ghost-btn" type="button">How it works</button>
-      <button id="reset-btn" class="ghost-btn" type="button">Start over</button>
-    </div>
+    <nav class="header-actions">
+      <button id="how-btn" class="ghost-btn" type="button">Как это работает</button>
+      <button id="shuffle-btn" class="ghost-btn" type="button">Перемешать</button>
+      <button id="reset-btn" class="ghost-btn" type="button">Начать заново</button>
+      <button id="discuss-btn" class="solid-btn" type="button" hidden>Обсудить с Дарьей</button>
+    </nav>
   </header>
 
+  <p class="intro" id="intro-copy">
+    «Метафорические&nbsp;Еноты» — бесплатный онлайн-инструмент с метафорическими
+    ассоциативными картами. Вытяните карту, прислушайтесь к своим ассоциациям и мягко
+    исследуйте внутреннее состояние. Затем разложите карты и при желании обсудите расклад с коучем.
+  </p>
+
   <section class="intention">
-    <label for="intention-input">Hold a question in mind <span class="optional">(optional — it stays on this device)</span></label>
+    <label for="intention-input">Сформулируйте вопрос <span class="optional">(необязательно — остаётся только на этом устройстве)</span></label>
     <input id="intention-input" type="text" maxlength="160"
-      placeholder="e.g. What do I need right now? What is this feeling about?" autocomplete="off" />
+      placeholder="например: Что мне сейчас нужно? О чём это чувство?" autocomplete="off" />
   </section>
 
-  <main id="table" class="table" aria-label="Card table">
-    <div id="deck" class="deck" role="button" tabindex="0" aria-label="Deck of cards — draw a card">
-      <div class="deck-card"></div>
-      <div class="deck-card"></div>
-      <div class="deck-card"></div>
-      <div class="deck-label">draw a card</div>
-    </div>
+  <div id="shared-banner" class="shared-banner" hidden>
+    <span>Вы открыли сохранённый расклад.</span>
+    <button id="own-spread-btn" class="ghost-btn small" type="button">Сделать свой расклад</button>
+  </div>
 
-    <div id="prompt-bar" class="prompt-bar" hidden>
-      <span id="prompt-text"></span>
-      <button id="prompt-next" class="prompt-next" type="button" title="Another question">↻</button>
+  <main id="table" class="table" aria-label="Стол с картами">
+    <div id="deck" class="deck" role="button" tabindex="0" aria-label="Колода карт — вытянуть карту">
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+      <div class="deck-label" id="deck-label">вытянуть карту</div>
     </div>
-
-    <div id="empty-deck-note" class="empty-deck-note" hidden>
-      The deck is empty. Sit with what is on the table — or start over.
+    <div class="deck-count" id="deck-count">
+      <strong>В колоде 50 карт</strong>
+      <span>5 доступно в прототипе, остальные скоро</span>
     </div>
   </main>
 
-  <div id="note-popover" class="note-popover" hidden>
-    <p class="note-popover-hint">What does this card stir in you? Name it in a few words.</p>
-    <textarea id="note-input" rows="3" maxlength="280" placeholder="my association…"></textarea>
-    <div class="note-popover-actions">
-      <button id="note-return" class="ghost-btn small" type="button">Return to deck</button>
-      <button id="note-save" class="solid-btn small" type="button">Save</button>
-    </div>
+  <h2 class="visually-hidden">Как работают метафорические карты онлайн</h2>
+
+  <!-- zoom lightbox -->
+  <div id="zoom" class="zoom" hidden>
+    <button class="zoom-close" id="zoom-close" type="button" aria-label="Закрыть">×</button>
+    <img id="zoom-img" alt="Метафорическая карта крупным планом" />
   </div>
 
-  <dialog id="how-dialog" class="how-dialog">
-    <h2>How metaphoric cards work</h2>
+  <!-- how it works -->
+  <dialog id="how-dialog" class="modal">
+    <h2>Как работают метафорические карты</h2>
     <p>
-      Metaphoric (associative) cards are a projective tool used in counselling and
-      self-exploration. The image on a card has no fixed meaning — whatever you see
-      in it comes from <em>you</em>. The associations that surface can reveal feelings,
-      memories and needs that are hard to reach by thinking alone.
+      Метафорические (ассоциативные) карты — это проективный инструмент, который используют
+      в консультировании и самопознании. У изображения на карте нет заданного значения:
+      то, что вы в нём видите, рождается внутри вас. Возникающие ассоциации помогают заметить
+      чувства, воспоминания и потребности, до которых трудно добраться одними мыслями.
     </p>
     <ol>
-      <li><strong>Hold a question</strong> in mind — or simply stay open.</li>
-      <li><strong>Draw a card</strong> from the deck and look at it without hurry.</li>
-      <li><strong>Notice</strong> what catches your eye first, the mood, where you would be in the picture.</li>
-      <li><strong>Name your association</strong> — click the card and write a few words.</li>
-      <li><strong>Arrange</strong> the cards on the table; their positions can speak too.</li>
+      <li><strong>Держите в уме вопрос</strong> — или просто оставайтесь открытыми.</li>
+      <li><strong>Вытяните карту</strong> из колоды и рассмотрите её без спешки.</li>
+      <li><strong>Заметьте</strong>, что цепляет взгляд первым, какое настроение у картинки, где в этой сцене были бы вы.</li>
+      <li><strong>Разложите карты</strong> по столу — их расположение тоже о чём-то говорит.</li>
+      <li><strong>Обсудите расклад</strong> с коучем, если захочется поговорить об этом глубже.</li>
     </ol>
     <p class="fine">
-      There are no right answers and no fortune-telling here. This is a prototype for
-      reflection, not a substitute for therapy. Everything you write stays in your browser.
+      Здесь нет правильных ответов и предсказаний. Это инструмент для размышления,
+      а не замена терапии. Всё, что вы здесь делаете, остаётся в вашем браузере.
     </p>
-    <form method="dialog"><button class="solid-btn">Begin</button></form>
+    <form method="dialog"><button class="solid-btn">Начать</button></form>
   </dialog>
 
+  <!-- discuss / share -->
+  <dialog id="share-dialog" class="modal">
+    <h2>Обсудить расклад с Дарьей</h2>
+    <p>
+      Ссылка ниже сохраняет ваш расклад. Отправьте её Дарье — она откроет карты
+      ровно так, как вы их разложили, и вы сможете обсудить их вместе.
+    </p>
+    <label class="share-label" for="share-message">Сообщение</label>
+    <textarea id="share-message" class="share-message" rows="3" readonly></textarea>
+    <div class="share-actions">
+      <a id="share-tg" class="solid-btn" href="https://t.me/dariametelskaya" target="_blank" rel="noopener">Написать в Telegram</a>
+      <button id="share-copy" class="ghost-btn" type="button">Скопировать сообщение</button>
+    </div>
+    <div class="share-contacts">
+      <a href="https://www.instagram.com/lotosinbloom/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://lotosinbloom.ru/" target="_blank" rel="noopener">lotosinbloom.ru</a>
+      <a href="https://t.me/dariametelskaya" target="_blank" rel="noopener">@dariametelskaya</a>
+    </div>
+    <form method="dialog" class="modal-close-row"><button class="ghost-btn small">Закрыть</button></form>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+
   <footer class="site-footer">
-    a quiet little tool · your notes never leave this device
+    <div class="footer-brand">
+      <strong>Лотос&nbsp;в&nbsp;цвету</strong>
+      <span>метафорические карты онлайн · бережная работа с собой</span>
+    </div>
+    <nav class="footer-links">
+      <a href="https://lotosinbloom.ru/" target="_blank" rel="noopener">lotosinbloom.ru</a>
+      <a href="https://www.instagram.com/lotosinbloom/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://t.me/dariametelskaya" target="_blank" rel="noopener">Telegram</a>
+    </nav>
   </footer>
 
   <script src="app.js"></script>
