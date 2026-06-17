@@ -1,0 +1,15 @@
+{
+  "name": "convo-song-reel",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Turn conversation screenshots into an animated reel with an AI-generated song",
+  "scripts": {
+    "pipeline": "node src/pipeline.js",
+    "render": "node src/render.js"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.2.0",
+    "playwright": "^1.49.0"
+  }
+}

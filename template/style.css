@@ -1,0 +1,146 @@
+/* Instagram-DM-inspired vertical reel template.
+   Deterministic: every visual state is a pure function of time set by app.js. */
+
+:root {
+  --ig-blue: #3797f0;
+  --ig-grad-a: #5b51d8;
+  --ig-grad-b: #d92e7f;
+  --ig-grad-c: #f9ce34;
+  --bubble-in: #262626;
+  --bubble-in-text: #f5f5f5;
+  --bg: #000000;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+
+html, body {
+  width: 1080px;
+  height: 1920px;
+  background: var(--bg);
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow: hidden;
+}
+
+#stage {
+  width: 1080px;
+  height: 1920px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  /* subtle branded backdrop behind the phone */
+  background:
+    radial-gradient(1200px 800px at 50% -10%, rgba(217,46,127,0.20), transparent 60%),
+    radial-gradient(1000px 900px at 50% 110%, rgba(91,81,216,0.20), transparent 60%),
+    #050505;
+}
+
+#phone {
+  width: 1080px;
+  height: 1920px;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  color: #fff;
+}
+
+/* ---------- Header ---------- */
+#ig-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 70px 40px 26px;
+  border-bottom: 1px solid #1c1c1c;
+}
+#ig-header .back { font-size: 64px; line-height: 1; color: #fff; width: 40px; }
+#ig-header .peer { display: flex; align-items: center; gap: 26px; flex: 1; }
+.avatar {
+  width: 104px; height: 104px; border-radius: 50%;
+  background:
+    conic-gradient(from 180deg, var(--ig-grad-c), var(--ig-grad-b), var(--ig-grad-a), var(--ig-grad-c));
+  position: relative;
+}
+.avatar::after {
+  content: ""; position: absolute; inset: 8px; border-radius: 50%;
+  background: #3a3a3a center/cover no-repeat;
+}
+.peer-name { font-size: 44px; font-weight: 700; }
+.peer-status { font-size: 30px; color: #b3b3b3; margin-top: 4px; }
+.header-actions { display: flex; gap: 28px; font-size: 50px; color: #fff; }
+
+/* ---------- Thread ---------- */
+#thread {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+  padding: 0 36px;
+}
+#thread-inner {
+  position: absolute;
+  left: 36px; right: 36px; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding-bottom: 30px;
+  /* translateY is driven by JS for auto-scroll */
+  will-change: transform;
+}
+
+.row { display: flex; width: 100%; }
+.row.in  { justify-content: flex-start; }
+.row.out { justify-content: flex-end; }
+
+.bubble {
+  max-width: 74%;
+  padding: 28px 36px;
+  font-size: 46px;
+  line-height: 1.32;
+  border-radius: 48px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  /* entrance animation state controlled via inline style (opacity/transform) */
+}
+.row.in .bubble {
+  background: var(--bubble-in);
+  color: var(--bubble-in-text);
+  border-bottom-left-radius: 14px;
+}
+.row.out .bubble {
+  background: linear-gradient(135deg, var(--ig-grad-a), var(--ig-grad-b));
+  color: #fff;
+  border-bottom-right-radius: 14px;
+}
+
+/* typing indicator bubble */
+.typing { display: flex; gap: 14px; align-items: center; padding: 34px 40px; }
+.typing .dot {
+  width: 20px; height: 20px; border-radius: 50%; background: #8a8a8a;
+}
+
+/* timestamp / day separator */
+.daystamp {
+  align-self: center;
+  color: #8a8a8a;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 18px 0 6px;
+}
+
+/* ---------- Composer ---------- */
+#composer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 26px 40px 64px;
+  border-top: 1px solid #1c1c1c;
+}
+.composer-pill {
+  flex: 1;
+  border: 2px solid #333;
+  border-radius: 60px;
+  padding: 30px 40px;
+  color: #8a8a8a;
+  font-size: 38px;
+}
+.composer-icons { display: flex; gap: 30px; font-size: 46px; }

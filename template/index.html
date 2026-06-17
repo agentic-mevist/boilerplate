@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Conversation Reel</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Vertical 1080x1920 reel stage -->
+  <div id="stage">
+    <div id="phone">
+      <!-- Instagram-DM-style header -->
+      <header id="ig-header">
+        <div class="back">&#8249;</div>
+        <div class="peer">
+          <div class="avatar" id="peer-avatar"></div>
+          <div class="peer-meta">
+            <div class="peer-name" id="peer-name">customer</div>
+            <div class="peer-status">Active now</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <span class="ic">&#9742;</span>
+          <span class="ic">&#9743;</span>
+        </div>
+      </header>
+
+      <!-- Scrolling thread -->
+      <main id="thread">
+        <div id="thread-inner"></div>
+      </main>
+
+      <!-- Fake composer bar -->
+      <footer id="composer">
+        <div class="composer-pill"><span>Message...</span></div>
+        <div class="composer-icons"><span>&#128247;</span><span>&#127908;</span><span>&#128247;</span></div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

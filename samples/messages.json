@@ -1,0 +1,12 @@
+{
+  "peer": { "name": "jordan_buys" },
+  "messages": [
+    { "side": "in",  "text": "hey is the vintage jacket still available??" },
+    { "side": "out", "text": "Yes it is! Last one in that size 👀" },
+    { "side": "in",  "text": "omg ok. but can you do 40 instead of 60" },
+    { "side": "out", "text": "haha 40 is robbery 😭 i can do 55" },
+    { "side": "in",  "text": "50 and i pick up today, deal?" },
+    { "side": "out", "text": "...fine. but only because you said today 🤝" },
+    { "side": "in",  "text": "YESSS sending the address now ❤️" }
+  ]
+}
