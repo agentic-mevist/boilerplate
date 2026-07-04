@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Macros</title>
+  <meta name="description" content="Personal calorie, macro and weight tracker">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Macros">
+  <meta name="theme-color" content="#f9f9f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <!-- PIN gate -->
+  <div id="pin-screen" class="pin-screen hidden">
+    <div class="pin-box">
+      <div class="pin-logo">Macros</div>
+      <p class="pin-hint">Enter your PIN to unlock</p>
+      <input id="pin-input" type="password" inputmode="numeric" autocomplete="off" placeholder="PIN">
+      <button id="pin-submit" class="btn btn-primary">Unlock</button>
+      <p id="pin-error" class="pin-error hidden">Wrong PIN — try again</p>
+    </div>
+  </div>
+
+  <main id="app" class="app hidden">
+
+    <!-- ============ TODAY ============ -->
+    <section id="view-today" class="view">
+      <div class="date-nav">
+        <button id="date-prev" class="icon-btn" aria-label="Previous day">‹</button>
+        <button id="date-label" class="date-label">Today</button>
+        <button id="date-next" class="icon-btn" aria-label="Next day">›</button>
+      </div>
+
+      <div class="card hero-card">
+        <div class="hero-label" id="hero-label">Calories left</div>
+        <div class="hero-value"><span id="hero-kcal">—</span></div>
+        <div class="hero-sub" id="hero-sub"></div>
+        <div class="meter"><div class="meter-fill" id="kcal-meter"></div></div>
+      </div>
+
+      <div class="macro-row">
+        <div class="card macro-tile">
+          <div class="tile-label">Protein</div>
+          <div class="tile-value" id="tile-protein">—</div>
+          <div class="tile-sub" id="tile-protein-t"></div>
+          <div class="meter sm"><div class="meter-fill p" id="meter-protein"></div></div>
+        </div>
+        <div class="card macro-tile">
+          <div class="tile-label">Carbs</div>
+          <div class="tile-value" id="tile-carbs">—</div>
+          <div class="tile-sub" id="tile-carbs-t"></div>
+          <div class="meter sm"><div class="meter-fill c" id="meter-carbs"></div></div>
+        </div>
+        <div class="card macro-tile">
+          <div class="tile-label">Fat</div>
+          <div class="tile-value" id="tile-fat">—</div>
+          <div class="tile-sub" id="tile-fat-t"></div>
+          <div class="meter sm"><div class="meter-fill f" id="meter-fat"></div></div>
+        </div>
+      </div>
+
+      <div class="card weight-card">
+        <div class="weight-left">
+          <div class="tile-label">Morning weight</div>
+          <div class="weight-input-row">
+            <input id="weight-input" type="number" inputmode="decimal" step="0.1" min="20" placeholder="—">
+            <span class="unit-label" id="weight-unit">kg</span>
+          </div>
+        </div>
+        <button id="weight-save" class="btn btn-primary btn-sm">Save</button>
+      </div>
+
+      <div class="section-head">
+        <h2>Food log</h2>
+        <button id="add-entry" class="btn btn-primary btn-sm">+ Add food</button>
+      </div>
+      <div id="entry-list" class="entry-list"></div>
+    </section>
+
+    <!-- ============ PROGRESS ============ -->
+    <section id="view-progress" class="view hidden">
+      <div class="filter-row" id="range-row" role="tablist" aria-label="Date range">
+        <button class="chip" data-range="7">1W</button>
+        <button class="chip selected" data-range="30">1M</button>
+        <button class="chip" data-range="90">3M</button>
+        <button class="chip" data-range="all">All</button>
+      </div>
+
+      <div class="stat-row">
+        <div class="card stat-tile">
+          <div class="tile-label">Current weight</div>
+          <div class="tile-value" id="stat-weight">—</div>
+          <div class="tile-sub" id="stat-weight-delta"></div>
+        </div>
+        <div class="card stat-tile">
+          <div class="tile-label">Avg calories / day</div>
+          <div class="tile-value" id="stat-kcal">—</div>
+          <div class="tile-sub" id="stat-kcal-sub"></div>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <h3>Weight</h3>
+          <div class="legend" id="weight-legend">
+            <span class="legend-item"><span class="key-dot"></span>Daily</span>
+            <span class="legend-item"><span class="key-line"></span>7-day trend</span>
+          </div>
+        </div>
+        <div id="chart-weight" class="chart"></div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <h3>Calories</h3>
+        </div>
+        <div id="chart-kcal" class="chart"></div>
+      </div>
+
+      <button id="table-toggle" class="btn btn-ghost">Show data table</button>
+      <div id="data-table-wrap" class="card table-wrap hidden">
+        <table class="data-table" id="data-table"></table>
+      </div>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section id="view-settings" class="view hidden">
+      <div class="card">
+        <h3 class="card-title">Daily targets</h3>
+        <label class="field">Calories (kcal)
+          <input id="set-kcal" type="number" inputmode="numeric" min="800" max="6000">
+        </label>
+        <label class="field">Protein (g)
+          <input id="set-protein" type="number" inputmode="numeric" min="0" max="500">
+        </label>
+        <label class="field">Carbs (g)
+          <input id="set-carbs" type="number" inputmode="numeric" min="0" max="800">
+        </label>
+        <label class="field">Fat (g)
+          <input id="set-fat" type="number" inputmode="numeric" min="0" max="300">
+        </label>
+        <label class="field">Weight unit
+          <select id="set-unit">
+            <option value="kg">Kilograms (kg)</option>
+            <option value="lb">Pounds (lb)</option>
+          </select>
+        </label>
+        <button id="settings-save" class="btn btn-primary">Save targets</button>
+      </div>
+
+      <div class="card">
+        <div class="section-head" style="margin:0 0 10px">
+          <h3 class="card-title" style="margin:0">My foods</h3>
+          <button id="food-new" class="btn btn-primary btn-sm">+ New</button>
+        </div>
+        <p class="muted-note">Your own foods, macros per 100 g. They show up in search alongside the built-in database.</p>
+        <div id="myfoods-list" class="entry-list"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Session</h3>
+        <button id="lock-btn" class="btn btn-ghost">Lock app (forget PIN on this device)</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom navigation -->
+  <nav class="tabbar hidden" id="tabbar">
+    <button class="tab selected" data-view="today">
+      <svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      Today
+    </button>
+    <button class="tab" data-view="progress">
+      <svg viewBox="0 0 24 24"><path d="M4 19L9 12l4 3 7-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      Progress
+    </button>
+    <button class="tab" data-view="settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 2.8v3M12 18.2v3M2.8 12h3M18.2 12h3M5.5 5.5l2.1 2.1M16.4 16.4l2.1 2.1M18.5 5.5l-2.1 2.1M7.6 16.4l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Settings
+    </button>
+  </nav>
+
+  <!-- Add food sheet -->
+  <div id="sheet-backdrop" class="sheet-backdrop hidden"></div>
+  <div id="sheet" class="sheet hidden" role="dialog" aria-label="Add food">
+    <div class="sheet-handle"></div>
+    <div class="filter-row seg" id="sheet-tabs">
+      <button class="chip selected" data-mode="search">Search</button>
+      <button class="chip" data-mode="manual">Manual</button>
+    </div>
+
+    <div id="sheet-search">
+      <input id="food-search" type="search" placeholder="Search foods…" autocomplete="off">
+      <div id="food-results" class="food-results"></div>
+      <div id="food-detail" class="hidden">
+        <div class="detail-head">
+          <button id="detail-back" class="icon-btn">‹</button>
+          <div>
+            <div class="detail-name" id="detail-name"></div>
+            <div class="tile-sub" id="detail-per"></div>
+          </div>
+        </div>
+        <div class="grams-row">
+          <input id="grams-input" type="number" inputmode="decimal" min="1" value="100">
+          <span class="unit-label">g</span>
+        </div>
+        <div class="chip-row" id="grams-chips"></div>
+        <div class="macro-preview" id="macro-preview"></div>
+        <button id="detail-add" class="btn btn-primary btn-block">Add to log</button>
+      </div>
+    </div>
+
+    <div id="sheet-manual" class="hidden">
+      <p class="muted-note">Don't know exactly what's in it? Estimate the amounts you ate and log them directly.</p>
+      <label class="field">Name <input id="man-name" type="text" placeholder="e.g. Restaurant pasta"></label>
+      <div class="field-grid">
+        <label class="field">Calories <input id="man-kcal" type="number" inputmode="decimal" min="0" placeholder="kcal"></label>
+        <label class="field">Protein <input id="man-protein" type="number" inputmode="decimal" min="0" placeholder="g"></label>
+        <label class="field">Carbs <input id="man-carbs" type="number" inputmode="decimal" min="0" placeholder="g"></label>
+        <label class="field">Fat <input id="man-fat" type="number" inputmode="decimal" min="0" placeholder="g"></label>
+      </div>
+      <p class="muted-note">Tip: leave calories empty and I'll compute them from the macros (4·P + 4·C + 9·F).</p>
+      <button id="manual-add" class="btn btn-primary btn-block">Add to log</button>
+    </div>
+  </div>
+
+  <!-- New custom food sheet -->
+  <div id="foodsheet" class="sheet hidden" role="dialog" aria-label="New food">
+    <div class="sheet-handle"></div>
+    <h3 class="card-title">New food (per 100 g)</h3>
+    <label class="field">Name <input id="nf-name" type="text" placeholder="e.g. Mom's granola"></label>
+    <div class="field-grid">
+      <label class="field">Calories <input id="nf-kcal" type="number" inputmode="decimal" min="0" placeholder="kcal"></label>
+      <label class="field">Protein <input id="nf-protein" type="number" inputmode="decimal" min="0" placeholder="g"></label>
+      <label class="field">Carbs <input id="nf-carbs" type="number" inputmode="decimal" min="0" placeholder="g"></label>
+      <label class="field">Fat <input id="nf-fat" type="number" inputmode="decimal" min="0" placeholder="g"></label>
+    </div>
+    <label class="field">Typical serving (g, optional) <input id="nf-serving" type="number" inputmode="decimal" min="1"></label>
+    <button id="nf-save" class="btn btn-primary btn-block">Save food</button>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+name = "calorie-tracker"
+main = "src/worker.js"
+compatibility_date = "2025-06-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "calorie-tracker"
+database_id = "4103b275-0c25-4187-8a04-6c51be00964a"
+
+[observability]
+enabled = true
