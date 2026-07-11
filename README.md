@@ -5,12 +5,13 @@
 (1 140 постов), покадровый разбор 13 виральных reels через Gemini, стратегия роста, контент-план
 и 6 готовых скриптов.
 
-**📊 Отчёт (Cloudflare Pages): https://lotosinbloom-report.pages.dev**
+**📊 Отчёт (Cloudflare Pages): https://lotosinbloom-report.pages.dev** — закрыт паролем (`raccoon27`).
+Видео и аватары стримятся из приватного R2-bucket `lotos-report-media` через Pages Functions.
 
 ## Структура репозитория
 
 ```
-report/          → HTML-отчёт (задеплоен на CF Pages)
+report/          → CF Pages проект: public/ (HTML) + functions/ (пароль-гейт, R2-стриминг)
 docs/
   growth_strategy.md   → стратегия роста (позиционирование, воронка, KPI)
   content_plan.md      → контент-план на 4 недели
@@ -19,7 +20,8 @@ docs/
 data/
   target/              → сырые данные @lotosinbloom (профиль, 100 постов)
   competitors/         → 26 конкурентов: профили + 1 040 постов
-  videos/              → скачанные виральные reels (13 шт)
+  videos/              → скачанные виральные reels (не в git; в R2)
+  avatars/             → аватары 60 аккаунтов (не в git; в R2)
   analysis/
     audit_scores.json          → оценки 10 измерений с доказательствами
     target_summary.json        → статистика аккаунта
@@ -27,6 +29,7 @@ data/
     competitor_summaries.json  → статистика 26 конкурентов
     patterns_tier{1,2,3}.json  → паттерны по ярусам (3 суб-агента)
     viral_taxonomy.json        → таксономия виральности ниши (топ-40 постов)
+    trusted_circle.json        → круг доверия: 56 аккаунтов её графа, топ-6 коллабов
     reels/                     → покадровые разборы 13 виральных reels
 scripts/
   apify_client.py      → клиент Apify (start/status/items/run)
