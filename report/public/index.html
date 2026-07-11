@@ -187,6 +187,12 @@ td .ulink{font-weight:550}
 .num-badge{flex:none;width:30px;height:30px;border-radius:50%;background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue-strong);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
 
 .avf{display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--violet),var(--blue));font-size:15px}
+/* story previews */
+.stories-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+.story-ph{position:relative}
+.story-ph img{width:100%;border-radius:22px;border:1px solid var(--border);display:block;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.story-ph .cap{font-size:12.5px;color:var(--ink2);margin-top:9px;line-height:1.45}
+.story-ph .cap b{color:var(--ink)}
 /* polish */
 section{scroll-margin-top:56px}
 .card,.reel,.tile,.tc-card{transition:border-color .15s}
@@ -213,6 +219,7 @@ ul.plain b{color:var(--ink)}
 <a href="#strategy">Стратегия</a>
 <a href="#plan">Контент-план</a>
 <a href="#scripts">Скрипты</a>
+<a href="#previews">Превью сторис</a>
 <a href="#steps">Шаги</a>
 <a href="#method">Методология</a>
 </div></nav>
@@ -896,6 +903,28 @@ ul.plain b{color:var(--ink)}
 </ul></div>
 </section>
 
+<section id="previews" class="wrap">
+<h2>Превью следующих 6 сторис</h2>
+<p class="lede">Как будет выглядеть запуск новой контентной системы в её ленте. Каждое превью собрано из <b>реальных опубликованных фотографий Дарьи</b> (чистые слайды её каруселей) + типографика, повторяющая её фирменный стиль обложек (высококонтрастная антиква, кремовый цвет, интервальный кикер) + интерфейс Instagram Stories. Никакой генерации внешности: только её настоящие кадры. Каждый макет привязан к скрипту из раздела выше.</p>
+
+<div class="stories-strip">
+<div class="story-ph"><img src="/media/previews/story_1.png" loading="lazy" alt="Сторис 1: Сигналы истощения №1">
+<div class="cap"><b>ПН · Скрипт №1</b> — запуск рубрики «Сигналы истощения». Валидация («не лень») + захват ТИШИНА. Фон: её золотой портрет из карусели-цитаты.</div></div>
+<div class="story-ph"><img src="/media/previews/story_2.png" loading="lazy" alt="Сторис 2: Отпуск не отдых">
+<div class="cap"><b>ПТ · Скрипт №2</b> — провокация-мнение «Отпуск ≠ отдых», сезонный share-триггер. Фон: её кадр из юбилейной карусели.</div></div>
+<div class="story-ph"><img src="/media/previews/story_3.png" loading="lazy" alt="Сторис 3: Тело выдаёт">
+<div class="cap"><b>ПН · Скрипт №3</b> — телесная карта «Где живёт „я сама"» (паттерн @telo_psy 722k). Ч/б портрет из её эстетик-серии.</div></div>
+<div class="story-ph"><img src="/media/previews/story_4.png" loading="lazy" alt="Сторис 4: Практика без сил">
+<div class="cap"><b>СР · Скрипт №4</b> — анонс карусели-практики, save-магнит. Фон: её кадр с Буддой — медитативный контекст без лица, как в её тёмных практик-карточках.</div></div>
+<div class="story-ph"><img src="/media/previews/story_5.png" loading="lazy" alt="Сторис 5: Я выглядела идеально">
+<div class="cap"><b>ВС · Скрипт №5</b> — личная история-прогрев «идеальная картинка/развал внутри». Её ч/б эдиториал — визуальная метафора «идеальности».</div></div>
+<div class="story-ph"><img src="/media/previews/story_6.png" loading="lazy" alt="Сторис 6: Медитация не работает">
+<div class="cap"><b>ПТ · Скрипт №6</b> — парадокс эксперта «Медитация не работает», share-CTA «подруге, которая пробовала».</div></div>
+</div>
+
+<div class="callout" style="margin-top:22px"><b>Как это использовать:</b> макеты 1080×1920 готовы к публикации как сторис-анонсы соответствующих reels/каруселей (файлы — в репозитории, data/previews/). Той же системой (шрифт Playfair Display + кремовый #f4edda + кикер с разрядкой + пилюля-CTA) оформляются обложки самих reels — единая сетка ленты с первого дня. Исходники-фоны: 92 чистых слайда из её каруселей сохранены в data/target/photos_clean/ как библиотека для следующих обложек.</div>
+</section>
+
 <section id="steps" class="wrap">
 <h2>Точные ближайшие шаги: 14 дней</h2>
 <ol class="steps">
@@ -927,6 +956,7 @@ ul.plain b{color:var(--ink)}
 <li><b>Видео-анализ:</b> 13 виральных reels скачаны и разобраны Gemini 2.5 покадрово: хук, структура по секундам, приёмы удержания, CTA, воспроизводимая формула.</li>
 <li><b>Аудит воронки:</b> лендинг Mind Beauty Box и Telegram-канал проверены отдельно.</li>
 <li><b>Круг доверия:</b> подписки Instagram не публикует, поэтому круг собран из 3 сигналов её данных: @упоминания в подписях (18), отметки на постах (5 новых) и related-профили графа (33) → 56 аккаунтов, из них 29 нишевых профилированы через веб-исследование; топ-6 коллабораций ранжированы по релевантность × достижимость.</li>
+<li><b>Превью сторис:</b> собраны программно (HTML/CSS → рендер 1080×1920) из реальных опубликованных фотографий Дарьи — 92 чистых слайда извлечены из её каруселей и сохранены как библиотека обложек. Внешность не генерировалась ИИ — принципиально: только настоящие кадры, синтез лиц реальных людей в этом проекте не используется.</li>
 </ul></div>
 <div class="card"><h4>Объём данных</h4>
 <ul class="plain">
