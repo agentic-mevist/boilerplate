@@ -1,0 +1,81 @@
+{
+ "language": "Russian",
+ "duration_estimate_sec": 118,
+ "format": "talking head | voiceover b-roll | text-on-screen | skit",
+ "hook": {
+  "first_3_seconds": "A video clip shows a woman on a stage, a man approaching her with flowers, and another woman (the wife) confronting them. On-screen text reads: \"Скандал на премьере: жена застала мужа с другой прямо в кинотеатре и устроила разборки\" (Scandal at the premiere: wife caught her husband with another woman right in the cinema and staged a showdown). The main speaker (talking head) is smiling and silently reacting.",
+  "hook_type": "provocation | story",
+  "hook_text": "Скандал на премьере: жена застала мужа с другой прямо в кинотеатре и устроила разборки",
+  "strength_1_10": 9,
+  "why_it_works_or_fails": "It immediately presents a dramatic, relatable, and scandalous situation, grabbing attention with conflict and a common marital issue (infidelity). The text clearly explains the context, making viewers curious to see the \"showdown.\""
+ },
+ "structure": [
+  "0:00-0:02: Introduction of the scandalous scene with on-screen text.",
+  "0:02-0:29: Reaction to the main video clip of the wife confronting her husband and his mistress at the cinema, with the talking head providing humorous commentary.",
+  "0:29-0:50: Talking head directly addresses the audience, discussing the shame of infidelity and the \"cringe\" situation.",
+  "0:50-0:53: Meme insert of a laughing man.",
+  "0:53-0:54: Talking head laughs.",
+  "0:54-0:56: B-roll of a person in a rat costume with text \"Крысу поймали\" (Caught a rat).",
+  "0:56-1:18: Talking head elaborates on calling cheaters \"rats\" and suggests laughing at them as the best response.",
+  "1:18-1:41: Talking head explains how cheaters look when caught, using a cat face filter for emphasis, and laughs.",
+  "1:41-1:58: CTA: Asks viewers to comment with explanations for the man's situation."
+ ],
+ "retention_devices": [
+  "visual changes (switching between original video, talking head, memes, filters)",
+  "captions for key phrases",
+  "pacing cuts (quick transitions)",
+  "humor and laughter",
+  "direct address to audience",
+  "open question for comments"
+ ],
+ "visuals": {
+  "setting": "The main video shows a cinema premiere stage. The talking head is in what appears to be a home office or library with bookshelves in the background.",
+  "editing_style": "Frequent cuts between the original scandalous video, the talking head's reaction, and meme inserts. Captions are used for the talking head's commentary and key phrases. A cat face filter is used for comedic effect.",
+  "production_quality_1_10": 7,
+  "aesthetics_notes": "The talking head's segment is clean and professional. The use of memes and filters adds a modern, humorous, and relatable touch. The contrast between the dramatic original video and the lighthearted reaction is effective."
+ },
+ "audio": {
+  "music": "No background music during the main commentary, only sound from the original video and the speaker's voice.",
+  "voice_delivery": "Energetic, humorous, and engaging. The speaker uses varying tones and laughter to emphasize points and convey emotion."
+ },
+ "message": {
+  "core_idea": "Infidelity is shameful and pathetic, and instead of getting angry, one should laugh at those who cheat. It's always better to be honest and divorce than to cheat.",
+  "emotional_triggers": [
+   "anger (at infidelity)",
+   "shame (for the cheater)",
+   "humor (at the situation and the cheater's predicament)",
+   "relatability (for those who have experienced or witnessed infidelity)"
+  ],
+  "target_pain": "The pain and humiliation associated with being cheated on, and the general societal disapproval of infidelity."
+ },
+ "cta": {
+  "present": true,
+  "text": "А давайте мужику поможем, придумаем. Накидайте, пожалуйста, версии, как он оказался в кинотеатре вместо работы на первом ряду с какой-то девушкой с цветами. Наверняка есть объяснение",
+  "type": "comment"
+ },
+ "seller_signals": "Builds authority as a commentator on relationships and human behavior, positioning himself as someone with a clear, straightforward perspective on infidelity. While not directly selling a product, it builds a personal brand and encourages engagement, which is valuable for content creators.",
+ "transcript_summary": "Видео начинается со скандала на премьере, где жена застает мужа с другой женщиной в кинотеатре. Мужчина-комментатор с юмором реагирует на ситуацию, отмечая, что муж сказал, что он на работе. Когда выясняется, что другая женщина тоже его жена, комментатор смеется. Он призывает мужчин быть честными и разводиться, если отношения не устраивают, вместо того чтобы изменять. Он называет изменщиков \"крысами\" и предлагает смеяться над ними, а не злиться, так как они выглядят жалко, когда их ловят. В конце он просит зрителей придумать \"версии\" оправдания для пойманного мужчины.",
+ "verdict": {
+  "what_worked": [
+   "Strong, attention-grabbing hook with a scandalous real-life situation",
+   "Humorous and relatable commentary",
+   "Effective use of memes and filters for comedic relief",
+   "Clear and direct message about infidelity",
+   "Engaging CTA that encourages comments and interaction"
+  ],
+  "what_to_improve": [
+   "The video is quite long for a typical Reel; could be condensed for higher retention.",
+   "The transition between the original video and the talking head could be smoother at times."
+  ],
+  "replicable_pattern": "React to a viral scandalous real-life event with humorous commentary, strong opinions, and relatable analogies, then ask the audience for their creative explanations or solutions."
+ },
+ "_meta": {
+  "username": "psycholog.alexandr.shahov",
+  "shortCode": "DXOM8rvjQoE",
+  "views": 303728,
+  "likes": 18732,
+  "comments": 1118,
+  "caption": "Жду ваши варианты😂👉🏼",
+  "url": "https://www.instagram.com/p/DXOM8rvjQoE/"
+ }
+}

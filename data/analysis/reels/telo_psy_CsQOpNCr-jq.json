@@ -1,0 +1,82 @@
+{
+ "language": "Russian",
+ "duration_estimate_sec": 34,
+ "format": "talking head | text-on-screen",
+ "hook": {
+  "first_3_seconds": "A woman with long reddish-blonde hair, wearing a peach-colored shirt and jeans, stands on a balcony against a sunset backdrop. She gestures with her hands. Text appears: \"КАКИЕ ЧАСТИ ТЕЛА ПОКАЗЫВАЮТ, ЧТО ВЫ СЛИШКОМ МНОГО ОТДАЁТЕ ДРУГИМ?\" Verbally, she asks the same question.",
+  "hook_type": "question | relatable pain",
+  "hook_text": "Какие части тела показывают, что вы слишком много отдаёте другим?",
+  "strength_1_10": 8,
+  "why_it_works_or_fails": "It immediately grabs attention by posing an intriguing question that links common physical symptoms to a prevalent emotional/social issue (giving too much). This creates curiosity and promises a personal revelation, making it highly relatable to the target audience."
+ },
+ "structure": [
+  "0:00-0:03: Hook - Woman asks, 'What body parts show you give too much to others?' Text on screen.",
+  "0:03-0:09: Point 1 - 'ХОЛОДНЫЕ РУКИ ПОКАЗЫВАЮТ, ЧТО ВЫ НЕ МОЖЕТЕ ПРОСИТЬ О ПОМОЩИ И БРАТЬ ЧТО-ТО НУЖНОЕ ИМЕННО ДЛЯ СЕБЯ' (COLD HANDS SHOW THAT YOU CANNOT ASK FOR HELP AND TAKE SOMETHING YOU NEED FOR YOURSELF). Woman gestures with hands.",
+  "0:09-0:14: Point 2 - 'НАПРЯЖЕННЫЕ ПЛЕЧИ СЛИШКОМ МНОГО ТАЩИТЕ НА СЕБЕ, СЛИШКОМ МНОГО ОТВЕТСТВЕННОСТИ' (TENSE SHOULDERS YOU CARRY TOO MUCH ON YOURSELF, TOO MUCH RESPONSIBILITY). Woman touches her shoulders.",
+  "0:14-0:18: Point 3 - 'ЗАЖАТАЯ ГРУДНАЯ КЛЕТКА НЕ УМЕЕТЕ ОТКАЗЫВАТЬ БЕЗ ЧУВСТВА ВИНЫ' (TIGHT CHEST YOU CAN'T REFUSE WITHOUT FEELING GUILTY). Woman touches her chest.",
+  "0:18-0:26: Point 4 - 'БОЛЬ МЕЖДУ ЛОПАТОК И КОМ В ГРУДИ ЭТО ИЗ-ЗА ОБИДЫ, ЧТО ВАС НЕ ЦЕНЯТ. ТО ЕСТЬ ВЫ ВКЛАДЫВАЕТЕСЬ, А ВАС НЕДОСТАТОЧНО ЦЕНЯТ' (PAIN BETWEEN SHOULDER BLADES AND A LUMP IN THE CHEST IS DUE TO RESENTMENT THAT YOU ARE NOT APPRECIATED. THAT IS, YOU INVEST, BUT YOU ARE NOT APPRECIATED ENOUGH). Woman gestures.",
+  "0:26-0:34: CTA - 'ПИШИТЕ МНЕ СЛОВО «УРОК» И Я ПРИШЛЮ ВАМ ТЕХНИКИ ИЗ ТЕЛЕСНОЙ ПСИХОЛОГИИ ДЛЯ БАЛАНСА «БРАТЬ-ДАВАТЬ» В ЖИЗНИ' (WRITE ME THE WORD \"LESSON\" AND I WILL SEND YOU TECHNIQUES FROM BODY PSYCHOLOGY FOR \"GIVE-TAKE\" BALANCE IN LIFE). Woman gestures."
+ ],
+ "retention_devices": [
+  "Open question in the hook",
+  "Direct address to the viewer ('вы' - you)",
+  "Clear, concise text-on-screen reinforcing verbal points",
+  "Visual changes (different gestures for each point)",
+  "Pacing cuts (every few seconds for a new point)",
+  "Relatable pain points",
+  "Promise of a solution (CTA)"
+ ],
+ "visuals": {
+  "setting": "Outdoor balcony with a city skyline view at sunset, featuring a bright sun in the background. This creates a pleasant, somewhat aspirational, and open atmosphere.",
+  "editing_style": "Frequent cuts (every 3-5 seconds) to introduce new points. Large, yellow, easy-to-read captions appear with each new point. No b-roll, just the talking head.",
+  "production_quality_1_10": 8,
+  "aesthetics_notes": "The warm colors of the sunset and the speaker's peach shirt create a harmonious and inviting visual. The bold yellow text boxes stand out clearly against the background, enhancing readability."
+ },
+ "audio": {
+  "music": "Upbeat, slightly motivational, generic background music.",
+  "voice_delivery": "Clear, confident, friendly, and engaging. The pacing is good, making the information easy to follow."
+ },
+ "message": {
+  "core_idea": "Physical symptoms can be indicators of an imbalance in giving and receiving, specifically giving too much to others and not prioritizing oneself. Body psychology offers solutions to restore this balance.",
+  "emotional_triggers": [
+   "Guilt",
+   "Resentment",
+   "Feeling unappreciated",
+   "Feeling overwhelmed/responsible",
+   "Inability to ask for help"
+  ],
+  "target_pain": "Feeling drained, undervalued, and burdened by others' needs, leading to physical discomfort and emotional distress."
+ },
+ "cta": {
+  "present": true,
+  "text": "ПИШИТЕ МНЕ СЛОВО «УРОК» И Я ПРИШЛЮ ВАМ ТЕХНИКИ ИЗ ТЕЛЕСНОЙ ПСИХОЛОГИИ ДЛЯ БАЛАНСА «БРАТЬ-ДАВАТЬ» В ЖИЗНИ",
+  "type": "comment"
+ },
+ "seller_signals": "This reel builds authority by positioning the speaker as knowledgeable in 'body psychology' and offering insightful connections between physical symptoms and emotional states. It sells a solution by offering a free lead magnet (techniques for 'give-take' balance via DM), which serves as an entry point for potential clients to engage further with the expert's offerings.",
+ "transcript_summary": "Женщина спрашивает, какие части тела показывают, что вы слишком много отдаете другим. Она перечисляет: холодные руки (не можете просить помощи), напряженные плечи (слишком много ответственности), зажатая грудная клетка (не умеете отказывать без вины), боль между лопаток и ком в груди (обида, что вас не ценят). В конце призывает написать ей слово \"УРОК\", чтобы получить техники телесной психологии для баланса \"брать-давать\".",
+ "verdict": {
+  "what_worked": [
+   "Strong, intriguing hook that immediately connects to a common personal struggle.",
+   "Clear, concise points delivered with corresponding gestures and easy-to-read text-on-screen.",
+   "Relatable physical symptoms linked to psychological issues, fostering audience identification.",
+   "Engaging and confident delivery by the speaker, enhancing credibility.",
+   "Clear and actionable CTA offering a valuable free resource, driving engagement.",
+   "High production quality and pleasant aesthetics (sunset background, matching attire)."
+  ],
+  "what_to_improve": [
+   "The background music is a bit generic; a more unique or calming track might better fit the 'psychology' niche and emotional tone.",
+   "While gestures are effective, they could be slightly more varied or illustrative for each specific point to add more dynamic visual interest.",
+   "Experiment with different text animation styles or color schemes to add more visual flair beyond simple appearance, without distracting from the message."
+  ],
+  "replicable_pattern": "Start with an intriguing question linking physical symptoms to a common emotional struggle, then list 3-5 specific examples with clear verbal and visual cues (gestures, text-on-screen), and conclude with a direct call to action offering a free solution or resource related to the discussed topic."
+ },
+ "_meta": {
+  "username": "telo_psy",
+  "shortCode": "CsQOpNCr-jq",
+  "views": 722182,
+  "likes": 45003,
+  "comments": 6847,
+  "caption": "Чтобы получить технику для баланса брать-давать нужно:\n\n1️⃣ Быть подписанным на мой аккаунт @telo_psy\n2️⃣ Сделать репост этого видео у себя в сторис и отмечайте меня\n3️⃣ Пишите мне в личные сообщения слово «УРОК»\n\nИ не забывайте, что все в нашей жизни должно быть в балансе)\n\nP.S. Видео имеет развлекательно-информационный характер. Все сложнее и глубже. Для того, чтобы понять причины боли в теле важна совместная работа с врачом и дипломированным психологом.",
+  "url": "https://www.instagram.com/p/CsQOpNCr-jq/"
+ }
+}

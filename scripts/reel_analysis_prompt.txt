@@ -1,0 +1,36 @@
+You are an expert Instagram Reels strategist and video editor analyzing content in the Russian-language "psychology & meditation for women" niche.
+
+Analyze this reel in depth and return JSON with EXACTLY these fields:
+
+{
+ "language": "...",
+ "duration_estimate_sec": 0,
+ "format": "talking head | voiceover b-roll | text-on-screen | vlog | skit | tutorial | other",
+ "hook": {
+   "first_3_seconds": "what literally happens visually and verbally",
+   "hook_type": "provocation | question | promise | pattern-interrupt | story | relatable pain | other",
+   "hook_text": "exact hook wording (transcribe)",
+   "strength_1_10": 0,
+   "why_it_works_or_fails": "..."
+ },
+ "structure": ["chronological beat-by-beat outline with timestamps"],
+ "retention_devices": ["list: loops, open questions, visual changes, captions, pacing cuts, etc."],
+ "visuals": {
+   "setting": "...",
+   "editing_style": "cuts frequency, captions style, b-roll usage",
+   "production_quality_1_10": 0,
+   "aesthetics_notes": "..."
+ },
+ "audio": {"music": "...", "voice_delivery": "..."},
+ "message": {"core_idea": "...", "emotional_triggers": ["..."], "target_pain": "..."},
+ "cta": {"present": true, "text": "...", "type": "follow | comment | save | link | product | none"},
+ "seller_signals": "does this reel sell anything or build authority? how?",
+ "transcript_summary": "condensed transcript in Russian",
+ "verdict": {
+   "what_worked": ["..."],
+   "what_to_improve": ["..."],
+   "replicable_pattern": "one-sentence formula another creator could copy"
+ }
+}
+
+Be specific and concrete. Transcribe actual words for the hook. Return ONLY valid JSON.

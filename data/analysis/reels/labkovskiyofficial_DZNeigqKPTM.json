@@ -1,0 +1,78 @@
+{
+ "language": "Russian",
+ "duration_estimate_sec": 38,
+ "format": "talking head",
+ "hook": {
+  "first_3_seconds": "A man (Mikhail Labkovsky) is sitting, holding a white mug, and speaking. Text on screen includes 'МОСКВА • 15 ИЮЛЯ', '«Как дышать полной грудью в полной ж*пе?»', and '«КАЖЕТСЯ, ЧТО УПУСКАЮ ЖИЗНЬ...»'. A female voiceover begins reading a question.",
+  "hook_type": "relatable pain",
+  "hook_text": "Когда я просыпаюсь поздно или остаюсь дома, мне кажется, что я упускаю всю свою жизнь. Как бороться с этим?",
+  "strength_1_10": 8,
+  "why_it_works_or_fails": "The hook immediately presents a very common and relatable feeling of FOMO (fear of missing out) and anxiety about productivity, making the viewer feel understood. The question format directly engages the audience, prompting them to seek the answer from the expert."
+ },
+ "structure": [
+  "0:00-0:04: Female voiceover reads a user's question about feeling like they're missing out on life when staying home or waking up late, and how to deal with it.",
+  "0:04-0:10: Mikhail Labkovsky states that this feeling is common among anxious people who cannot simply allow themselves to live.",
+  "0:10-0:13: He asserts that life has no other goal than to be happy.",
+  "0:13-0:22: He explains that anxiety creates a different idea: the urgent need to cram as many new experiences, knowledge, information, and people into one's life as possible, but this is wrong.",
+  "0:22-0:29: He clarifies that the greatest happiness is simply to enjoy what one has, and truly happy people live peacefully.",
+  "0:29-0:38: He concludes that there is no meaning in living at a frantic pace, constantly trying to achieve and learn more."
+ ],
+ "retention_devices": [
+  "Relatable problem statement at the beginning (FOMO, anxiety)",
+  "Direct address to the camera by the speaker",
+  "Clear and concise advice delivery",
+  "Captions (white text on black background) for accessibility and emphasis",
+  "Authoritative tone of the speaker"
+ ],
+ "visuals": {
+  "setting": "A simple, well-lit room, possibly an office or home. A plant is visible in the background. The background is mostly white/light-colored.",
+  "editing_style": "Minimalist. Primarily a static talking head shot. Text captions appear and disappear in sync with the speech. No B-roll or dynamic camera movements.",
+  "production_quality_1_10": 7,
+  "aesthetics_notes": "Clean, professional, and uncluttered. The focus is entirely on the speaker and the message. The top and bottom banners with event details and the speaker's name frame the video, giving it a branded look."
+ },
+ "audio": {
+  "music": "None",
+  "voice_delivery": "The initial question is read by a calm, clear female voiceover. Mikhail Labkovsky speaks with a calm, deliberate, and authoritative tone. His voice is clear and easy to understand, conveying confidence and experience."
+ },
+ "message": {
+  "core_idea": "True happiness comes from simply living peacefully and appreciating what you have, rather than constantly striving to achieve more or experience everything out of anxiety.",
+  "emotional_triggers": [
+   "Anxiety",
+   "Fear of missing out (FOMO)",
+   "Feeling of inadequacy",
+   "Pressure to be constantly productive or busy"
+  ],
+  "target_pain": "The internal struggle and anxiety caused by feeling like one is 'missing out on life' or not doing enough, leading to a frantic pace and inability to simply enjoy existence."
+ },
+ "cta": {
+  "present": true,
+  "text": "МОСКВА • 15 ИЮЛЯ «Как дышать полной грудью в полной ж*пе?»",
+  "type": "event"
+ },
+ "seller_signals": "This reel directly promotes an upcoming lecture by Mikhail Labkovsky in Moscow on July 15th, titled 'How to breathe deeply in a full sh*t (difficult situation)'. It builds authority by showcasing the speaker's expertise in providing psychological advice and solutions to common anxieties.",
+ "transcript_summary": "Вопрос: Когда я просыпаюсь поздно или остаюсь дома, мне кажется, что я упускаю всю свою жизнь. Как бороться с этим? Ответ: Это удел тревожных людей, которые не могут просто жить. Цель жизни — быть счастливым. Ваша тревожность заставляет вас думать, что нужно успеть как можно больше впечатлений, знаний, людей. Но это не так. Самое большое счастье — радоваться тому, что есть. Счастливы те, кто спокойно живут. В бешеном ритме нет никакого смысла.",
+ "verdict": {
+  "what_worked": [
+   "The hook is highly relatable and addresses a widespread psychological pain point.",
+   "The expert's advice is clear, concise, and delivered with authority.",
+   "The simple visual style keeps the focus entirely on the message.",
+   "Effective use of text-on-screen enhances comprehension and engagement.",
+   "The direct promotion of an event is seamlessly integrated into the content."
+  ],
+  "what_to_improve": [
+   "Could consider adding subtle, calming background music to enhance the overall mood, though the current silence emphasizes the speaker's voice effectively.",
+   "While the static shot works for this format, a very slight zoom or pan could add minimal visual dynamism without distraction.",
+   "A more explicit digital CTA (e.g., 'Follow for more insights' or 'Save this reel') could be added if the goal is broader platform engagement beyond the specific event."
+  ],
+  "replicable_pattern": "Start with a user-submitted, highly relatable psychological question or pain point, have an expert provide a concise and authoritative counter-intuitive answer, and subtly promote a related event or resource."
+ },
+ "_meta": {
+  "username": "labkovskiyofficial",
+  "shortCode": "DZNeigqKPTM",
+  "views": 389519,
+  "likes": 27247,
+  "comments": 398,
+  "caption": "Как дышать полной грудью в полной ж*пе? \n\nМосква, 15 июля в 19:00! \n\nДрузья, приглашаю вас на живую встречу, которая пройдёт в 5-звёздочном Hotel Continental, в шаговой доступности от Красной площади. Всего 300 человек, больше возможностей для живого разговора и ваших вопросов. \n\nТема встречи — «Как дышать полной грудью в полной ж*пе».\nВы знаете, друзья, жизнь далеко не всегда идёт по плану. Иногда всё валится, отношения не складываются, сил нет, тревога зашкаливает, а внутри ощущение, что вы в ",
+  "url": "https://www.instagram.com/p/DZNeigqKPTM/"
+ }
+}

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Аудит и стратегия роста @lotosinbloom — психология и медитация для женщин</title>
+<style>
+:root{
+  --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --baseline:#c3c2b7; --border:rgba(11,11,11,.10);
+  --blue:#2a78d6; --blue-strong:#1c5cab; --blue-soft:#cde2fb; --aqua:#1baf7a; --violet:#4a3aa7;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --good-text:#006300;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --page:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --baseline:#383835; --border:rgba(255,255,255,.10);
+    --blue:#3987e5; --blue-strong:#86b6ef; --blue-soft:#184f95; --aqua:#199e70; --violet:#9085e9;
+    --good-text:#0ca30c;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--page);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;font-size:16px}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* nav */
+nav{position:sticky;top:0;background:var(--page);border-bottom:1px solid var(--grid);z-index:50;overflow-x:auto;white-space:nowrap}
+nav .wrap{display:flex;gap:18px;padding:10px 20px}
+nav a{color:var(--ink2);font-size:13.5px;font-weight:500}
+nav a:hover{color:var(--ink);text-decoration:none}
+
+/* hero */
+header{padding:52px 0 34px}
+.kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-size:clamp(26px,4vw,38px);line-height:1.15;margin:10px 0 8px;letter-spacing:-.01em}
+.sub{color:var(--ink2);font-size:17px;max-width:760px}
+.hero-grid{display:grid;grid-template-columns:200px 1fr;gap:28px;margin-top:30px;align-items:stretch}
+@media(max-width:720px){.hero-grid{grid-template-columns:1fr}}
+.scorecard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.scorecard .big{font-size:64px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.scorecard .of{color:var(--muted);font-size:14px;margin-top:4px}
+.scorecard .chip{margin-top:12px}
+.verdict{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 26px}
+.verdict p{color:var(--ink2);margin-top:8px}
+.verdict b{color:var(--ink)}
+
+/* sections */
+section{padding:34px 0;border-top:1px solid var(--grid)}
+h2{font-size:24px;margin-bottom:6px;letter-spacing:-.01em}
+h3{font-size:17.5px;margin:26px 0 10px}
+.lede{color:var(--ink2);max-width:820px;margin-bottom:22px}
+.lede b{color:var(--ink)}
+
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.tile .v{font-size:26px;font-weight:700;letter-spacing:-.01em}
+.tile .l{font-size:12.5px;color:var(--muted);margin-top:3px}
+.tile .d{font-size:12.5px;margin-top:6px;color:var(--ink2)}
+.tile .d.bad{color:var(--critical)}
+.tile .d.ok{color:var(--good-text)}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:99px;border:1px solid var(--border);background:var(--surface);color:var(--ink2)}
+.chip .dot{width:8px;height:8px;border-radius:50%}
+.chip.crit .dot{background:var(--critical)} .chip.ser .dot{background:var(--serious)}
+.chip.warn .dot{background:var(--warn)} .chip.good .dot{background:var(--good)}
+
+/* score bars */
+.scores{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:8px 0;margin-top:16px}
+.srow{display:grid;grid-template-columns:minmax(180px,320px) 1fr 120px;gap:14px;align-items:center;padding:11px 20px;border-bottom:1px solid var(--grid)}
+.srow:last-child{border-bottom:none}
+@media(max-width:720px){.srow{grid-template-columns:1fr 70px;grid-template-rows:auto auto}.srow .bar{grid-column:1/-1;grid-row:2}}
+.srow .name{font-size:14.5px;font-weight:550}
+.srow .name small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.bar{height:10px;background:var(--grid);border-radius:5px;position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--blue);border-radius:5px 4px 4px 5px}
+.srow .val{font-size:14px;font-weight:650;text-align:right;font-variant-numeric:tabular-nums;display:flex;justify-content:flex-end;align-items:center;gap:8px}
+details.evid{grid-column:1/-1;font-size:13.5px;color:var(--ink2)}
+details.evid summary{cursor:pointer;color:var(--muted);font-size:12.5px;user-select:none}
+details.evid summary:hover{color:var(--ink)}
+details.evid ul{margin:8px 0 4px 18px}
+details.evid li{margin-bottom:4px}
+
+/* generic card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin:14px 0}
+.card h4{font-size:15.5px;margin-bottom:8px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.cols2{grid-template-columns:1fr}}
+.callout{border-left:3px solid var(--blue);padding:14px 18px;background:var(--surface);border-radius:0 12px 12px 0;margin:16px 0;color:var(--ink2)}
+.callout b{color:var(--ink)}
+.callout.warn{border-left-color:var(--serious)}
+.callout.good{border-left-color:var(--good)}
+
+/* tables */
+.tblwrap{overflow-x:auto;background:var(--surface);border:1px solid var(--border);border-radius:14px;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
+th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:12px 14px;border-bottom:1px solid var(--grid);white-space:nowrap}
+td{padding:9px 14px;border-bottom:1px solid var(--grid);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hl td{background:color-mix(in srgb,var(--blue) 9%,transparent);font-weight:600}
+.tier{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 7px;border-radius:6px;border:1px solid var(--border);color:var(--ink2);white-space:nowrap}
+
+/* theme mix */
+.mix{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.mrow{display:grid;grid-template-columns:minmax(160px,300px) 1fr 200px;gap:14px;align-items:center;font-size:14px}
+@media(max-width:720px){.mrow{grid-template-columns:1fr;gap:4px}}
+.mrow .mbar{height:14px;background:var(--grid);border-radius:5px;overflow:hidden;position:relative}
+.mrow .mbar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px 4px 4px 5px;background:var(--blue)}
+.mrow .mnote{font-size:12.5px;color:var(--muted)}
+
+/* reel cards */
+.reels{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:16px}
+.reel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px}
+.reel .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.reel .u{font-weight:650;font-size:14.5px}
+.reel .views{font-variant-numeric:tabular-nums;color:var(--blue-strong);font-weight:700;font-size:14.5px;white-space:nowrap}
+.reel blockquote{font-size:14px;border-left:3px solid var(--blue);padding:2px 0 2px 12px;margin:10px 0;color:var(--ink)}
+.reel .f{font-size:13px;color:var(--ink2)}
+.reel .meta{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* accordion scripts */
+details.script{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0;margin:12px 0;overflow:hidden}
+details.script summary{cursor:pointer;padding:16px 20px;font-weight:650;font-size:15.5px;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
+details.script summary::-webkit-details-marker{display:none}
+details.script summary .tag{font-size:11.5px;color:var(--muted);font-weight:500;white-space:nowrap}
+details.script[open] summary{border-bottom:1px solid var(--grid)}
+details.script .body{padding:16px 20px;font-size:14.5px;color:var(--ink2)}
+details.script .body b{color:var(--ink)}
+details.script .body table{min-width:0;font-size:13px}
+details.script .body h5{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+details.script .body p{margin:8px 0}
+.qq{background:color-mix(in srgb,var(--blue) 8%,transparent);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:14px;color:var(--ink)}
+
+/* checklist */
+ol.steps{margin:14px 0 0 0;padding-left:0;list-style:none;counter-reset:st}
+ol.steps li{counter-increment:st;position:relative;padding:10px 0 10px 44px;border-bottom:1px dashed var(--grid);font-size:14.5px;color:var(--ink2)}
+ol.steps li b{color:var(--ink)}
+ol.steps li::before{content:counter(st);position:absolute;left:0;top:9px;width:28px;height:28px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--blue-strong)}
+
+/* funnel */
+.funnel{display:flex;flex-direction:column;gap:0;align-items:center;margin:18px 0}
+.fstep{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 20px;text-align:center;width:min(560px,100%)}
+.fstep b{display:block;font-size:14.5px}
+.fstep span{font-size:12.5px;color:var(--muted)}
+.farrow{color:var(--muted);font-size:14px;padding:4px 0;text-align:center}
+
+footer{padding:36px 0 60px;color:var(--muted);font-size:13px;border-top:1px solid var(--grid);margin-top:40px}
+footer a{color:var(--ink2)}
+ul.plain{margin:10px 0 0 18px;color:var(--ink2);font-size:14.5px}
+ul.plain li{margin-bottom:6px}
+ul.plain b{color:var(--ink)}
+.small{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+<a href="#audit">Оценки</a>
+<a href="#account">Аккаунт</a>
+<a href="#market">Конкуренты</a>
+<a href="#laws">Законы ниши</a>
+<a href="#reels">Разбор reels</a>
+<a href="#strategy">Стратегия</a>
+<a href="#plan">Контент-план</a>
+<a href="#scripts">Скрипты</a>
+<a href="#steps">Шаги</a>
+<a href="#method">Методология</a>
+</div></nav>
+
+<header class="wrap">
+<div class="kicker">Deep research · Instagram · 11 июля 2026</div>
+<h1>Аудит и стратегия роста @lotosinbloom</h1>
+<p class="sub">Ниша «психология и медитация для женщин». Исследование на данных: 26 конкурентов (4M → 3k подписчиков), 1 140 постов, 13 виральных reels, разобранных покадрово через Gemini, полный аудит воронки.</p>
+<div class="hero-grid">
+  <div class="scorecard">
+    <div class="big">43</div>
+    <div class="of">из 100 · интегральная оценка<br>«страница, которая продаёт»</div>
+    <div class="chip ser chip"><span class="dot"></span>Требует пересборки</div>
+  </div>
+  <div class="verdict">
+    <h4>Вердикт судьи</h4>
+    <p><b>Красивый, аутентичный, но не продающий аккаунт.</b> Сильный визуальный бренд, лояльное ядро и готовая продуктовая линейка — при систематически слабых хуках, редком постинге (1.7 поста/нед против 5–6 у лидеров), сломанном мостике в воронку (75 подписчиков в Telegram с 4 824 в Instagram) и нулевых социальных доказательствах.</p>
+    <p>Главная ошибка стратегии: <b>контент-решения (медитации) используются как верх воронки</b>, тогда как охват в нише раздаётся только контенту-болям. При этом собственный вирал на 123 000 просмотров доказывает: алгоритм готов раздавать этот аккаунт — паттерн просто ни разу не был воспроизведён.</p>
+  </div>
+</div>
+</header>
+
+<section id="audit" class="wrap">
+<h2>Оценки по 10 измерениям</h2>
+<p class="lede">Взвешенная модель: каждое измерение оценено 0–100 по фактическим данным (не впечатлениям), вес отражает вклад в способность страницы продавать. Итог: <b>43/100</b>. Разверните строку — там доказательная база.</p>
+
+<div class="scores">
+
+<div class="srow">
+  <div class="name">Визуальный бренд <small>вес 5%</small></div>
+  <div class="bar"><i style="width:75%"></i></div>
+  <div class="val">75 <span class="chip good"><span class="dot"></span>Сильно</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>Профессиональная съёмка, целостная эстетика — «эстетика внутреннего состояния» считывается визуально.</li>
+    <li>26 хайлайтов, узнаваемая картинка (Бали, свет, стиль).</li>
+    <li>Минус: виральные форматы ниши визуально проще (talking head с телефона) — барьер производства у аккаунта выше, чем нужно.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Вовлечённость и комьюнити <small>вес 10%</small></div>
+  <div class="bar"><i style="width:60%"></i></div>
+  <div class="val">60 <span class="chip warn"><span class="dot"></span>Средне</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>Медианный ER 0.92% — выше многих гигантов ниши (labkovskiy 0.06%, milalevchuk 0.05%).</li>
+    <li>Медиана 9 комментариев на пост, на личных постах 40–60 — живое лояльное ядро.</li>
+    <li>85% постов содержат CTA-вопрос аудитории — вовлечение выстроено, но работает только на ядро.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Позиционирование и шапка <small>вес 10%</small></div>
+  <div class="bar"><i style="width:55%"></i></div>
+  <div class="val">55 <span class="chip warn"><span class="dot"></span>Средне</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>«Первая система эстетики внутреннего состояния» — дифференцировано, но абстрактно: не обещает конкретный результат конкретной женщине.</li>
+    <li>Ноль цифр доверия в шапке (лет практики, учениц).</li>
+    <li>3 ссылки размазывают внимание: TG-клуб + продукт + Rutube-курс, ни одна не приоритезирована.</li>
+    <li>Ясность позиционирования по контенту (Gemini-оценка): 7/10 — смешение науки, духовности и лайфстайла.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Владение форматами <small>вес 5%</small></div>
+  <div class="bar"><i style="width:55%"></i></div>
+  <div class="val">55 <span class="chip warn"><span class="dot"></span>Средне</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>Микс 59% видео / 41% карусели — структурно здоровый.</li>
+    <li>Карусели обгоняют видео (медиана 42 против 32 лайков) — сигнал, что видео-хуки слабее.</li>
+    <li>Виральный формат ниши (talking head + текст на экране, 20–60 сек) почти не используется.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Качество хуков <small>вес 10%</small></div>
+  <div class="bar"><i style="width:45%"></i></div>
+  <div class="val">45 <span class="chip ser"><span class="dot"></span>Слабо</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>Gemini-оценка хуков: 5/10 — «системный подход к хукам отсутствует», посты открываются общими утверждениями.</li>
+    <li>Доказана способность делать хуки 8/10: «Думаете, дурят православных?» → 123 435 просмотров (387× медианы).</li>
+    <li>Медиана подписи 348 знаков против 850–1650 у лидеров — подпись не работает второй точкой удержания.</li>
+    <li>Штамп авторитета («я клинический психолог, и…»), на котором растут лидеры, не используется.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Контентная стратегия <small>вес 15%</small></div>
+  <div class="bar"><i style="width:40%"></i></div>
+  <div class="val">40 <span class="chip ser"><span class="dot"></span>Слабо</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>Ядро экспертного контента — инструкции по медитации (19% постов) — самая слабая тема по вовлечению.</li>
+    <li>Виральная таксономия ниши: 0 из топ-40 виральных постов — «чистая медитация». Решения не собирают охват, боли собирают.</li>
+    <li>Нет контентных серий/рубрик — каждый пост одиночный выстрел.</li>
+    <li>Личный контент работает (182 лайка против медианы 37), но стратегически не используется.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Частота и стабильность <small>вес 10%</small></div>
+  <div class="bar"><i style="width:35%"></i></div>
+  <div class="val">35 <span class="chip ser"><span class="dot"></span>Слабо</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>1.73 поста/нед против 5–6.5 у растущих лидеров (labkovskiy 6.5, markbarton 6.2, sofia 5.7).</li>
+    <li>Тренд падающий: 12 постов в сентябре 2025 → 4–6/мес в 2026.</li>
+    <li>2 889 постов за жизнь аккаунта при 4 824 подписчиках — исторически контент не конвертировал.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Воронка и монетизация <small>вес 15%</small></div>
+  <div class="bar"><i style="width:35%"></i></div>
+  <div class="val">35 <span class="chip ser"><span class="dot"></span>Слабо</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>Продуктовая линейка ЕСТЬ (редкость для размера): Mind Beauty Box 5 227₽/мес + TG-клуб + бесплатный курс.</li>
+    <li>Мостик сломан: Telegram = 75 подписчиков с 4 824 в IG (1.5% перехода).</li>
+    <li>Лендинг: нет отзывов, нет срочности, непонятная связь предоплаты 500₽ и цены 5 227₽.</li>
+    <li>Комментарий-ключслово — конверсионный двигатель всей ниши — не используется вообще.</li>
+    <li>Продающие посты (12%) не встроены в прогревы, кейсов нет.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Охват и рост <small>вес 15%</small></div>
+  <div class="bar"><i style="width:30%"></i></div>
+  <div class="val">30 <span class="chip crit"><span class="dot"></span>Критично</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>Медиана просмотров reel — 319 (6.6% от подписчиков): ролики не выходят за пределы своих.</li>
+    <li>Пиры того же размера пробивают потолок: @marya_london_ (5k) — 885 191 просмотров, @tasya_prohelp (6.3k) — 388 852.</li>
+    <li>Единственный вирал 123k доказал готовность алгоритма — паттерн не воспроизведён ни разу.</li>
+    <li>Охват живёт только на аутлаерах (max/median = 387×), стабильной раздачи нет.</li>
+  </ul></details>
+</div>
+
+<div class="srow">
+  <div class="name">Социальные доказательства <small>вес 5%</small></div>
+  <div class="bar"><i style="width:20%"></i></div>
+  <div class="val">20 <span class="chip crit"><span class="dot"></span>Критично</span></div>
+  <details class="evid"><summary>Доказательства</summary><ul>
+    <li>Ноль кейсов учениц в последних 100 постах, ноль отзывов на лендинге и в контенте.</li>
+    <li>Нет цифр нигде: ни в шапке, ни в постах, ни в хайлайтах.</li>
+    <li>20 баллов — только за личную историю-трансформацию, частично работающую как доказательство.</li>
+  </ul></details>
+</div>
+
+</div>
+<p class="small" style="margin-top:10px">Итог = Σ(оценка × вес) = 42.75 → 43. Для сравнения по этой же методике: @_rybakova ≈ 85+, @prosto.meditation ≈ 80, средний малый аккаунт ниши ≈ 35–45.</p>
+</section>
+
+<section id="account" class="wrap">
+<h2>Аккаунт сегодня: цифры и контент</h2>
+<p class="lede">DARIA • Ментальное благополучие. Психология • майндфулнесс • тело. Анализ последних 100 постов (30.05.2025 – 09.07.2026).</p>
+
+<div class="tiles">
+  <div class="tile"><div class="v">4 824</div><div class="l">подписчиков</div><div class="d bad">при 2 889 постах за всё время</div></div>
+  <div class="tile"><div class="v">1.73</div><div class="l">поста в неделю</div><div class="d bad">лидеры ниши: 5–6.5</div></div>
+  <div class="tile"><div class="v">319</div><div class="l">медиана просмотров reel</div><div class="d">6.6% от подписчиков</div></div>
+  <div class="tile"><div class="v">37</div><div class="l">медиана лайков</div><div class="d">комментариев: 9</div></div>
+  <div class="tile"><div class="v">0.92%</div><div class="l">медианный ER</div><div class="d ok">выше многих гигантов</div></div>
+  <div class="tile"><div class="v">75</div><div class="l">подписчиков в Telegram</div><div class="d bad">конверсия из IG: 1.5%</div></div>
+</div>
+
+<h3>Из чего состоит контент — и что из этого работает</h3>
+<div class="card">
+<div class="mix">
+  <div class="mrow"><div>Личное и лайфстайл</div><div class="mbar"><i style="width:93%"></i></div><div class="mnote">28% постов · <b style="color:var(--good-text)">высокое вовлечение</b></div></div>
+  <div class="mrow"><div>Философия и вдохновение</div><div class="mbar"><i style="width:73%"></i></div><div class="mnote">22% · среднее</div></div>
+  <div class="mrow"><div>Медитации и практики (инструкции)</div><div class="mbar"><i style="width:63%"></i></div><div class="mnote">19% · <b style="color:var(--critical)">низкое</b></div></div>
+  <div class="mrow"><div>Психология и нейронаука</div><div class="mbar"><i style="width:47%"></i></div><div class="mnote">14% · среднее</div></div>
+  <div class="mrow"><div>Продажи и продвижение</div><div class="mbar"><i style="width:40%"></i></div><div class="mnote">12% · <b style="color:var(--critical)">низкое</b></div></div>
+  <div class="mrow"><div>Юмор и relatable</div><div class="mbar"><i style="width:17%"></i></div><div class="mnote">5% · <b style="color:var(--good-text)">высокое</b></div></div>
+</div>
+<p class="small" style="margin-top:12px">Длина полосы — доля темы в контенте (28% = максимум). Парадокс аккаунта: темы, на которые тратится большинство усилий (медитации, продажи), дают наименьший отклик; темы с максимальным откликом (личное, юмор) публикуются по остаточному принципу.</p>
+</div>
+
+<div class="cols2">
+<div class="card"><h4>✅ Что уже работает</h4>
+<ul class="plain">
+<li><b>Вирал 123 435 просмотров</b> — провокационный POV-reel из храма («Думаете, дурят православных?») — 387× медианы. Доказательство: алгоритм готов раздавать.</li>
+<li><b>Личные истории</b>: пост про 16 лет отношений — 182 лайка и 48 комментариев (5× медианы).</li>
+<li><b>Аутентичность и уязвимость</b> — по Gemini-анализу сильнейшая сторона аккаунта; ядро отвечает на личное.</li>
+<li><b>Карусели</b> стабильно обгоняют видео — аудитория читает.</li>
+</ul></div>
+<div class="card"><h4>❌ Что проваливается</h4>
+<ul class="plain">
+<li><b>«Говорящая голова» с инструкцией</b> по медитации: 3–9 лайков, ~300 просмотров.</li>
+<li><b>Посты без хука</b>: первые строки — общие утверждения и рефлексии.</li>
+<li><b>Продающие посты</b> вне прогревов: без кейсов и отзывов не конвертируют.</li>
+<li><b>Подписи 348 знаков</b> — в 3 раза короче, чем у лидеров: не удерживают и не доводят до CTA.</li>
+</ul></div>
+</div>
+
+<div class="callout warn"><b>Воронка сегодня:</b> Instagram 4 824 → Telegram 75 (1.5%) → Mind Beauty Box 5 227₽/мес. Лендинг продукта: креативное позиционирование («бьюти-бокс для сознания»), но ноль отзывов, нет срочности, непрояснённая схема «500₽ бронь → 5 227₽ полный доступ». Продукт хороший — мостик к нему сломан в трёх местах подряд.</div>
+</section>
+
+<section id="market" class="wrap">
+<h2>Конкурентный ландшафт: 26 аккаунтов</h2>
+<p class="lede">Четыре яруса: мега-эксперты (паттерны продающего контента в масштабе), лидеры ниши медитации, быстрорастущие середняки и прямые пиры по размеру. По каждому — последние 33–40 постов.</p>
+
+<div class="tblwrap"><table>
+<thead><tr><th>Аккаунт</th><th>Ярус</th><th class="num">Подписчики</th><th class="num">Постов/нед</th><th class="num">Медиана просм.</th><th class="num">Макс просм.</th><th class="num">Медиана лайков</th></tr></thead>
+<tbody>
+<tr><td>@labkovskiyofficial</td><td><span class="tier">T1 мега</span></td><td class="num">4 028 434</td><td class="num">6.5</td><td class="num">62 597</td><td class="num">389 519</td><td class="num">2 282</td></tr>
+<tr><td>@markbarton_mb</td><td><span class="tier">T1 мега</span></td><td class="num">2 477 650</td><td class="num">6.2</td><td class="num">41 231</td><td class="num">106 422</td><td class="num">988</td></tr>
+<tr><td>@larangsovet (Суркова)</td><td><span class="tier">T1 мега</span></td><td class="num">2 333 461</td><td class="num">2.2</td><td class="num">109 716</td><td class="num">229 762</td><td class="num">—</td></tr>
+<tr><td>@psycholog.alexandr.shahov</td><td><span class="tier">T1 мега</span></td><td class="num">1 934 281</td><td class="num">1.7</td><td class="num">69 710</td><td class="num">303 728</td><td class="num">4 006</td></tr>
+<tr><td>@milalevchuk</td><td><span class="tier">T1 мега</span></td><td class="num">1 323 019</td><td class="num">0.3</td><td class="num">12 316</td><td class="num">154 678</td><td class="num">412</td></tr>
+<tr><td>@psihologia_wom (паблик)</td><td><span class="tier">T1 мега</span></td><td class="num">1 168 425</td><td class="num">14.4</td><td class="num">5 392</td><td class="num">24 920</td><td class="num">369</td></tr>
+<tr><td>@a_triz</td><td><span class="tier">T1 мега</span></td><td class="num">873 969</td><td class="num">2.2</td><td class="num">3 138</td><td class="num">8 231</td><td class="num">122</td></tr>
+<tr><td>@prosto.meditation</td><td><span class="tier">T2 ниша</span></td><td class="num">371 719</td><td class="num">5.3</td><td class="num">9 079</td><td class="num">66 207</td><td class="num">353</td></tr>
+<tr><td>@telo_psy</td><td><span class="tier">T2 ниша</span></td><td class="num">127 407</td><td class="num">0.2</td><td class="num">2 550</td><td class="num">722 182</td><td class="num">138</td></tr>
+<tr><td>@mari_ommm</td><td><span class="tier">T2 ниша</span></td><td class="num">113 258</td><td class="num">0.3</td><td class="num">1 278</td><td class="num">47 905</td><td class="num">66</td></tr>
+<tr><td>@antiselfsabotage</td><td><span class="tier">T2 ниша</span></td><td class="num">78 912</td><td class="num">0.3</td><td class="num">1 361</td><td class="num">42 531</td><td class="num">110</td></tr>
+<tr><td>@svet.gorbach</td><td><span class="tier">T2 ниша</span></td><td class="num">67 902</td><td class="num">53.2</td><td class="num">575</td><td class="num">4 886</td><td class="num">82</td></tr>
+<tr><td>@anastasiya__motorina</td><td><span class="tier">T3 рост</span></td><td class="num">50 149</td><td class="num">0.6</td><td class="num">1 414</td><td class="num">182 567</td><td class="num">54</td></tr>
+<tr><td>@_rybakova</td><td><span class="tier">T3 рост</span></td><td class="num">49 475</td><td class="num">0.2</td><td class="num">45 014</td><td class="num">2 174 526</td><td class="num">1 106</td></tr>
+<tr><td>@tvoy.psyholog.s</td><td><span class="tier">T3 рост</span></td><td class="num">39 840</td><td class="num">5.0</td><td class="num">796</td><td class="num">5 481</td><td class="num">39</td></tr>
+<tr><td>@sofia__belyanskaya</td><td><span class="tier">T3 рост</span></td><td class="num">39 486</td><td class="num">5.7</td><td class="num">3 517</td><td class="num">22 665</td><td class="num">84</td></tr>
+<tr><td>@marina_lemar</td><td><span class="tier">T3 рост</span></td><td class="num">20 398</td><td class="num">0.3</td><td class="num">484</td><td class="num">5 002</td><td class="num">40</td></tr>
+<tr><td>@radmila_shakti</td><td><span class="tier">T3 рост</span></td><td class="num">18 650</td><td class="num">0.1</td><td class="num">2 807</td><td class="num">5 151</td><td class="num">—</td></tr>
+<tr><td>@jenya.vm</td><td><span class="tier">T3 рост</span></td><td class="num">16 675</td><td class="num">0.3</td><td class="num">2 911</td><td class="num">452 955</td><td class="num">135</td></tr>
+<tr><td>@goleva.karina</td><td><span class="tier">T4 пир</span></td><td class="num">12 561</td><td class="num">0.3</td><td class="num">261</td><td class="num">1 953</td><td class="num">—</td></tr>
+<tr><td>@olga.sabetski</td><td><span class="tier">T4 пир</span></td><td class="num">11 530</td><td class="num">0.4</td><td class="num">282</td><td class="num">1 226</td><td class="num">18</td></tr>
+<tr><td>@tasya_prohelp</td><td><span class="tier">T4 пир</span></td><td class="num">6 308</td><td class="num">2.8</td><td class="num">842</td><td class="num">388 852</td><td class="num">21</td></tr>
+<tr><td>@marya_london_</td><td><span class="tier">T4 пир</span></td><td class="num">4 978</td><td class="num">0.7</td><td class="num">554</td><td class="num">885 191</td><td class="num">42</td></tr>
+<tr class="hl"><td>@lotosinbloom ← вы здесь</td><td><span class="tier">T4 пир</span></td><td class="num">4 824</td><td class="num">1.7</td><td class="num">319</td><td class="num">123 435</td><td class="num">37</td></tr>
+<tr><td>@tergar.russia</td><td><span class="tier">T4 пир</span></td><td class="num">4 043</td><td class="num">0.9</td><td class="num">501</td><td class="num">501</td><td class="num">14</td></tr>
+<tr><td>@arina.fisak</td><td><span class="tier">T4 пир</span></td><td class="num">3 006</td><td class="num">0.3</td><td class="num">470</td><td class="num">4 050</td><td class="num">58</td></tr>
+<tr><td>@trenersita</td><td><span class="tier">T4 пир</span></td><td class="num">2 850</td><td class="num">1.8</td><td class="num">169</td><td class="num">586</td><td class="num">16</td></tr>
+</tbody>
+</table></div>
+<p class="small">Медианы и максимумы — по последним 33–40 постам каждого аккаунта (июль 2026). «—» = лайки скрыты. Полные данные: data/analysis/competitor_summaries.json в репозитории.</p>
+
+<div class="cols2">
+<div class="card"><h4>🏆 Модельный кейс: @_rybakova</h4>
+<p style="font-size:14.5px;color:var(--ink2)">49 475 подписчиков с <b style="color:var(--ink)">43 постов</b>. Медиана 45k просмотров (91% от аудитории — лучший показатель среди всех 26). Формула: штамп авторитета «я клинический психолог, и…» + суперлатив с отложенной разгадкой + бытовая микро-сцена + клинический рефрейм. Она месяц итерировала хуки (10–22k), 5 мая заперла формулу, 11 мая — 846k, 22 мая — 2.17M. Потом повторила формулу ~15 раз.</p></div>
+<div class="card"><h4>⚠️ Контр-кейсы (чему НЕ следовать)</h4>
+<p style="font-size:14.5px;color:var(--ink2)"><b style="color:var(--ink)">@a_triz</b>: 874k подписчиков, 3k просмотров, ER 0.01% — мёртвая база при размытом позиционировании. <b style="color:var(--ink)">@psihologia_wom</b>: 2 поста/день без лица — охваты есть, лояльности и продаж нет. <b style="color:var(--ink)">@marya_london_</b>: 2.1M просмотров → всего ~2k новых подписчиков — виральность без воронки сгорает. Подписчики ≠ бизнес; медианные просмотры и воронка — вот метрики.</p></div>
+</div>
+</section>
+
+<section id="laws" class="wrap">
+<h2>Законы виральности ниши</h2>
+<p class="lede">Таксономия построена на топ-40 самых просматриваемых reels из всех 26 аккаунтов + покадровый разбор 13 виральных роликов. Это не теория — это статистика ниши.</p>
+
+<div class="card">
+<h4>Закон №1. Охват получают боли, а не решения</h4>
+<p style="color:var(--ink2);font-size:14.5px">Из 40 виральных постов ниши <b style="color:var(--ink)">ноль</b> — «чистая медитация». Виральные темы: красные/зелёные флаги в отношениях (8 постов), несправедливость быта и невидимый труд женщины (5), личные истории с уязвимостью (5), интерактивы и лид-магниты (7), материнство (4). Медитации и практики работают на средних этапах воронки — как лид-магнит и контент для уже пришедших, а не как источник охвата. <b style="color:var(--ink)">Именно поэтому 19% контента @lotosinbloom (инструкции по практикам) собирают 300 просмотров.</b></p>
+</div>
+
+<div class="cols2">
+<div class="card"><h4>Формулы хуков виральных постов</h4>
+<ul class="plain">
+<li><b>«Я [статус], и вот [инсайт/флаг/техника]»</b> — 8 из 40 постов. Штамп авторитета + обещание.</li>
+<li><b>Провокационное утверждение/вопрос</b> — 7 постов («Я считаю, это нормально, когда…»).</li>
+<li><b>Личная история / кейс из практики</b> — 6 постов, дословная фраза клиентки в кавычках.</li>
+<li><b>Суперлатив + отложенная разгадка</b> — «самый недооценённый флаг… выглядит очень безобидно».</li>
+<li><b>Дословная бытовая фраза + переворот</b> — «Он же помогает с детьми» → «а кому он помогает?»</li>
+</ul></div>
+<div class="card"><h4>Эмоциональные драйверы (по убыванию силы)</h4>
+<ul class="plain">
+<li><b>Валидация</b> — «мои чувства нормальны, я не одна» (драйвер №1 всей ниши).</li>
+<li><b>Справедливый гнев</b> — реакция на обесценивание и нарушение границ.</li>
+<li><b>Надежда</b> — «перемены возможны».</li>
+<li><b>Общность</b> — «это про всех нас».</li>
+<li><b>Безопасность</b> — «как избежать боли и опасных людей».</li>
+<li><b>Любопытство</b> — «секрет», «один вопрос», «главный флаг».</li>
+</ul></div>
+</div>
+
+<div class="card">
+<h4>Закон №2. Для малых аккаунтов личное бьёт экспертное в 25–100 раз</h4>
+<p style="color:var(--ink2);font-size:14.5px">Во всех трёх разобранных прорывах малых аккаунтов виральным стал НЕ экспертный контент: история бабушки (885k у аккаунта 5k), дети с куличом на Пасху (389k у 6.3k), письмо-благодарность к годовщине (453k у 16.7k). Экспертный контент у пиров даёт максимум 6–18× медианы, личное и эмоциональное — 100–1600×. У @jenya.vm лучший экспертный reel собрал 18k, лучший личный — 453k.</p>
+</div>
+
+<div class="card">
+<h4>Закон №3. Конверсионный двигатель ниши — комментарий-ключслово</h4>
+<p style="color:var(--ink2);font-size:14.5px">Каждый монетизирующий аккаунт выдаёт лид-магнит за кодовое слово в комментариях: «напиши 33» (@_rybakova), «пиши ПЕСНЯ» (@prosto.meditation), «КЛУБ», «ИСКРА» (@svet.gorbach), «разбор» (@jenya.vm), у @milalevchuk бот-воронка в 68% постов. Аккаунты без этой механики сжигают виральные пики: @tvoy.psyholog.s собрала 88k лайков на цитате — и ноль подписчиков в базу.</p>
+</div>
+
+<div class="cols2">
+<div class="card"><h4>Ещё 5 подтверждённых паттернов</h4>
+<ul class="plain">
+<li><b>Сериал бьёт одиночные посты</b>: месяц ежедневных reels на ОДНУ тему → 3 ролика >500k (@marya_london_). Рубрика с номерами = узнавание + подписка «на продолжение».</li>
+<li><b>Повторная публикация победителя</b>: тот же reel через 9 дней — снова вирал (528k → 735k).</li>
+<li><b>«Разверни👇🏻»</b>: reel-тизер + история в подписи = дожитие и пересмотры без продакшена.</li>
+<li><b>Праздничный тайминг</b>: Пасха → 389k (16% лайк-рейт — рассылали как открытку).</li>
+<li><b>«Один оффер = месяц контента»</b>: лидеры анонсируют один продукт 5–7 раз разными форматами под одним кодовым словом.</li>
+</ul></div>
+<div class="card"><h4>Форматы: что для чего</h4>
+<ul class="plain">
+<li><b>Reels</b> — единственный источник холодного охвата. Виральный стандарт: talking head + крупный текст, 20–60 сек.</li>
+<li><b>Карусели</b> — лайки и сохранения (у Лабковского медиана лайков карусели 5 074 против 2 163 у видео). Сохранения = валюта ниши спокойствия.</li>
+<li><b>Практика прямо в подписи</b> — приём mari_ommm (47.9k): выполнимо без открытия карусели.</li>
+<li><b>Хэштеги мертвы</b>: только 15% постов ниши используют их, корреляции с виральностью нет.</li>
+<li><b>Финальный вопрос аудитории</b> — самый дешёвый ER-приём (стабильные 40–125 комментариев у Сурковой).</li>
+</ul></div>
+</div>
+</section>
+
+<section id="reels" class="wrap">
+<h2>Анатомия 13 виральных reels</h2>
+<p class="lede">Каждый ролик скачан и разобран покадрово (Gemini 2.5): хук дословно, структура, приёмы удержания, CTA. Ниже — выжимка; полные разборы в репозитории (data/analysis/reels/).</p>
+<div class="reels">
+
+<div class="reel"><div class="top"><span class="u">@_rybakova</span><span class="views">2 174 526</span></div>
+<blockquote>«я клинический психолог, и сейчас будет один из самых надёжных зелёных флагов в человеке»</blockquote>
+<div class="f">Talking head + текст, 56 сек. Формула: авторитет → суперлатив → примеры бескорыстия → клинический рефрейм → share-CTA «Ты точно знаешь, кому отправить».</div>
+<div class="meta">hook: promise/pattern-interrupt · CTA: репост</div></div>
+
+<div class="reel"><div class="top"><span class="u">@marya_london_ (5k!)</span><span class="views">885 191</span></div>
+<blockquote>«Моя бабушка всегда любила с*кс, но это было не принято обсуждать…»</blockquote>
+<div class="f">5-сек тизер: табу-история семьи поверх ностальгического фото + трендовый звук, полная история в подписи («Разверни👇🏻»). Ноль продакшена.</div>
+<div class="meta">hook: провокация/табу · CTA: нет (и это её ошибка — охват сгорел)</div></div>
+
+<div class="reel"><div class="top"><span class="u">@telo_psy</span><span class="views">722 182</span></div>
+<blockquote>«Какие части тела показывают, что вы слишком много отдаёте другим?»</blockquote>
+<div class="f">Вопрос-интрига → телесная карта из 3–5 конкретных зон с жестами → «проверь на себе» = интерактив-удержание.</div>
+<div class="meta">hook: вопрос/боль · CTA: комментарий</div></div>
+
+<div class="reel"><div class="top"><span class="u">@jenya.vm</span><span class="views">452 955</span></div>
+<blockquote>«Нам годик 🤍 …любовь — это про ощущение дома в человеке»</blockquote>
+<div class="f">Личная веха (годовщина) + подпись-письмо. Личная арка как сериал: отношения → предложение → свадьба, каждая веха 5–150× медианы.</div>
+<div class="meta">hook: история · CTA: нет</div></div>
+
+<div class="reel"><div class="top"><span class="u">@labkovskiyofficial</span><span class="views">389 519</span></div>
+<blockquote>«Когда я просыпаюсь поздно, мне кажется, что я упускаю всю свою жизнь»</blockquote>
+<div class="f">Вопрос подписчицы дословно → контр-интуитивный ответ эксперта с авторитетом. Формат «вопрос-ответ» = бесконечное сырьё.</div>
+<div class="meta">hook: relatable pain · CTA: событие (лекция)</div></div>
+
+<div class="reel"><div class="top"><span class="u">@tasya_prohelp (6.3k)</span><span class="views">388 852</span></div>
+<blockquote>Пасхальный reel: дочки делятся куличом</blockquote>
+<div class="f">Праздничный тайминг + умилительная сцена = рассылается как открытка. 62 401 лайк (16% лайк-рейт — рекорд выборки).</div>
+<div class="meta">hook: тёплая сцена · CTA: нет</div></div>
+
+<div class="reel"><div class="top"><span class="u">@psycholog.alexandr.shahov</span><span class="views">303 728</span></div>
+<blockquote>«Скандал на премьере: жена застала мужа с другой прямо в кинотеатре»</blockquote>
+<div class="f">Ньюсджекинг скандала + юмор-комментарий эксперта + вопрос аудитории. 118 сек — длинные работают, если драматургия есть.</div>
+<div class="meta">hook: провокация/история · CTA: комментарий</div></div>
+
+<div class="reel"><div class="top"><span class="u">@larangsovet</span><span class="views">229 762</span></div>
+<blockquote>«У вас не возникает ощущение, что мы живём в подделке?»</blockquote>
+<div class="f">Современная тревога → бытовые сцены → неожиданный факт. 12 сек, текст на экране.</div>
+<div class="meta">hook: провокация · CTA: нет</div></div>
+
+<div class="reel"><div class="top"><span class="u">@anastasiya__motorina</span><span class="views">182 567</span></div>
+<blockquote>«Я считаю, это нормально, когда мужчина за всё платит»</blockquote>
+<div class="f">Мнение-провокация по вечному спору → комментарии-войны делают охват. Гендерная тема = гарантированная поляризация.</div>
+<div class="meta">hook: провокация-мнение · CTA: нет</div></div>
+
+<div class="reel"><div class="top"><span class="u">@milalevchuk</span><span class="views">154 678</span></div>
+<blockquote>«Ежедневный труд женщины, который мужчина воспринимает как должное»</blockquote>
+<div class="f">Анимация повседневной борьбы + текст, называющий боль. Валидация невидимого труда — драйвер №1 у женской аудитории.</div>
+<div class="meta">hook: relatable pain · CTA: комментарий</div></div>
+
+<div class="reel"><div class="top"><span class="u">TARGET · @lotosinbloom</span><span class="views">123 435</span></div>
+<blockquote>«POV ты всю жизнь поддерживаешь стройность ради этого момента…»</blockquote>
+<div class="f">Её собственный вирал: POV-приключение в храме (пролезть через отверстие в колонне), ставки подняты личными параметрами, юмор. Провокация в подписи («Думаете, дурят православных?») добавила комментарии-споры.</div>
+<div class="meta">hook: провокация/POV · CTA: нет · формула ни разу не повторена</div></div>
+
+<div class="reel"><div class="top"><span class="u">@prosto.meditation</span><span class="views">66 207</span></div>
+<blockquote>«главное в жизни — уметь вовремя заземлиться»</blockquote>
+<div class="f">Милый/неожиданный кадр как метафора урока + философский текст + спокойный звук. Единственный способ виралить «спокойствием»: метафора вместо инструкции.</div>
+<div class="meta">hook: метафора · CTA: нет</div></div>
+
+<div class="reel"><div class="top"><span class="u">@mari_ommm</span><span class="views">47 905</span></div>
+<blockquote>«В 30 лет я узнала, что чтобы восстановить энергию, не обязательно пить кофе»</blockquote>
+<div class="f">Личное откровение → нейро-объяснение → пошаговая техника. Так медитация становится виральной: упаковка «нейро-лайфхак от усталости», а не «практика».</div>
+<div class="meta">hook: promise/pattern-interrupt · CTA: практика в подписи</div></div>
+
+</div>
+</section>
+
+<section id="strategy" class="wrap">
+<h2>Стратегия роста</h2>
+<p class="lede"><b>Главный ход:</b> перестать продвигать решения (медитации) холодной аудитории — начать собирать охват на болях женщин, которые «держат всё на себе», и конвертировать его в базу через комментарий-ключслово. Медитации переезжают в середину воронки, где им и место.</p>
+
+<h3>Позиционирование 2.0</h3>
+<div class="cols2">
+<div class="card"><h4>Сейчас</h4>
+<p style="font-size:14px;color:var(--ink2)">DARIA • МЕНТАЛЬНОЕ БЛАГОПОЛУЧИЕ<br>
+♡︎ Уход за психикой самыми эффективными методами<br>
+♡ Первая система эстетики внутреннего состояния<br>
+♡︎ Психология • майндфулнесс • тело ↓<br>
+<span class="small">+ 3 ссылки (TG, бокс, Rutube)</span></p>
+<p class="small" style="margin-top:8px">Красиво, но: нет «для кого», нет конкретного результата, нет цифр доверия, внимание размазано на 3 ссылки.</p></div>
+<div class="card" style="border-color:var(--blue)"><h4>Предложение</h4>
+<p style="font-size:14px;color:var(--ink)">DARIA | ПСИХОЛОГИЯ И МЕДИТАЦИЯ ДЛЯ ЖЕНЩИН<br>
+🧠 Успокаиваю нервную систему научно — без эзотерики<br>
+🌸 8 лет практики • сотни учениц • система Mind Beauty Box<br>
+⬇️ Бесплатная медитация «Выключить тревогу за 5 минут»</p>
+<p class="small" style="margin-top:8px">Строка 1 — ключевые слова поиска + для кого. Строка 2 — отличие (наука vs эзотерика). Строка 3 — соцдоказательство. Строка 4 — ОДИН лид-магнит. «Эстетика внутреннего состояния» остаётся брендом продукта, не лид-сообщением.</p></div>
+</div>
+
+<h3>Архитектура воронки</h3>
+<div class="funnel">
+  <div class="fstep"><b>Reels-боли — 3 шт/нед</b><span>охват 10k–1M · формула авторитет+суперлатив · темы из «Законов ниши»</span></div>
+  <div class="farrow">↓ комментарий-ключслово «ТИШИНА»</div>
+  <div class="fstep"><b>DM-автоматика (ManyChat/SendPulse)</b><span>бесплатная аудио-медитация «Выключить тревогу за 5 минут» + приглашение</span></div>
+  <div class="farrow">↓</div>
+  <div class="fstep"><b>Telegram-канал</b><span>прогрев: практики, кейсы учениц, закулисье · сейчас 75 → цель 1 000+</span></div>
+  <div class="farrow">↓ еженедельные окна продаж</div>
+  <div class="fstep"><b>Mind Beauty Box — 5 227₽/мес</b><span>лендинг починить: отзывы, схема цены, дедлайн потока · дальше: персональная программа/ретрит</span></div>
+</div>
+<div class="callout warn"><b>Контр-кейс, который всё объясняет:</b> @marya_london_ собрала 2.1M просмотров и получила лишь ~2k подписчиков — не было follow-CTA, оффер не связан с темой вирала, серия брошена. Виральность без воронки — сожжённый охват. Поэтому ключслово — в каждом втором посте, без исключений.</div>
+
+<h3>Контентная система: 4 поста в неделю</h3>
+<div class="tblwrap"><table>
+<thead><tr><th>Слот</th><th>Формат</th><th>Роль</th><th>Референс-паттерн</th></tr></thead>
+<tbody>
+<tr><td><b>ПН</b></td><td>Reel-боль (talking head + текст, 20–45 сек)</td><td>Охват → ТИШИНА</td><td>формула @_rybakova</td></tr>
+<tr><td><b>СР</b></td><td>Карусель-практика (практика прямо в подписи)</td><td>Сохранения + захват</td><td>@mari_ommm, @prosto.meditation</td></tr>
+<tr><td><b>ПТ</b></td><td>Reel провокация-мнение или серия</td><td>Охват</td><td>@motorina, @larangsovet</td></tr>
+<tr><td><b>ВС</b></td><td>Личная история / закулисье</td><td>Доверие + прогрев</td><td>её собственные топ-посты</td></tr>
+</tbody>
+</table></div>
+
+<ul class="plain">
+<li><b>Вербальный сериал:</b> рубрика «Сигналы истощённой нервной системы #1, #2, #3…» + фирменный штамп «Я психолог по медитации, и…». Алгоритм и зритель узнают автора мгновенно.</li>
+<li><b>Правило CTA:</b> вирал-посты → только «отправь подруге/сохрани»; захват → ТИШИНА; продажа → только в личных историях. Смешивать нельзя (доказано данными @_rybakova).</li>
+<li><b>Подписи:</b> удлинить с 348 до 800–1200 знаков — мини-пост с разбором (медиана лидеров 850–1650). Механика «Разверни👇🏻».</li>
+<li><b>Три множителя малых аккаунтов:</b> (1) личная арка как сериал — у Дарьи готовая: 16 лет отношений, Бали, «выглядела идеально — разваливалась внутри»; (2) месяц на одну горячую тему; (3) праздничный тайминг.</li>
+<li><b>После вспышки >10k:</b> в течение 24ч — продолжение серии; победителя переопубликовать через 1–2 недели.</li>
+</ul>
+
+<h3>KPI и прогноз на 90 дней</h3>
+<div class="tblwrap"><table>
+<thead><tr><th>Метрика</th><th class="num">Сейчас</th><th class="num">30 дней</th><th class="num">90 дней</th></tr></thead>
+<tbody>
+<tr><td>Постов в неделю</td><td class="num">1.7</td><td class="num">4</td><td class="num">4</td></tr>
+<tr><td>Медиана просмотров reel</td><td class="num">319</td><td class="num">800–1 500</td><td class="num">2 500+</td></tr>
+<tr><td>Аутлаеры за период</td><td class="num">—</td><td class="num">1–2 поста >10k</td><td class="num">4–6 постов >10k, 1 >100k</td></tr>
+<tr><td>Подписчики Instagram</td><td class="num">4 824</td><td class="num">5 600–6 000</td><td class="num">8 000–10 000</td></tr>
+<tr><td>Подписчики Telegram</td><td class="num">75</td><td class="num">300+</td><td class="num">1 000+</td></tr>
+<tr><td>Продажи Mind Beauty Box с контента</td><td class="num">~0</td><td class="num">3–5</td><td class="num">15–25/мес</td></tr>
+</tbody>
+</table></div>
+<p class="small">Прогноз консервативный, базируется на фактических показателях пиров: медианный охват растущих малых аккаунтов 11–16% от подписчиков; частота аутлаеров ≥10k — 8–12% постов при инженерных хуках. Контрольная точка 30 дней: медиана просмотров не выросла ≥2× → пересобрать хуки (A/B первых 3 секунд), систему не менять.</p>
+</section>
+
+<section id="plan" class="wrap">
+<h2>Контент-план на 4 недели</h2>
+<p class="lede">16 постов: ПН reel-боль · СР карусель-практика · ПТ reel · ВС личное. Ключслово захвата везде — «ТИШИНА». Полные скрипты шести юнитов — в следующем разделе.</p>
+
+<div class="tblwrap"><table>
+<thead><tr><th>Нед.</th><th>ПН — reel-боль</th><th>СР — карусель</th><th>ПТ — reel</th><th>ВС — личное</th></tr></thead>
+<tbody>
+<tr><td><b>1</b><br><span class="small">перезапуск</span></td>
+<td>Сигнал истощения #1: доскроллинг до онемения <span class="small">(скрипт №1)</span></td>
+<td>Практика для тех, у кого нет сил на практику <span class="small">(скрипт №4)</span></td>
+<td>«Медитация не работает» — парадокс эксперта <span class="small">(скрипт №6)</span></td>
+<td>«Я выглядела идеально и разваливалась внутри» — пост-знакомство, закрепить <span class="small">(скрипт №5)</span></td></tr>
+<tr><td><b>2</b><br><span class="small">тело выдаёт</span></td>
+<td>Где в теле живёт «я сама»: челюсть, плечи, дыхание <span class="small">(скрипт №3)</span></td>
+<td>«5 фраз, по которым слышно истощённую нервную систему»</td>
+<td>«Твоей нервной системе плевать на твой отпуск» <span class="small">(скрипт №2)</span></td>
+<td>Бали-быт без глянца: «что я делаю, когда накрывает меня»</td></tr>
+<tr><td><b>3</b><br><span class="small">соцдоказательства</span></td>
+<td>Сигнал истощения #2: «просыпаешься уже уставшей»</td>
+<td>«Вечерняя гигиена нервной системы: 4 шага перед сном»</td>
+<td>«Я считаю, нормально не хотеть ничего после 21:00»</td>
+<td>Кейс ученицы: до/после 30 дней практик (с разрешения)</td></tr>
+<tr><td><b>4</b><br><span class="small">окно продаж</span></td>
+<td>Сигнал истощения #3: «раздражают звуки»</td>
+<td>Reel-FAQ: «Бьюти-бокс для сознания — что внутри?»</td>
+<td>Карусель «9 навыков ухода за психикой» = 9 масок бокса</td>
+<td>«Почему я не продаю просветление» + открытие потока, дедлайн</td></tr>
+</tbody>
+</table></div>
+
+<ul class="plain">
+<li><b>Stories ежедневно</b> (3–5 кадров): закулисье, опросы «что выматывает сильнее всего?» (темы будущих reels), квиз «насколько истощена твоя нервная система?» → ТИШИНА.</li>
+<li><b>Батч-съёмка:</b> reels недели снимаются за один день.</li>
+<li><b>Первый час после поста:</b> ответить на каждый комментарий (сигнал алгоритму + конверсии ключслова).</li>
+<li><b>Понедельник, 30 мин:</b> разбор цифр недели; хук с лучшей досматриваемостью → тираж.</li>
+</ul>
+</section>
+
+<section id="scripts" class="wrap">
+<h2>Скрипты: 6 глубоких контент-юнитов</h2>
+<p class="lede">Каждый построен на разобранном виральном паттерне конкретного конкурента. Формат съёмки: телефон + окно, talking head + крупный текст на экране, без сложного продакшена. Ключслово воронки во всех юнитах — «ТИШИНА».</p>
+
+<details class="script" open>
+<summary>№1 · Reel «Красный флаг усталости, который выглядит безобидно» <span class="tag">паттерн @_rybakova · 2.17M</span></summary>
+<div class="body">
+<p><b>Роль:</b> охват (TOF). Открывает серию «Сигналы истощённой нервной системы #1».</p>
+<h5>Хук — 3 варианта на A/B</h5>
+<div class="qq">А: «Я психолог по медитации, и вот самый недооценённый сигнал, что твоя нервная система на пределе. Выглядит он очень безобидно.»</div>
+<div class="qq">Б: «8 лет медитации научили меня замечать этот сигнал выгорания раньше всех врачей.»</div>
+<div class="qq">В: «Этот "безобидный" вечерний ритуал — на самом деле красный флаг истощения.»</div>
+<h5>Структура (35–45 сек)</h5>
+<table>
+<tr><td>0–3с</td><td>Крупный план, прямой взгляд · титр «СИГНАЛ ИСТОЩЕНИЯ #1»</td></tr>
+<tr><td>3–10с</td><td>«Ты приходишь вечером домой, садишься на диван, открываешь телефон — и не можешь встать. Не потому что интересно. А потому что на "встать" уже нет ресурса.» · титр «не лень. не прокрастинация.»</td></tr>
+<tr><td>10–20с</td><td>«Это называется доскроллинг до онемения. Нервная система в таком перегрузе, что единственная доступная ей "медитация" — заморозка со скроллом.» · титр «ЗАМОРОЗКА, не отдых»</td></tr>
+<tr><td>20–30с</td><td>«Проверь: если после часа в телефоне ты устала ещё сильнее — это не отдых был. Это симптом. Телу нужен не контент, а сигнал безопасности.» · титр «усталость ПОСЛЕ отдыха = флаг»</td></tr>
+<tr><td>30–40с</td><td>«Один такой сигнал безопасности я записала для тебя — 5-минутная практика. Напиши в комментариях ТИШИНА — отправлю в директ.»</td></tr>
+</table>
+<h5>Подпись (~900 знаков)</h5>
+<p>Повтор тезиса + объяснение дофаминовой петли простым языком + «Сколько % твоих вечеров заканчивается так? Честно» + механика ТИШИНА.</p>
+<p><b>Почему сработает:</b> валидация («это не лень») — драйвер №1 ниши; телесная конкретика; серия обещает продолжение; формула-донор проверена на 2.17M просмотров.</p>
+</div></details>
+
+<details class="script">
+<summary>№2 · Reel «Твоей нервной системе плевать на твой отпуск» <span class="tag">паттерн @larangsovet 229k + @motorina 182k</span></summary>
+<div class="body">
+<p><b>Роль:</b> охват, провокация-мнение. Идеален в сезон отпусков.</p>
+<div class="qq">Хук: «Я психолог по медитации, и я считаю: отпуск — худший способ отдохнуть. Сейчас объясню.» · титр «ОТПУСК ≠ ОТДЫХ»</div>
+<h5>Структура (40–50 сек)</h5>
+<table>
+<tr><td>3–12с</td><td>«Ты копишь усталость 11 месяцев и надеешься стереть её за 12 дней. Но нервная система — не жёсткий диск, кнопки "форматировать" нет.»</td></tr>
+<tr><td>12–25с</td><td>«Первые 5 дней отпуска ты не отдыхаешь — ты детоксишься от кортизола. Потом 3 дня живёшь. Потом начинаешь тревожиться, что отпуск кончается. Знакомо?» · титр «5 дней детокс → 3 дня жизни → тревога»</td></tr>
+<tr><td>25–38с</td><td>«Отдых работает только как ежедневная гигиена. 10 минут в день, каждый день — сильнее двух недель на Мальдивах. Это не мотивашка, это нейрофизиология: система успокаивается частотой, а не длительностью.»</td></tr>
+<tr><td>38–45с</td><td>«Сохрани, чтобы вспомнить, когда решишь "дотерпеть до отпуска".»</td></tr>
+</table>
+<p><b>Подпись:</b> история про Бали — «я живу в раю и всё равно медитирую каждый день, потому что рай не чинит нервную систему» + вопрос «Через сколько дней отпуска ты реально расслабляешься?»</p>
+<p><b>Почему сработает:</b> контр-интуитивно + сезонно + share-триггер «отправь подруге, которая ждёт отпуска».</p>
+</div></details>
+
+<details class="script">
+<summary>№3 · Reel «Где в теле живёт "я сама"» <span class="tag">паттерн @telo_psy · 722k</span></summary>
+<div class="body">
+<p><b>Роль:</b> охват + мостик к телесным практикам (её компетенция: психология • майндфулнесс • тело).</p>
+<div class="qq">Хук: «Какие части тела выдают женщину, которая всё тащит на себе? Проверь на себе прямо сейчас.» · титр «ТЕЛО ВЫДАЁТ»</div>
+<h5>Структура (45–60 сек)</h5>
+<table>
+<tr><td>3–15с</td><td>«Первое — челюсть. Сжатая даже во сне. Это невысказанное "мне тяжело", которое ты глотаешь месяцами.» · жест к челюсти · титр «1. ЧЕЛЮСТЬ = невысказанное»</td></tr>
+<tr><td>15–27с</td><td>«Второе — плечи у ушей. Тело буквально несёт невидимый груз. Опусти их прямо сейчас — чувствуешь, сколько держала?» · титр «2. ПЛЕЧИ = невидимый груз»</td></tr>
+<tr><td>27–40с</td><td>«Третье — дыхание верхом груди. Глубокий вдох животом кажется… небезопасным. Потому что выдохнуть = потерять контроль.» · титр «3. ДЫХАНИЕ = контроль»</td></tr>
+<tr><td>40–55с</td><td>«Узнала себя хотя бы в одном — твоему телу нужна не сила воли, а разрешение отпустить. Напиши ТИШИНА — пришлю 5-минутную практику, с которой начинают мои ученицы.»</td></tr>
+</table>
+<p><b>Подпись:</b> чек-лист всех трёх зон текстом (сохраняемость) + дисклеймер «это не диагноз, а повод прислушаться» (приём telo_psy для экспертной репутации).</p>
+<p><b>Почему сработает:</b> интерактив «проверь прямо сейчас» = удержание; телесная конкретика бьёт абстракции (722k у донора); прямой мостик к продукту.</p>
+</div></details>
+
+<details class="script">
+<summary>№4 · Карусель «Практика на 5 минут для тех, у кого нет сил даже на практику» <span class="tag">паттерн @mari_ommm 47.9k + @prosto.meditation</span></summary>
+<div class="body">
+<p><b>Роль:</b> сохранения + захват. Карусели у аккаунта уже обгоняют видео.</p>
+<h5>8 слайдов</h5>
+<table>
+<tr><td>1</td><td>Обложка: «ПРАКТИКА ДЛЯ ТЕХ, У КОГО НЕТ СИЛ ДАЖЕ НА ПРАКТИКУ» (фирменная эстетика)</td></tr>
+<tr><td>2</td><td>«Если "займись медитацией" звучит как ещё один пункт в списке дел — эта страница для тебя.»</td></tr>
+<tr><td>3</td><td>«Не надо садиться в позу. Не надо приложение. Не надо 20 минут. Надо: диван и 5 минут.»</td></tr>
+<tr><td>4</td><td>Шаг 1: «Ляг. Да, просто ляг. Одна рука на грудь, вторая на живот.»</td></tr>
+<tr><td>5</td><td>Шаг 2: «Вдох на 4 счёта — пауза 2 — выдох на 6. Выдох ДЛИННЕЕ вдоха: длинный выдох включает парасимпатику — физиологический тормоз.»</td></tr>
+<tr><td>6</td><td>Шаг 3: «На каждом выдохе позволяй телу стать на 1% тяжелее. 10 циклов.»</td></tr>
+<tr><td>7</td><td>«Почему работает: длинный выдох замедляет сердечный ритм через блуждающий нерв. Не эзотерика — анатомия.»</td></tr>
+<tr><td>8</td><td>«Сохрани на вечер. Напиши ТИШИНА — пришлю аудио-версию, где я веду тебя голосом.»</td></tr>
+</table>
+<p><b>Подпись:</b> полный текст практики продублирован (выполнимо, не открывая карусель — приём mari_ommm) + «отправь той, кто "потом отдохнёт"».</p>
+</div></details>
+
+<details class="script">
+<summary>№5 · Reel-история «Я выглядела идеально. И разваливалась внутри» <span class="tag">её топ-посты + формат @milalevchuk 154k</span></summary>
+<div class="body">
+<p><b>Роль:</b> доверие + прогрев (BOF). Пост-знакомство под новое позиционирование. Закрепить в профиле.</p>
+<div class="qq">Хук: «Косметолог, спортзал, уходовая рутина из 9 средств. А внутри — фоновая тревога 24/7. Это была я.»</div>
+<h5>Структура (50–60 сек, voiceover поверх её эстетичных b-roll кадров)</h5>
+<table>
+<tr><td>0–5с</td><td>Хук поверх контраста: идеальная картинка утра.</td></tr>
+<tr><td>5–20с</td><td>«Я знала всё про уход за лицом и ничего — про уход за психикой. Снаружи порядок, внутри — бесконечное "надо". Просыпалась уставшей. Улыбалась через силу. Считала, что так у всех.»</td></tr>
+<tr><td>20–35с</td><td>«Пока тело не сказало "хватит" [конкретная деталь её реальной истории]. Тогда я узнала: психике нужна та же рутина, что и коже. Ежедневная. Простая. Красивая.»</td></tr>
+<tr><td>35–50с</td><td>«Так родилась система, которую я назвала бьюти-боксом для сознания: 10 минут в день — маска от тревоги, крем от самокритики. Звучит странно? А работает лучше всего, что я пробовала за 8 лет.»</td></tr>
+<tr><td>50–60с</td><td>«Здесь я учу женщин ухаживать за внутренним состоянием так же красиво, как за кожей. Подпишись — и начни с бесплатной практики: слово ТИШИНА в комментарии.»</td></tr>
+</table>
+<p><b>Почему сработает:</b> её реальная история + реальный дифференциатор («эстетика ментального здоровья»); связывает сильные стороны (визуал, аутентичность) с воронкой; продаёт через уязвимость — так работают её собственные топ-посты (148–182 лайка при медиане 37).</p>
+</div></details>
+
+<details class="script">
+<summary>№6 · Reel «Медитация не работает. Говорю как психолог по медитации» <span class="tag">парадокс эксперта · таксономия «наука vs мифы»</span></summary>
+<div class="body">
+<p><b>Роль:</b> охват + позиционирование «наука без эзотерики».</p>
+<div class="qq">Хук: «Медитация не работает. Говорю это как человек, который 8 лет её преподаёт.» · титр «МЕДИТАЦИЯ НЕ РАБОТАЕТ?!»</div>
+<h5>Структура (40–50 сек)</h5>
+<table>
+<tr><td>3–15с</td><td>«Не работает — когда ты садишься "очистить разум", у тебя не получается (спойлер: ни у кого не получается), ты решаешь, что сломана, и бросаешь. Знакомо?»</td></tr>
+<tr><td>15–30с</td><td>«Медитация — это не отсутствие мыслей. Это заметить, что унесло, и вернуться. Сам момент возвращения — и есть повторение. Как подход в спортзале: не "удержать штангу вечно", а поднять и опустить. 100 раз унесло = 100 повторений, а не 100 провалов.»</td></tr>
+<tr><td>30–40с</td><td>«Поэтому "у меня не получается медитировать" = "я делаю всё правильно, просто не знала правил".»</td></tr>
+<tr><td>40–50с</td><td>«Отправь подруге, которая "пробовала — не её". И сохрани на случай следующей попытки.»</td></tr>
+</table>
+<p><b>Подпись:</b> разбор трёх главных мифов списком, БЕЗ продажи — чистый вирал (правило разделения CTA).</p>
+<p><b>Почему сработает:</b> валидация неудачи («ты не сломана») — драйвер №1; парадокс от эксперта; прицельный share-триггер.</p>
+</div></details>
+
+<div class="card"><h4>Производственные правила (из разборов 13 виральных reels)</h4>
+<ul class="plain">
+<li>Первые 3 секунды: лицо крупно ИЛИ провокационный титр. Никаких заставок и «привет, я Даша».</li>
+<li>Текст на экране — новая плашка каждые 3–5 секунд; ключевые слова КАПСОМ.</li>
+<li>Длительность 20–60 сек (медиана виральных в нише — 38 сек). Один reel = одна мысль.</li>
+<li>Свет и звук важнее камеры: окно + петличка достаточно — виральные reels ниши сняты проще, чем её текущий контент.</li>
+<li>CTA-дисциплина: вирал → share/save; захват → ТИШИНА; продажа → только личные истории.</li>
+<li>Батч: 4 reels за один съёмочный день, монтаж по одному шаблону CapCut.</li>
+</ul></div>
+</section>
+
+<section id="steps" class="wrap">
+<h2>Точные ближайшие шаги: 14 дней</h2>
+<ol class="steps">
+<li><b>Переписать шапку профиля</b> по формуле из раздела «Стратегия» (30 минут).</li>
+<li><b>Записать лид-магнит</b>: аудио-медитация «Выключить тревогу за 5 минут» — у неё есть готовые записи, нужен только отбор и название (1 час).</li>
+<li><b>Подключить ManyChat/SendPulse</b>: триггер «ТИШИНА» в комментариях → DM с медитацией + ссылка на Telegram (2 часа, есть бесплатный тариф).</li>
+<li><b>Закрепить 3 поста</b>: вирал 123k + лучшая личная история + новый пост-знакомство (скрипт №5).</li>
+<li><b>Починить лендинг бокса</b>: 3–5 отзывов с фото, схема «500₽ бронь → 5 227₽», дедлайн потока, гарантия 7 дней.</li>
+<li><b>Батч-съёмка №1</b>: 4 reels по скриптам №1, №2, №3, №6 за один день (телефон + окно + петличка).</li>
+<li><b>Выложить неделю 1</b> по графику ПН/СР/ПТ/ВС; в каждом посте — механика по правилу CTA.</li>
+<li><b>Первый час после каждого поста</b> — отвечать на все комментарии; ключслово обрабатывается автоматикой.</li>
+<li><b>Stories ежедневно</b>: 3–5 кадров — закулисье, опрос «что выматывает сильнее всего?» (сырьё для следующих reels).</li>
+<li><b>Понедельник недели 2</b>: 30 минут аналитики — просмотры, досматываемость, сохранения, конверсии ТИШИНА → скорректировать хуки недели 2.</li>
+</ol>
+<div class="callout good"><b>Критерий успеха 30 дней:</b> медиана просмотров ≥800 (сейчас 319), 1–2 поста >10k, Telegram ≥300, первые продажи бокса с контента. Если медиана не выросла ≥2× — пересобрать хуки, не систему.</div>
+</section>
+
+<section id="method" class="wrap">
+<h2>Методология и процесс исследования</h2>
+<p class="lede">Всё исследование воспроизводимо: данные, скрипты и промпты лежат в репозитории. Ничего не «на глаз» — каждый вывод опирается на выгруженные данные или покадровый разбор.</p>
+
+<div class="cols2">
+<div class="card"><h4>Пайплайн</h4>
+<ul class="plain">
+<li><b>Сбор:</b> Apify (instagram-profile-scraper, instagram-scraper, instagram-search-scraper) — профиль и 100 постов цели, 5+6 поисковых выдач по ключам ниши, 26 профилей конкурентов и 1 040 их постов.</li>
+<li><b>Дискавери конкурентов:</b> поисковые выдачи + related-profiles цели + веб-исследование рейтингов психологов → 36 кандидатов → отбор 26 по размеру/активности/релевантности, 4 яруса.</li>
+<li><b>Количественный анализ:</b> Python — частота, форматы, медианы лайков/просмотров/ER, соотношение max/median (аутлаер-модель охвата), длины подписей, хэштеги.</li>
+<li><b>Качественный анализ:</b> 3 параллельных агента разобрали паттерны по ярусам (хуки дословно, темы, CTA, монетизация, уроки для 5k-аккаунта).</li>
+<li><b>Видео-анализ:</b> 13 виральных reels скачаны и разобраны Gemini 2.5 покадрово: хук, структура по секундам, приёмы удержания, CTA, воспроизводимая формула.</li>
+<li><b>Аудит воронки:</b> лендинг Mind Beauty Box и Telegram-канал проверены отдельно.</li>
+</ul></div>
+<div class="card"><h4>Объём данных</h4>
+<ul class="plain">
+<li>1 140 постов проанализировано (100 цели + 1 040 конкурентов)</li>
+<li>26 аккаунтов ниши: от 4M до 2.8k подписчиков</li>
+<li>13 виральных reels (2.17M → 48k просмотров) разобраны покадрово</li>
+<li>Топ-40 виральных постов ниши → таксономия виральности</li>
+<li>120+ аккаунтов-кандидатов отсмотрено на этапе дискавери</li>
+</ul>
+<h4 style="margin-top:16px">Ограничения</h4>
+<ul class="plain">
+<li>Просмотры Stories, Reach и демография аудитории недоступны без владельца аккаунта — оценки охвата строятся на видимых метриках.</li>
+<li>Выборка постов конкурентов — последние 33–40 постов (текущая стратегия, не вся история).</li>
+<li>Прогнозы KPI — интервальные, на основе бенчмарков пиров; не гарантия.</li>
+</ul></div>
+</div>
+</section>
+
+<footer class="wrap">
+<p>Исследование: 11 июля 2026 · Инструменты: Apify · Gemini 2.5 (Flash/Pro) · Python · Claude Code.<br>
+Данные, скрипты, промпты и полные разборы — в репозитории проекта (data/, scripts/, docs/).<br>
+Отчёт носит аналитический характер; цифры конкурентов — публичные метрики на момент сбора.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+{
+ "language": "Russian",
+ "duration_estimate_sec": 12,
+ "format": "text-on-screen",
+ "hook": {
+  "first_3_seconds": "Visually, a little girl is playing with dough, flour on the table. Verbally, the song starts with \"Мир подделка, копия мираж...\" and the text \"У вас не возникает ощущение, что мы живём в подделке? Меня оно не покидает!\" appears on screen.",
+  "hook_type": "provocation",
+  "hook_text": "У вас не возникает ощущение, что мы живём в подделке? Меня оно не покидает!",
+  "strength_1_10": 8,
+  "why_it_works_or_fails": "It works because it taps into a widespread feeling of unease about authenticity in the digital age, especially with the rise of AI. The question is direct and personal, inviting the viewer to reflect immediately."
+ },
+ "structure": [
+  "0:00-0:02: Little girl playing with dough, text about living in a fake world.",
+  "0:02-0:06: Teenager looking at phone, text about believing everything seen.",
+  "0:06-0:10: Little girl smiling, text about 95% of things being AI-made.",
+  "0:10-0:12: Little girl holding Snickers, text suggesting to look deeper than just attacking AI."
+ ],
+ "retention_devices": [
+  "Visual changes (different scenes with children)",
+  "Captions (main text on screen)",
+  "Pacing cuts (scenes change every few seconds)",
+  "Intriguing question at the start",
+  "Relatable statements",
+  "Music with relevant lyrics"
+ ],
+ "visuals": {
+  "setting": "Domestic settings (kitchen/dining area, living room/bedroom), suggesting everyday life.",
+  "editing_style": "Simple cuts between scenes, white text with a black outline appearing on screen. No complex transitions or effects.",
+  "production_quality_1_10": 7,
+  "aesthetics_notes": "Home video style with natural lighting. The use of children in everyday activities creates a sense of innocence that contrasts with the deep, philosophical text, potentially making the message more impactful or unsettling by juxtaposing simplicity with complex ideas."
+ },
+ "audio": {
+  "music": "Melancholic, slightly dramatic pop song with a female vocalist. The lyrics are directly relevant to the theme of artificiality and stolen reality: \"Мир подделка, копия мираж, похищены, украдены пейзаж, нам задрузили чужую программу, стирали память, залечили все раны.\"",
+  "voice_delivery": "No voiceover, only music with lyrics."
+ },
+ "message": {
+  "core_idea": "The world we perceive might be largely artificial or 'fake,' especially with the prevalence of AI. It challenges the viewer to question reality and look beyond superficial reactions to technology, encouraging deeper thought about authenticity.",
+  "emotional_triggers": [
+   "Doubt",
+   "Suspicion",
+   "Curiosity",
+   "Anxiety about authenticity",
+   "A sense of being deceived"
+  ],
+  "target_pain": "The unease or confusion about what is real and what is artificial in the modern world, particularly concerning media and information. The feeling of being easily misled or living in an inauthentic reality."
+ },
+ "cta": {
+  "present": false,
+  "text": "",
+  "type": "none"
+ },
+ "seller_signals": "This reel builds authority by positioning the creator as someone who thinks deeply about contemporary issues (AI, reality, authenticity). It encourages critical thinking, which aligns with themes in psychology/meditation (self-awareness, questioning narratives). It establishes a thoughtful and insightful persona without directly selling a product.",
+ "transcript_summary": "Ощущение, что мы живем в подделке, не покидает. Я наивно верю всему, что вижу, но 95% оказывается сделанным ИИ. Предлагаю смотреть шире, чем просто нападать на ИИ.",
+ "verdict": {
+  "what_worked": [
+   "Strong, thought-provoking hook that resonates with current anxieties about reality and AI.",
+   "Relatable content (believing what you see, then realizing it might be AI-generated).",
+   "Effective use of children in b-roll to create a sense of innocence contrasting with the complex message, enhancing impact.",
+   "Music lyrics perfectly align with the on-screen text, reinforcing the central theme of artificiality.",
+   "The concluding twist ('look wider and deeper') elevates the message beyond simple AI-bashing, encouraging nuanced thought."
+  ],
+  "what_to_improve": [
+   "No clear call to action to engage further (e.g., 'What do you think?', 'Share your thoughts in comments').",
+   "The connection to the 'psychology & meditation for women' niche is implicit; it could be made more explicit with a final frame or text relating it to inner peace, critical self-reflection, or managing anxiety in a 'fake' world."
+  ],
+  "replicable_pattern": "Start with a provocative question about a common modern anxiety, illustrate it with relatable everyday scenes, introduce a surprising statistic/fact, then pivot to a deeper, more nuanced perspective."
+ },
+ "_meta": {
+  "username": "larangsovet",
+  "shortCode": "DWA2aoGCHqJ",
+  "views": 229762,
+  "likes": 3,
+  "comments": 45,
+  "caption": "Сейчас многих это триггерить может, но я рискну. Идёт Великий Пост, постящихся с каждым годом всё больше и больше, и тут можно было бы сказать — слава Богу, но… помним ли мы, что такое пост и куда ведут его корни?\nМонахи уходили в пустыню в далёкие первые века. Пустыня не была развлечением или местом отдыха, туда шли молиться — без суеты, без лишних глаз. И чтобы тело усмирять, выбирали это место, где нет еды, а воды почти тоже нет. Пост был глубоким и значимым явлением.\nПерескочим в наше время…",
+  "url": "https://www.instagram.com/p/DWA2aoGCHqJ/"
+ }
+}

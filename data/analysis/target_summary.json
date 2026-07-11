@@ -1,0 +1,258 @@
+{
+ "n_posts": 100,
+ "date_from": "2025-05-30",
+ "date_to": "2026-07-09",
+ "span_days": 405,
+ "posts_per_week": 1.73,
+ "per_month": {
+  "2025-05": 1,
+  "2025-06": 9,
+  "2025-07": 9,
+  "2025-08": 8,
+  "2025-09": 12,
+  "2025-10": 9,
+  "2025-11": 5,
+  "2025-12": 10,
+  "2026-01": 5,
+  "2026-02": 5,
+  "2026-03": 4,
+  "2026-04": 5,
+  "2026-05": 8,
+  "2026-06": 6,
+  "2026-07": 4
+ },
+ "format_mix": {
+  "Video": 59,
+  "Sidecar": 41
+ },
+ "format_median_likes": {
+  "Video": 32,
+  "Sidecar": 42
+ },
+ "likes": {
+  "median": 37.0,
+  "mean": 88.7,
+  "max": 4351
+ },
+ "comments": {
+  "median": 9.0,
+  "mean": 14.6
+ },
+ "video_views": {
+  "n": 59,
+  "median": 319,
+  "mean": 2565.2,
+  "max": 123435
+ },
+ "er_median_pct": 0.922,
+ "er_mean_pct": 2.141,
+ "caption_len": {
+  "median": 348.5,
+  "max": 1568
+ },
+ "top_hashtags": [],
+ "top_by_likes": [
+  {
+   "shortCode": "DXQpymLPVhl",
+   "type": "Video",
+   "date": "2026-04-18",
+   "likes": 4351,
+   "comments": 60,
+   "views": 123435,
+   "caption": "Думаете, дурят православных?😅",
+   "url": "https://www.instagram.com/p/DXQpymLPVhl/"
+  },
+  {
+   "shortCode": "DOtL9gpktcM",
+   "type": "Sidecar",
+   "date": "2025-09-17",
+   "likes": 182,
+   "comments": 48,
+   "views": null,
+   "caption": "На последней фотке мы еще не встречаемся, все только зачинается))\n\nИ несколько лет выпало, тк we were on a break.😁\n\nНу что, как вам наша эволюция в 16 лет? 😅🗓️",
+   "url": "https://www.instagram.com/p/DOtL9gpktcM/"
+  },
+  {
+   "shortCode": "DKsAZGJNL1-",
+   "type": "Sidecar",
+   "date": "2025-06-09",
+   "likes": 148,
+   "comments": 55,
+   "views": null,
+   "caption": "Когда-то мне очень запала в душу цитата из книги 2 жизни: «…привлекайте встречных красотой, которую они стесняются обнаруживать в себе».\n\nМногие люди боятся или стыдятся своей собственной красоты, как",
+   "url": "https://www.instagram.com/p/DKsAZGJNL1-/"
+  },
+  {
+   "shortCode": "DTiLD7HFG22",
+   "type": "Sidecar",
+   "date": "2026-01-15",
+   "likes": 145,
+   "comments": 42,
+   "views": null,
+   "caption": "Можете считать мои выводы слишком напыщенными / отлетевшим / балийскими - но они прожиты и честны. Да, я не первая и не последняя, кто к этому пришел, и мне интересно, сколько еще людей не будут верит",
+   "url": "https://www.instagram.com/p/DTiLD7HFG22/"
+  },
+  {
+   "shortCode": "DSkiN5-kiyg",
+   "type": "Sidecar",
+   "date": "2025-12-22",
+   "likes": 136,
+   "comments": 16,
+   "views": null,
+   "caption": "💞 16 years together \n💍  8 years married\n📍 @giselle_bali \n👗 @au.thenticthebrand",
+   "url": "https://www.instagram.com/p/DSkiN5-kiyg/"
+  },
+  {
+   "shortCode": "DXTRRc7v95v",
+   "type": "Video",
+   "date": "2026-04-19",
+   "likes": 135,
+   "comments": 34,
+   "views": 3044,
+   "caption": "Помогла мужу решить проблему?",
+   "url": "https://www.instagram.com/p/DXTRRc7v95v/"
+  },
+  {
+   "shortCode": "DP50JbwksAT",
+   "type": "Sidecar",
+   "date": "2025-10-17",
+   "likes": 128,
+   "comments": 20,
+   "views": null,
+   "caption": "Буду рада вашим мыслям после прочтения. Думали ли вы обо мне также?)) и что для вас легкость?",
+   "url": "https://www.instagram.com/p/DP50JbwksAT/"
+  },
+  {
+   "shortCode": "DTuOYdPkt2Y",
+   "type": "Video",
+   "date": "2026-01-20",
+   "likes": 127,
+   "comments": 52,
+   "views": 1596,
+   "caption": "Лэйдиз, выезжайте почаще за границу 🤭",
+   "url": "https://www.instagram.com/p/DTuOYdPkt2Y/"
+  },
+  {
+   "shortCode": "DO5QXZVEr7P",
+   "type": "Sidecar",
+   "date": "2025-09-22",
+   "likes": 118,
+   "comments": 29,
+   "views": null,
+   "caption": "Говорят, невозможно быть полностью готовым к родительству. Может, и так. Но точно можно увеличить степень готовности. Сейчас, в 35, она у меня раза в 3 больше, чем была в 27, когда мы поженились.\n\nНе ",
+   "url": "https://www.instagram.com/p/DO5QXZVEr7P/"
+  },
+  {
+   "shortCode": "DMTLp5Ktjbm",
+   "type": "Sidecar",
+   "date": "2025-07-19",
+   "likes": 108,
+   "comments": 15,
+   "views": null,
+   "caption": "Хочу оставить фотокарточки об этом красивом памятном дне. Выпускной моего брата из Хогвартса, точнее, университета Bath. Городу 2000 лет, он был основан римлянами как курорт с термальными ваннами 😌 зд",
+   "url": "https://www.instagram.com/p/DMTLp5Ktjbm/"
+  }
+ ],
+ "top_videos": [
+  {
+   "shortCode": "DXQpymLPVhl",
+   "type": "Video",
+   "date": "2026-04-18",
+   "likes": 4351,
+   "comments": 60,
+   "views": 123435,
+   "caption": "Думаете, дурят православных?😅",
+   "url": "https://www.instagram.com/p/DXQpymLPVhl/"
+  },
+  {
+   "shortCode": "DYzkHYuPAwK",
+   "type": "Video",
+   "date": "2026-05-26",
+   "likes": 94,
+   "comments": 19,
+   "views": 3117,
+   "caption": "Два дебила - это сила? 😂",
+   "url": "https://www.instagram.com/p/DYzkHYuPAwK/"
+  },
+  {
+   "shortCode": "DXTRRc7v95v",
+   "type": "Video",
+   "date": "2026-04-19",
+   "likes": 135,
+   "comments": 34,
+   "views": 3044,
+   "caption": "Помогла мужу решить проблему?",
+   "url": "https://www.instagram.com/p/DXTRRc7v95v/"
+  },
+  {
+   "shortCode": "DSbyTq1ErPt",
+   "type": "Video",
+   "date": "2025-12-19",
+   "likes": 100,
+   "comments": 44,
+   "views": 1788,
+   "caption": "Дайте знать, что думаете. Приветствую любое мнение, включая критику, если она подана с уважением и обоснованием 🤍",
+   "url": "https://www.instagram.com/p/DSbyTq1ErPt/"
+  },
+  {
+   "shortCode": "DYbAFrHPhi3",
+   "type": "Video",
+   "date": "2026-05-17",
+   "likes": 49,
+   "comments": 15,
+   "views": 1658,
+   "caption": "Что думаете? 😇",
+   "url": "https://www.instagram.com/p/DYbAFrHPhi3/"
+  },
+  {
+   "shortCode": "DTuOYdPkt2Y",
+   "type": "Video",
+   "date": "2026-01-20",
+   "likes": 127,
+   "comments": 52,
+   "views": 1596,
+   "caption": "Лэйдиз, выезжайте почаще за границу 🤭",
+   "url": "https://www.instagram.com/p/DTuOYdPkt2Y/"
+  },
+  {
+   "shortCode": "DaXWsOtvm1w",
+   "type": "Video",
+   "date": "2026-07-04",
+   "likes": 53,
+   "comments": 5,
+   "views": 1216,
+   "caption": "Та самая практика на 5 минут:\n\n1. Поставьте таймер на 5 минут.\n2. Сядьте или лягте удобно.\n3. Выберите одно место, где дыхание ощущается яснее всего: ноздри, грудная клетка или живот.\n4. Просто наблюд",
+   "url": "https://www.instagram.com/p/DaXWsOtvm1w/"
+  },
+  {
+   "shortCode": "DXjm_zcPuoe",
+   "type": "Video",
+   "date": "2026-04-25",
+   "likes": 19,
+   "comments": 2,
+   "views": 907,
+   "caption": "Медитацию включили в медицинские протоколы.🩺\n\n🫰🏻Программы на основе mindfulness (в которой я дипломированный преподаватель) используются в терапии тревоги, депрессии и стресса\n🫰🏻 Некоторые виды медита",
+   "url": "https://www.instagram.com/p/DXjm_zcPuoe/"
+  },
+  {
+   "shortCode": "DZUHt09PR8M",
+   "type": "Video",
+   "date": "2026-06-08",
+   "likes": 52,
+   "comments": 7,
+   "views": 835,
+   "caption": "Если честно: вы же и так это знали, точнее, чувствовали? Но почему-то все равно продолжали общение с теми, кто постоянно жалуется, на взводе, на нерве…и чувствовали, как после общения с ними вас покин",
+   "url": "https://www.instagram.com/p/DZUHt09PR8M/"
+  },
+  {
+   "shortCode": "DYMKIVovtmE",
+   "type": "Video",
+   "date": "2026-05-11",
+   "likes": 38,
+   "comments": 7,
+   "views": 833,
+   "caption": "Благополучная любовь - это для тех, кто правда хочет обмена энергией любви с живым человеком, а не с придуманным идеальным образом. Это не про бабочек в животе, драму и качели. Короче, для тех, кто на",
+   "url": "https://www.instagram.com/p/DYMKIVovtmE/"
+  }
+ ]
+}

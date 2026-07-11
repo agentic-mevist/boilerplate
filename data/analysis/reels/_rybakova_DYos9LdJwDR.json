@@ -1,0 +1,85 @@
+{
+ "language": "Russian",
+ "duration_estimate_sec": 56,
+ "format": "talking head | text-on-screen",
+ "hook": {
+  "first_3_seconds": "The speaker looks directly at the camera, points her index finger up, and the text \"ЗЕЛЁНЫЙ ФЛАГ в человеке #1\" (GREEN FLAG in a person #1) appears on screen.",
+  "hook_type": "promise | pattern-interrupt",
+  "hook_text": "ЗЕЛЁНЫЙ ФЛАГ в человеке #1",
+  "strength_1_10": 8,
+  "why_it_works_or_fails": "The hook immediately grabs attention by using a popular, positive concept ('green flag') and numbering it, implying valuable insights to follow. The direct gaze and pointing finger create an engaging, personal connection."
+ },
+ "structure": [
+  "0:00-0:03: Introduction of the topic: \"Green flag in a person #1\".",
+  "0:03-0:05: Establishes authority: \"Speaking as a clinical psychologist.\"",
+  "0:05-0:12: Provides examples of empathetic behavior: slowing for an old dog, not rushing an old lady, smiling at a child, cleaning up others' trash.",
+  "0:12-0:17: Explains the nature of these actions: no one sees, no appreciation, no benefit.",
+  "0:17-0:23: Defines the core concept: \"breadth of empathetic reach\" as the rarest and most accurate personality test.",
+  "0:23-0:30: Contrasts with common empathy: usual empathy expects reciprocity, but these examples (old man, child, homeless cat) cannot reciprocate.",
+  "0:30-0:37: Emphasizes the purity of such acts: no self-interest, only genuine feeling.",
+  "0:37-0:49: Connects this empathy to personal relationships: a person with such empathy transcends ego and will remain supportive even when the viewer is vulnerable or unable to reciprocate.",
+  "0:49-0:54: Concludes with a reassuring message: having such a person makes you rich.",
+  "0:54-0:56: Call to action: \"You definitely know who to send this to.\""
+ ],
+ "retention_devices": [
+  "Text-on-screen for key phrases and numbers",
+  "Direct address to the viewer (\"ты\", \"вами\")",
+  "Pacing cuts synchronized with new points or text appearance",
+  "Speaker's expressive facial gestures and hand movements",
+  "Emotional appeal through relatable scenarios",
+  "Clear, structured argument"
+ ],
+ "visuals": {
+  "setting": "Indoor, cozy, slightly decorated room with warm lighting, yellow curtains, and a small table with flowers in the background. Suggests a home or a comfortable personal space.",
+  "editing_style": "Frequent cuts (every 1-3 seconds) to maintain pace. Captions are prominent, large, and colorful (green and pink), appearing dynamically on screen. No b-roll; it's entirely a talking head.",
+  "production_quality_1_10": 7,
+  "aesthetics_notes": "The speaker wears a white robe with green embroidery, subtly matching the 'green flag' theme. Her makeup is natural, and her overall appearance is pleasant and approachable. The text colors (green and pink) are vibrant and eye-catching."
+ },
+ "audio": {
+  "music": "Gentle, uplifting, slightly whimsical instrumental background music that doesn't distract from the speech.",
+  "voice_delivery": "Clear, calm, confident, and empathetic tone. The speaker maintains a steady, engaging pace, emphasizing key words and conveying sincerity."
+ },
+ "message": {
+  "core_idea": "True empathy, a 'green flag' in a person, is demonstrated through selfless acts towards those who cannot reciprocate, indicating a person who transcends ego and will offer unconditional support in a relationship.",
+  "emotional_triggers": [
+   "Hope",
+   "Reassurance",
+   "Validation",
+   "Warmth",
+   "Recognition of genuine kindness",
+   "Desire for unconditional love/support"
+  ],
+  "target_pain": "Fear of abandonment, desire for stable and genuinely caring relationships, seeking reliable partners, feeling unappreciated or vulnerable."
+ },
+ "cta": {
+  "present": true,
+  "text": "Ты точно знаешь, кому отправить.",
+  "type": "share"
+ },
+ "seller_signals": "The speaker explicitly states, \"Говорю, как клинический психолог\" (I speak as a clinical psychologist), establishing her expertise and credibility. She offers profound insights into personality traits and relationship dynamics from a professional perspective, positioning herself as a source of valuable psychological knowledge and building authority in the 'psychology & meditation for women' niche.",
+ "transcript_summary": "Клинический психолог объясняет, что настоящий \"зеленый флаг\" в человеке — это широта эмпатии, проявляющаяся в бескорыстных поступках по отношению к тем, кто не может ответить взаимностью (старая собака, бабушка, ребенок, бездомная кошка). Такие действия, не приносящие выгоды и невидимые для других, показывают, что человек вышел за пределы эго. Именно такой человек будет рядом с вами, когда вы будете уязвимы и ничего не сможете дать взамен. Если у вас есть такой человек, вы очень богаты. Видео завершается призывом поделиться им.",
+ "verdict": {
+  "what_worked": [
+   "Clear, concise, and impactful message delivered with authority.",
+   "Relatable examples of empathetic behavior.",
+   "Strong emotional resonance, especially the promise of unconditional support.",
+   "Effective use of text-on-screen for emphasis and retention.",
+   "The 'green flag' concept is popular and easily understood.",
+   "Direct and engaging call to action."
+  ],
+  "what_to_improve": [
+   "While the setting is pleasant, adding subtle b-roll footage of the described scenarios (dog, old lady, child) could enhance visual storytelling and engagement even further, making it less of a pure talking head.",
+   "A slightly more dynamic background or varied camera angles could add visual interest over the minute-long duration."
+  ],
+  "replicable_pattern": "Share a 'green flag' personality trait, illustrate it with selfless examples towards those who cannot reciprocate, explain the psychological depth of such actions, and connect it to the viewer's personal relationships, finishing with a shareable emotional takeaway."
+ },
+ "_meta": {
+  "username": "_rybakova",
+  "shortCode": "DYos9LdJwDR",
+  "views": 2174526,
+  "likes": 239396,
+  "comments": 6157,
+  "caption": "я клинический психолог, и сейчас будет один из самых надежных зеленых флагов в человеке\n\nобращай внимание не на красивые слова и громкие обещания, а на то как человек ведет себя там, где ему ничего не должны и где он ничего не получит взамен\n\nкак он разговаривает с официантом, реагирует на ошибки других людей, относится к животным, детям, пожилым, как ведет себя когда никто не смотрит и не оценивает\n\nименно в таких мелочах лучше всего видно уровень эмпатии, эмоциональной зрелости и внутренней ус",
+  "url": "https://www.instagram.com/p/DYos9LdJwDR/"
+ }
+}
