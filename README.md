@@ -60,4 +60,5 @@ scripts/
 
 Нужны env: `APIFY_API_KEY`, `GEMINI_API_KEY`. Пайплайн описан в `docs/process.md`,
 переиспользуемые рецепты — в `.claude/skills/`. Деплой отчёта:
-`npx wrangler pages deploy report/ --project-name lotosinbloom-report --branch main`.
+`cd report && npx wrangler pages deploy --branch main` (конфиг в report/wrangler.toml: проект,
+R2-биндинг MEDIA → bucket lotos-report-media).
