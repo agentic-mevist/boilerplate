@@ -3,3 +3,4 @@ data/videos/*.mp4
 node_modules/
 __pycache__/
 data/avatars/*.jpg
+data/target/own_videos/
