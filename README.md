@@ -1,4 +1,4 @@
-# lotosinbloom-growth — deep research & growth strategy
+# insta-agent — deep research & growth strategy для Instagram
 
 Глубокое исследование Instagram-аккаунта [@lotosinbloom](https://www.instagram.com/lotosinbloom/)
 (ниша «психология и медитация для женщин»): аудит 43/100 по 10 измерениям, анализ 26 конкурентов
