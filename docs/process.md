@@ -68,9 +68,10 @@
 привязанные к сессии. Поэтому `POST /user/repos`, `create_repository` (MCP),
 `PATCH` настроек и `/generate` из сессии заблокированы политикой.
 
-Чтобы перенести проект в отдельный репозиторий: создать пустой
-`agentic-mevist/lotosinbloom-growth` через браузер, затем в сессии:
-`add_repo` → `bash scripts/push_to_new_repo.sh` (готовый скрипт в scripts/).
+Чтобы перенести проект в отдельный репозиторий: создать пустой репозиторий
+через браузер, затем в сессии: `add_repo` → `bash scripts/push_to_new_repo.sh
+<owner/repo>`. Так проект переехал в `agentic-mevist/insta-agent`
+(история сохранена merge'ем с initial commit нового репозитория).
 
 ## v2 отчёта (та же дата, вторая итерация)
 
