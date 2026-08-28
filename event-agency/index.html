@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solstice — Event Agency · Vienna</title>
+  <meta name="description" content="Solstice is a full-service event agency in Vienna producing conferences, product launches, galas and private celebrations — end to end, from first sketch to final spotlight.">
+  <!-- Mockup: keep out of search engines until content is final. Remove for launch. -->
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0d0b09">
+  <meta property="og:title" content="Solstice — Event Agency">
+  <meta property="og:description" content="Gatherings people talk about for years. Conferences, launches, galas and celebrations — designed and produced end to end.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=70">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d0b09'/%3E%3Cpath d='M32 10v44M10 32h44M17 17l30 30M47 17L17 47' stroke='%23d9a458' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..650;1,9..144,300..650&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="Solstice — home">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 6v52M6 32h52M14 14l36 36M50 14L14 50" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/>
+      </svg>
+      <span class="brand-word">Solstice</span>
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#studio">Studio</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn-solid nav-cta" href="#contact">Plan an event</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section class="hero">
+    <figure class="hero-media" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=2400&q=80"
+           alt="" fetchpriority="high"
+           onerror="this.closest('figure').classList.add('noimg')">
+    </figure>
+    <div class="container hero-inner">
+      <p class="eyebrow reveal">Full-service event agency — Vienna · Berlin · London</p>
+      <h1 class="reveal">Gatherings people <em>talk about</em> for years.</h1>
+      <p class="lede reveal">Solstice designs and produces conferences, launches, galas and celebrations —
+        end to end, from the first sketch to the final spotlight.</p>
+      <div class="hero-actions reveal">
+        <a class="btn btn-solid" href="#contact">Plan an event</a>
+        <a class="btn btn-ghost" href="#work">See selected work</a>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#clients" aria-label="Scroll down">↓</a>
+  </section>
+
+  <!-- ═══════════════ CLIENT MARQUEE ═══════════════ -->
+  <section class="clients" id="clients" aria-label="Selected clients">
+    <p class="clients-label">Trusted by teams at</p>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Meridian Labs</span><i>✳</i><span>Northlight Bank</span><i>✳</i><span>Kava Studios</span><i>✳</i>
+        <span>Oro &amp; Sons</span><i>✳</i><span>Fjordline</span><i>✳</i><span>Atlas Health</span><i>✳</i>
+        <span>Verve Media</span><i>✳</i><span>Bloomhaus</span><i>✳</i><span>Solari Group</span><i>✳</i>
+        <span>Pinnacle Trust</span><i>✳</i>
+        <!-- duplicate for seamless loop -->
+        <span>Meridian Labs</span><i>✳</i><span>Northlight Bank</span><i>✳</i><span>Kava Studios</span><i>✳</i>
+        <span>Oro &amp; Sons</span><i>✳</i><span>Fjordline</span><i>✳</i><span>Atlas Health</span><i>✳</i>
+        <span>Verve Media</span><i>✳</i><span>Bloomhaus</span><i>✳</i><span>Solari Group</span><i>✳</i>
+        <span>Pinnacle Trust</span><i>✳</i>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ STATS ═══════════════════════ -->
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat reveal"><span class="stat-num"><span data-count="380">380</span>+</span><span class="stat-label">Events produced</span></div>
+      <div class="stat reveal"><span class="stat-num"><span data-count="26">26</span></span><span class="stat-label">Cities and counting</span></div>
+      <div class="stat reveal"><span class="stat-num"><span data-count="97">97</span>%</span><span class="stat-label">Clients who come back</span></div>
+      <div class="stat reveal"><span class="stat-num"><span data-count="12">12</span></span><span class="stat-label">Years of showtime</span></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ SERVICES ═══════════════════════ -->
+  <section class="section section-alt" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">What we do</p>
+        <h2>Six ways we make a date <em>unmissable</em>.</h2>
+        <p class="section-intro">One team for strategy, creative and production.
+          Pick a lane — or hand us the whole thing.</p>
+      </div>
+      <div class="services-grid">
+        <article class="service-card reveal">
+          <span class="service-num">01</span>
+          <h3>Conferences &amp; Summits</h3>
+          <p>Multi-day programmes for 200–5,000 guests: stagecraft, speaker care, registration, and an agenda that keeps its promises.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-num">02</span>
+          <h3>Product Launches</h3>
+          <p>Reveal moments engineered for cameras and conversation — press nights, pop-ups and activations people queue for.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-num">03</span>
+          <h3>Galas &amp; Fundraisers</h3>
+          <p>Seated dinners with theatre in their bones: auctions, entertainment, and a room dressed to open hearts and wallets.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-num">04</span>
+          <h3>Weddings &amp; Private</h3>
+          <p>A small, senior team for the most personal briefs — planned quietly, produced flawlessly, remembered forever.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-num">05</span>
+          <h3>Offsites &amp; Retreats</h3>
+          <p>Company gatherings that trade beanbags for substance: sharp agendas, honest venues, and evenings people opt into.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-num">06</span>
+          <h3>Immersive Experiences</h3>
+          <p>Set design, interactive tech and narrative — worlds your guests step into, not events they merely attend.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ WORK ═══════════════════════ -->
+  <section class="section" id="work">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Selected work</p>
+        <h2>A few nights we're <em>still</em> proud of.</h2>
+        <p class="section-intro">Every project ships with a case study. Here are four, in one breath each.</p>
+      </div>
+      <div class="work-grid">
+        <article class="work-card reveal">
+          <figure class="work-media">
+            <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1400&q=75"
+                 alt="Keynote speaker on a large stage in an industrial hall" loading="lazy"
+                 onerror="this.closest('figure').classList.add('noimg')">
+          </figure>
+          <p class="work-tag">Conference — Berlin, 2025</p>
+          <h3>Meridian Summit</h3>
+          <p>Three days, 2,400 delegates and one repurposed power station — a tech summit paced like a festival.</p>
+          <p class="work-meta">2,400 guests · 48 speakers · 3 stages</p>
+        </article>
+        <article class="work-card reveal">
+          <figure class="work-media">
+            <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1400&q=75"
+                 alt="Confetti falling over a crowd at a night-time launch show" loading="lazy"
+                 onerror="this.closest('figure').classList.add('noimg')">
+          </figure>
+          <p class="work-tag">Product launch — Paris, 2025</p>
+          <h3>Lumen: Skin, Light, Water</h3>
+          <p>A skincare launch staged as a walk-through installation of light and water. Press ran out of superlatives.</p>
+          <p class="work-meta">600 guests · 32 press outlets · 9M impressions</p>
+        </article>
+        <article class="work-card reveal">
+          <figure class="work-media">
+            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1400&q=75"
+                 alt="Ballroom dressed for a gala dinner under chandeliers" loading="lazy"
+                 onerror="this.closest('figure').classList.add('noimg')">
+          </figure>
+          <p class="work-tag">Fundraiser — Vienna, 2024</p>
+          <h3>The Amber Gala</h3>
+          <p>A winter fundraiser under a thousand points of candlelight — and a record year for the foundation.</p>
+          <p class="work-meta">€1.2M raised · 420 seats · 1 standing ovation</p>
+        </article>
+        <article class="work-card reveal">
+          <figure class="work-media">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=75"
+                 alt="Couple with a bouquet in warm evening light" loading="lazy"
+                 onerror="this.closest('figure').classList.add('noimg')">
+          </figure>
+          <p class="work-tag">Wedding — Lake Bled, 2025</p>
+          <h3>Ana &amp; Tomáš</h3>
+          <p>A three-day wedding weekend in the Alps: lakeside vows, a forest dinner, and a sunrise brass band.</p>
+          <p class="work-meta">3 days · 140 guests · 0 drops of rain</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PROCESS ═══════════════════════ -->
+  <section class="section section-alt" id="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">How it works</p>
+        <h2>Four steps between <em>hello</em> and showtime.</h2>
+      </div>
+      <ol class="process-grid">
+        <li class="process-step reveal">
+          <span class="process-num" aria-hidden="true">01</span>
+          <h3>Listen</h3>
+          <p>Every event starts as a conversation: goals, guests, budget, appetite for the unexpected. We ask more questions than you expect.</p>
+        </li>
+        <li class="process-step reveal">
+          <span class="process-num" aria-hidden="true">02</span>
+          <h3>Design</h3>
+          <p>Concept, narrative, spatial design — and a budget that behaves. You approve a creative treatment before a single vendor is booked.</p>
+        </li>
+        <li class="process-step reveal">
+          <span class="process-num" aria-hidden="true">03</span>
+          <h3>Produce</h3>
+          <p>Venues, technical, catering, artists, permits — and contingency plans for the contingency plans. One producer, one point of contact.</p>
+        </li>
+        <li class="process-step reveal">
+          <span class="process-num" aria-hidden="true">04</span>
+          <h3>Show time</h3>
+          <p>On the day, we run everything and you carry nothing. Afterwards: a debrief, the numbers, and the photos worth framing.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ STUDIO ═══════════════════════ -->
+  <section class="section" id="studio">
+    <div class="container studio-grid">
+      <div class="studio-copy reveal">
+        <p class="eyebrow">The studio</p>
+        <h2>Obsessive about the details <em>you'll never see</em>.</h2>
+        <p>Solstice is eighteen producers, designers and technical directors based in Vienna,
+          working wherever the brief takes us. We believe the best events feel inevitable —
+          as if they couldn't have happened any other way.</p>
+        <p>That feeling is manufactured. It takes honest budgets, ruthless run-of-shows and a
+          decade-deep black book of venues, artists and crews. We bring all three.</p>
+        <ul class="studio-values">
+          <li>One senior producer per project, first call to final invoice</li>
+          <li>Transparent budgets — line by line, no padding</li>
+          <li>Sustainability written into every rider and load-out</li>
+          <li>A 24/7 show-week hotline, answered by a human</li>
+        </ul>
+      </div>
+      <figure class="studio-media reveal">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1400&q=75"
+             alt="Audience watching a talk in a dark auditorium with golden light" loading="lazy"
+             onerror="this.closest('figure').classList.add('noimg')">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ TESTIMONIALS ═══════════════════════ -->
+  <section class="section section-alt" id="voices">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Kind words</p>
+        <h2>Taken from the <em>thank-you</em> notes.</h2>
+      </div>
+      <div class="quotes-grid">
+        <blockquote class="quote-card reveal">
+          <p>“Solstice took a two-line brief and returned a world. Our summit stopped feeling like
+            a conference and started feeling like a place people wanted to be.”</p>
+          <footer>Head of Brand<span>Meridian Labs</span></footer>
+        </blockquote>
+        <blockquote class="quote-card reveal">
+          <p>“They sweat details we'd never have thought of, and on the night we were guests at our
+            own gala. €1.2M later, we're never running it alone again.”</p>
+          <footer>Chair<span>The Amber Foundation</span></footer>
+        </blockquote>
+        <blockquote class="quote-card reveal">
+          <p>“Planning a wedding across three countries should have been hell. Apparently it was —
+            just never once for us.”</p>
+          <footer>Ana &amp; Tomáš<span>Married, Lake Bled</span></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CTA BAND ═══════════════════════ -->
+  <section class="cta-band">
+    <figure class="cta-media" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=2000&q=70"
+           alt="" loading="lazy" onerror="this.closest('figure').classList.add('noimg')">
+    </figure>
+    <div class="container cta-inner reveal">
+      <h2>Have a date in mind?</h2>
+      <p>Tell us what you're dreaming about — we'll tell you what it takes.</p>
+      <a class="btn btn-solid btn-lg" href="#contact">Start the conversation</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CONTACT ═══════════════════════ -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Contact</p>
+        <h2>Tell us about your <em>next</em> event.</h2>
+      </div>
+      <div class="contact-grid">
+        <!-- Mockup form: submission is intercepted in script.js and shows a success note. No backend yet. -->
+        <form class="contact-form reveal" id="contact-form" novalidate>
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="f-type">Event type</label>
+            <select id="f-type" name="type">
+              <option>Conference or summit</option>
+              <option>Product launch or activation</option>
+              <option>Gala or fundraiser</option>
+              <option>Wedding or private celebration</option>
+              <option>Offsite or retreat</option>
+              <option>Something else entirely</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-guests">Guests, roughly</label>
+            <input id="f-guests" name="guests" type="number" min="1" placeholder="e.g. 250">
+          </div>
+          <div class="field field-wide">
+            <label for="f-date">Target date</label>
+            <input id="f-date" name="date" type="date">
+          </div>
+          <div class="field field-wide">
+            <label for="f-msg">Tell us more</label>
+            <textarea id="f-msg" name="message" rows="5" placeholder="Occasion, city, ambitions, fears — anything helps."></textarea>
+          </div>
+          <div class="field-wide form-foot">
+            <button class="btn btn-solid btn-lg" type="submit">Send the brief</button>
+            <p class="form-note">No newsletters, no spam — just a reply within one working day.</p>
+          </div>
+        </form>
+        <div class="form-success" id="form-success" hidden>
+          <span aria-hidden="true">✳</span>
+          <h3>Thank you — your brief is with us.</h3>
+          <p>We'll reply within one working day. If it's urgent, call us — a human answers.</p>
+        </div>
+        <aside class="contact-aside reveal">
+          <h3>Prefer to talk?</h3>
+          <p><a href="mailto:hello@solstice.events">hello@solstice.events</a></p>
+          <p><a href="tel:+43720555214">+43 720 555 214</a></p>
+          <address>
+            Solstice Events GmbH<br>
+            Lindengasse 14/3<br>
+            1070 Vienna, Austria
+          </address>
+          <p class="aside-hours">Mon–Fri, 9:00–18:00 CET<br>Show weeks: around the clock.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#top" aria-label="Solstice — back to top">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M32 6v52M6 32h52M14 14l36 36M50 14L14 50" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span class="brand-word">Solstice</span>
+      </a>
+      <p>Full-service event agency.<br>Vienna, working worldwide.</p>
+    </div>
+    <nav class="footer-col" aria-label="Footer">
+      <h4>Explore</h4>
+      <a href="#services">Services</a>
+      <a href="#work">Selected work</a>
+      <a href="#studio">The studio</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="footer-col">
+      <h4>Say hello</h4>
+      <a href="mailto:hello@solstice.events">hello@solstice.events</a>
+      <a href="tel:+43720555214">+43 720 555 214</a>
+      <a href="#" rel="noopener">Instagram</a>
+      <a href="#" rel="noopener">LinkedIn</a>
+      <a href="#" rel="noopener">Pinterest</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© <span id="year">2026</span> Solstice Events GmbH · <a href="#">Imprint</a> · <a href="#">Privacy</a></p>
+    <p class="footer-fineprint">Design mockup — all content illustrative · Photography via Unsplash</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
