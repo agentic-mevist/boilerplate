@@ -97,7 +97,9 @@ def state(f):
     return V[i] + (V[j] - V[i]) * x, R[i] + (R[j] - R[i]) * x, years[i] + x
 
 # ---------------- drawing ----------------
-CARD = (40, 1200, 1000, 470)          # x, y, w, h in px (kept clear of TikTok/Reels UI)
+# Card sits inside the TikTok / Reels / Shorts safe area: below y~1440 captions and
+# the account row cover the video, and x > ~890 holds the like/comment buttons.
+CARD = (50, 1040, 840, 395)          # x, y, w, h in px
 
 FONT = {False: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
         True: "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"}
@@ -120,7 +122,7 @@ def wrap_px(s, pt, width, bold=False):
             cur = t
     return lines + ([cur] if cur else [])
 
-def fit_block(head, body, width, height, hpt=32, bpt=25):
+def fit_block(head, body, width, height, hpt=30, bpt=23):
     """Shrink headline/body fonts together until both fit width x height px."""
     while True:
         hl, bl = wrap_px(head, hpt, width, True), wrap_px(body, bpt, width)
@@ -145,7 +147,7 @@ def draw_card(fig, c, a):
     if c["img"] is not None:
         ih, iw = c["img"].shape[:2]
         cap = c.get("image_caption")
-        bw, bh = 290, h - 2 * pad - (54 if cap else 26)
+        bw, bh = 230, h - 2 * pad - (54 if cap else 26)
         sc = min(bw / iw, bh / ih)
         pw, ph = iw * sc, ih * sc
         ia = fig.add_axes(px(x + tx + (bw - pw) / 2, y + pad + (bh - ph) / 2, pw, ph))
@@ -190,12 +192,12 @@ def render(f):
 
     fig = plt.figure(figsize=(W / DPI, H / DPI), dpi=DPI, facecolor="white")
     # header
-    fig.text(50 / W, 1 - 200 / H, "Top Baby Girl", fontsize=38, fontweight="bold", color=INK)
-    fig.text(50 / W, 1 - 255 / H, "Names in the USA", fontsize=38, fontweight="bold", color=INK)
-    fig.text(1030 / W, 1 - 262 / H, str(int(yr)), fontsize=92, fontweight="bold",
+    fig.text(60 / W, 1 - 268 / H, "Top Baby Girl", fontsize=34, fontweight="bold", color=INK)
+    fig.text(60 / W, 1 - 318 / H, "Names in the USA", fontsize=34, fontweight="bold", color=INK)
+    fig.text(1000 / W, 1 - 322 / H, str(int(yr)), fontsize=84, fontweight="bold",
              color="#3a3a3a", ha="right")
     # timeline progress bar with decade ticks
-    tl = fig.add_axes(px(50, 292, 980, 34)); tl.set_axis_off()
+    tl = fig.add_axes(px(60, 346, 940, 30)); tl.set_axis_off()
     tl.set_xlim(Y0, Y1); tl.set_ylim(0, 1)
     tl.plot([Y0, Y1], [0.65, 0.65], color="#e4e4e4", lw=7, solid_capstyle="round")
     tl.plot([Y0, yr], [0.65, 0.65], color="#555", lw=7, solid_capstyle="round")
@@ -203,7 +205,7 @@ def render(f):
         tl.text(d, 0.0, str(d), fontsize=11, color=FAINT, ha="center", va="center")
 
     # chart (fixed geometry)
-    ax = fig.add_axes(px(250, 370, 640, 790))
+    ax = fig.add_axes(px(235, 392, 565, 610))
     vis = r <= TOPN + 0.99
     # a featured name still outside the top 12 rides in a spotlight row below the chart
     for k in [names.index(n) for n in hi if n in names]:
@@ -217,34 +219,34 @@ def render(f):
                 edgecolor=INK if lit else "none", linewidth=3.5 if lit else 0)
         if lit and HIGHLIGHT == "tag":
             # name in a pill of the bar's colour
-            ax.text(-xmax * 0.025, y, n, ha="right", va="center", fontsize=25, fontweight="bold",
+            ax.text(-xmax * 0.025, y, n, ha="right", va="center", fontsize=22, fontweight="bold",
                     color="white", bbox=dict(boxstyle="round,pad=0.25,rounding_size=0.6",
                                              fc=cols[k], ec=INK, lw=2))
         else:
-            ax.text(-xmax * 0.025, y, n, ha="right", va="center", fontsize=25,
+            ax.text(-xmax * 0.025, y, n, ha="right", va="center", fontsize=22,
                     color="#aaaaaa" if dim else INK if lit else "#333",
                     fontweight="bold" if lit else "normal")
         ax.text(v[k] + xmax * 0.015, y, f"{v[k]:.2f}%", ha="left", va="center",
-                fontsize=19, color="#bbbbbb" if dim else "#444",
+                fontsize=17, color="#bbbbbb" if dim else "#444",
                 fontweight="bold" if lit else "normal")
         if r[k] > TOPN + 0.5:
             ax.text(v[k] + xmax * 0.17, y, f"#{int(round(r[k]))}", ha="left", va="center",
-                    fontsize=17, fontweight="bold", color="white",
+                    fontsize=15, fontweight="bold", color="white",
                     bbox=dict(boxstyle="round,pad=0.3,rounding_size=0.5", fc="#555", ec="none"))
     ax.set_ylim(SPOT + 0.55, 0.4)
     ax.set_xlim(0, xmax)
     ax.set_yticks([]); ax.set_xticks([])
     for sp in ax.spines.values():
         sp.set_visible(False)
-    fig.text(250 / W, 1 - 1172 / H, "% of girls born that year given the name",
-             fontsize=14, color=FAINT)
+    fig.text(235 / W, 1 - 1022 / H, "% of girls born that year given the name",
+             fontsize=13, color=FAINT)
 
     # story card (cross-fade)
     if prev is not None and fade_out > 0:
         draw_card(fig, prev, fade_out)
     elif cur is not None:
         draw_card(fig, cur, fade)
-    fig.text(540 / W, 1 - 1705 / H, "Data: U.S. Social Security Administration",
+    fig.text(470 / W, 1 - 1462 / H, "Data: U.S. Social Security Administration (1880–2025)",
              fontsize=13, color=FAINT, ha="center")
     fig.savefig(f"{FRAMES}/{f:05d}.png", dpi=DPI)
     plt.close(fig)

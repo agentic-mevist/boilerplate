@@ -474,5 +474,103 @@
   ],
   "nonfree": "",
   "restrictions": ""
+ },
+ "camila": {
+  "title": "File:Camila Cabello Sundance 2024 Cropped.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Camila_Cabello_Sundance_2024_Cropped.jpg",
+  "license": "CC BY 4.0",
+  "artist": "ReverendPoppins",
+  "credit": "Own work",
+  "usage": "Creative Commons Attribution 4.0",
+  "size": [
+   960,
+   1252
+  ],
+  "nonfree": "",
+  "restrictions": ""
+ },
+ "gianna": {
+  "title": "File:Kobe Bryant 7144 adjusted.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Kobe_Bryant_7144_adjusted.jpg",
+  "license": "Public domain",
+  "artist": "Sgt. Joseph A. Lee",
+  "credit": "Derivative of File:Kobe Bryant 7144.jpg",
+  "usage": "Public domain",
+  "size": [
+   960,
+   1440
+  ],
+  "nonfree": "",
+  "restrictions": ""
+ },
+ "jessica": {
+  "title": "File:The Graphic Gallery of Shakespeare's Heroines \u2013 Jessica (1896).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Graphic_Gallery_of_Shakespeare%27s_Heroines_%E2%80%93_Jessica_(1896).jpg",
+  "license": "Public domain",
+  "artist": "Luke Fildes",
+  "credit": "Folger Shakespeare Library",
+  "usage": "Public domain",
+  "size": [
+   960,
+   1314
+  ],
+  "nonfree": "",
+  "restrictions": ""
+ },
+ "luna": {
+  "title": "File:John Legend & Chrissy Teigen Grammys 2017.png",
+  "page": "https://commons.wikimedia.org/wiki/File:John_Legend_%26_Chrissy_Teigen_Grammys_2017.png",
+  "license": "CC BY 3.0",
+  "artist": "Rogue Artists",
+  "credit": "Vimeo: Glambot - Grammys 2017 (view archived source)",
+  "usage": "Creative Commons Attribution 3.0",
+  "size": [
+   500,
+   562
+  ],
+  "nonfree": "",
+  "restrictions": ""
+ },
+ "mia": {
+  "title": "File:Anne Hathaway 2014 (cropped).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Anne_Hathaway_2014_(cropped).jpg",
+  "license": "CC BY-SA 2.0",
+  "artist": "Mingle MediaTV",
+  "credit": "Anne Hathaway - DSC_0175",
+  "usage": "Creative Commons Attribution-Share Alike 2.0",
+  "size": [
+   960,
+   1371
+  ],
+  "nonfree": "",
+  "restrictions": ""
+ },
+ "olivia": {
+  "title": "File:Aankomst zangeres Olivia Newton John op Schiphol Olivia Newton John in de persk, Bestanddeelnr 930-0132 (cropped).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Aankomst_zangeres_Olivia_Newton_John_op_Schiphol_Olivia_Newton_John_in_de_persk,_Bestanddeelnr_930-0132_(cropped).jpg",
+  "license": "CC0",
+  "artist": "Bert Verhoeff for Anefo",
+  "credit": "http://proxy.handle.net/10648/acc03190-d0b4-102d-bcf8-003048976d84",
+  "usage": "Creative Commons Zero, Public Domain Dedication",
+  "size": [
+   960,
+   1215
+  ],
+  "nonfree": "",
+  "restrictions": ""
+ },
+ "shakespeare": {
+  "title": "File:Shakespeare.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Shakespeare.jpg",
+  "license": "Public domain",
+  "artist": "Attributed to John Taylor",
+  "credit": "Official gallery link",
+  "usage": "Public domain",
+  "size": [
+   960,
+   1224
+  ],
+  "nonfree": "",
+  "restrictions": ""
  }
 }
