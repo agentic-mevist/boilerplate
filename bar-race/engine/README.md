@@ -21,8 +21,14 @@ All of these are opt-in per topic, so existing topics render unchanged.
 - `topic.highlight: {ring, dim, band, badge}`: how the card's name is marked
   on the board. `ring` outlines the bar, `dim` (0 to 1) fades the rest of the
   board, `band` draws a pill behind the whole row, and `badge` puts the card's
-  photo on the bar tip. The girls video uses band + badge with no fade.
+  photo on the bar tip. The girls video uses only a 40% fade (`{dim: 0.4}`).
   Preview another style with `HARNESS_QUERY='&hl={"dim":0.3}'` on `capture.mjs`.
+- `topic.colors` (`{name: "#hex"}`): one fixed color per name. The girls
+  builder assigns them from a 16-color pop palette so no two names on screen
+  together share a color.
+- `topic.risePop: false`: a climbing bar stays still; only the ▲ marks the climb.
+- `topic.headerLead: true`: the reigning #1 moves to the top-right corner and
+  the region tag is dropped (put the region in the title instead).
 - `topic.totals` (`"year:count …"`), `topic.countUnit`, `topic.totalLabel`:
   each bar shows its absolute count under the percentage, and the note line
   shows the year's total.

@@ -155,7 +155,8 @@ function Piece({ topic, id, safe }) {
     const trueRank = isSpot && topic.trueRank && topic.trueRank[D.names[i].name]
       ? Math.round(valOf(topic.trueRank[D.names[i].name].trim().split(/\s+/).map((p) => p.split(':').map(Number)), year)) : 0;
     const up = clamp(st.prev.rank[i] - st.now.rank[i], 0, 1) * (1 - outroDim);
-    const color = th.palette[i % th.palette.length];
+    const pop = topic.risePop === false ? 0 : up;
+    const color = (topic.colors && topic.colors[D.names[i].name]) || th.palette[i % th.palette.length];
     const dim = (1 - HL.dim * featAmt * (isFeat ? 0 : 1)) * (1 - 0.7 * outroDim * (isLead ? 0 : 1));
     const ring = isFeat && HL.ring ? `, ${th.ring.replace(/(\d+)px ([#\w(),. ]+)$/, (m, a, b) => `${(+a * featAmt).toFixed(1)}px ${b}`)}` : '';
     const y = ROWS_TOP + r * ROW_H;
@@ -176,8 +177,8 @@ function Piece({ topic, id, safe }) {
         <div style={{
           position: 'absolute', left: BAR_X, top: y, height: th.barH, width: w,
           background: th.barBg(color), clipPath: th.clip || 'none', borderRadius: th.radius, border: th.border, boxSizing: 'border-box',
-          boxShadow: th.shadow(color, up) + ring, transform: `scaleY(${1 + 0.1 * up})`, transformOrigin: 'left center',
-          filter: up > 0.05 ? `brightness(${1 + 0.2 * up})` : 'none',
+          boxShadow: th.shadow(color, pop) + ring, transform: `scaleY(${1 + 0.1 * pop})`, transformOrigin: 'left center',
+          filter: pop > 0.05 ? `brightness(${1 + 0.2 * pop})` : 'none',
         }}></div>
         {badge ? <div style={{ position: 'absolute', left: BAR_X + Math.max(0, w - BD + 6), top: y + th.barH / 2 - BD / 2, width: BD, height: BD, borderRadius: BD,
           border: '4px solid #111111', boxSizing: 'border-box', overflow: 'hidden', background: th.monoBg, opacity: featAmt, transform: `scale(${0.6 + 0.4 * featAmt})` }}>
@@ -216,15 +217,15 @@ function Piece({ topic, id, safe }) {
 
         <div style={{ position: 'absolute', left: PAD, top: SAFE_TOP + 8, right: W - RX, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 20 }}>
           <div style={{ fontFamily: FONT, fontWeight: 800, fontSize: 38, color: th.ink, letterSpacing: '-0.01em', lineHeight: 1.05 }}>{topic.title}</div>
-          <div style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: th.muted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{topic.region}</div>
+          {topic.headerLead ? null : <div style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: th.muted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{topic.region}</div>}
         </div>
 
         <div style={{ position: 'absolute', left: PAD - 6, top: 272, height: YEAR_SIZE }}>
           <YearOdo year={year} color={th.yearColor} size={YEAR_SIZE} final={Y1}></YearOdo>
         </div>
 
-        <div style={{ position: 'absolute', right: W - RX, top: 318, width: 320, textAlign: 'right' }}>
-          <div style={{ position: 'absolute', right: 0, top: -44, display: 'flex', opacity: clamp(newBadge, 0, 1), transform: `translateX(${(1 - newBadge) * 20}px)` }}>
+        <div style={{ position: 'absolute', right: W - RX, top: topic.headerLead ? SAFE_TOP + 4 : 318, width: 320, textAlign: 'right' }}>
+          <div style={{ position: 'absolute', right: 0, top: topic.headerLead ? 92 : -44, display: 'flex', opacity: clamp(newBadge, 0, 1), transform: `translateX(${(1 - newBadge) * 20}px)` }}>
             <div style={{ fontFamily: FONT, fontSize: 18, fontWeight: 800, letterSpacing: '0.12em', padding: '6px 14px', background: th.tagBg, color: th.tagInk, border: th.tagBorder || 'none', borderRadius: pill }}>NEW #1</div>
           </div>
           <div style={{ fontFamily: FONT, fontSize: 20, fontWeight: 600, color: th.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>{topic.leadLabel}</div>

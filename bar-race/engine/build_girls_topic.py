@@ -75,8 +75,36 @@ for i, c in enumerate(body):
 scenes.append({"name": "Outro", "dur": OUTRO_SEC, "desc": f"Hold on {Y1} and land the takeaway"})
 anchors.append(["Outro", Y1])
 
+# one stable color per name, never shared by two names on screen together
+PALETTE = ["#FFE14D", "#5CE1E6", "#FF5E5B", "#7BF1A8", "#B79CFF", "#FFFFFF", "#FF9F1C", "#4D7CFE",
+           "#C6F432", "#1FB5A3", "#8E5CFF", "#FFC9A0", "#E0245E", "#A8D8FF", "#2B3A8C", "#FF3FA4"]
+vis = df[df["rank"] <= 11]
+together = {n: set() for n in keep}
+for _, g in vis.groupby("year"):
+    ns = [n for n in g.name if n in keep]
+    for n in ns:
+        together[n].update(ns)
+for c in body:   # a spotlit name shares the screen with its card's top 11
+    b = next((x["year"] for x in body if x["year"] > c["year"]), Y1)
+    era = set(vis[(vis.year >= c["year"] - 1) & (vis.year <= b)].name) & keep
+    for n in c.get("names", []):
+        together[n] |= era
+        for m in era:
+            together[m].add(n)
+first = vis.groupby("name").year.min()
+order = sorted(keep, key=lambda n: (first.get(n, 9999), n))
+colors, used = {}, {c: 0 for c in PALETTE}
+for n in order:
+    taken = {colors[m] for m in together[n] if m in colors and m != n}
+    free = [c for c in PALETTE if c not in taken]
+    if not free:
+        print("palette too small for", n, sorted(m for m in together[n] if m in colors))
+        free = PALETTE
+    colors[n] = min(free, key=lambda c: used[c])
+    used[colors[n]] += 1
+
 topic = {
-    "label": "Baby girl names (SSA)", "title": "Top Baby Girl Names", "region": "USA",
+    "label": "Baby girl names (SSA)", "title": "Top Baby Girl Names in the USA", "region": "USA", "headerLead": True,
     "range": [Y0, Y1], "anchors": anchors, "ticks": [1880, 1900, 1925, 1950, 1975, 2000, 2025],
     "note": "% of all girls born that year",
     "totals": " ".join(f"{y}:{n}" for y, n in df.groupby("year").n.sum().items()),
@@ -84,7 +112,8 @@ topic = {
     "source": f"Data: U.S. Social Security Administration, {Y0}–{Y1}",
     "raw": raw, "trueRank": true_rank, "events": events,
     "spotlight": True,
-    "highlight": {"ring": True, "dim": 0, "band": True, "badge": True},
+    "highlight": {"ring": False, "dim": 0.4, "band": False, "badge": False}, "risePop": False,
+    "colors": colors,
     "outro": {"kicker": f"{Y1 - Y0} years later", "a": "Mary", "b": "Olivia",
               "line": "1880: 1 in 13 girls got the #1 name. 2025: fewer than 1 in 100. "
                       "Will Charlotte take #1 in 2026?"},
