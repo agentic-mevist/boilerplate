@@ -56,10 +56,13 @@ for e in events:
         p = os.path.join(os.path.dirname(EVENTS), e["image"])
         if os.path.exists(p):
             e["img"] = np.asarray(Image.open(p).convert("RGB"))
-    a, b = e["year"] - 1, min(e["year"] + 2, years[-1])
     n = e.get("stat_name", e["name"])
     if n in counts:
-        e["stat"] = f"Girls named {n}:  {a}: {int(counts[n].get(a, 0)):,}  →  {b}: {int(counts[n].get(b, 0)):,}"
+        c = counts[n]
+        a = e.get("stat_from", e["year"] - 1)
+        win = c.loc[e["year"]:min(e["year"] + 2, years[-1])]
+        b = e.get("stat_to", int(win.idxmin() if e.get("drop") else win.idxmax()))
+        e["stat"] = f"Girls named {n}:  {a}: {int(c.get(a, 0)):,}  →  {b}: {int(c.get(b, 0)):,}"
 
 T, t, end = [], 0.0, len(years) - 1
 while t < end:
@@ -94,7 +97,8 @@ def draw_card(fig, e, a, col):
                                 fc=col, ec="none", alpha=a, transform=bg.transAxes))
     bg.text(0.05, 0.945, f"WHY {e['name'].upper()}?", fontsize=20, fontweight="bold",
             color="white", va="center", alpha=a, transform=bg.transAxes)
-    bg.text(0.95, 0.945, str(e["year"]), fontsize=20, fontweight="bold",
+    tag = {"PLAUSIBLE": "  ·  likely boost", "NOTE": "  ·  no single cause"}.get(e.get("verdict"), "")
+    bg.text(0.95, 0.945, str(e["year"]) + tag, fontsize=20, fontweight="bold",
             color="white", va="center", ha="right", alpha=a, transform=bg.transAxes)
     tx = 0.05
     if e["img"] is not None:
@@ -110,7 +114,8 @@ def draw_card(fig, e, a, col):
     bg.text(tx, 0.84, head, fontsize=24, fontweight="bold", color="#222", va="top",
             alpha=a, transform=bg.transAxes, linespacing=1.15)
     nl = head.count("\n") + 1
-    bg.text(tx, 0.84 - 0.085 * nl - 0.03, textwrap.fill(e["text"], wrap + 4), fontsize=17,
+    bg.text(tx, 0.84 - 0.085 * nl - 0.03, textwrap.fill(e["text"], wrap + 4 if e["img"] is not None else 40),
+            fontsize=17 if e["img"] is not None else 22,
             color="#444", va="top", alpha=a, transform=bg.transAxes, linespacing=1.35)
     if e.get("stat"):
         bg.text(0.05, 0.075, e["stat"], fontsize=15, color=col, fontweight="bold",
