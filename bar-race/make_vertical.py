@@ -16,13 +16,15 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
-from PIL import Image
+from PIL import Image, ImageFont
 
 DATA, OUT, STORY = sys.argv[1], sys.argv[2], sys.argv[3]
-SEX, TOPN, POOL = "F", 12, 25
+SEX, TOPN, POOL = "F", 12, 80        # POOL: ranks tracked (for the spotlight row)
+SPOT = TOPN + 1.55                   # y of the spotlight row under the chart
 FPS, SEC_PER_YEAR, MIN_SEC, END_SEC, FADE = 30, 1.0, 5.5, 6.0, 0.35
 W, H, DPI = 1080, 1920, 100
 FRAMES = "frames_v"
+HIGHLIGHT = os.environ.get("HIGHLIGHT", "bold")   # "bold" | "dim" | "tag"
 
 PALETTE = ["#5ab4ac", "#3d7fb8", "#f2c14e", "#e07a5f", "#9b5094", "#81b29a",
            "#f4a259", "#5b8e7d", "#bc4b51", "#6d597a", "#4ea8de", "#e5989b"]
@@ -97,6 +99,37 @@ def state(f):
 # ---------------- drawing ----------------
 CARD = (40, 1200, 1000, 470)          # x, y, w, h in px (kept clear of TikTok/Reels UI)
 
+FONT = {False: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        True: "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"}
+_fonts = {}
+
+def text_px(s, pt, bold=False):
+    """Rendered width in px of string s at pt points (fig dpi = DPI)."""
+    key = (round(pt * DPI / 72), bold)
+    if key not in _fonts:
+        _fonts[key] = ImageFont.truetype(FONT[bold], key[0])
+    return _fonts[key].getlength(s)
+
+def wrap_px(s, pt, width, bold=False):
+    lines, cur = [], ""
+    for word in s.split():
+        t = f"{cur} {word}".strip()
+        if cur and text_px(t, pt, bold) > width:
+            lines.append(cur); cur = word
+        else:
+            cur = t
+    return lines + ([cur] if cur else [])
+
+def fit_block(head, body, width, height, hpt=32, bpt=25):
+    """Shrink headline/body fonts together until both fit width x height px."""
+    while True:
+        hl, bl = wrap_px(head, hpt, width, True), wrap_px(body, bpt, width)
+        hh = len(hl) * hpt * DPI / 72 * 1.18
+        bh = len(bl) * bpt * DPI / 72 * 1.38
+        if hh + 22 + bh <= height or bpt <= 14:
+            return hl, bl, hpt, bpt, hh
+        hpt *= 0.95; bpt *= 0.95
+
 def draw_card(fig, c, a):
     x, y, w, h = CARD
     bg = fig.add_axes(px(x, y, w, h)); bg.set_axis_off()
@@ -106,35 +139,43 @@ def draw_card(fig, c, a):
                                 fc="#fbfbfb", ec="#e2e2e2", lw=2, alpha=a))
     bg.add_patch(FancyBboxPatch((3, 3), 14, h - 6, boxstyle="round,pad=0,rounding_size=7",
                                 fc=acc, ec="none", alpha=a))
-    tx = 40
+    pad = 36
+    tx = pad + 8
+    bottom = h - pad                      # lowest y available for text
     if c["img"] is not None:
         ih, iw = c["img"].shape[:2]
-        bw, bh = 300, h - 110
-        s = min(bw / iw, bh / ih)
-        pw, ph = iw * s, ih * s
-        ia = fig.add_axes(px(x + 40 + (bw - pw) / 2, y + 40 + (bh - ph) / 2, pw, ph))
+        cap = c.get("image_caption")
+        bw, bh = 290, h - 2 * pad - (54 if cap else 26)
+        sc = min(bw / iw, bh / ih)
+        pw, ph = iw * sc, ih * sc
+        ia = fig.add_axes(px(x + tx + (bw - pw) / 2, y + pad + (bh - ph) / 2, pw, ph))
         ia.imshow(c["img"], alpha=a); ia.set_axis_off()
-        tx = 370
-        if c.get("image_credit"):
-            bg.text(40, h - 28, textwrap.shorten("Image: " + c["image_credit"], 70),
-                    fontsize=10, color=FAINT, alpha=a, va="center")
-    tw = w - tx - 34                    # text column width in px
-    chars = int(tw / 18.5)
-    # kind + label pills
+        if cap:
+            cl = wrap_px(cap, 13, bw, True)[:2]
+            bg.text(tx + bw / 2, pad + bh + 8, "\n".join(cl), fontsize=13, fontweight="bold",
+                    color="#555", ha="center", va="top", alpha=a, linespacing=1.15)
+        tx = tx + bw + 30
+    tw = w - tx - pad                     # text column width in px
     kind = c.get("kind", "")
-    bg.text(tx, 52, kind, fontsize=19, fontweight="bold", color=acc, alpha=a, va="center")
+    bg.text(tx, pad + 16, kind, fontsize=19, fontweight="bold", color=acc, alpha=a, va="center")
     lab = c.get("label")
     if lab:
-        bg.text(w - 34, 52, lab, fontsize=13, fontweight="bold", color="white", ha="right",
+        bg.text(w - pad, pad + 16, lab, fontsize=13, fontweight="bold", color="white", ha="right",
                 va="center", alpha=a,
                 bbox=dict(boxstyle="round,pad=0.45,rounding_size=0.8", fc=LABEL_COL.get(lab, "#555"),
                           ec="none", alpha=a))
-    head = textwrap.fill(c["headline"], int(chars * 0.82))
-    bg.text(tx, 92, head, fontsize=32, fontweight="bold", color=INK, va="top", alpha=a,
-            linespacing=1.12)
-    nl = head.count("\n") + 1
-    bg.text(tx, 92 + nl * 45 + 20, textwrap.fill(c["text"], chars), fontsize=25,
-            color="#3c3c3c", va="top", alpha=a, linespacing=1.38)
+    if c["img"] is not None and c.get("image_credit"):
+        credit = "Image: " + c["image_credit"]
+        while text_px(credit, 10) > w - 2 * pad - 16 and len(credit) > 10:
+            credit = credit[:-2]
+        bg.text(pad + 8, h - 16, credit, fontsize=10, color=FAINT, alpha=a, va="bottom")
+        bottom = h - 34
+    top = pad + 52
+    hl, bl, hpt, bpt, hh = fit_block(c["headline"], c["text"], tw, bottom - top)
+    bg.text(tx, top, "\n".join(hl), fontsize=hpt, fontweight="bold", color=INK, va="top",
+            alpha=a, linespacing=1.18)
+    bg.text(tx, top + hh + 22, "\n".join(bl), fontsize=bpt, color="#3c3c3c", va="top",
+            alpha=a, linespacing=1.38)
 
 def render(f):
     v, r, yr = state(f)
@@ -164,20 +205,33 @@ def render(f):
     # chart (fixed geometry)
     ax = fig.add_axes(px(250, 370, 640, 790))
     vis = r <= TOPN + 0.99
-    xmax = (v[vis].max() if vis.any() else 1) * 1.12
+    # a featured name still outside the top 12 rides in a spotlight row below the chart
+    for k in [names.index(n) for n in hi if n in names]:
+        vis[k] = r[k] <= POOL
+    xmax = (v[r <= TOPN + 0.99].max() if (r <= TOPN + 0.99).any() else 1) * 1.12
     for k in np.where(vis)[0]:
-        y, n = r[k], names[k]
+        y, n = min(r[k], SPOT), names[k]
         lit = n in hi
-        alpha = 1.0 if (lit or not hi) else 0.38
-        ax.barh(y, v[k], height=0.82, color=cols[k], alpha=alpha, zorder=2,
+        dim = HIGHLIGHT == "dim" and hi and not lit
+        ax.barh(y, v[k], height=0.82, color=cols[k], alpha=0.38 if dim else 1.0, zorder=2,
                 edgecolor=INK if lit else "none", linewidth=3.5 if lit else 0)
-        ax.text(-xmax * 0.025, y, n, ha="right", va="center", fontsize=25,
-                color=INK if (lit or not hi) else "#aaaaaa",
-                fontweight="bold" if lit else "normal")
+        if lit and HIGHLIGHT == "tag":
+            # name in a pill of the bar's colour
+            ax.text(-xmax * 0.025, y, n, ha="right", va="center", fontsize=25, fontweight="bold",
+                    color="white", bbox=dict(boxstyle="round,pad=0.25,rounding_size=0.6",
+                                             fc=cols[k], ec=INK, lw=2))
+        else:
+            ax.text(-xmax * 0.025, y, n, ha="right", va="center", fontsize=25,
+                    color="#aaaaaa" if dim else INK if lit else "#333",
+                    fontweight="bold" if lit else "normal")
         ax.text(v[k] + xmax * 0.015, y, f"{v[k]:.2f}%", ha="left", va="center",
-                fontsize=19, color="#444" if (lit or not hi) else "#bbbbbb",
+                fontsize=19, color="#bbbbbb" if dim else "#444",
                 fontweight="bold" if lit else "normal")
-    ax.set_ylim(TOPN + 0.6, 0.4)
+        if r[k] > TOPN + 0.5:
+            ax.text(v[k] + xmax * 0.17, y, f"#{int(round(r[k]))}", ha="left", va="center",
+                    fontsize=17, fontweight="bold", color="white",
+                    bbox=dict(boxstyle="round,pad=0.3,rounding_size=0.5", fc="#555", ec="none"))
+    ax.set_ylim(SPOT + 0.55, 0.4)
     ax.set_xlim(0, xmax)
     ax.set_yticks([]); ax.set_xticks([])
     for sp in ax.spines.values():
