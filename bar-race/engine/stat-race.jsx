@@ -9,7 +9,7 @@ const FONT = "'Bricolage Grotesque', sans-serif";
 const W = 1080, PAD = 64, RX = 940, SAFE_TOP = 220, SAFE_BOTTOM = 1540;
 const BAR_X = 270, MAX_W = 520, ROWS_TOP = 556, ROW_H = 58, ROWS = 10;
 // row slot 11 (index ROWS) is reserved for the spotlight; the note sits under it, the card under that
-const NOTE_TOP = ROWS_TOP + (ROWS + 1) * ROW_H - 4;
+const NOTE_TOP = ROWS_TOP + (ROWS + 1) * ROW_H;
 const CARD_TOP = 1222, CARD_H = 318, YEAR_SIZE = 190;
 
 function valOf(kf, y) {
@@ -164,7 +164,7 @@ function Piece({ topic, id, safe }) {
     const labX = BAR_X + (badge ? Math.max(w, BD - 6) : w) + 16;
     const count = totalAt ? Math.round(v / 100 * totalAt(year)) : null;
     if (isFeat && HL.band) bands.push(
-      <div key={nm} style={{ position: 'absolute', left: PAD - 26, width: RX - PAD + 30, top: y - 8, height: th.barH + 16, opacity: op * featAmt,
+      <div key={nm} style={{ position: 'absolute', left: PAD - 26, width: RX - PAD + 30, top: y - 6, height: th.barH + 12, opacity: op * featAmt,
         background: 'rgba(255,255,255,0.6)', border: '3px solid #111111', borderRadius: 999, boxSizing: 'border-box' }}></div>
     );
     rows.push(

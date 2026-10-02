@@ -31,7 +31,7 @@
   "title": "File:Deborah Kerr 3.jpg",
   "page": "https://commons.wikimedia.org/wiki/File:Deborah_Kerr_3.jpg",
   "license": "Public domain",
-  "artist": "Trailer screenshot Licencing information\u00a0: https://web.archive.org/web/200803210",
+  "artist": "Trailer screenshot Licencing information : https://web.archive.org/web/200803210",
   "credit": "Black Narcissus trailer",
   "usage": "Public domain",
   "size": [
@@ -238,7 +238,7 @@
   "restrictions": ""
  },
  "ava": {
-  "title": "File:Ava Gardner \u2212 The Killers (1946).jpg",
+  "title": "File:Ava Gardner − The Killers (1946).jpg",
   "page": "https://commons.wikimedia.org/wiki/File:Ava_Gardner_%E2%88%92_The_Killers_(1946).jpg",
   "license": "Public domain",
   "artist": "Unknown authorUnknown author",
@@ -312,7 +312,7 @@
   "page": "https://commons.wikimedia.org/wiki/File:The_Wonderful_Wizard_of_Oz,_Dorothy_gazed_thoughtfully_at_the_Scarecrow.jpg",
   "license": "Public domain",
   "artist": "W. W. Denslow",
-  "credit": "L. Frank Baum: The Wonderful Wizard of Oz. With Pictures by W. W. Denslow. Chikago\u00a0: Georg",
+  "credit": "L. Frank Baum: The Wonderful Wizard of Oz. With Pictures by W. W. Denslow. Chikago : Georg",
   "usage": "Public domain",
   "size": [
    960,
@@ -448,11 +448,11 @@
   "restrictions": ""
  },
  "sophia": {
-  "title": "File:Sof\u00eda Vergara 2009.jpg",
+  "title": "File:Sofía Vergara 2009.jpg",
   "page": "https://commons.wikimedia.org/wiki/File:Sof%C3%ADa_Vergara_2009.jpg",
   "license": "CC BY 2.0",
   "artist": "Keith Hinkle",
-  "credit": "Sof\u00eda Vergara",
+  "credit": "Sofía Vergara",
   "usage": "Creative Commons Attribution 2.0",
   "size": [
    960,
@@ -504,7 +504,7 @@
   "restrictions": ""
  },
  "jessica": {
-  "title": "File:The Graphic Gallery of Shakespeare's Heroines \u2013 Jessica (1896).jpg",
+  "title": "File:The Graphic Gallery of Shakespeare's Heroines – Jessica (1896).jpg",
   "page": "https://commons.wikimedia.org/wiki/File:The_Graphic_Gallery_of_Shakespeare%27s_Heroines_%E2%80%93_Jessica_(1896).jpg",
   "license": "Public domain",
   "artist": "Luke Fildes",
@@ -572,5 +572,47 @@
   ],
   "nonfree": "",
   "restrictions": ""
+ },
+ "isabella.jpg": {
+  "file": "File:Twilight New Moon Booth.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Twilight_New_Moon_Booth.jpg",
+  "license": "CC BY-SA 2.0",
+  "credit": "Photo: Kristin Dos Santos / CC BY-SA 2.0"
+ },
+ "madison.jpg": {
+  "file": "File:Daryl Hannah.jpeg",
+  "page": "https://commons.wikimedia.org/wiki/File:Daryl_Hannah.jpeg",
+  "license": "CC BY-SA 3.0",
+  "credit": "Photo: Cassidy Turner / CC BY-SA 3.0"
+ },
+ "emma.jpg": {
+  "file": "File:Central Perk set.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Central_Perk_set.jpg",
+  "license": "CC BY-SA 4.0",
+  "credit": "Photo: Gga2015 / CC BY-SA 4.0"
+ },
+ "milano.jpg": {
+  "file": "File:Nancy Reagan with Alyssa Milano and Representatives of International Council of Shopping Centers in Diplomatic Reception Room - DPLA - 0f55d11c713412ec886aef4d6bc1d02d.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Nancy_Reagan_with_Alyssa_Milano_and_Representatives_of_International_Council_of_Shopping_Centers_in_Diplomatic_Reception_Room_-_DPLA_-_0f55d11c713412ec886aef4d6bc1d02d.jpg",
+  "license": "Public domain",
+  "credit": "White House Photographic Office (Reagan Library) / Public domain"
+ },
+ "deborah.jpg": {
+  "file": "File:Deborah Kerr press photo.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Deborah_Kerr_press_photo.jpg",
+  "license": "Public domain",
+  "credit": "Studio press photo (1958) / Public domain"
+ },
+ "michelle.jpg": {
+  "file": "File:The Beatles pose for a portrait (1965).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Beatles_pose_for_a_portrait_(1965).jpg",
+  "license": "Public domain",
+  "credit": "EMI publicity photo (1965) / Public domain"
+ },
+ "charlotte.jpg": {
+  "file": "File:Princess Charlotte of Cambridge in 2019 (cropped).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Princess_Charlotte_of_Cambridge_in_2019_(cropped).jpg",
+  "license": "CC BY 3.0",
+  "credit": "Londisland (YouTube) / CC BY 3.0"
  }
 }

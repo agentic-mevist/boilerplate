@@ -18,11 +18,21 @@ All of these are opt-in per topic, so existing topics render unchanged.
   rides in an extra row under the chart. It shows its real rank (from
   `topic.trueRank`), so a story card can start as soon as the name starts
   climbing.
-- `topic.dimOthers: false`: featured names are ringed, and the rest of the
-  board stays at full strength.
+- `topic.highlight: {ring, dim, band, badge}`: how the card's name is marked
+  on the board. `ring` outlines the bar, `dim` (0 to 1) fades the rest of the
+  board, `band` draws a pill behind the whole row, and `badge` puts the card's
+  photo on the bar tip. The girls video uses band + badge with no fade.
+  Preview another style with `HARNESS_QUERY='&hl={"dim":0.3}'` on `capture.mjs`.
+- `topic.totals` (`"year:count …"`), `topic.countUnit`, `topic.totalLabel`:
+  each bar shows its absolute count under the percentage, and the note line
+  shows the year's total.
+- Layout: slot 11 is reserved for the spotlight row. A name leaving the top 10
+  fades out before it gets there, and the note sits below slot 11, so nothing
+  overlaps the note or the card.
 - `event.names: [...]`: highlights several names on one card.
-- `event.image`, `event.caption`, `event.credit`: a photo fills the card's
-  monogram panel, with the stat on a scrim. The caption and credit go under
+- `event.image`, `event.caption`, `event.credit`, `event.focus`: a photo fills
+  the card's monogram panel (`focus` is its CSS object-position). `event.stat`
+  is optional; the girls video leaves it out. The caption and credit go under
   the body text.
 - `window.RACE_SCENES[topicId]`: a topic can bring its own scene list (pacing).
 

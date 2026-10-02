@@ -152,8 +152,9 @@
   "headline": "Deborah Kerr's Hollywood rise",
   "text": "British actress Deborah Kerr became a Hollywood star in the late 1940s. Deborah climbed from #62 in 1947 to #4 by 1951.",
   "image": "deborah.jpg",
-  "image_credit": "Deborah Kerr, Black Narcissus (1947) trailer, public domain",
-  "image_caption": "Deborah Kerr, film star"
+  "image_credit": "Studio press photo (1958) / Public domain",
+  "image_caption": "Deborah Kerr in a 1950s studio portrait",
+  "focus": "45% 35%"
  },
  {
   "year": 1953,
@@ -203,8 +204,9 @@
   "headline": "The Beatles sing \"Michelle\"",
   "text": "The Beatles' love song \"Michelle\" came out in Dec 1965 on the album Rubber Soul. In 1966 the name jumped from #18 to #4: 11,000 more girls.",
   "image": "michelle.jpg",
-  "image_credit": "The Beatles, Feb 1964, UPI photo, public domain",
-  "image_caption": "The Beatles, 1964"
+  "image_credit": "EMI publicity photo (1965) / Public domain",
+  "image_caption": "The Beatles in 1965, the year they recorded Michelle",
+  "focus": "50% 22%"
  },
  {
   "year": 1968,
@@ -265,8 +267,9 @@
   "headline": "Who's the Boss? made Samantha",
   "text": "In 1984 the TV sitcom Who's the Boss? debuted, with tomboy daughter Samantha. The name tripled in 6 years, from #39 to #5.",
   "image": "milano.jpg",
-  "image_credit": "Alyssa Milano, photo by Tom Sorensen (2011), CC BY-SA 2.0",
-  "image_caption": "Alyssa Milano, who played Samantha"
+  "image_credit": "White House Photographic Office (Reagan Library) / Public domain",
+  "image_caption": "Alyssa Milano (Samantha), age 14, in 1987",
+  "focus": "50% 30%"
  },
  {
   "year": 1993,
@@ -278,8 +281,9 @@
   "headline": "A mermaid named Madison",
   "text": "In the 1984 film comedy Splash, a mermaid picks her human name from a New York street sign: Madison Avenue. #78 in 1993, #3 by 2000.",
   "image": "madison.jpg",
-  "image_credit": "Daryl Hannah, World Travel & Tourism Council, CC BY 2.0",
-  "image_caption": "Daryl Hannah, who played the mermaid Madison"
+  "image_credit": "Cassidy Turner / CC BY-SA 3.0",
+  "image_caption": "Daryl Hannah, who played Madison the mermaid in Splash (1984)",
+  "focus": "55% 40%"
  },
  {
   "year": 2000,
@@ -291,8 +295,9 @@
   "headline": "Friends: Rachel has baby Emma",
   "text": "On the TV sitcom Friends, Rachel and Ross named their baby Emma in May 2002. That year Emma jumped from #13 to #4, then reached #1.",
   "image": "emma.jpg",
-  "image_credit": "Jennifer Aniston, White House/Chuck Kennedy, public domain",
-  "image_caption": "Jennifer Aniston, who played Rachel, Emma's mom"
+  "image_credit": "Gga2015 / CC BY-SA 4.0",
+  "image_caption": "The real Central Perk set from Friends",
+  "focus": "50% 60%"
  },
  {
   "year": 2003,
@@ -317,8 +322,9 @@
   "headline": "Twilight's Bella takes #1",
   "text": "Bella Swan, heroine of the Twilight vampire novels (2005) and films (2008), is short for Isabella. Isabella hit #1 in 2009.",
   "image": "isabella.jpg",
-  "image_credit": "Kristen Stewart, photo by Nicolas Genin (2009), CC BY-SA 2.0",
-  "image_caption": "Kristen Stewart, who played Bella in the films"
+  "image_credit": "Kristin Dos Santos / CC BY-SA 2.0",
+  "image_caption": "Bella Swan on a New Moon poster, Comic-Con 2009",
+  "focus": "50% 30%"
  },
  {
   "year": 2009,
@@ -368,7 +374,10 @@
   "label": "DOCUMENTED",
   "headline": "Charlotte closes in on #1",
   "text": "From #289 in 2000 to #2 in 2025. Princess Charlotte (born 2015) gave it a royal shine. In 2025 it finished just 144 babies behind Olivia.",
-  "image": null
+  "image": "charlotte.jpg",
+  "image_caption": "Princess Charlotte at Trooping the Colour, 2019",
+  "image_credit": "Londisland (YouTube) / CC BY 3.0",
+  "focus": "45% 50%"
  },
  {
   "year": 2025,
