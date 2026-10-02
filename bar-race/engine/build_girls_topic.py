@@ -84,7 +84,7 @@ topic = {
     "source": f"Data: U.S. Social Security Administration, {Y0}–{Y1}",
     "raw": raw, "trueRank": true_rank, "events": events,
     "spotlight": True,
-    "highlight": {"ring": True, "dim": 0.3, "band": True, "badge": True},
+    "highlight": {"ring": True, "dim": 0, "band": True, "badge": True},
     "outro": {"kicker": f"{Y1 - Y0} years later", "a": "Mary", "b": "Olivia",
               "line": "1880: 1 in 13 girls got the #1 name. 2025: fewer than 1 in 100. "
                       "Will Charlotte take #1 in 2026?"},
