@@ -53,9 +53,11 @@ const pages = [first, ...(await Promise.all(Array.from({ length: Math.max(0, WOR
 let done = 0;
 await Promise.all(pages.map(async (page, w) => {
   for (let i = w; i < times.length; i += pages.length) {
+    const file = path.join(outDir, `${String(i).padStart(5, '0')}.png`);
+    if (!only && fs.existsSync(file) && fs.statSync(file).size > 0) { done++; continue; }   // resume
     await seek(page, times[i]);
     await settle(page);
-    await page.screenshot({ path: path.join(outDir, `${String(i).padStart(5, '0')}.png`), clip: { x: 0, y: 0, width: 1080, height: 1920 } });
+    await page.screenshot({ path: file, clip: { x: 0, y: 0, width: 1080, height: 1920 } });
     if (++done % 300 === 0) console.log(`${done}/${times.length}`);
   }
 }));
