@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Render harness for the stat-race engine: harness.html?topic=girls_ssa[&safe=1]
+<!-- Render harness for the stat-race engine: harness.html?topic=girls_ssa[&safe=1][&hl={...}]
      Loads the channel design system (animations-v3 + stat-race + race-topics) with
      vendored React/Babel/fonts, so capture.mjs can seek and screenshot every frame. -->
 <html>
@@ -14,6 +14,8 @@
   const q = new URLSearchParams(location.search);
   window.OM_PLAYBACK = '{"mode":"loop"}';
   window.RACE_ARGS = { topic: q.get('topic') || 'girls', safe: q.get('safe') === '1' };
+  // &hl={"dim":0,"band":false} previews another highlight style without rebuilding the topic
+  if (q.get('hl')) window.RACE_HL_OVERRIDE = JSON.parse(q.get('hl'));
 </script>
 </head>
 <body>

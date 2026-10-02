@@ -37,17 +37,6 @@ for n in sorted(keep):
     raw[n] = " ".join(f"{y}:{v:.4f}" for y, v in s.items())
 true_rank = {n: " ".join(f"{y}:{int(v)}" for y, v in R[n].dropna().items()) for n in featured}
 
-# per-card stat block (big number + small line in the card's photo panel)
-STATS = {
-    1880: ("7.8%", "of girls, 1880"), 1883: ("Top 5", "1880s classics"), 1886: ("-ie", "pet names"),
-    1888: ("#7", "by 1889"), 1890: ("#5", "in 1892"), 1899: ("#3", "by 1915"), 1915: ("#2", "by 1928"),
-    1926: ("#5", "in 1931"), 1932: ("3x", "1933-35"), 1936: ("#8", "in 1940"), 1946: ("#1", "1947-52"),
-    1948: ("#4", "by 1951"), 1953: ("#1", "again, 1953"), 1956: ("#1", "1962-69"), 1961: ("#2", "by 1966"),
-    1965: ("#4", "in 1966"), 1968: ("15", "years at #1"), 1972: ("92", "years in top 12"), 1973: ("#1", "1985"),
-    1982: ("#4", "in 1983"), 1985: ("#5", "by 1990"), 1993: ("#3", "by 2000"), 2000: ("#1", "by 2008"),
-    2003: ("Top 10", "by 2005"), 2005: ("#1", "2009-10"), 2009: ("#1", "2011-13"), 2011: ("#10", "by 2015"),
-    2015: ("#10", "by 2022"), 2018: ("#1", "since 2019"), 2019: ("2x", "in 2020"), 2021: ("#2", "in 2025"),
-}
 KICKER = {"WHY #1": "The Queen", "NEW #1": "New #1", "RISING": "Rising", "TREND": "Trend",
           "END OF AN ERA": "End of an era"}
 
@@ -57,14 +46,15 @@ events, scenes, anchors = [], [], []
 for i, c in enumerate(body):
     a = c["year"]
     b = body[i + 1]["year"] if i + 1 < len(body) else Y1
-    stat, sub = STATS.get(a, ("", ""))
     names = c.get("names") or []
     ev = {
         "from": a, "to": b, "name": names[0] if names else "Mary", "names": names,
         "kicker": KICKER.get(c["kind"], c["kind"].title()),
         "tag": "Fact" if c.get("label") == "DOCUMENTED" else "Theory",
-        "title": c["headline"], "body": c["text"], "stat": stat, "sub": sub,
+        "title": c["headline"], "body": c["text"],
     }
+    if c.get("focus"):
+        ev["focus"] = c["focus"]
     # cards/custom/<stem>.* (creator-supplied) overrides the default image
     stem = os.path.splitext(c["image"])[0] if c.get("image") else (names[0].lower() if names else "")
     hit = next((f for f in sorted(os.listdir(CUSTOM)) if stem and os.path.splitext(f)[0] == stem), None) \
@@ -88,10 +78,13 @@ anchors.append(["Outro", Y1])
 topic = {
     "label": "Baby girl names (SSA)", "title": "Top Baby Girl Names", "region": "USA",
     "range": [Y0, Y1], "anchors": anchors, "ticks": [1880, 1900, 1925, 1950, 1975, 2000, 2025],
-    "note": "% of girls born that year given the name", "leadLabel": "Reigning #1",
+    "note": "% of all girls born that year",
+    "totals": " ".join(f"{y}:{n}" for y, n in df.groupby("year").n.sum().items()),
+    "totalLabel": "girls on record", "countUnit": "girls", "leadLabel": "Reigning #1",
     "source": f"Data: U.S. Social Security Administration, {Y0}–{Y1}",
     "raw": raw, "trueRank": true_rank, "events": events,
-    "spotlight": True, "dimOthers": False,
+    "spotlight": True,
+    "highlight": {"ring": True, "dim": 0.3, "band": True, "badge": True},
     "outro": {"kicker": f"{Y1 - Y0} years later", "a": "Mary", "b": "Olivia",
               "line": "1880: 1 in 13 girls got the #1 name. 2025: fewer than 1 in 100. "
                       "Will Charlotte take #1 in 2026?"},

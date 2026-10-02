@@ -7,8 +7,10 @@ const MOTION = {
 // Brand constants — same in every video
 const FONT = "'Bricolage Grotesque', sans-serif";
 const W = 1080, PAD = 64, RX = 940, SAFE_TOP = 220, SAFE_BOTTOM = 1540;
-const BAR_X = 270, MAX_W = 520, ROWS_TOP = 556, ROW_H = 60, ROWS = 10;
-const CARD_TOP = 1212, CARD_H = 318, YEAR_SIZE = 190;
+const BAR_X = 270, MAX_W = 520, ROWS_TOP = 556, ROW_H = 58, ROWS = 10;
+// row slot 11 (index ROWS) is reserved for the spotlight; the note sits under it, the card under that
+const NOTE_TOP = ROWS_TOP + (ROWS + 1) * ROW_H - 4;
+const CARD_TOP = 1222, CARD_H = 318, YEAR_SIZE = 190;
 
 function valOf(kf, y) {
   const f = kf[0], l = kf[kf.length - 1];
@@ -119,6 +121,15 @@ function Piece({ topic, id, safe }) {
     return { e, k, p, x, vis };
   });
 
+  // topic.highlight: how the card's name is marked on the board
+  //   ring: outline the bar · dim: fade the rest of the board by this much (0..1)
+  //   band: a pill behind the whole row · badge: the card photo rides on the bar tip
+  const HL = Object.assign({ ring: true, dim: topic.dimOthers === false ? 0 : 0.5, band: false, badge: false },
+    topic.highlight, window.RACE_HL_OVERRIDE);
+  let featImg = null, featFocus = '50% 20%';
+  for (const c of cards) if (c.vis === featAmt && featAmt > 0 && c.e.image && !(c.e.names && c.e.names.length > 1)) { featImg = c.e.image; featFocus = c.e.focus || featFocus; }
+  const totalAt = topic.totals ? ((kf) => (y) => valOf(kf, y))(topic.totals.trim().split(/\s+/).map((p) => p.split(':').map(Number))) : null;
+  const bands = [];
   const leadIdx = st.now.order[0];
   const leadName = D.names[leadIdx].name;
   const rows = [];
@@ -138,17 +149,24 @@ function Piece({ topic, id, safe }) {
     const w = Math.max(8, Math.min(MAX_W * 1.03, MAX_W * v / scaleMax));
     // while a spotlight is shown, the row leaving the top 10 clears out of its way early
     const spotClear = topic.spotlight && !isSpot ? 1 - spotRowAmt * clamp((r - 9.1) / 0.4, 0, 1) : 1;
-    const op = isSpot ? featAmt : clamp((10.1 - r) / 0.7, 0, 1) * spotClear;
+    // a row leaving the top 10 is gone before it reaches slot 11 (reserved for the spotlight)
+    const op = isSpot ? featAmt : clamp((9.65 - r) / 0.5, 0, 1) * spotClear;
     const isLead = i === leadIdx, isFeat = featSet.has(i);
     const trueRank = isSpot && topic.trueRank && topic.trueRank[D.names[i].name]
       ? Math.round(valOf(topic.trueRank[D.names[i].name].trim().split(/\s+/).map((p) => p.split(':').map(Number)), year)) : 0;
     const up = clamp(st.prev.rank[i] - st.now.rank[i], 0, 1) * (1 - outroDim);
     const color = th.palette[i % th.palette.length];
-    const dimF = topic.dimOthers === false ? 0 : 0.5;   // topic.dimOthers: false keeps the field at full strength
-    const dim = (1 - dimF * featAmt * (isFeat ? 0 : 1)) * (1 - 0.7 * outroDim * (isLead ? 0 : 1));
-    const ring = isFeat ? `, ${th.ring.replace(/(\d+)px ([#\w(),. ]+)$/, (m, a, b) => `${(+a * featAmt).toFixed(1)}px ${b}`)}` : '';
+    const dim = (1 - HL.dim * featAmt * (isFeat ? 0 : 1)) * (1 - 0.7 * outroDim * (isLead ? 0 : 1));
+    const ring = isFeat && HL.ring ? `, ${th.ring.replace(/(\d+)px ([#\w(),. ]+)$/, (m, a, b) => `${(+a * featAmt).toFixed(1)}px ${b}`)}` : '';
     const y = ROWS_TOP + r * ROW_H;
     const nm = D.names[i].name;
+    const BD = th.barH + 14, badge = isFeat && HL.badge && featImg;
+    const labX = BAR_X + (badge ? Math.max(w, BD - 6) : w) + 16;
+    const count = totalAt ? Math.round(v / 100 * totalAt(year)) : null;
+    if (isFeat && HL.band) bands.push(
+      <div key={nm} style={{ position: 'absolute', left: PAD - 26, width: RX - PAD + 30, top: y - 8, height: th.barH + 16, opacity: op * featAmt,
+        background: 'rgba(255,255,255,0.6)', border: '3px solid #111111', borderRadius: 999, boxSizing: 'border-box' }}></div>
+    );
     rows.push(
       <div key={nm} style={{ opacity: op * dim }}>
         <div style={{
@@ -161,11 +179,20 @@ function Piece({ topic, id, safe }) {
           boxShadow: th.shadow(color, up) + ring, transform: `scaleY(${1 + 0.1 * up})`, transformOrigin: 'left center',
           filter: up > 0.05 ? `brightness(${1 + 0.2 * up})` : 'none',
         }}></div>
+        {badge ? <div style={{ position: 'absolute', left: BAR_X + Math.max(0, w - BD + 6), top: y + th.barH / 2 - BD / 2, width: BD, height: BD, borderRadius: BD,
+          border: '4px solid #111111', boxSizing: 'border-box', overflow: 'hidden', background: th.monoBg, opacity: featAmt, transform: `scale(${0.6 + 0.4 * featAmt})` }}>
+          <img src={featImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: featFocus }} />
+        </div> : null}
         <div style={{
-          position: 'absolute', left: BAR_X + w + 16, top: y, opacity: lab, height: th.barH, display: 'flex', alignItems: 'center', gap: 8,
+          position: 'absolute', left: labX, top: y, opacity: lab, height: th.barH, display: 'flex', alignItems: 'center', gap: 8,
           fontFamily: FONT, fontSize: 24, fontWeight: isLead || isFeat ? 800 : 500, color: th.ink, fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap',
         }}>
-          <span>{topic.fmt(v)}</span>
+          {count != null ? (
+            <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.02 }}>
+              <span style={{ fontSize: 23 }}>{topic.fmt(v)}</span>
+              <span style={{ fontSize: 15, fontWeight: 600, color: th.muted }}>{count.toLocaleString('en-US')} {topic.countUnit || ''}</span>
+            </span>
+          ) : <span>{topic.fmt(v)}</span>}
           {trueRank > 10 ? <span style={{ fontSize: 18, fontWeight: 800, padding: '3px 10px', background: th.tagBg, color: th.tagInk, border: th.tagBorder || 'none', borderRadius: 999 }}>#{trueRank}</span> : null}
           <span style={{ color: th.upColor, fontSize: 20, opacity: up, transform: `translateY(${(1 - up) * 10}px)` }}>▲</span>
         </div>
@@ -214,9 +241,12 @@ function Piece({ topic, id, safe }) {
           ))}
         </div>
 
+        {bands}
         {rows}
 
-        <div style={{ position: 'absolute', left: BAR_X, top: ROWS_TOP + ROWS * ROW_H + 2, fontFamily: FONT, fontSize: 18, color: th.muted, opacity: (1 - outroDim) * (1 - spotAmt) }}>{topic.note}</div>
+        <div style={{ position: 'absolute', left: BAR_X, top: NOTE_TOP, fontFamily: FONT, fontSize: 18, color: th.muted, opacity: 1 - outroDim, whiteSpace: 'nowrap' }}>
+          {topic.note}{totalAt ? ` · ${Math.min(Math.floor(year), Y1)}: ${(Math.round(totalAt(Math.min(Math.floor(year), Y1)) / 1000) * 1000).toLocaleString('en-US')} ${topic.totalLabel || ''}` : ''}
+        </div>
 
         {cards.map(({ e, k, p, x, vis }) => vis <= 0.001 ? null : (
           <div key={k} style={{ position: 'absolute', left: PAD, top: CARD_TOP, width: RX - PAD, height: CARD_H, transform: `translateX(${(1 - p) * 1100 - x * 1100}px)` }}>
@@ -264,15 +294,15 @@ function CardBody({ e, th, p }) {
         {e.image ? (
           <React.Fragment>
             <img src={e.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: e.focus || '50% 25%' }} />
-            <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '52%', background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.72) 100%)' }}></div>
+            {e.stat ? <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '52%', background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.72) 100%)' }}></div> : null}
           </React.Fragment>
         ) : (
           <div style={{ position: 'absolute', left: 18, top: -8, fontFamily: FONT, fontWeight: 800, fontSize: 180, lineHeight: 1, color: th.monoInk }}>{e.name[0]}</div>
         )}
-        <div style={{ position: 'absolute', left: 18, bottom: 14, color: e.image ? '#FFFFFF' : th.monoInk }}>
+        {e.stat ? <div style={{ position: 'absolute', left: 18, bottom: 14, color: e.image ? '#FFFFFF' : th.monoInk }}>
           <div style={{ fontFamily: FONT, fontWeight: 800, fontSize: 44, lineHeight: 1 }}>{e.stat}</div>
           <div style={{ fontFamily: FONT, fontSize: 17, fontWeight: 600, marginTop: 4, letterSpacing: '0.04em' }}>{e.sub}</div>
-        </div>
+        </div> : null}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: s(0), transform: `translateX(${(1 - s(0)) * 30}px)` }}>

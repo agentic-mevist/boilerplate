@@ -1,5 +1,6 @@
 // Frame-accurate capture of the stat-race engine via the engine's own seek event.
 // usage: node capture.mjs <topic> <outdir> [fps=30] [workers=4] [only=t1,t2,...]
+// HARNESS_QUERY='&hl=...' appends extra harness parameters
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
@@ -22,7 +23,7 @@ const server = http.createServer((req, res) => {
   res.writeHead(200, { 'content-type': types[path.extname(p).toLowerCase()] || 'application/octet-stream' });
   fs.createReadStream(p).pipe(res);
 }).listen(0);
-const url = `http://127.0.0.1:${server.address().port}/engine/harness.html?topic=${topic}`;
+const url = `http://127.0.0.1:${server.address().port}/engine/harness.html?topic=${topic}${process.env.HARNESS_QUERY || ''}`;
 
 const browser = await chromium.launch();
 // wait until every <img> on the page is decoded (bounded, never hangs)
