@@ -116,7 +116,7 @@ def draw_card(fig, c, a):
         ia.imshow(c["img"], alpha=a); ia.set_axis_off()
         tx = 370
         if c.get("image_credit"):
-            bg.text(40, h - 28, textwrap.shorten("Photo: " + c["image_credit"], 70),
+            bg.text(40, h - 28, textwrap.shorten("Image: " + c["image_credit"], 70),
                     fontsize=10, color=FAINT, alpha=a, va="center")
     tw = w - tx - 34                    # text column width in px
     chars = int(tw / 18.5)
