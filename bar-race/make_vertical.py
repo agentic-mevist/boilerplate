@@ -55,6 +55,21 @@ col_of = dict(zip(names, cols))
 story = sorted(json.load(open(STORY)), key=lambda c: c["year"])
 for c in story:
     c["img"] = None
+    # cards/custom/<image name> (any extension) overrides the default image, so the
+    # creator can drop in their own pictures; its credit comes from custom/credits.json
+    cdir = os.path.join(os.path.dirname(STORY), "custom")
+    if c.get("image"):
+        stem = os.path.splitext(c["image"])[0]
+    else:
+        stem = c["names"][0].lower() if c.get("names") else ""
+    hits = [f for f in (os.listdir(cdir) if os.path.isdir(cdir) else [])
+            if stem and os.path.splitext(f)[0] == stem]
+    if hits:
+        c["image"] = os.path.join("custom", hits[0])
+        cred = json.load(open(os.path.join(cdir, "credits.json"))) \
+            if os.path.exists(os.path.join(cdir, "credits.json")) else {}
+        c["image_credit"] = cred.get(stem, "")
+        c["image_caption"] = cred.get(stem + "_caption", c.get("image_caption"))
     if c.get("image"):
         p = os.path.join(os.path.dirname(STORY), c["image"])
         if os.path.exists(p):
@@ -62,8 +77,8 @@ for c in story:
         else:
             print("missing image", p)
     for n in c.get("names", []):
-        if n not in ranks or ranks.loc[c["year"], n] > TOPN:
-            print(f"WARNING: {n} not in top {TOPN} in {c['year']}")
+        if n not in ranks or ranks.loc[c["year"], n] > POOL:
+            print(f"WARNING: {n} not in top {POOL} in {c['year']}")
 
 # segment boundaries in data-time (years since Y0); every card gets >= MIN_SEC
 T, starts = [], []
