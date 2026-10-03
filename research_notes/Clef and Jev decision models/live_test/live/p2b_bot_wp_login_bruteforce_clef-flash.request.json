@@ -1,0 +1,58 @@
+{
+  "model": "clef-flash",
+  "state": {
+    "request": {
+      "method": "POST",
+      "host": "blog.example.com",
+      "path": "/wp-login.php",
+      "http_version": "HTTP/1.1",
+      "user_agent": "python-requests/2.32.3",
+      "accept_language": null,
+      "cookies_present": false,
+      "asn": 14061,
+      "asn_org": "DigitalOcean, LLC",
+      "country": "NL",
+      "body_fields": [
+        "log",
+        "pwd",
+        "wp-submit"
+      ]
+    },
+    "client_behavior_last_60s": {
+      "requests_from_ip": 900,
+      "distinct_usernames_tried": 310,
+      "login_failures": 898,
+      "fetched_robots_txt": false,
+      "loaded_css_js_images": false,
+      "js_challenge_passed": false
+    },
+    "site_context": "Static site hosted on Cloudflare Pages; no WordPress is installed"
+  },
+  "questions": {
+    "traffic_class": {
+      "type": "choice",
+      "instructions": "What kind of client most likely sent this request?",
+      "criteria": {
+        "human": "A person using a normal web browser",
+        "good_bot": "A verified search-engine or uptime-monitoring crawler that respects robots.txt",
+        "ai_crawler": "A crawler collecting content for AI model training or AI answer engines",
+        "malicious": "Credential stuffing, abusive scraping, vulnerability scanning, or DDoS"
+      }
+    },
+    "block": {
+      "type": "noul",
+      "instructions": "Should this request be blocked outright?"
+    },
+    "risk": {
+      "type": "score",
+      "instructions": "How risky is this request to the origin server?",
+      "criteria": [
+        "Benign",
+        "Low",
+        "Elevated",
+        "High",
+        "Critical"
+      ]
+    }
+  }
+}

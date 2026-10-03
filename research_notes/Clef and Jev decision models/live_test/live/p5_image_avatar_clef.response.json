@@ -1,0 +1,1 @@
+{"errors":[{"message":"AiError: AiError: {\"error\":{\"type\":\"invalid_request\",\"message\":\"Request body failed validation\",\"details\":{\"formErrors\":[],\"fieldErrors\":{\"images\":[\"image payload is invalid\"]}}}} (ab9416f1-e1fa-49b4-a1c5-4a7678eb2e3d)","code":5012}],"success":false,"result":{},"messages":[]}

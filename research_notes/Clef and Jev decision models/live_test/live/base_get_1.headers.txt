@@ -1,0 +1,20 @@
+HTTP/1.1 200 Connection Established
+
+HTTP/2 200 
+date: Sat, 03 Oct 2026 06:52:30 GMT
+content-type: application/json
+set-cookie: __cflb=04dTob1Z8hkaUxg6DoSzyuYaXLsKuLfkHTGV3jbwcH; HttpOnly; SameSite=None; Secure; Path=/; Expires=Sat, 03 Oct 2026 09:22:31 GMT
+set-cookie: __cf_bm=StCJDnYhnhZUamR_Guae478aHkHK.nu8czioxUC_TYI-1791010350.2976213-1.0.1.1-954r_w1Z.TaMrNEHknwaVCSpOYCWyUpyFXaugD4MCpSv8o.yQgcb_bJcK3q0RWCNQU5f7D6XO5Ela2pHlcQShnme_w980e77C_gQzC6PFo2xLGQM296i4dg08ryZD.6r; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.cloudflare.com; Expires=Sat, 03 Oct 2026 07:22:30 GMT
+cf-ray: a44a064159694e70-IAD
+cf-cache-status: DYNAMIC
+access-control-allow-origin: *
+age: 122
+cache-control: no-store
+api-version: 2026-10-01.epoch
+server: cloudflare
+cf-auditlog-id: 01a10089-24e5-7f64-ad34-69fb88e15619
+vary: accept-encoding
+cdn-cache-control: public, max-age=3600, stale-while-revalidate=600
+ratelimit: "default";r=1199;t=1
+ratelimit-policy: "default";q=1200;w=300
+

@@ -1,6 +1,6 @@
 # Clef and Clef-flash: model size, compute weight, deployment options, Workers AI API, and a live latency test
 
-*Researched 2026-10-03, two days after the 2026-10-01 announcement. All model facts come from live sources fetched today. Numbers marked "estimate" are my own arithmetic, with the math shown. The live test made 30 calls to the Workers AI run endpoint from a container whose traffic enters Cloudflare at IAD (Ashburn, Virginia). Raw requests, responses, headers and timings are in `/tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/` (subfolders `live/`, `payloads/`, `hf_clef/`, `hf_clef-flash/`, `quants/`, `docs/`, `evals/`).*
+*Researched 2026-10-03, two days after the 2026-10-01 announcement. All model facts come from live sources fetched today. Numbers marked "estimate" are my own arithmetic, with the math shown. The live test made 30 calls to the Workers AI run endpoint from a container whose traffic enters Cloudflare at IAD (Ashburn, Virginia). Raw requests, responses, headers and timings are in `live_test/` (subfolders `live/`, `payloads/`, `hf_clef/`, `hf_clef-flash/`, `quants/`, `docs/`, `evals/`).*
 
 ## 1. Model facts from Hugging Face: parameters, files, dtypes, license, inference code, base models, quantizations, adoption
 
@@ -177,7 +177,7 @@ The hosted models are `@cf/cloudflare/clef` (**$0.24 per M input tokens = 21,818
   - `@cf/cloudflare/clef`: `created_at` "2026-09-29 14:05:24.552", task "Text Generation", properties `context_window` 65536, price 0.24 USD "per M input tokens", `vision` true.
   - `@cf/cloudflare/clef-flash`: `created_at` "2026-09-29 09:25:44.258", price 0.09 USD, otherwise identical.
 
-  ([Live test raw files](file:///tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/live/get_models_search_clef.json))
+  ([Live test raw files](live_test/live/get_models_search_clef.json))
 - **Docs pages:** "`@cf/cloudflare/clef` … Context Window 65,536 tokens … Vision Yes … Unit Pricing $0.24 per M input tokens". Clef-flash is "a fast 9B multimodal decision model … $0.09 per M input tokens" — [Workers AI: clef](https://developers.cloudflare.com/workers-ai/models/clef/); [Workers AI: clef-flash](https://developers.cloudflare.com/workers-ai/models/clef-flash/)
 - **Input schema (identical for both models):**
   - `model` is required and must match `^\s*(clef|clef-flash)\s*$`.
@@ -257,9 +257,9 @@ The hosted models are `@cf/cloudflare/clef` (**$0.24 per M input tokens = 21,818
 ### Cited Findings
 
 #### Setup
-- Auth used the `X-Auth-Email` and `X-Auth-Key` headers (a Global API Key), passed to curl via a stdin config so no secrets appear in files or logs. Traffic went through the container's HTTPS proxy. `https://www.cloudflare.com/cdn-cgi/trace` reported `colo=IAD`, `loc=US`, and every API response's `cf-ray` ended in `-IAD`. Calls ran between 06:52 and 06:55 UTC on 2026-10-03 — [Live test raw files](file:///tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/live/)
-- The read-only `GET .../ai/models/schema?model=@cf/cloudflare/clef` returned the same input schema as the docs, plus `"default": "clef"` on `model` — [Live test raw files](file:///tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/live/)
-- **Response headers on successful inferences:** `cf-ai-neurons` (for example `7.55`), `cf-ai-req-id`, `api-version: 2026-10-01.epoch`, `cache-control: no-store` and `cf-ray`. There was **no `server-timing` header**, so GPU time cannot be read directly. Error responses (400 and 422) had no `cf-ai-neurons` header, i.e. they were not billed — [Live test raw files](file:///tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/live/)
+- Auth used the `X-Auth-Email` and `X-Auth-Key` headers (a Global API Key), passed to curl via a stdin config so no secrets appear in files or logs. Traffic went through the container's HTTPS proxy. `https://www.cloudflare.com/cdn-cgi/trace` reported `colo=IAD`, `loc=US`, and every API response's `cf-ray` ended in `-IAD`. Calls ran between 06:52 and 06:55 UTC on 2026-10-03 — [Live test raw files](live_test/live/)
+- The read-only `GET .../ai/models/schema?model=@cf/cloudflare/clef` returned the same input schema as the docs, plus `"default": "clef"` on `model` — [Live test raw files](live_test/live/)
+- **Response headers on successful inferences:** `cf-ai-neurons` (for example `7.55`), `cf-ai-req-id`, `api-version: 2026-10-01.epoch`, `cache-control: no-store` and `cf-ray`. There was **no `server-timing` header**, so GPU time cannot be read directly. Error responses (400 and 422) had no `cf-ai-neurons` header, i.e. they were not billed — [Live test raw files](live_test/live/)
 
 #### Test 1: the blog's support-ticket example (both models, 5 interleaved repeats each, plus 1 initial Clef call)
 **Request (sent identically to both endpoints, only `model` changed; this is the blog/docs example):**
@@ -763,7 +763,7 @@ Clef response (`cf-ai-neurons: 12.81`):
   "messages": []
 }
 ```
-- **Image token accounting:** the text portion of this request is 444 tokens by my local replica of `encode_record`, so the image cost 587 − 444 = **143 tokens**. That is 140 image tokens plus 3 wrapper tokens. It matches Qwen2-VL-style resizing: 330×441 rounds to 448×320, giving (448/16) × (320/16) / 4 = 140 merged patches. Images are billed as ordinary input tokens: 587 × 21,818 / 1M = 12.81 neurons — [Live test raw files](file:///tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/live/)
+- **Image token accounting:** the text portion of this request is 444 tokens by my local replica of `encode_record`, so the image cost 587 − 444 = **143 tokens**. That is 140 image tokens plus 3 wrapper tokens. It matches Qwen2-VL-style resizing: 330×441 rounds to 448×320, giving (448/16) × (320/16) / 4 = 140 merged patches. Images are billed as ordinary input tokens: 587 × 21,818 / 1M = 12.81 neurons — [Live test raw files](live_test/live/)
 
 #### Error behavior
 Invalid request (body `{"model":"clef","state":"x"}`), HTTP 400, no `cf-ai-neurons` header:
@@ -779,7 +779,7 @@ HTML bytes sent as a JPEG data URL, HTTP 422, no `cf-ai-neurons` header:
 ```
 
 #### Surprise 1: `state` truncated to 2,048 tokens (tested with long access-log strings)
-- **Method:** I rebuilt Cloudflare's `encode_record` token layout without torch, using Clef's own `tokenizer.json`. It reproduces the API's `usage.input_tokens` exactly for all five short payloads. I then sent synthetic access logs of about 9k, 37k and 104k tokens. All three were billed and reported as exactly **2,445 tokens**, which is 397 fixed tokens (system prompt, schema and suffix) plus **2,048 state tokens**. None returned an error — [Live test raw files](file:///tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/live/)
+- **Method:** I rebuilt Cloudflare's `encode_record` token layout without torch, using Clef's own `tokenizer.json`. It reproduces the API's `usage.input_tokens` exactly for all five short payloads. I then sent synthetic access logs of about 9k, 37k and 104k tokens. All three were billed and reported as exactly **2,445 tokens**, which is 397 fixed tokens (system prompt, schema and suffix) plus **2,048 state tokens**. None returned an error — [Live test raw files](live_test/live/)
 
 | Payload | Request body (bytes) | Tokens by local replica of `encode_record` (fixed + state = full) | API `usage.input_tokens` | `cf-ai-neurons` (clef / clef-flash) |
 |---|---|---|---|---|
@@ -801,7 +801,7 @@ HTML bytes sent as a JPEG data URL, HTTP 422, no `cf-ai-neurons` header:
 - Cloudflare's HF reference `systemone_answer()` instead returns `"confidence": round(probabilities[choice], 4)`, which would be 0.8088 here.
 - The score check: `score` = Σ i·pᵢ (for example 0·0.0042 + 1·0.0043 + 2·0.0215 + 3·0.97 = 2.9573), as documented.
 
-Sources: [Live test raw files](file:///tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/live/); [joint_schema_model.py](https://huggingface.co/Cloudflare/clef/blob/main/joint_schema_model.py)
+Sources: [Live test raw files](live_test/live/); [joint_schema_model.py](https://huggingface.co/Cloudflare/clef/blob/main/joint_schema_model.py)
 
 #### Latency results
 The "minus connect/TLS" figures subtract curl's `time_pretransfer`, i.e. they exclude proxy CONNECT and TLS setup.
@@ -816,7 +816,7 @@ The "minus connect/TLS" figures subtract curl's `time_pretransfer`, i.e. they ex
 - **2,445-token (truncated) payloads:** Clef 783–1,585 ms; Clef-flash 576–800 ms. These bodies were 17–202 KB, so upload time is included.
 - **Image (587 tokens, 62.8 KB body):** Clef 828 ms.
 
-Full per-call table ([Live test raw files](file:///tmp/claude-0/-home-user-boilerplate/de044734-8f8a-51fd-9bea-2c273aaa1f9d/scratchpad/clef_test/live/timings.jsonl)):
+Full per-call table ([Live test raw files](live_test/live/timings.jsonl)):
 
 | UTC time | Call | HTTP | input_tokens | TTFB (ms) | TTFB minus connect/TLS (ms) |
 |---|---|---|---|---|---|

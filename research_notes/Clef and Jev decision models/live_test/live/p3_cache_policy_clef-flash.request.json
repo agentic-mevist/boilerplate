@@ -1,0 +1,54 @@
+{
+  "model": "clef-flash",
+  "state": {
+    "request": {
+      "method": "GET",
+      "url": "https://shop.example.com/api/v2/cart?currency=EUR",
+      "cookie_present": true,
+      "authorization_header": false
+    },
+    "origin_response": {
+      "status": 200,
+      "content_type": "application/json",
+      "content_length": 1843,
+      "headers": {
+        "cache-control": null,
+        "set-cookie": "sid=REDACTED; HttpOnly; Secure",
+        "vary": "Cookie",
+        "etag": null
+      },
+      "body_preview": "{\"cart_id\":\"c_9f2\",\"items\":[{\"sku\":\"48213\",\"qty\":2}],\"customer\":{\"first_name\":\"Ana\",\"loyalty_tier\":\"gold\"}}"
+    },
+    "traffic_stats_last_hour": {
+      "requests": 12000,
+      "unique_cookie_values": 11800
+    }
+  },
+  "questions": {
+    "cache_policy": {
+      "type": "choice",
+      "instructions": "Which edge cache policy should apply to this URL?",
+      "criteria": {
+        "bypass": "Never cache at the edge; personalized or sensitive",
+        "short_ttl": "Cache for seconds up to a few minutes",
+        "long_ttl": "Cache for hours or days (static or versioned asset)",
+        "stale_while_revalidate": "Serve a cached copy while refreshing it in the background"
+      }
+    },
+    "personalized": {
+      "type": "noul",
+      "instructions": "Does this response contain user-specific data?"
+    },
+    "safe_ttl": {
+      "type": "score",
+      "instructions": "How long can this response safely be cached at a shared edge cache?",
+      "criteria": [
+        "0 seconds",
+        "Under 1 minute",
+        "1 to 60 minutes",
+        "1 to 24 hours",
+        "More than 1 day"
+      ]
+    }
+  }
+}

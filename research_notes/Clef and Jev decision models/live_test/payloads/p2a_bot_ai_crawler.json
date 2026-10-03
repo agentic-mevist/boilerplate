@@ -1,0 +1,43 @@
+{
+  "model": "clef",
+  "state": {
+    "request": {
+      "method": "GET",
+      "host": "shop.example.com",
+      "path": "/products/sku-48213?ref=sitemap",
+      "http_version": "HTTP/1.1",
+      "user_agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.2; +https://openai.com/gptbot)",
+      "accept_language": null,
+      "cookies_present": false,
+      "asn": 8075,
+      "asn_org": "Microsoft Corporation",
+      "country": "US"
+    },
+    "client_behavior_last_60s": {
+      "requests_from_ip": 240,
+      "distinct_paths": 231,
+      "fetched_robots_txt": true,
+      "fetched_sitemap_xml": true,
+      "loaded_css_js_images": false,
+      "js_challenge_passed": false
+    }
+  },
+  "questions": {
+    "traffic_class": {
+      "type": "choice",
+      "instructions": "What kind of client most likely sent this request?",
+      "criteria": {
+        "human": "A person using a normal web browser",
+        "good_bot": "A verified search-engine or uptime-monitoring crawler that respects robots.txt",
+        "ai_crawler": "A crawler collecting content for AI model training or AI answer engines",
+        "malicious": "Credential stuffing, abusive scraping, vulnerability scanning, or DDoS"
+      }
+    },
+    "block": { "type": "noul", "instructions": "Should this request be blocked outright?" },
+    "risk": {
+      "type": "score",
+      "instructions": "How risky is this request to the origin server?",
+      "criteria": ["Benign", "Low", "Elevated", "High", "Critical"]
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "model": "clef-flash",
+  "state": {
+    "platform": "Comment section of a developer blog post about CDN caching",
+    "comment": "Great write-up! btw anyone who wants the paid course for free DM me on telegram @cheapcourses_xx, also selling cracked API keys cheap",
+    "author_account_age_days": 0,
+    "links_in_comment": 0,
+    "previous_comments_by_author": 0
+  },
+  "questions": {
+    "action": {
+      "type": "choice",
+      "instructions": "What moderation action should be taken?",
+      "criteria": {
+        "approve": "Publish normally",
+        "hold": "Hold for human review",
+        "remove": "Remove automatically"
+      }
+    },
+    "spam": {
+      "type": "noul",
+      "instructions": "Is this comment spam or scam promotion?"
+    },
+    "toxicity": {
+      "type": "score",
+      "instructions": "How toxic or abusive is the language toward people?",
+      "criteria": [
+        "Not toxic",
+        "Mildly rude",
+        "Insulting",
+        "Hateful or threatening"
+      ]
+    }
+  }
+}
