@@ -58,7 +58,7 @@ HN made the Jev launch one of its biggest threads of the month (1,989 points, 52
 
 **Jev launch thread (49717558): top-ranked and most insightful comments**
 - #1 (big_toast, 20 replies): the docs explain it better than the announcement. The TypeSafe CEO (HN user CompleteSkeptic) confirmed: "text or structured state (like a JSON with multiple pieces of text in) -> decisions out (e.g. choice maps to 'match' statement, 'score' maps to sorting, 'noul' short for bernoulli maps to if-statements)". — [HN](https://news.ycombinator.com/item?id=49718407)
-- #2 (jacobgold, 91 replies, the most-replied comment): "Seems like a more accurate title would be 'Jev: Trading general purpose generation for fast typed inference'… Also 'can't hallucinate' seems wrong? Sure, it can't emit an invalid type, but it can still emit a completely wrong valid value." — [HN](https://news.ycombinator.com/item?id=49718492)
+- #2 (jacobgold, 91 replies): "Seems like a more accurate title would be 'Jev: Trading general purpose generation for fast typed inference'… Also 'can't hallucinate' seems wrong? Sure, it can't emit an invalid type, but it can still emit a completely wrong valid value." — [HN](https://news.ycombinator.com/item?id=49718492)
 - CEO's reply on hallucination: "that is likely true of all ML! perhaps we could debate semantics, but I don't think it's fair to say a random forest 'hallucinates' in the way LLMs do". — [HN](https://news.ycombinator.com/item?id=49718767)
 - thduabmd's rebuttal: "Your launch post puts '0%' on a hallucination chart, then explains that the number comes from guaranteed schema matching… An approve for an unauthorized action still meets the schema guarantee." — [HN](https://news.ycombinator.com/item?id=49720703)
 - CEO on why not to use constrained decoding: "constrained decoding (OpenAI-style structured outputs) make models dumber unfortunately… if ever a model was assigning probability to an invalid token, the model is by definition confused." — [HN](https://news.ycombinator.com/item?id=49718849)
@@ -256,7 +256,6 @@ LinkedIn framed decision models as cost and automation infrastructure ("yes/no q
 - Jasmeet Singh (Cloudflare), 48 reactions: at a 100+ creator vibe-coding event, "A bulk of the stack was build using Clef, workers, durable objects". — [LinkedIn](https://www.linkedin.com/posts/jasmeeet_agents-vibecode-cloudflare-activity-7511809635784527872-ZBDd)
 - Mark Phelps (Cloudflare), 10 reactions: "My team Cloudflare just released Clef… So naturally.. I had to play with it. Introducing https://glizzy.cam 🌭" (a hot-dog detector, also posted on HN). — [LinkedIn](https://www.linkedin.com/posts/markphelps1_my-team-cloudflare-just-released-clef-and-activity-7511768992576086016-qggB)
 - Richard Black (Cloudflare) listed Clef first in a Birthday Week "Shipping Report" (12 reactions). — [LinkedIn](https://www.linkedin.com/posts/richard-black-uk_birthday-week-2026-cloudflare-activity-7511722887427379200-h00u)
-- My searches surfaced no LinkedIn post about Clef from Matthew Prince or other C-suite executives (see Gaps). — [Apify LinkedIn search run, query "Clef", authors at Cloudflare, past week](https://apify.com/harvestapi/linkedin-post-search)
 
 **Industry commentators on Clef**
 - Guillaume Lebedel (co-founder/CTO, StackOne), 441 reactions, 33 comments: "Jev's head start lasted about two weeks 🙃 Cloudflare just open-sourced Clef, a drop-in alternative to TypeSafe AI's Jev. Its small model answers in under 40ms, vs ~520ms for Jev." — [LinkedIn](https://www.linkedin.com/posts/guillaumelebedel_jevs-head-start-lasted-about-two-weeks-activity-7511590026103771136-gta9)
@@ -372,7 +371,6 @@ Jev got blanket YouTube coverage within days: at least 14 videos above 100k view
   - vamsi_bhavani: 27,371 plays — [Instagram](https://www.instagram.com/reel/DdoEiEqRZuT/)
   - aibutsimple: 12,643 — [Instagram](https://www.instagram.com/reel/Dd_kOLtjpmO/)
   - Bloomberg TV: 1,848 — [Instagram](https://www.instagram.com/reel/DdyPuFrjZ4B/)
-- My Instagram search for "Cloudflare Clef AI" returned no Clef-relevant reels. — [ScrapeCreators IG reels search](https://docs.scrapecreators.com/v2/instagram/reels/search)
 
 ### Inferences
 - There is a large creator gap. Jev's top 10 YouTube videos total about 5M views, while Clef's entire YouTube corpus is under 10k. No major tech or AI channel (Theo, Sam Witteveen, Two Minute Papers, IBM Technology, Fireship-style channels) had covered Clef by Oct 3.
@@ -384,6 +382,7 @@ Jev got blanket YouTube coverage within days: at least 14 videos above 100k view
 - I did not collect YouTube comment sections, so audience sentiment on the Clef videos is unknown.
 - The DGX Spark video's accuracy numbers come from its Japanese transcript, which I translated myself. The English subtitle track was not fetched.
 - I did not fetch TikTok and Instagram exact dates or comments.
+- My Instagram reels search for "Cloudflare Clef AI" returned no Clef-relevant reels, so Instagram coverage of Clef appears to be nil as of Oct 3.
 
 ## 5. Bluesky and Threads
 
