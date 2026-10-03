@@ -264,7 +264,9 @@ Price is **$0.042 per million input tokens, output free**, with documented limit
 ### Takeaway
 TypeSafe pitches Jev for classification, detection, scoring, routing, search, retrieval, ranking, verification, ML feature extraction and structured extraction. It backs this with about 20 cookbooks and four published "workflow evals": invoice processing, customer service, security incidents and agent-trace observability.
 
-On those evals Jev is **never the most accurate model**. It sits between 61.7% and 76.0% against frontier-LLM consensus labels, ranging from 3rd to 8th of 9 depending on the workflow. But it is **roughly 100–3,000x cheaper per case and about 20–480x faster**. That is exactly the Pareto-frontier argument TypeSafe makes. Cloudflare's Clef table reuses Jev's numbers from these datasets exactly.
+On those evals Jev is **never the most accurate model**. It sits between 61.7% and 76.0% against frontier-LLM consensus labels, ranging from 3rd to 8th of 9 depending on the workflow.
+
+But per case it is **about 7–570x cheaper** than the eight LLM configurations tested (GPT-5.6 Luna is the closest on cost), and **about 13–485x faster**. Against the strongest LLMs, GPT-5.6 Sol and Claude Opus 5, it is about **200–570x cheaper and 27–185x faster** (my calculations from the published per-case means). That is exactly the Pareto-frontier argument TypeSafe makes. Cloudflare's Clef table reuses Jev's numbers from these datasets exactly.
 
 Named public users and case studies include Vercel, Rox, a You.com research agent, a recruiting search reranker, Context, PageIndex and Agora voice. Diogo also claims a quarter of the Fortune 500 has been onboarded (unverified).
 
@@ -333,7 +335,7 @@ Named public users and case studies include Vercel, Rox, a You.com research agen
 
 ### Inferences
 - Cloudflare most likely reused TypeSafe's published Jev runs rather than re-running Jev. That is legitimate, since TypeSafe published them, but it means Clef and Jev scores may come from different harness runs or dates.
-- Honest framing for the video: Jev's pitch is intelligence per dollar and per millisecond, not top accuracy. In TypeSafe's own evals, frontier LLMs beat it by about 2–17 points, but each LLM decision costs 100x+ more and takes seconds instead of milliseconds.
+- Honest framing for the video: Jev's pitch is intelligence per dollar and per millisecond, not top accuracy. In TypeSafe's own evals, the best LLMs (GPT-5.6 Sol and Claude Opus 5) beat it by about 2–17 points. But they cost about 200–570x more per case and take about 27–185x longer: seconds to minutes per case, versus 0.26–0.50 s for Jev (my calculations from the published dataset.json means).
 
 ### Gaps
 - No formal, named "design partner" program or logo wall was found on typesafe.ai. Customer evidence is press quotes and X case studies.
@@ -430,7 +432,7 @@ In the 18 days after launch:
   - Cloudflare says Clef was trained on "our own internal synthetic datasets" — [Clef blog](https://blog.cloudflare.com/clef-decision-models/). There is no evidence or allegation of any terms issue; this is context only.
 
 ### Inferences
-- Diogo's Oct 1 post about enterprises not wanting benchmarks landed about 7–8 hours after Clef's benchmark-heavy launch blog. It reads as an implicit counter-positioning to benchmark-based comparisons (including Clef's), but it never names Cloudflare. Treat it as **possibly** a response.
+- Diogo's Oct 1 post about enterprises not wanting benchmarks (20:58 UTC) landed about 4.7 hours after the Clef blog was submitted to Hacker News. That submission was at 16:18 UTC, [HN item 49923692](https://news.ycombinator.com/item?id=49923692), 621 points. The post reads as an implicit counter-positioning to benchmark-based comparisons (including Clef's), but it never names Cloudflare. Treat it as **possibly** a response.
 - The Framer source of the homepage still contains a "TYPESAFE IS INVITE-ONLY AGAIN / Enter your email to join the waitlist" component — [typesafe.ai](https://typesafe.ai/). It was probably the banner shown during the Sep 22–27 pause; the live FAQ now says "Jev is now available to everyone."
 - Cloudflare went from distributor (Sep 17) to competitor with an API-compatible open-weights clone (Oct 1) in 14 days. That arc, plus the "fast followers adopt the Jev request format" trend (OpenAI, Perplexity, Databricks and others per X chatter), is the strongest narrative hook for the video. The landscape team holds the details.
 
