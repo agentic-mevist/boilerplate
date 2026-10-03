@@ -1,0 +1,117 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Gruffles Charts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root { --ink:#111111; --pink:#FF9ACB; --yellow:#FFE14D; --cyan:#5CE1E6; --coral:#FF5E5B; --mint:#7BF1A8; --lilac:#B79CFF; --cream:#FFF6D6; }
+* { box-sizing: border-box; margin: 0; }
+body { font-family: "Bricolage Grotesque", sans-serif; color: var(--ink); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 200 800;
+  src: url(../bar-race/engine/vendor/fonts/3y9H6as8bTXq_nANBjzKo3IeZx8z6up5BeSl5jBNz_19PpbpMXuECpwUxJBOm_OJWiawA1Xp.woff2) format('woff2'); }
+body { background: var(--pink); padding: 56px 16px 80px; }
+main { max-width: 1120px; margin: 0 auto; display: grid; gap: 36px; }
+.card { background: var(--cream); border: 5px solid var(--ink); border-radius: 28px; box-shadow: 9px 9px 0 var(--ink); padding: 36px; }
+h2 { font-size: 15px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 20px; }
+p, li { font-size: 19px; line-height: 1.45; }
+.hero { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
+.hero img.av { width: 220px; height: 220px; border-radius: 50%; border: 6px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
+.hero .logo { width: min(620px, 100%); }
+.hero > div { flex: 1 1 320px; }
+.hero p { font-size: 24px; font-weight: 600; margin-top: 18px; max-width: 640px; }
+table { border-collapse: collapse; width: 100%; font-size: 18px; }
+td { padding: 10px 12px; border-top: 2px solid rgba(17,17,17,.15); }
+td:first-child { font-weight: 800; white-space: nowrap; }
+.pill { display: inline-block; font-weight: 800; font-size: 14px; letter-spacing: .1em; padding: 4px 12px; border: 3px solid var(--ink); border-radius: 999px; background: var(--mint); }
+.grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid figure { margin: 0; }
+.grid img { width: 100%; border: 4px solid var(--ink); border-radius: 20px; box-shadow: 7px 7px 0 var(--ink); background: #fff; display: block; }
+figcaption { font-size: 15px; margin-top: 12px; font-weight: 600; }
+.logos { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.logos div { border: 4px solid var(--ink); border-radius: 20px; padding: 24px; display: flex; align-items: center; justify-content: center; min-height: 190px; }
+.logos img { max-width: 100%; max-height: 150px; }
+.sw { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+.sw div { border: 4px solid var(--ink); border-radius: 18px; height: 110px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: flex-end; font-weight: 800; font-size: 15px; box-shadow: 5px 5px 0 var(--ink); }
+.sw span { font-weight: 500; font-size: 13px; }
+.type .big { font-size: 64px; font-weight: 800; line-height: 1; letter-spacing: -.01em; }
+.type .mid { font-size: 28px; font-weight: 800; margin-top: 14px; }
+.type .small { font-size: 18px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #5C1F3E; margin-top: 10px; }
+.voice { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.voice ul { padding-left: 22px; }
+</style></head><body><main>
+
+<section class="card hero">
+  <img class="av" src="ai/avatar.png" alt="Gruffles avatar">
+  <div>
+    <img class="logo" src="logo/gruffles-charts-inline.svg" alt="Gruffles Charts">
+    <p>Data races, no fluff. Short, simple bar-chart races with real data and the story behind every overtake.</p>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Name &amp; handles</h2>
+  <table>
+    <tr><td>Channel name</td><td>Gruffles Charts</td></tr>
+    <tr><td>Handle (everywhere)</td><td>@grufflescharts &nbsp;<span class="pill">FREE ON YT · TIKTOK · IG · .COM</span></td></tr>
+    <tr><td>Backup handle</td><td>@thegruffles</td></tr>
+    <tr><td>Mascot</td><td>Gruffles, a scruffy terrier. "Gruff" is his bark, and "Gruffles" sounds like "graph".</td></tr>
+    <tr><td>Tagline</td><td>Data races, no fluff.</td></tr>
+    <tr><td>Series hook</td><td>Who's top dog? &nbsp;e.g. "Who's top dog: US baby names, 1880–2025"</td></tr>
+    <tr><td>Bio (short)</td><td>Bar-chart races with real data and the story behind every overtake. New race every week. 🐶📊</td></tr>
+  </table>
+</section>
+
+<section class="card">
+  <h2>Logos (SVG, text as outlines)</h2>
+  <div class="logos">
+    <div style="background:var(--pink)"><img src="logo/gruffles-charts-logo.svg" alt=""></div>
+    <div style="background:var(--pink)"><img src="logo/gruffles-charts-logo-sticker.svg" alt=""></div>
+    <div style="background:var(--ink)"><img src="logo/gruffles-charts-inline-white.svg" alt=""></div>
+    <div style="background:#fff"><img src="logo/gruffles-icon.svg" alt=""></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Gruffles the mascot (AI-generated)</h2>
+  <div class="grid">
+    <figure><img src="ai/avatar.png" alt=""><figcaption>Profile picture, all platforms</figcaption></figure>
+    <figure><img src="ai/bark.png" alt=""><figcaption>"Gruff!" New #1 / end-card reaction</figcaption></figure>
+    <figure><img src="ai/race_scene.png" alt=""><figcaption>Top dog on the leaderboard: thumbnails</figcaption></figure>
+    <figure><img src="ai/mascot_poses.png" alt=""><figcaption>Character sheet: point, gasp, trophy, peek</figcaption></figure>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Colors (from the race engine's pop skin)</h2>
+  <div class="sw">
+    <div style="background:var(--pink)">Pink<span>#FF9ACB · stage</span></div>
+    <div style="background:var(--yellow)">Yellow<span>#FFE14D · #1 / beard</span></div>
+    <div style="background:var(--cyan)">Cyan<span>#5CE1E6</span></div>
+    <div style="background:var(--coral)">Coral<span>#FF5E5B · tags</span></div>
+    <div style="background:var(--mint)">Mint<span>#7BF1A8</span></div>
+    <div style="background:var(--lilac)">Lilac<span>#B79CFF · brows</span></div>
+    <div style="background:var(--ink);color:#fff">Ink<span>#111111 · outlines</span></div>
+  </div>
+  <p style="margin-top:20px">Rules: thick ink outlines, flat fills, hard offset shadows, pill shapes. No gradients or glow.</p>
+</section>
+
+<section class="card type">
+  <h2>Type: Bricolage Grotesque</h2>
+  <div class="big">Who's top dog?</div>
+  <div class="mid">Top Baby Girl Names in the USA</div>
+  <div class="small">Reigning #1 · ExtraBold 800 / SemiBold 600</div>
+</section>
+
+<section class="card voice">
+  <div><h2>Voice</h2><ul>
+    <li>Curious, playful, never clickbait.</li>
+    <li>One chart, one story. Every overtake gets a "why".</li>
+    <li>Cite the source on screen, every time.</li>
+    <li>Gruffles reacts, he doesn't narrate. A bark, a gasp, a trophy.</li>
+  </ul></div>
+  <div><h2>Next races</h2><ul>
+    <li>Who's top dog: US baby names (boys)</li>
+    <li>Richest person in the world</li>
+    <li>Best-selling car</li>
+    <li>Most popular phone brand</li>
+  </ul></div>
+</section>
+
+</main></body></html>

@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="brand.css">
+<style>
+body { width: 2560px; height: 1440px; overflow: hidden; }
+.wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 70px; }
+.dog { width: 380px; height: 380px; border-radius: 50%; overflow: hidden; background: var(--pink); }
+.dog img { width: 100%; height: 100%; object-fit: cover; }
+.logo { height: 170px; display: block; }
+.tag { font-size: 52px; font-weight: 700; margin-top: 26px; letter-spacing: -0.01em; }
+.tag b { font-weight: 800; background: var(--yellow); padding: 2px 18px; border: 5px solid var(--ink); border-radius: 999px; box-shadow: 6px 6px 0 var(--ink); }
+.bars { position: absolute; display: flex; flex-direction: column; gap: 26px; }
+.bars i { display: block; height: 60px; border-radius: 999px; border: 6px solid var(--ink); box-shadow: 9px 9px 0 var(--ink); }
+</style></head><body class="dots">
+<div class="bars" style="left:-60px; top:220px"><i style="width:420px;background:var(--yellow)"></i><i style="width:320px;background:var(--cyan)"></i><i style="width:230px;background:var(--mint)"></i></div>
+<div class="bars" style="right:-60px; bottom:220px; align-items:flex-end"><i style="width:230px;background:var(--lilac)"></i><i style="width:320px;background:var(--coral)"></i><i style="width:420px;background:var(--yellow)"></i></div>
+<div class="wrap">
+  <div class="dog sticker"><img src="../ai/avatar.png"></div>
+  <div><img class="logo" src="../logo/gruffles-charts-inline.svg"><div class="tag">Data races, no fluff. <b>Who’s top dog?</b></div></div>
+</div></body></html>
