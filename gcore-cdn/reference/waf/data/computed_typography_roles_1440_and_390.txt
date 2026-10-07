@@ -1,0 +1,139 @@
+===== DESKTOP 1440 (family | weight | size | line-height | letter-spacing | transform | color) count | tag section | class | sample
+Montserrat | 900 | 150px | 165px | -2px | none | rgba(0, 0, 0, 0) | 3 | p gc-preset-steps-flow-v2 | gc-pb-steps-v2-number gc-text_brand-gradient | 01 [brand-gradient text]
+Montserrat | 800 | 88px | 105.6px | -0.1px | none | rgb(255, 255, 255) | 1 | span gc-preset-storage-pricing | gc-pb-sp-price gc-pb-sp-price--gradient | 25€ [brand-gradient text]
+Montserrat | 800 | 88px | 105.6px | -0.1px | none | rgb(21, 12, 24) | 1 | span gc-preset-storage-pricing | gc-pb-sp-price | 125€
+Montserrat | 900 | 72px | 86.4px | -0.1px | uppercase | rgb(21, 12, 24) | 1 | div gc-preset-storage-pricing | gc-pb-sp-price gc-pb-sp-price--basic | FREE
+Montserrat | 700 | 52px | 62.4px | normal | none | rgb(21, 12, 24) | 1 | h1 gc-hero-split-new-section | gc-display_inline gc-text_primary gc-text-h2 | before they reach your stack
+Montserrat | 700 | 52px | 62.4px | normal | none | rgb(91, 84, 95) | 1 | span gc-hero-split-new-section |  | Stop threats [brand-gradient text]
+Montserrat | 700 | 48px | 52.8px | -2px | none | rgb(255, 255, 255) | 1 | h2 gc-preset-stats-dark-band | gc-section-title_lg gc-stats-dark-band__title | Ready for defense.
+Montserrat | 700 | 48px | 52.8px | -2px | none | rgb(255, 76, 0) | 1 | font gc-preset-stats-dark-band |  | Built for delivery.
+Montserrat | 700 | 48px | 56px | -2px | none | rgb(21, 12, 24) | 1 | h2 section | gc-section-title_lg gc-text_primary | Trust needs
+Montserrat | 700 | 48px | 56px | -2px | none | rgb(255, 76, 0) | 1 | font section |  | more than a promise
+Montserrat | 700 | 48px | 57.6px | normal | none | rgb(255, 255, 255) | 1 | span gc-preset-bottom-cta |  | they can't build themselves
+Montserrat | 700 | 46px | 55.2px | normal | none | rgb(21, 12, 24) | 8 | h2 cdn-features-badge-section | cdn-features-badge-section__headline gc-text-h2 | Multiple layers of protection. Packaged into
+Montserrat | 700 | 46px | 55.2px | normal | none | rgb(255, 76, 0) | 6 | span cdn-features-badge-section | cdn-features-badge-section__headline-accent | one platform.
+Montserrat | 800 | 46px | 50.6px | -0.92px | none | rgb(255, 255, 255) | 4 | p gc-preset-stats-dark-band | gc-stats-dark-band__num | 210
+Montserrat | 700 | 46px | 55.2px | normal | none | rgb(255, 255, 255) | 2 | h2 gc-preset-bottom-cta | gc-text-h2 gc-pb-bcta-title | Give your apps thee
+Montserrat | 700 | 26px | 40.3px | -0.2px | none | rgb(255, 255, 255) | 1 | h4 gc-preset-storage-pricing | gc-pb-sp-ent-title | Enterprise protection for critical infrastructure
+Montserrat | 800 | 24px | 38.4px | -0.48px | none | rgb(255, 76, 0) | 4 | span gc-preset-stats-dark-band | gc-stats-dark-band__num-suffix | +
+Montserrat | 700 | 22px | 26.4px | normal | none | rgb(21, 12, 24) | 13 | h3 cdn-features-badge-section | gc-pb-feature-card__title gc-text-h4 | Stop attacks before they land
+Montserrat | 500 | 22px | normal | -1.5px | none | rgb(244, 243, 242) | 1 | span gc-preset-storage-pricing | gc-pb-sp-unit | /mo
+Montserrat | 500 | 22px | normal | -1.5px | none | rgb(91, 84, 95) | 1 | span gc-preset-storage-pricing | gc-pb-sp-unit | /mo
+Montserrat | 400 | 18px | 28.8px | normal | none | rgb(91, 84, 95) | 1 | p gc-hero-split-new-section | gc-text-big gc-text_supporting gc-mt_4 | Stay online, reduce abuse, and keep critical journ
+Montserrat | 400 | 18px | 28.8px | -0.75px | none | rgb(91, 84, 95) | 1 | span gc-preset-steps-flow-v2 |  | Keep trusted traffic moving and malicious traffic 
+Montserrat | 700 | 18px | 22.5px | normal | none | rgb(21, 12, 24) | 3 | h3 gc-preset-steps-flow-v2 | gc-text-h5 gc-pb-steps-v2-title | Send traffic the safer way
+Montserrat | 450 | 18px | 28px | -0.75px | none | rgb(91, 84, 95) | 1 | p section | gc-paragraph_lg gc-text_secondary gc-mt_4 | Do not bet critical traffic on a claim. Choose wit
+Montserrat | 500 | 18px | 25.2px | -0.18px | none | rgb(21, 12, 24) | 14 | li gc-preset-storage-pricing | gc-pb-sp-feature | 1 domain
+Montserrat | 500 | 18px | 25.2px | -0.18px | none | rgb(255, 255, 255) | 6 | li gc-preset-storage-pricing | gc-pb-sp-feature | 5 domains
+Montserrat | 650 | 18px | 22.5px | normal | none | rgb(255, 76, 0) | 1 | a gc-preset-storage-pricing | gc-btn gc-btn_inverted gc-btn_pad-wide gc-pb-sp-ent-cta | Talk to an expert
+Montserrat | 400 | 16px | 25.6px | -0.32px | none | rgb(91, 84, 95) | 6 | p cdn-features-badge-section | cdn-features-badge-section__subtitle gc-text-medium gc-text_ | Stop managing five tools to do one job. Get your w
+Montserrat | 700 | 16px | 24px | normal | none | rgb(21, 12, 24) | 1 | span gc-preset-pain | gc-text-h5 | Strong protection should make your team more confi
+Montserrat | 500 | 16px | normal | normal | none | rgb(255, 255, 255) | 1 | p gc-preset-stats-dark-band | gc-stats-dark-band__desc | Keep your traffic fast, your origin protected, and
+Montserrat | 400 | 16px | 25.6px | -0.32px | none | rgb(231, 228, 224) | 5 | p gc-preset-stats-dark-band | gc-stats-dark-band__label | Edge PoPs worldwide
+-apple-system | 500 | 16px | normal | normal | none | rgb(23, 43, 77) | 1 | span section |  | Best Network Edge Protection
+Montserrat | 500 | 16px | 25.6px | -0.32px | none | rgb(231, 228, 224) | 1 | p gc-preset-storage-pricing | gc-pb-sp-ent-desc | Bring your security requirements and get a shaped 
+Montserrat | 700 | 16px | 25.6px | -0.32px | none | rgb(231, 228, 224) | 1 | b gc-preset-storage-pricing |  | WAAP solution
+Montserrat | 700 | 16px | 25.6px | -0.32px | none | rgb(255, 255, 255) | 2 | a gc-preset-bottom-cta | gc-btn gc-btn_gradient gc-btn_pad-xl gc-pb-bcta-primary | Talk to an expert
+Montserrat | 700 | 16px | 25.6px | -0.32px | none | rgb(91, 84, 95) | 1 | b faq2-section |  | Gcore WAF security
+Montserrat | 700 | 16px | 25.6px | -0.32px | none | rgb(21, 12, 24) | 8 | span faq2-section |  | What is WAAP solution?
+Montserrat | 800 | 16px | 16px | -0.32px | none | rgb(255, 255, 255) | 2 | span faq2-section | faq2-ic | +
+Montserrat | 800 | 16px | 16px | -0.32px | none | rgb(91, 84, 95) | 6 | span faq2-section | faq2-ic | +
+Montserrat | 500 | 14px | 19.6px | -0.25px | none | rgb(0, 0, 0) | 4 | button div | gc-menu-entry__label gc-dropdown-entry gc-flex gc-flex_align | Products
+Montserrat | 500 | 14px | 19.6px | -0.25px | none | rgb(21, 12, 24) | 2 | a div | gc-menu-entry__label gc-text_primary gc-menu-entry__label--l | Network
+Montserrat | 550 | 14px | 24px | -0.25px | none | rgb(21, 12, 24) | 1 | span div | gc-paragraph_bold gc-label_sm | Contact us
+Montserrat | 550 | 14px | 24px | -0.25px | none | rgb(255, 255, 255) | 1 | span div | gc-paragraph_bold gc-text_action-static gc-label_sm | Sign up for free
+Montserrat | 700 | 14px | 19.6px | normal | none | rgb(255, 255, 255) | 1 | a gc-hero-split-new-section | gc-btn gc-btn_gradient gc-text-h6 | Talk to an expert
+Montserrat | 700 | 14px | 19.6px | normal | none | rgba(255, 255, 255, 0.1) | 1 | span gc-hero-split-new-section |  | Start for FREE
+Montserrat | 400 | 14px | 21.7px | -0.28px | none | rgb(91, 84, 95) | 21 | span cdn-features-badge-section |  | Keep malicious requests from reaching your applica
+Montserrat | 600 | 14px | 19.6px | -0.24px | none | rgb(0, 0, 0) | 4 | span gc-preset-steps-flow-v2 | gc-pb-workflow-check__text gc-text-h7 | Dashboard, API & SDK access
+Montserrat | 700 | 14px | 21.7px | -0.28px | none | rgb(91, 84, 95) | 5 | b gc-preset-pain |  | API Security
+-apple-system | 400 | 14px | 21.7px | normal | none | rgb(23, 43, 77) | 4 | span section |  | Cloud WAAP V5.0
+-apple-system | 700 | 14px | 17.5px | normal | none | rgb(23, 43, 77) | 1 | span section |  | Sequre IQ Lab – Visioner
+-apple-system | 900 | 14px | 17.5px | normal | none | rgb(23, 43, 77) | 5 | b section |  | Cyber Defence Awards – Finalist
+-apple-system | 400 | 14px | 21.7px | normal | none | rgb(21, 12, 24) | 1 | span section |  | Top InfoSec Innovator Awards
+Montserrat | 400 | 14px | 21.7px | -0.28px | none | rgb(244, 243, 242) | 1 | p gc-preset-bottom-cta | gc-pb-bcta-note gc-text-small | No credit card needed · Start in 2 minutes
+Montserrat | 500 | 13.5px | 20.25px | normal | none | rgb(91, 84, 95) | 3 | p gc-preset-steps-flow-v2 | gc-pb-steps-v2-desc | Point your domain to Gcore and route requests thro
+Montserrat | 700 | 13.5px | 20.25px | normal | none | rgb(91, 84, 95) | 2 | b gc-preset-steps-flow-v2 |  | managed WAF
+Montserrat | 600 | 13px | 15.6px | normal | none | rgb(91, 84, 95) | 3 | span gc-hero-split-new-section | gc-pb-hero-trust-text | No credit card needed
+Montserrat | 700 | 13px | normal | -0.1px | none | rgb(21, 12, 24) | 2 | span gc-preset-storage-pricing | gc-pb-sp-pill | BASIC
+Montserrat | 700 | 13px | normal | -0.1px | none | rgb(255, 255, 255) | 1 | span gc-preset-storage-pricing | gc-pb-sp-pill | START
+Montserrat | 500 | 12px | 20px | normal | none | rgb(21, 12, 24) | 3 | span gcore-top-bar | gc-label gc-label_xs | Protect your server from targeted attacks and setu
+Montserrat | 550 | 12px | 20px | normal | none | rgb(64, 56, 66) | 37 | span gcore-top-bar | gc-text_action-tertiary gc-text-vertical_center gc-label_xs | EN
+Montserrat | 400 | 12px | 14.4px | normal | none | rgb(255, 76, 0) | 1 | span gc-hero-split-new-section |  | Web Application Firewall (WAF) and API Security
+Montserrat | 700 | 12px | 19.2px | normal | none | rgb(91, 84, 95) | 1 | span gc-hero-split-new-section | gc-pb-sponsors-eyebrow gc-text-h7 | PROTECTING TEAMS AT
+Montserrat | 700 | 12px | 16.8px | normal | uppercase | rgb(255, 255, 255) | 4 | span cdn-features-badge-section | gc-pb-feature-card__badge gc-text-h6 | WAF
+Montserrat | 700 | 12px | 18.6px | -0.24px | none | rgb(91, 84, 95) | 30 | span cdn-features-badge-section |  | OWASP Top 10
+Montserrat | 700 | 12px | 13.8px | 0.24px | uppercase | rgb(255, 76, 0) | 3 | div gc-preset-pain | gc-pb-pain-tag | — Setup
+Montserrat | 700 | 12px | 19.2px | normal | uppercase | rgba(0, 0, 0, 0) | 6 | div gc-preset-use-cases | gc-text-h7 gc-text_brand-gradient gc-pb-uc-industry | Technology & SaaS [brand-gradient text]
+Montserrat | 700 | 12px | 18.6px | -0.24px | uppercase | rgb(255, 76, 0) | 2 | span faq2-section |  | Setup & Operations
+Montserrat | 450 | 12px | 22px | normal | none | rgb(154, 147, 159) | 8 | div footer | gc-text_tertiary gc-paragraph gc-paragraph_sm gc-mx_0 gc-my_ | Products
+Montserrat | 800 | 10.5px | 10.5px | 1.2px | uppercase | rgb(255, 255, 255) | 3 | span gc-preset-steps-flow-v2 | gc-pb-steps-v2-tag | CONNECT
+
+===== MOBILE 390 (family | weight | size | line-height | letter-spacing | transform | color) count | tag section | class | sample
+Montserrat | 800 | 75px | 93.75px | -2px | none | rgba(0, 0, 0, 0) | 3 | p gc-preset-steps-flow-v2 | gc-pb-steps-v2-number gc-text_brand-gradient | 01 [brand-gradient text]
+Montserrat | 900 | 55px | 66px | -0.1px | uppercase | rgb(21, 12, 24) | 1 | div gc-preset-storage-pricing | gc-pb-sp-price gc-pb-sp-price--basic | FREE
+Montserrat | 800 | 55px | 66px | -0.1px | none | rgb(255, 255, 255) | 1 | span gc-preset-storage-pricing | gc-pb-sp-price gc-pb-sp-price--gradient | 25€ [brand-gradient text]
+Montserrat | 800 | 55px | 66px | -0.1px | none | rgb(21, 12, 24) | 1 | span gc-preset-storage-pricing | gc-pb-sp-price | 125€
+Montserrat | 700 | 52px | 57.2px | normal | none | rgb(21, 12, 24) | 1 | h1 gc-hero-split-new-section | gc-display_inline gc-text_primary gc-text-h2 | before they reach your stack
+Montserrat | 700 | 52px | 57.2px | normal | none | rgb(91, 84, 95) | 1 | span gc-hero-split-new-section |  | Stop threats [brand-gradient text]
+Montserrat | 700 | 48px | 52.8px | normal | none | rgb(255, 255, 255) | 1 | span gc-preset-bottom-cta |  | they can't build themselves
+Montserrat | 700 | 38px | 41.8px | normal | none | rgb(21, 12, 24) | 7 | h2 cdn-features-badge-section | cdn-features-badge-section__headline gc-text-h2 | Multiple layers of protection. Packaged into
+Montserrat | 700 | 38px | 41.8px | normal | none | rgb(255, 76, 0) | 7 | span cdn-features-badge-section | cdn-features-badge-section__headline-accent | one platform.
+Montserrat | 700 | 38px | 41.8px | normal | none | rgb(255, 255, 255) | 2 | h2 gc-preset-bottom-cta | gc-text-h2 gc-pb-bcta-title | Give your apps thee
+Montserrat | 800 | 32px | 35.2px | -0.64px | none | rgb(255, 255, 255) | 4 | p gc-preset-stats-dark-band | gc-stats-dark-band__num | 210
+Montserrat | 700 | 30px | 33px | -1px | none | rgb(255, 255, 255) | 1 | h2 gc-preset-stats-dark-band | gc-section-title_lg gc-stats-dark-band__title | Ready for defense.
+Montserrat | 700 | 30px | 33px | -1px | none | rgb(255, 76, 0) | 1 | font gc-preset-stats-dark-band |  | Built for delivery.
+Montserrat | 700 | 30px | 38px | -1px | none | rgb(21, 12, 24) | 1 | h2 section | gc-section-title_lg gc-text_primary | Trust needs
+Montserrat | 700 | 30px | 38px | -1px | none | rgb(255, 76, 0) | 1 | font section |  | more than a promise
+Montserrat | 500 | 22px | normal | -1.5px | none | rgb(244, 243, 242) | 1 | span gc-preset-storage-pricing | gc-pb-sp-unit | /mo
+Montserrat | 500 | 22px | normal | -1.5px | none | rgb(91, 84, 95) | 1 | span gc-preset-storage-pricing | gc-pb-sp-unit | /mo
+Montserrat | 700 | 20px | 31px | -0.2px | none | rgb(255, 255, 255) | 1 | h4 gc-preset-storage-pricing | gc-pb-sp-ent-title | Enterprise protection for critical infrastructure
+Montserrat | 700 | 18px | 21.6px | normal | none | rgb(21, 12, 24) | 13 | h3 cdn-features-badge-section | gc-pb-feature-card__title gc-text-h4 | Stop attacks before they land
+Montserrat | 400 | 18px | 27.9px | -0.75px | none | rgb(91, 84, 95) | 1 | span gc-preset-steps-flow-v2 |  | Keep trusted traffic moving and malicious traffic 
+Montserrat | 700 | 18px | 22.5px | normal | none | rgb(21, 12, 24) | 3 | h3 gc-preset-steps-flow-v2 | gc-text-h5 gc-pb-steps-v2-title | Send traffic the safer way
+Montserrat | 800 | 18px | 28.8px | -0.36px | none | rgb(255, 76, 0) | 4 | span gc-preset-stats-dark-band | gc-stats-dark-band__num-suffix | +
+Montserrat | 450 | 18px | 28px | -0.75px | none | rgb(91, 84, 95) | 1 | p section | gc-paragraph_lg gc-text_secondary gc-mt_4 | Do not bet critical traffic on a claim. Choose wit
+Montserrat | 400 | 16px | 25.6px | -0.32px | none | rgb(91, 84, 95) | 1 | p gc-hero-split-new-section | gc-text-big gc-text_supporting gc-mt_4 | Stay online, reduce abuse, and keep critical journ
+Montserrat | 700 | 16px | 24px | normal | none | rgb(21, 12, 24) | 1 | span gc-preset-pain | gc-text-h5 | Strong protection should make your team more confi
+-apple-system | 500 | 16px | normal | normal | none | rgb(23, 43, 77) | 1 | span section |  | Best Network Edge Protection
+Montserrat | 700 | 16px | 25.6px | -0.32px | none | rgb(21, 12, 24) | 2 | span faq2-section |  | What is WAAP solution?
+Montserrat | 800 | 16px | 16px | -0.32px | none | rgb(255, 255, 255) | 2 | span faq2-section | faq2-ic | +
+Montserrat | 800 | 16px | 16px | -0.28px | none | rgb(91, 84, 95) | 6 | span faq2-section | faq2-ic | +
+Montserrat | 700 | 14px | 19.6px | normal | none | rgb(255, 255, 255) | 1 | a gc-hero-split-new-section | gc-btn gc-btn_gradient gc-text-h6 | Talk to an expert
+Montserrat | 700 | 14px | 19.6px | normal | none | rgba(255, 255, 255, 0.1) | 1 | span gc-hero-split-new-section |  | Start for FREE
+Montserrat | 400 | 14px | 21.7px | -0.28px | none | rgb(91, 84, 95) | 19 | p cdn-features-badge-section | cdn-features-badge-section__subtitle gc-text-medium gc-text_ | Stop managing five tools to do one job. Get your w
+Montserrat | 700 | 14px | 21.7px | -0.28px | none | rgb(91, 84, 95) | 2 | b gc-preset-pain |  | API Security
+Montserrat | 500 | 14px | 21.7px | -0.28px | none | rgb(255, 255, 255) | 7 | p gc-preset-stats-dark-band | gc-stats-dark-band__desc | Keep your traffic fast, your origin protected, and
+-apple-system | 400 | 14px | 21.7px | normal | none | rgb(23, 43, 77) | 4 | span section |  | Cloud WAAP V5.0
+-apple-system | 700 | 14px | 17.5px | normal | none | rgb(23, 43, 77) | 1 | span section |  | Sequre IQ Lab – Visioner
+-apple-system | 900 | 14px | 17.5px | normal | none | rgb(23, 43, 77) | 5 | b section |  | Cyber Defence Awards – Finalist
+-apple-system | 400 | 14px | 21.7px | normal | none | rgb(21, 12, 24) | 1 | span section |  | Top InfoSec Innovator Awards
+Montserrat | 500 | 14px | 21.7px | -0.28px | none | rgb(21, 12, 24) | 14 | li gc-preset-storage-pricing | gc-pb-sp-feature | 1 domain
+Montserrat | 500 | 14px | 21.7px | -0.28px | none | rgb(231, 228, 224) | 1 | p gc-preset-storage-pricing | gc-pb-sp-ent-desc | Bring your security requirements and get a shaped 
+Montserrat | 700 | 14px | 21.7px | -0.28px | none | rgb(231, 228, 224) | 1 | b gc-preset-storage-pricing |  | WAAP solution
+Montserrat | 650 | 14px | 17.5px | normal | none | rgb(255, 76, 0) | 1 | a gc-preset-storage-pricing | gc-btn gc-btn_inverted gc-btn_pad-wide gc-pb-sp-ent-cta | Talk to an expert
+Montserrat | 400 | 14px | 21.7px | -0.28px | none | rgb(231, 228, 224) | 1 | p gc-preset-bottom-cta | gc-pb-bcta-sub gc-text-medium | Give users the speed and stability they expect fro
+Montserrat | 700 | 14px | 21.7px | -0.28px | none | rgb(21, 12, 24) | 6 | span faq2-section |  | How does WAAP help organizations comply with regul
+Montserrat | 500 | 13.5px | 20.25px | normal | none | rgb(91, 84, 95) | 3 | p gc-preset-steps-flow-v2 | gc-pb-steps-v2-desc | Point your domain to Gcore and route requests thro
+Montserrat | 700 | 13.5px | 20.25px | normal | none | rgb(91, 84, 95) | 2 | b gc-preset-steps-flow-v2 |  | managed WAF
+Montserrat | 600 | 13px | 15.6px | normal | none | rgb(91, 84, 95) | 3 | span gc-hero-split-new-section | gc-pb-hero-trust-text | No credit card needed
+Montserrat | 500 | 12px | 20px | normal | none | rgb(21, 12, 24) | 1 | span gcore-top-bar | gc-label gc-label_xs | Under attack?
+Montserrat | 550 | 12px | 20px | normal | none | rgb(64, 56, 66) | 37 | span gcore-top-bar | gc-text_action-tertiary gc-text-vertical_center gc-label_xs | EN
+Montserrat | 400 | 12px | 14.4px | normal | none | rgb(255, 76, 0) | 1 | span gc-hero-split-new-section |  | Web Application Firewall (WAF) and API Security
+Montserrat | 700 | 12px | 19.2px | normal | none | rgb(91, 84, 95) | 1 | span gc-hero-split-new-section | gc-pb-sponsors-eyebrow gc-text-h7 | PROTECTING TEAMS AT
+Montserrat | 700 | 12px | 16.8px | normal | uppercase | rgb(255, 255, 255) | 4 | span cdn-features-badge-section | gc-pb-feature-card__badge gc-text-h6 | WAF
+Montserrat | 700 | 12px | 18.6px | -0.24px | none | rgb(91, 84, 95) | 16 | span cdn-features-badge-section |  | OWASP Top 10
+Montserrat | 700 | 12px | 19.2px | normal | none | rgb(0, 0, 0) | 4 | span gc-preset-steps-flow-v2 | gc-pb-workflow-check__text gc-text-h7 | Dashboard, API & SDK access
+Montserrat | 700 | 12px | 13.8px | 0.24px | uppercase | rgb(255, 76, 0) | 3 | div gc-preset-pain | gc-pb-pain-tag | — Setup
+Montserrat | 700 | 12px | 19.2px | normal | uppercase | rgba(0, 0, 0, 0) | 6 | div gc-preset-use-cases | gc-text-h7 gc-text_brand-gradient gc-pb-uc-industry | Technology & SaaS [brand-gradient text]
+Montserrat | 700 | 12px | 19.2px | -0.32px | none | rgb(255, 255, 255) | 2 | a gc-preset-bottom-cta | gc-btn gc-btn_gradient gc-btn_pad-xl gc-pb-bcta-primary | Talk to an expert
+Montserrat | 400 | 12px | 18.6px | -0.24px | none | rgb(244, 243, 242) | 1 | p gc-preset-bottom-cta | gc-pb-bcta-note gc-text-small | No credit card needed · Start in 2 minutes
+Montserrat | 700 | 12px | 18.6px | -0.24px | uppercase | rgb(255, 76, 0) | 2 | span faq2-section |  | Setup & Operations
+Montserrat | 400 | 12px | 18.6px | -0.24px | none | rgb(91, 84, 95) | 8 | div faq2-section | faq2-body-inner gc-text-small | protects websites, web applications and APIs from 
+Montserrat | 450 | 12px | 22px | normal | none | rgb(154, 147, 159) | 8 | div footer | gc-text_tertiary gc-paragraph gc-paragraph_sm gc-mx_0 gc-my_ | Products
+Montserrat | 800 | 10.5px | 10.5px | 1.2px | uppercase | rgb(255, 255, 255) | 3 | span gc-preset-steps-flow-v2 | gc-pb-steps-v2-tag | CONNECT
+Montserrat | 400 | 10px | 16px | -0.2px | none | rgb(231, 228, 224) | 4 | p gc-preset-stats-dark-band | gc-stats-dark-band__label | Edge PoPs worldwide
+Montserrat | 700 | 10px | 15.5px | -0.24px | none | rgb(91, 84, 95) | 18 | span gc-preset-use-cases |  | API Discovery
+Montserrat | 700 | 10px | normal | -0.1px | none | rgb(21, 12, 24) | 2 | span gc-preset-storage-pricing | gc-pb-sp-pill | BASIC
+Montserrat | 700 | 10px | normal | -0.1px | none | rgb(255, 255, 255) | 1 | span gc-preset-storage-pricing | gc-pb-sp-pill | START
+

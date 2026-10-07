@@ -4,40 +4,40 @@
 # *word* gets the orange highlight box in the captions.
 
 ## hook | -
-How does a website from the other side of the planet open [blink]in the blink of an eye?
+When you open a website, you're almost never talking to [itself]the website *itself*. So who is [who]answering?
 
 ## distance | distance
-Let's start with something strange: [strange]when you open a website, you're usually not talking to that website at all. Here's why. Say an online store keeps its server in [fra]Frankfurt, and you're in [syd]Sydney. That's [km]sixteen and a half thousand kilometers away.
+Let's follow one click. An online store keeps its server in [sj]San Jose, California. You're in [fra]Frankfurt. That's [km]more than nine thousand kilometers away.
 
 ## light | light
-Data runs through fiber-optic cable at about [speed]two hundred thousand kilometers per second. Sounds instant. But cables [curvy]don't run in straight lines, so a trip to Frankfurt [rtt]and back takes about a quarter of a second.
+Data races through fiber-optic cable at about [speed]two hundred thousand kilometers per second. Sounds instant. But cables [curvy]don't run in straight lines, so a trip to California [rtt]and back takes about a hundred and fifty milliseconds.
 
 ## handshake | handshake
-And one trip is never enough. First, your browser and the server [hs]shake hands: [tcp]open a connection, [tls]agree on encryption, then [get]ask for the page. Three, four round trips, and that's [blank]almost a *second* of blank screen.
+And one trip is never enough. First, your browser and the server [hs]shake hands: [tcp]open a connection, [tls]agree on encryption, then [get]ask for the page. Three or four round trips, and that's [blank]over half a *second* of blank screen.
 
 ## patience | patience
 And people don't wait. Google found that [g53]more than half of mobile visitors leave if a page takes longer than [s3]three seconds. And Amazon calculated that [amz]every extra hundred milliseconds cost them [pct1]one percent of sales.
 
 ## edge | edge
-Light won't go any faster. So you move the website [closer]closer. That's what a *CDN* does: a content delivery network. Gcore has [pops]more than two hundred and ten points of presence on [six]six continents, each keeping copies of websites right next to their users. For you in Sydney, the store is now [near]just a few kilometers away.
+Light can't go any faster. So you move the website [closer]closer. That's what a *CDN* does: a content delivery network. Gcore has [pops]more than two hundred and ten points of presence on [six]six continents, each keeping copies of websites right next to their users. For you in Frankfurt, the store is now [near]just a few kilometers away.
 
 ## routing | routing
 But how does your browser find the nearest one? [same]Every point of presence answers to the same address, and the internet's routing simply [door]sends you to the closest door. That's called [anycast]*anycast*.
 
 ## cache | cache
-The first visitor in Sydney gets a [miss]*miss*: the edge fetches the page from Frankfurt once, [keep]and keeps it. Everyone after that gets a [hit]*hit*, straight from next door. On average, Gcore answers [p85]eighty-five percent of requests without even bothering the original server.
+The first visitor in Frankfurt gets a [miss]*miss*: the edge fetches the page from California once, [keep]and keeps it. Everyone after that gets a [hit]*hit*, straight from next door. On average, Gcore answers [p85]eighty-five percent of requests without even bothering the original server.
 
 ## weight | weight
 On the way, the edge also puts the site [diet]on a diet. Photos get converted to [webp]WebP and AVIF, [lighter]up to eighty-five percent lighter. Fewer bytes, [less]less waiting.
 
 ## rush | rush
-Now the real test. A big game update drops, and [million]millions of players hit download in the same minute. [melt]One server would *melt*. A CDN [split]splits the crowd across hundreds of locations, and each one serves its own neighborhood. Gcore actually [grew]grew up on this: it started out building infrastructure for online games.
+Now the real test. A big game update drops, and [million]millions of players hit download in the same minute. [melt]One server would *melt*. A CDN [split]splits the crowd across hundreds of locations, and each one serves its own neighborhood. Gcore grew up on exactly this. In fact, [g]the G in Gcore originally stood for [gaming]*gaming*.
 
 ## shield | shield
 Same trick against attackers. In twenty twenty-five, a botnet hit a gaming host protected by Gcore with [t6]*six terabits* per second. [bpps]Over five billion packets, every second. Spread across [t200]two hundred terabits of capacity, the flood was [absorb]absorbed, and the service kept running.
 
 ## result | result
-So, without a CDN: [slow]a quarter of a second, every round trip. With Gcore: [fast]about *thirty* milliseconds on average. That's the difference between a blank screen and a page that's just [there]there.
+So, without a CDN: [slow]about a hundred and fifty milliseconds, every round trip. With Gcore: [fast]about *thirty* milliseconds on average. That's the difference between a blank screen and a page that's just [there]there.
 
 ## outro | -
 Follow [follow]*Gcore*, and we'll break down more of the tech you use every day.

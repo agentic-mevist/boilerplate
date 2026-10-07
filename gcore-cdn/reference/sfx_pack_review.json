@@ -1,0 +1,45 @@
+```json
+{
+  "ratings": {
+    "chime_0": {"soft": 4, "pleasant": 5, "fit": 6, "desc": "Bright synthetic chime, slightly high pitched."},
+    "chime_1": {"soft": 9, "pleasant": 9, "fit": 9, "desc": "Warm wooden soft marimba like chime."},
+    "chime_2": {"soft": 2, "pleasant": 3, "fit": 4, "desc": "Very high pitched sharp bell sound."},
+    "down_0": {"soft": 5, "pleasant": 5, "fit": 6, "desc": "Buzzy descending synth tone, slightly harsh."},
+    "down_1": {"soft": 9, "pleasant": 9, "fit": 9, "desc": "Smooth muted gentle descending sine wave."},
+    "down_2": {"soft": 4, "pleasant": 4, "fit": 5, "desc": "Descending tone with noticeable digital noise."},
+    "draw_0": {"soft": 3, "pleasant": 4, "fit": 5, "desc": "Scratchy harsh marker drawing sound effect."},
+    "draw_1": {"soft": 7, "pleasant": 7, "fit": 8, "desc": "Smoother less scratchy pencil drawing sound."},
+    "draw_2": {"soft": 2, "pleasant": 2, "fit": 3, "desc": "Loud abrasive high frequency scribbling sound."},
+    "pop_0": {"soft": 5, "pleasant": 6, "fit": 7, "desc": "Standard mouth pop, slightly sharp transient."},
+    "pop_1": {"soft": 9, "pleasant": 9, "fit": 9, "desc": "Muted low frequency gentle bubble pop."},
+    "pop_2": {"soft": 3, "pleasant": 4, "fit": 5, "desc": "High pitched clicky slightly sharp pop."},
+    "rumble_0": {"soft": 9, "pleasant": 8, "fit": 9, "desc": "Deep smooth gentle low frequency rumble."},
+    "rumble_1": {"soft": 4, "pleasant": 4, "fit": 5, "desc": "Low rumble with noticeable distortion clipping."},
+    "rumble_2": {"soft": 3, "pleasant": 3, "fit": 4, "desc": "Loud aggressive earthquake like heavy rumble."},
+    "stamp_0": {"soft": 3, "pleasant": 4, "fit": 5, "desc": "Loud aggressive thud with sharp slap."},
+    "stamp_1": {"soft": 8, "pleasant": 8, "fit": 8, "desc": "Softer muffled low key thud sound."},
+    "stamp_2": {"soft": 4, "pleasant": 4, "fit": 5, "desc": "Metallic resonant stamp with unwanted ringing."},
+    "swell_0": {"soft": 9, "pleasant": 9, "fit": 9, "desc": "Smooth warm gentle synthesizer volume swell."},
+    "swell_1": {"soft": 5, "pleasant": 5, "fit": 6, "desc": "Synth swell with noticeable high hiss."},
+    "swell_2": {"soft": 3, "pleasant": 3, "fit": 4, "desc": "Harsh buzzy slightly abrasive synth swell."},
+    "tap_0": {"soft": 3, "pleasant": 4, "fit": 5, "desc": "Sharp high pitched slightly fatiguing click."},
+    "tap_1": {"soft": 9, "pleasant": 9, "fit": 9, "desc": "Muted warm gentle wooden tap sound."},
+    "tap_2": {"soft": 5, "pleasant": 5, "fit": 6, "desc": "Tap sound with unwanted room reverb."},
+    "whoosh_0": {"soft": 9, "pleasant": 9, "fit": 9, "desc": "Smooth low frequency gentle air whoosh."},
+    "whoosh_1": {"soft": 3, "pleasant": 4, "fit": 5, "desc": "Harsh white noise heavy abrasive whoosh."},
+    "whoosh_2": {"soft": 2, "pleasant": 3, "fit": 4, "desc": "Whoosh with annoying high pitched ringing."}
+  },
+  "best": {
+    "chime": "chime_1",
+    "down": "down_1",
+    "draw": "draw_1",
+    "pop": "pop_1",
+    "rumble": "rumble_0",
+    "stamp": "stamp_1",
+    "swell": "swell_0",
+    "tap": "tap_1",
+    "whoosh": "whoosh_0"
+  },
+  "notes": "chime_1 is warmest; down_1 lacks harshness; draw_1 is least scratchy; pop_1 is gentle; rumble_0 is smooth; stamp_1 lacks sharp transients; swell_0 has no hiss; tap_1 is muted; whoosh_0 is softest."
+}
+```

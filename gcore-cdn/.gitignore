@@ -5,3 +5,18 @@ audio/*.wav
 audio/stems/
 audio/vo/*.txt
 audio/music/*.log
+# v2: voice-clone sources and artifacts stay local (reference audio, embeddings, FAL URLs)
+voice_src/
+audio/ref/
+audio/vo/old_v1/
+audio/sfx/cand/
+# heavy reference captures
+reference/waf/shots/*fullpage*
+reference/waf/icons/backgrounds/*.webm
+reference/waf/fonts/
+gcore_cdn_reel_preview*.mp4
+__pycache__/
+reference/waf/shots/compare_*
+reference/waf/shots/*mobile*
+reference/waf/icons/backgrounds/
+reference/waf/icons/illustrations_rendered/*frame*

@@ -1,0 +1,149 @@
+417 color => rgb(21, 12, 24)
+      e.g. other :: div
+      e.g. other :: div > img
+      e.g. other :: app-root
+118 color => rgb(91, 84, 95)
+      e.g. gc-hero-split-new-section :: span > span
+      e.g. gc-hero-split-new-section :: span > span
+      e.g. gc-hero-split-new-section :: div > p.gc-text-big.gc-text_supporting
+72 color => rgb(64, 56, 66)
+      e.g. gcore-top-bar :: div > span.gc-text_action-tertiary.gc-text-vertical_center
+      e.g. footer :: gc-link > a.gc-link.gc-link_subtle
+      e.g. footer :: a.gc-link.gc-link_subtle > span.gc-label.gc-label_xs
+42 color => rgb(255, 255, 255)
+      e.g. div :: a.gc-pointer.gc-button_large > span.gc-paragraph_bold.gc-text_action-static
+      e.g. gc-hero-split-new-section :: div.gc-hero-split-new-ctas > a.gc-btn.gc-btn_gradient
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card > span.gc-pb-feature-card__badge.gc-text-h6
+36 border => 1px solid rgb(231, 228, 224)
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card__chips > span.gc-pb-feature-card__chip.gc-text-super-small
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card__chips > span.gc-pb-feature-card__chip.gc-text-super-small
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card__chips > span.gc-pb-feature-card__chip.gc-text-super-small
+33 background-image => linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%)
+      e.g. div :: gcore-header-link-button > div.gcn-button.gc-border-radius_full
+      e.g. gc-hero-split-new-section :: h1.gc-text_primary.gc-text-h2 > span
+      e.g. gc-hero-split-new-section :: span > span
+28 background-image => linear-gradient(rgb(255, 255, 255) 15%, rgba(255, 255, 255, 0.25) 100%)
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+24 color => rgb(255, 76, 0)
+      e.g. gc-hero-split-new-section :: div > h1.gc-tag.gc-tag_pill
+      e.g. gc-hero-split-new-section :: h1.gc-tag.gc-tag_pill > span
+      e.g. cdn-features-badge-section :: h2.cdn-features-badge-section__headline.gc-text-h2 > span.cdn-features-badge-section__headline-accent
+23 color => rgb(0, 0, 238)
+      e.g. div :: div.gc-content-wrapper.gc-py-xs_2 > a.gc-header-logo-link
+      e.g. div :: a.gc-header-logo-link > gcore-logo.logo-svg
+      e.g. div :: div.gcn-button.gc-border-radius_full > a.gc-pointer.gc-button_large
+21 background-color => rgb(255, 255, 255)
+      e.g. div :: div.gc-main-header.gc-px-xs_3 > div.gc-content-wrapper.gc-py-xs_2
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card > div.gc-pb-feature-card__image
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card > div.gc-pb-feature-card__image
+20 color => rgb(0, 0, 0)
+      e.g. gcore-top-bar :: div.gc-language-selector > button.gc-selector-button.gc-selector-button_main
+      e.g. gcore-top-bar :: button.gc-selector-button.gc-selector-button_main > div
+      e.g. gcore-top-bar :: div > svg-icon.gc-icon.gc-language-icon
+18 background-color => rgb(244, 243, 242)
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card__chips > span.gc-pb-feature-card__chip.gc-text-super-small
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card__chips > span.gc-pb-feature-card__chip.gc-text-super-small
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card__chips > span.gc-pb-feature-card__chip.gc-text-super-small
+12 border => 2px solid rgb(255, 255, 255)
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+11 color => rgb(23, 43, 77)
+      e.g. section :: p.gc-text_secondary.gc-text-small > span
+      e.g. section :: h3.gc-text-h5 > span
+      e.g. section :: h3.gc-text-h5 > b
+8 box-shadow => rgba(255, 76, 0, 0.1) 0px 10px 45px 0px
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-pain-body
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-pain-body
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-pain-body
+8 color => rgb(154, 147, 159)
+      e.g. footer :: li.gc-footer-category > div.gc-text_tertiary.gc-paragraph
+      e.g. footer :: li.gc-footer-category > div.gc-text_tertiary.gc-paragraph
+      e.g. footer :: li.gc-footer-category > div.gc-text_tertiary.gc-paragraph
+7 color => rgb(231, 228, 224)
+      e.g. gc-preset-stats-dark-band :: div.gc-stats-dark-band__item > p.gc-stats-dark-band__label
+      e.g. gc-preset-stats-dark-band :: div.gc-stats-dark-band__item > p.gc-stats-dark-band__label
+      e.g. gc-preset-stats-dark-band :: div.gc-stats-dark-band__item > p.gc-stats-dark-band__label
+6 background-color => rgb(30, 18, 36)
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-feature-card__image
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-feature-card__image
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-feature-card__image
+4 border => 1px solid rgb(255, 76, 0)
+      e.g. gc-hero-split-new-section :: div > h1.gc-tag.gc-tag_pill
+      e.g. gc-preset-steps-flow-v2 :: div.gc-pb-steps-v2-item > span.gc-pb-steps-v2-tag
+      e.g. gc-preset-steps-flow-v2 :: div.gc-pb-steps-v2-item > span.gc-pb-steps-v2-tag
+4 box-shadow => rgba(255, 76, 0, 0.15) 0px 15px 55px 0px
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+      e.g. cdn-features-badge-section :: div.gc-container > div.gc-pb-feature-card
+4 background-image => radial-gradient(49.73% 49.73% at 50% 100%, rgba(168, 130, 255, 0.18) 0%, rgba(168, 130, 255, 0) 100%)
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-feature-card__image
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-feature-card__image
+      e.g. gc-preset-pain :: div.gc-glass-card.gc-pb-pain-card > div.gc-pb-feature-card__image
+3 border => 1px solid rgb(255, 154, 112)
+      e.g. gc-hero-split-new-section :: div.gc-hero-split-new-ctas > a.gc-btn.gc-btn_gradient-outline
+      e.g. faq2-section :: div.faq2-col > div.faq2-item.faq-open
+      e.g. faq2-section :: div.faq2-col > div.faq2-item.faq-open
+3 background-color => rgb(255, 76, 0)
+      e.g. gc-preset-pain :: div.gc-pb-callout-quote > span.gc-pb-pulse-dot
+      e.g. gc-preset-steps-flow-v2 :: div.gc-steps-flow.gc-steps-flow--v2 > div.gc-steps-flow__arrow.gc-pb-steps-v2-arrow
+      e.g. gc-preset-steps-flow-v2 :: div.gc-steps-flow.gc-steps-flow--v2 > div.gc-steps-flow__arrow.gc-pb-steps-v2-arrow
+2 background-color => rgb(222, 222, 222)
+      e.g. gcore-top-bar :: div.gc-top-banner-menu > gcore-language-selector.gc-language-selector::before
+      e.g. gcore-top-bar :: div.gc-top-banner-menu > gcore-header-link.gc-top-banner-login::before
+2 box-shadow => rgba(255, 76, 0, 0.15) 0px 2px 0px 0px, rgba(255, 76, 0, 0.25) 0px 8px 10px 0px
+      e.g. gc-hero-split-new-section :: div.gc-hero-split-new-ctas > a.gc-btn.gc-btn_gradient
+      e.g. gc-preset-bottom-cta :: div.gc-pb-bcta-actions > a.gc-btn.gc-btn_gradient
+2 color => rgba(255, 255, 255, 0.1)
+      e.g. gc-hero-split-new-section :: div.gc-hero-split-new-ctas > a.gc-btn.gc-btn_gradient-outline
+      e.g. gc-hero-split-new-section :: a.gc-btn.gc-btn_gradient-outline > span
+2 background-image => linear-gradient(rgb(255, 154, 112), rgb(255, 76, 0) 31.881%, rgb(255, 76, 0) 69.573%, rgb(255, 188, 159))
+      e.g. gc-hero-split-new-section :: div.gc-pb-hero-trust-row > span.gc-pb-hero-trust-divider
+      e.g. gc-hero-split-new-section :: div.gc-pb-hero-trust-row > span.gc-pb-hero-trust-divider
+2 background-color => rgba(255, 255, 255, 0.1)
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card > div.gc-pb-feature-card__image
+      e.g. cdn-features-badge-section :: div.gc-pb-feature-card > div.gc-pb-feature-card__image
+2 box-shadow => rgba(255, 76, 0, 0.35) 0px 4.571px 11.429px -2.286px
+      e.g. gc-preset-steps-flow-v2 :: div.gc-steps-flow.gc-steps-flow--v2 > div.gc-steps-flow__arrow.gc-pb-steps-v2-arrow
+      e.g. gc-preset-steps-flow-v2 :: div.gc-steps-flow.gc-steps-flow--v2 > div.gc-steps-flow__arrow.gc-pb-steps-v2-arrow
+2 border => 1px solid rgb(21, 12, 24)
+      e.g. gc-preset-storage-pricing :: div.gc-pb-sp-card-head > span.gc-pb-sp-pill
+      e.g. gc-preset-storage-pricing :: div.gc-pb-sp-card-head > span.gc-pb-sp-pill
+2 background-image => radial-gradient(49.73% 49.73% at 50% 100%, rgba(168, 130, 255, 0.18) 0%, rgba(168, 130, 255, 0) 100%), none
+      e.g. gc-preset-storage-pricing :: div.gc-pb-sp-grid > div.gc-pb-sp-card.gc-pb-sp-card--start
+      e.g. gc-preset-bottom-cta :: div.gc-container > div.gc-pb-bcta-card
+2 color => rgb(244, 243, 242)
+      e.g. gc-preset-storage-pricing :: div.gc-pb-sp-price-row > span.gc-pb-sp-unit
+      e.g. gc-preset-bottom-cta :: div.gc-pb-bcta-card > p.gc-pb-bcta-note.gc-text-small
+2 box-shadow => rgba(255, 76, 0, 0.15) 0px 12px 24px -12px
+      e.g. faq2-section :: div.faq2-col > div.faq2-item.faq-open
+      e.g. faq2-section :: div.faq2-col > div.faq2-item.faq-open
+2 background-color => rgb(237, 237, 237)
+      e.g. footer :: li > div.gc-divider
+      e.g. footer :: li > div.gc-divider
+1 border => 1px solid rgb(222, 222, 222)
+      e.g. div :: div.gc-main-header.gc-px-xs_3 > div.gc-content-wrapper.gc-py-xs_2
+1 box-shadow => rgba(21, 12, 24, 0.16) 0px 12px 22px -16px, rgba(21, 12, 24, 0.16) 0px 2px 12px -6px
+      e.g. div :: div.gc-main-header.gc-px-xs_3 > div.gc-content-wrapper.gc-py-xs_2
+1 background-color => rgb(245, 245, 245)
+      e.g. div :: gcore-header-link-button.gc-nav-actions__contact > div.gcn-button.gc-border-radius_full
+1 background-color => rgba(255, 76, 0, 0.1)
+      e.g. gc-hero-split-new-section :: div > h1.gc-tag.gc-tag_pill
+1 box-shadow => rgba(255, 76, 0, 0.15) 0px 10px 35px 0px
+      e.g. gc-preset-steps-flow-v2 :: div.gc-pb-steps-v2-checks-wrap > div.gc-pb-workflow-checks.gc-pb-workflow-checks--v2
+1 background-color => rgba(255, 255, 255, 0.15)
+      e.g. gc-preset-pain :: div.gc-pb-callout-wrap > div.gc-pb-callout-quote
+1 box-shadow => rgb(255, 227, 208) 0px 0px 0px 3px, rgba(255, 76, 0, 0.03) 0px 0px 0px 7.5583px
+      e.g. gc-preset-pain :: div.gc-pb-callout-quote > span.gc-pb-pulse-dot
+1 border => 1px solid rgb(255, 255, 255)
+      e.g. gc-preset-storage-pricing :: div.gc-pb-sp-enterprise > a.gc-btn.gc-btn_inverted
+1 border => 1px solid rgb(237, 237, 237)
+      e.g. footer :: div.gc-container.gc-container_grid > div.gc-media-wrapper.gc-mt-sm_12
+1 background-color => rgb(21, 12, 24)
+      e.g. other :: gcore-page-theme-toggle > button.gc-pb-theme-toggle
+1 box-shadow => rgba(0, 0, 0, 0.35) 0px 8px 24px -8px
+      e.g. other :: gcore-page-theme-toggle > button.gc-pb-theme-toggle
+1 box-shadow => rgba(23, 73, 77, 0.15) 0px 20px 30px 0px
+      e.g. other :: div > iframe

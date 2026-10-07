@@ -1,17 +1,15 @@
 // Globe + flat map rendering (d3-geo), city coordinates and the PoP point cloud.
-import { geoOrthographic, geoNaturalEarth1, geoMercator, geoPath, geoDistance, geoInterpolate, geoGraticule10 } from 'd3-geo';
+import { geoOrthographic, geoNaturalEarth1, geoMercator, geoEquirectangular, geoPath, geoDistance, geoInterpolate, geoGraticule10 } from 'd3-geo';
 import { feature } from 'topojson-client';
 import fs from 'fs';
 import path from 'path';
-import { ROOT, C, clamp, lerp, rng, sCircle, glowDot } from './core.mjs';
+import { ROOT, W, H, C, THEME, clamp, lerp, rng, sCircle, glowDot, makeCanvas } from './core.mjs';
 
 const load = f => JSON.parse(fs.readFileSync(path.join(ROOT, 'node_modules/world-atlas', f), 'utf8'));
-const land110 = feature(load('land-110m.json'), load('land-110m.json').objects.land);
 const land50 = feature(load('land-50m.json'), load('land-50m.json').objects.land);
-const graticule = geoGraticule10();
 
 export const CITY = {
-  frankfurt: [8.68, 50.11], sydney: [151.21, -33.87], london: [-0.13, 51.5], paris: [2.35, 48.86], amsterdam: [4.9, 52.37],
+  frankfurt: [8.68, 50.11], sydney: [151.21, -33.87], sanjose: [-121.89, 37.34], london: [-0.13, 51.5], paris: [2.35, 48.86], amsterdam: [4.9, 52.37],
   newyork: [-74.0, 40.71], ashburn: [-77.49, 39.04], chicago: [-87.63, 41.88], dallas: [-96.8, 32.78], losangeles: [-118.24, 34.05],
   seattle: [-122.33, 47.6], miami: [-80.19, 25.76], toronto: [-79.38, 43.65], mexico: [-99.13, 19.43], saopaulo: [-46.63, -23.55],
   buenosaires: [-58.38, -34.6], santiago: [-70.67, -33.45], bogota: [-74.07, 4.71], lima: [-77.04, -12.05], tokyo: [139.69, 35.68],
@@ -72,28 +70,70 @@ export const visible = (proj, lonlat) => {
   return geoDistance(lonlat, [-rot[0], -rot[1]]) < Math.PI / 2 - 0.02;
 };
 
-// Globe: halo, ocean, land, coastlines, sketchy outline.
-export function drawGlobe(ctx, proj, { alpha = 1, detail = 'low', outline = 1, seed = 11, landColor = C.land, glow = 1, grat = 0 } = {}) {
+// ---------- dot-matrix land (the gcore.com "dotted globe" look) ----------
+// land mask: equirectangular raster, 8 px per degree
+const MW = 2880, MH = 1440;
+const LANDMASK = (() => {
+  const c = makeCanvas(MW, MH), g = c.getContext('2d');
+  const pr = geoEquirectangular().scale(MW / (2 * Math.PI)).translate([MW / 2, MH / 2]);
+  g.fillStyle = '#fff'; g.beginPath(); geoPath(pr, g)(land50); g.fill();
+  const d = g.getImageData(0, 0, MW, MH).data, m = new Uint8Array(MW * MH);
+  for (let i = 0; i < m.length; i++) m[i] = d[i * 4 + 3] > 127 ? 1 : 0;
+  return m;
+})();
+export function isLand(lon, lat) {
+  const x = Math.floor(((lon + 180) / 360) * MW), y = Math.floor(((90 - lat) / 180) * MH);
+  return x >= 0 && x < MW && y >= 0 && y < MH && LANDMASK[y * MW + x] === 1;
+}
+// geographic dot lattice (even spacing on the sphere): coarse for the whole world, fine around Europe for zooms
+function lattice(step, lon0 = -180, lon1 = 180, lat0 = -58, lat1 = 80) {
+  const out = [];
+  for (let lat = lat0; lat <= lat1; lat += step) {
+    const ls = step / Math.max(0.2, Math.cos((lat * Math.PI) / 180));
+    for (let lon = lon0 + ((lat / step) % 2) * ls * 0.5; lon < lon1; lon += ls) if (isLand(lon, lat)) out.push([lon, lat]);
+  }
+  return out;
+}
+const DOTS = lattice(1.25), DOTS_FINE = lattice(0.22, -12, 32, 36, 62);
+
+// Globe: purple disc, rim light, land as dots, thin outline ring.
+export function drawGlobe(ctx, proj, { alpha = 1, detail = 'low', outline = 1, glow = 1 } = {}) {
   if (alpha <= 0) return;
   const [cx, cy] = proj.translate(), r = proj.scale();
   ctx.save(); ctx.globalAlpha *= alpha;
   if (glow) {
-    const g = ctx.createRadialGradient(cx, cy, r * 0.9, cx, cy, r * 1.5);
-    g.addColorStop(0, 'rgba(120,160,255,0.22)'); g.addColorStop(1, 'rgba(120,160,255,0)');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * 1.5, 0, Math.PI * 2); ctx.fill();
+    const g = ctx.createRadialGradient(cx, cy, r * 0.92, cx, cy, r * 1.45);
+    g.addColorStop(0, C.globeGlow); g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.globalAlpha *= glow; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * 1.45, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha /= glow;
   }
-  const sea = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.35, r * 0.1, cx, cy, r);
-  sea.addColorStop(0, '#1b2a5e'); sea.addColorStop(1, '#0b1431');
-  ctx.fillStyle = sea; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
-  const p = geoPath(proj, ctx);
-  if (grat) { ctx.beginPath(); p(graticule); ctx.strokeStyle = `rgba(150,180,255,${0.08 * grat})`; ctx.lineWidth = 1; ctx.stroke(); }
-  ctx.beginPath(); p(detail === 'high' ? land50 : land110); ctx.fillStyle = landColor; ctx.fill();
-  ctx.strokeStyle = C.landLine; ctx.lineWidth = r > 400 ? 1.6 : 1.1; ctx.stroke();
-  // terminator shading
-  const sh = ctx.createRadialGradient(cx - r * 0.35, cy - r * 0.4, r * 0.2, cx, cy, r * 1.02);
-  sh.addColorStop(0, 'rgba(255,255,255,0.05)'); sh.addColorStop(0.7, 'rgba(0,0,0,0)'); sh.addColorStop(1, 'rgba(0,0,0,0.35)');
-  ctx.fillStyle = sh; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
-  if (outline > 0) { ctx.strokeStyle = C.white; ctx.lineWidth = r > 300 ? 3 : 2.4; sCircle(ctx, cx, cy, r, { seed, rough: r > 300 ? 2 : 1.2, draw: outline, overshoot: 0.04 }); }
+  const sea = ctx.createRadialGradient(cx - r * 0.35, cy - r * 0.4, r * 0.05, cx, cy, r);
+  sea.addColorStop(0, C.globeA); sea.addColorStop(1, C.globeB);
+  ctx.fillStyle = sea; ctx.beginPath(); ctx.arc(cx, cy, Math.min(r, 4000), 0, Math.PI * 2); ctx.fill();
+  // dots: size grows with the globe; the fine lattice fades in when zoomed in on Europe
+  const rot = proj.rotate(), centre = [-rot[0], -rot[1]];
+  const dotR = clamp(r / 300, 0.9, 2.2), fine = clamp((r - 900) / 900);
+  ctx.fillStyle = C.dot;
+  const plot = (pts, rad, a) => {
+    if (a <= 0) return;
+    ctx.globalAlpha = alpha * a;
+    for (const p of pts) {
+      const d = geoDistance(p, centre); if (d > Math.PI / 2 - 0.01) continue;
+      const [x, y] = proj(p); if (x < -10 || x > W + 10 || y < -10 || y > H + 10) continue;
+      const shade = 0.45 + 0.55 * Math.cos(d); // dimmer towards the limb
+      ctx.globalAlpha = alpha * a * shade; ctx.fillRect(x - rad, y - rad, rad * 2, rad * 2);
+    }
+  };
+  plot(DOTS, dotR, 1 - fine * 0.85);
+  if (detail === 'high') plot(DOTS_FINE, clamp(r / 1300, 1, 2.4), fine);
+  ctx.globalAlpha = alpha;
+  // limb shading + thin rim
+  const sh = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.35, r * 0.2, cx, cy, r * 1.01);
+  sh.addColorStop(0, 'rgba(255,255,255,0.04)'); sh.addColorStop(0.75, 'rgba(0,0,0,0)'); sh.addColorStop(1, THEME === 'light' ? 'rgba(160,80,40,0.10)' : 'rgba(0,0,0,0.35)');
+  ctx.fillStyle = sh; ctx.beginPath(); ctx.arc(cx, cy, Math.min(r, 4000), 0, Math.PI * 2); ctx.fill();
+  if (outline > 0 && r < 2000) {
+    ctx.strokeStyle = C.globeRim; ctx.lineWidth = 2; ctx.beginPath();
+    ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * clamp(outline)); ctx.stroke();
+  }
   ctx.restore();
 }
 
@@ -130,13 +170,26 @@ export function mapProj(x, y, w, h, { center = [80, 10], scale = 1, kind = 'ne' 
   pr.scale((w / 5.4) * scale);
   return pr;
 }
-export function drawMap(ctx, proj, box, { alpha = 1, detail = 'low', landColor = C.land, coast = C.landLine, frame = false } = {}) {
+// Flat dot-matrix map. fade = [y0, y1, feather]: dots dissolve above y0 and below y1 so the map never runs under
+// the captions. The dot sheet is cached per projection, so each frame is a single drawImage.
+const MAP_CACHE = new Map();
+export function drawMap(ctx, proj, box, { alpha = 1, fade = [600, 1290, 150], step = 9 } = {}) {
   if (alpha <= 0) return;
-  ctx.save(); ctx.globalAlpha *= alpha;
-  if (box) { ctx.beginPath(); ctx.rect(box[0], box[1], box[2], box[3]); ctx.clip(); }
-  const p = geoPath(proj, ctx);
-  ctx.beginPath(); p(detail === 'high' ? land50 : land110);
-  ctx.fillStyle = landColor; ctx.fill(); ctx.strokeStyle = coast; ctx.lineWidth = 1.3; ctx.stroke();
-  ctx.restore();
+  const key = JSON.stringify([proj.scale(), proj.translate(), proj.rotate(), proj.center(), fade, step, box]);
+  let sheet = MAP_CACHE.get(key);
+  if (!sheet) {
+    sheet = makeCanvas(); const g = sheet.getContext('2d');
+    const rad = step * 0.24;
+    for (let y = step / 2; y < H; y += step) for (let x = step / 2 + ((y / step) % 2) * step * 0.5; x < W; x += step) {
+      if (box && (x < box[0] || x > box[0] + box[2] || y < box[1] || y > box[1] + box[3])) continue;
+      const ll = proj.invert([x, y]); if (!ll || ll[1] < -50 || !isLand(ll[0], ll[1])) continue; // no Antarctica / sub-Antarctic specks
+      let a = 1;
+      if (fade) { const [y0, y1, f] = fade; a = clamp(Math.min((y - (y0 - f)) / f, ((y1 + f) - y) / f)); }
+      if (a <= 0) continue;
+      g.globalAlpha = a; g.fillStyle = C.dot; g.beginPath(); g.arc(x, y, rad, 0, Math.PI * 2); g.fill();
+    }
+    MAP_CACHE.set(key, sheet);
+  }
+  ctx.save(); ctx.setTransform(ctx.getTransform()); ctx.globalAlpha *= alpha; ctx.drawImage(sheet, 0, 0); ctx.restore();
 }
 export { geoInterpolate, geoDistance };

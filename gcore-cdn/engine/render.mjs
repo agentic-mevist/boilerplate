@@ -5,7 +5,7 @@
 import fs from 'fs';
 import path from 'path';
 import { spawn } from 'child_process';
-import { ROOT, W, H, FPS, makeCanvas, prog, ease, clamp } from './core.mjs';
+import { ROOT, W, H, FPS, makeCanvas, prog, ease, clamp, textLayer } from './core.mjs';
 import { drawBackground, drawVignette, drawGrain, drawHeader, buildCaptionChunks, drawCaptions } from './chrome.mjs';
 import { SCENES } from './scenes.mjs';
 
@@ -26,7 +26,7 @@ function drawFrame(t, frame) {
     const a = Math.min(aIn, aOut);
     if (a <= 0.001) return;
     lctx.setTransform(1, 0, 0, 1, 0, 0); lctx.clearRect(0, 0, W, H); lctx.globalAlpha = 1;
-    lctx.save(); SCENES[ch.id].draw(lctx, t, ch); lctx.restore();
+    lctx.save(); textLayer.begin(); SCENES[ch.id].draw(lctx, t, ch); textLayer.end(); lctx.restore();
     const span = Math.max(1, (i + 1 < CH.length ? b1 : TL.duration) - Math.max(0, b0));
     const drift = 0.035 * clamp((t - Math.max(0, b0)) / span);
     const s = 1 + drift + (1 - aIn) * 0.05 - (1 - aOut) * 0.035;

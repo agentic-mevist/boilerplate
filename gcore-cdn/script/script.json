@@ -4,109 +4,7 @@
   "label": "-",
   "words": [
    {
-    "w": "How",
-    "hl": false
-   },
-   {
-    "w": "does",
-    "hl": false
-   },
-   {
-    "w": "a",
-    "hl": false
-   },
-   {
-    "w": "website",
-    "hl": false
-   },
-   {
-    "w": "from",
-    "hl": false
-   },
-   {
-    "w": "the",
-    "hl": false
-   },
-   {
-    "w": "other",
-    "hl": false
-   },
-   {
-    "w": "side",
-    "hl": false
-   },
-   {
-    "w": "of",
-    "hl": false
-   },
-   {
-    "w": "the",
-    "hl": false
-   },
-   {
-    "w": "planet",
-    "hl": false
-   },
-   {
-    "w": "open",
-    "hl": false
-   },
-   {
-    "w": "in",
-    "hl": false
-   },
-   {
-    "w": "the",
-    "hl": false
-   },
-   {
-    "w": "blink",
-    "hl": false
-   },
-   {
-    "w": "of",
-    "hl": false
-   },
-   {
-    "w": "an",
-    "hl": false
-   },
-   {
-    "w": "eye?",
-    "hl": false
-   }
-  ],
-  "cues": {
-   "blink": 12
-  },
-  "text": "How does a website from the other side of the planet open in the blink of an eye?"
- },
- {
-  "id": "distance",
-  "label": "distance",
-  "words": [
-   {
-    "w": "Let's",
-    "hl": false
-   },
-   {
-    "w": "start",
-    "hl": false
-   },
-   {
-    "w": "with",
-    "hl": false
-   },
-   {
-    "w": "something",
-    "hl": false
-   },
-   {
-    "w": "strange:",
-    "hl": false
-   },
-   {
-    "w": "when",
+    "w": "When",
     "hl": false
    },
    {
@@ -130,11 +28,11 @@
     "hl": false
    },
    {
-    "w": "usually",
+    "w": "almost",
     "hl": false
    },
    {
-    "w": "not",
+    "w": "never",
     "hl": false
    },
    {
@@ -146,7 +44,7 @@
     "hl": false
    },
    {
-    "w": "that",
+    "w": "the",
     "hl": false
    },
    {
@@ -154,27 +52,54 @@
     "hl": false
    },
    {
-    "w": "at",
+    "w": "itself.",
+    "hl": true
+   },
+   {
+    "w": "So",
     "hl": false
    },
    {
-    "w": "all.",
+    "w": "who",
     "hl": false
    },
    {
-    "w": "Here's",
+    "w": "is",
     "hl": false
    },
    {
-    "w": "why.",
+    "w": "answering?",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "itself": 10,
+   "who": 16
+  },
+  "text": "When you open a website, you're almost never talking to the website itself. So who is answering?"
+ },
+ {
+  "id": "distance",
+  "label": "distance",
+  "words": [
+   {
+    "w": "Let's",
     "hl": false
    },
    {
-    "w": "Say",
+    "w": "follow",
     "hl": false
    },
    {
-    "w": "an",
+    "w": "one",
+    "hl": false
+   },
+   {
+    "w": "click.",
+    "hl": false
+   },
+   {
+    "w": "An",
     "hl": false
    },
    {
@@ -202,15 +127,19 @@
     "hl": false
    },
    {
-    "w": "Frankfurt,",
+    "w": "San",
     "hl": false
    },
    {
-    "w": "and",
+    "w": "Jose,",
     "hl": false
    },
    {
-    "w": "you're",
+    "w": "California.",
+    "hl": false
+   },
+   {
+    "w": "You're",
     "hl": false
    },
    {
@@ -218,7 +147,7 @@
     "hl": false
    },
    {
-    "w": "Sydney.",
+    "w": "Frankfurt.",
     "hl": false
    },
    {
@@ -226,19 +155,15 @@
     "hl": false
    },
    {
-    "w": "sixteen",
+    "w": "more",
     "hl": false
    },
    {
-    "w": "and",
+    "w": "than",
     "hl": false
    },
    {
-    "w": "a",
-    "hl": false
-   },
-   {
-    "w": "half",
+    "w": "nine",
     "hl": false
    },
    {
@@ -255,12 +180,11 @@
    }
   ],
   "cues": {
-   "strange": 5,
-   "fra": 29,
-   "syd": 33,
-   "km": 35
+   "sj": 11,
+   "fra": 16,
+   "km": 18
   },
-  "text": "Let's start with something strange: when you open a website, you're usually not talking to that website at all. Here's why. Say an online store keeps its server in Frankfurt, and you're in Sydney. That's sixteen and a half thousand kilometers away."
+  "text": "Let's follow one click. An online store keeps its server in San Jose, California. You're in Frankfurt. That's more than nine thousand kilometers away."
  },
  {
   "id": "light",
@@ -271,7 +195,7 @@
     "hl": false
    },
    {
-    "w": "runs",
+    "w": "races",
     "hl": false
    },
    {
@@ -371,7 +295,7 @@
     "hl": false
    },
    {
-    "w": "Frankfurt",
+    "w": "California",
     "hl": false
    },
    {
@@ -395,19 +319,19 @@
     "hl": false
    },
    {
-    "w": "quarter",
+    "w": "hundred",
     "hl": false
    },
    {
-    "w": "of",
+    "w": "and",
     "hl": false
    },
    {
-    "w": "a",
+    "w": "fifty",
     "hl": false
    },
    {
-    "w": "second.",
+    "w": "milliseconds.",
     "hl": false
    }
   ],
@@ -416,7 +340,7 @@
    "curvy": 17,
    "rtt": 27
   },
-  "text": "Data runs through fiber-optic cable at about two hundred thousand kilometers per second. Sounds instant. But cables don't run in straight lines, so a trip to Frankfurt and back takes about a quarter of a second."
+  "text": "Data races through fiber-optic cable at about two hundred thousand kilometers per second. Sounds instant. But cables don't run in straight lines, so a trip to California and back takes about a hundred and fifty milliseconds."
  },
  {
   "id": "handshake",
@@ -523,7 +447,11 @@
     "hl": false
    },
    {
-    "w": "Three,",
+    "w": "Three",
+    "hl": false
+   },
+   {
+    "w": "or",
     "hl": false
    },
    {
@@ -547,7 +475,11 @@
     "hl": false
    },
    {
-    "w": "almost",
+    "w": "over",
+    "hl": false
+   },
+   {
+    "w": "half",
     "hl": false
    },
    {
@@ -576,9 +508,9 @@
    "tcp": 14,
    "tls": 17,
    "get": 21,
-   "blank": 31
+   "blank": 32
   },
-  "text": "And one trip is never enough. First, your browser and the server shake hands: open a connection, agree on encryption, then ask for the page. Three, four round trips, and that's almost a second of blank screen."
+  "text": "And one trip is never enough. First, your browser and the server shake hands: open a connection, agree on encryption, then ask for the page. Three or four round trips, and that's over half a second of blank screen."
  },
  {
   "id": "patience",
@@ -746,7 +678,7 @@
     "hl": false
    },
    {
-    "w": "won't",
+    "w": "can't",
     "hl": false
    },
    {
@@ -930,7 +862,7 @@
     "hl": false
    },
    {
-    "w": "Sydney,",
+    "w": "Frankfurt,",
     "hl": false
    },
    {
@@ -976,7 +908,7 @@
    "six": 32,
    "near": 52
   },
-  "text": "Light won't go any faster. So you move the website closer. That's what a CDN does: a content delivery network. Gcore has more than two hundred and ten points of presence on six continents, each keeping copies of websites right next to their users. For you in Sydney, the store is now just a few kilometers away."
+  "text": "Light can't go any faster. So you move the website closer. That's what a CDN does: a content delivery network. Gcore has more than two hundred and ten points of presence on six continents, each keeping copies of websites right next to their users. For you in Frankfurt, the store is now just a few kilometers away."
  },
  {
   "id": "routing",
@@ -1139,7 +1071,7 @@
     "hl": false
    },
    {
-    "w": "Sydney",
+    "w": "Frankfurt",
     "hl": false
    },
    {
@@ -1179,7 +1111,7 @@
     "hl": false
    },
    {
-    "w": "Frankfurt",
+    "w": "California",
     "hl": false
    },
    {
@@ -1301,7 +1233,7 @@
    "hit": 24,
    "p85": 33
   },
-  "text": "The first visitor in Sydney gets a miss: the edge fetches the page from Frankfurt once, and keeps it. Everyone after that gets a hit, straight from next door. On average, Gcore answers eighty-five percent of requests without even bothering the original server."
+  "text": "The first visitor in Frankfurt gets a miss: the edge fetches the page from California once, and keeps it. Everyone after that gets a hit, straight from next door. On average, Gcore answers eighty-five percent of requests without even bothering the original server."
  },
  {
   "id": "weight",
@@ -1593,10 +1525,6 @@
     "hl": false
    },
    {
-    "w": "actually",
-    "hl": false
-   },
-   {
     "w": "grew",
     "hl": false
    },
@@ -1609,27 +1537,43 @@
     "hl": false
    },
    {
-    "w": "this:",
+    "w": "exactly",
     "hl": false
    },
    {
-    "w": "it",
+    "w": "this.",
     "hl": false
    },
    {
-    "w": "started",
+    "w": "In",
     "hl": false
    },
    {
-    "w": "out",
+    "w": "fact,",
     "hl": false
    },
    {
-    "w": "building",
+    "w": "the",
     "hl": false
    },
    {
-    "w": "infrastructure",
+    "w": "G",
+    "hl": false
+   },
+   {
+    "w": "in",
+    "hl": false
+   },
+   {
+    "w": "Gcore",
+    "hl": false
+   },
+   {
+    "w": "originally",
+    "hl": false
+   },
+   {
+    "w": "stood",
     "hl": false
    },
    {
@@ -1637,21 +1581,18 @@
     "hl": false
    },
    {
-    "w": "online",
-    "hl": false
-   },
-   {
-    "w": "games.",
-    "hl": false
+    "w": "gaming.",
+    "hl": true
    }
   ],
   "cues": {
    "million": 10,
    "melt": 19,
    "split": 25,
-   "grew": 41
+   "g": 47,
+   "gaming": 54
   },
-  "text": "Now the real test. A big game update drops, and millions of players hit download in the same minute. One server would melt. A CDN splits the crowd across hundreds of locations, and each one serves its own neighborhood. Gcore actually grew up on this: it started out building infrastructure for online games."
+  "text": "Now the real test. A big game update drops, and millions of players hit download in the same minute. One server would melt. A CDN splits the crowd across hundreds of locations, and each one serves its own neighborhood. Gcore grew up on exactly this. In fact, the G in Gcore originally stood for gaming."
  },
  {
   "id": "shield",
@@ -1859,15 +1800,7 @@
     "hl": false
    },
    {
-    "w": "a",
-    "hl": false
-   },
-   {
-    "w": "quarter",
-    "hl": false
-   },
-   {
-    "w": "of",
+    "w": "about",
     "hl": false
    },
    {
@@ -1875,7 +1808,19 @@
     "hl": false
    },
    {
-    "w": "second,",
+    "w": "hundred",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "fifty",
+    "hl": false
+   },
+   {
+    "w": "milliseconds,",
     "hl": false
    },
    {
@@ -1973,10 +1918,10 @@
   ],
   "cues": {
    "slow": 4,
-   "fast": 14,
-   "there": 31
+   "fast": 15,
+   "there": 32
   },
-  "text": "So, without a CDN: a quarter of a second, every round trip. With Gcore: about thirty milliseconds on average. That's the difference between a blank screen and a page that's just there."
+  "text": "So, without a CDN: about a hundred and fifty milliseconds, every round trip. With Gcore: about thirty milliseconds on average. That's the difference between a blank screen and a page that's just there."
  },
  {
   "id": "outro",

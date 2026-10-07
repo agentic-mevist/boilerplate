@@ -1,0 +1,226 @@
+## .gc-main-header .gc-content-wrapper n= 1 box= [116, 47, 1200, 70]
+  [self] display: flex; position: relative; width: 1200px; height: 70px; padding: 12px 24px; gap: 16px; borderRadius: 14px; backgroundColor: rgb(255, 255, 255); boxShadow: rgba(21, 12, 24, 0.16) 0px 12px 22px -16px, rgba(21, 12, 24, 0.16) 0px 2px 12px -6px; color: rgb(21, 12, 24); fontSize: 14px; fontWeight: 400; lineHeight: 21.7px; border: 1px solid rgb(222, 222, 222)
+## .gc-top-banner n= 1 box= [0, 0, 1432, 39]
+  [self] display: block; width: 1432px; height: 39px; padding: 7px 24px 0px; color: rgb(21, 12, 24); fontSize: 14px; fontWeight: 400; lineHeight: 24px; transition: transform 0.25s, opacity 0.2s
+## .gcn-button n= 16 box= [910, 463, 108, 32]
+  [self] display: inline-block; width: 107.578px; height: 32px; borderRadius: 9999px; backgroundColor: rgb(255, 255, 255); color: rgb(21, 12, 24); fontSize: 14px; fontWeight: 400; transition: background-color 0.15s, color 0.15s, border-color 0.15s
+## .gc-nav-actions__contact .gcn-button n= 1 box= [1018, 60, 115, 44]
+  [self] display: inline-block; width: 114.641px; height: 44px; borderRadius: 9999px; backgroundColor: rgb(245, 245, 245); color: rgb(21, 12, 24); fontSize: 14px; fontWeight: 400; transition: background-color 0.15s, color 0.15s, border-color 0.15s
+## .gc-hero-split-new-section n= 1 box= [0, 64, 1432, 924]
+  [self] display: block; width: 1432px; height: 924.406px; padding: 212px 0px 96px; margin: 64px 0px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-tag.gc-tag_pill n= 1 box= [152, 276, 322, 28]
+  [self] display: flex; width: 321.938px; height: 28.3906px; padding: 6px 14px; borderRadius: 999px; backgroundColor: rgba(255, 76, 0, 0.1); color: rgb(255, 76, 0); fontSize: 12px; fontWeight: 700; lineHeight: 14.4px; border: 1px solid rgb(255, 76, 0)
+## .gc-hero-split-new-section h1 n= 2 box= [152, 276, 322, 28]
+  [self] display: flex; width: 321.938px; height: 28.3906px; padding: 6px 14px; borderRadius: 999px; backgroundColor: rgba(255, 76, 0, 0.1); color: rgb(255, 76, 0); fontSize: 12px; fontWeight: 700; lineHeight: 14.4px; border: 1px solid rgb(255, 76, 0)
+## .gc-hero-split-new-section h1 span n= 4 box= [167, 283, 292, 14]
+  [self] display: block; width: 291.938px; height: 14.3906px; color: rgb(255, 76, 0); fontSize: 12px; fontWeight: 400; lineHeight: 14.4px
+## .gc-btn_gradient n= 2 box= [152, 634, 163, 44]
+  [self] display: flex; width: 163.375px; height: 44px; padding: 11px 20px; gap: 8px; borderRadius: 9999px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); boxShadow: rgba(255, 76, 0, 0.15) 0px 2px 0px 0px, rgba(255, 76, 0, 0.25) 0px 8px 10px 0px; color: rgb(255, 255, 255); fontSize: 14px; fontWeight: 700; lineHeight: 19.6px; transition: background-color 0.15s, color 0.15s, border-color 0.15s
+## .gc-btn_gradient-outline n= 1 box= [323, 634, 144, 44]
+  [self] display: flex; width: 144.469px; height: 44px; padding: 11px 20px; gap: 8px; borderRadius: 9999px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); backgroundClip: text; webkitBackgroundClip: text; color: rgba(255, 255, 255, 0.1); fontSize: 14px; fontWeight: 700; lineHeight: 19.6px; transition: background-color 0.15s, color 0.15s, border-color 0.15s; border: 1px solid rgb(255, 154, 112)
+## .gc-btn_outline n= 1 box= [732, 8966, 197, 62]
+  [self] display: flex; width: 196.641px; height: 61.5938px; padding: 16px 40px; gap: 8px; borderRadius: 9999px; color: rgb(255, 255, 255); fontSize: 16px; fontWeight: 700; lineHeight: 25.6px; letterSpacing: -0.32px; textAlign: center; transition: background-color 0.15s, color 0.15s, border-color 0.15s; border: 2px solid rgb(255, 255, 255)
+## .gc-btn_inverted n= 1 box= [1091, 8367, 235, 61]
+  [self] display: flex; width: 234.922px; height: 60.5px; padding: 18px 24px; gap: 8px; borderRadius: 999px; backgroundColor: rgb(255, 255, 255); color: rgb(255, 76, 0); fontSize: 18px; fontWeight: 650; lineHeight: 22.5px; transition: background-color 0.15s, color 0.15s, border-color 0.15s; border: 1px solid rgb(255, 255, 255)
+## .gc-pb-hero-trust-item n= 3 box= [152, 702, 182, 24]
+  [self] display: flex; width: 181.594px; height: 24px; gap: 8px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-hero-trust-divider n= 2 box= [350, 704, 1, 20]
+  [self] display: block; width: 1px; height: 20px; backgroundImage: linear-gradient(rgb(255, 154, 112), rgb(255, 76, 0) 31.881%, rgb(255, 76, 0) 69.573%, rgb(255, 188, 159)); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-hero-trust-item svg -- none
+## .gc-pb-sponsors-eyebrow n= 1 box= [228, 824, 149, 19]
+  [self] display: block; width: 148.734px; height: 19.1875px; margin: 0px 22px 0px 0px; color: rgb(91, 84, 95); fontSize: 12px; fontWeight: 700; lineHeight: 19.2px
+## .gc-pb-sponsor-img n= 5 box= [419, 820, 120, 26]
+  [self] display: block; width: 120px; height: 25.7969px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transition: transform 0.2s; overflow: clip; objectFit: contain
+## .cdn-features-badge-section n= 1 box= [0, 988, 1432, 1257]
+  [self] display: block; width: 1432px; height: 1257.06px; padding: 96px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .cdn-features-badge-section__headline n= 1 box= [152, 1084, 1128, 110]
+  [self] display: block; width: 1128px; height: 110.375px; margin: 0px 0px 12px; color: rgb(21, 12, 24); fontSize: 46px; fontWeight: 700; lineHeight: 55.2px; textAlign: center
+## .gc-pb-feature-card n= 4 box= [152, 1279, 600, 427]
+  [self] display: flex; position: relative; width: 600px; height: 427.047px; padding: 32px; gap: 24px; borderRadius: 20px; backgroundImage: linear-gradient(rgb(255, 255, 255) 15%, rgba(255, 255, 255, 0.25) 100%); boxShadow: rgba(255, 76, 0, 0.15) 0px 15px 55px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1); border: 2px solid rgb(255, 255, 255)
+## .gc-pb-feature-card__badge n= 4 box= [664, 1279, 62, 40]
+  [self] display: flex; position: absolute; width: 62.3594px; height: 40px; padding: 0px 16px; borderRadius: 0px 0px 10px 10px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); color: rgb(255, 255, 255); fontSize: 12px; fontWeight: 700; lineHeight: 16.8px; textTransform: uppercase; top: -2px; left: 509.641px; right: 24px; bottom: 385.047px
+## .gc-pb-feature-card__image n= 7 box= [186, 1313, 532, 185]
+  [self] display: block; position: relative; width: 532px; height: 185px; borderRadius: 12px; backgroundColor: rgb(255, 255, 255); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; overflow: hidden
+## .gc-pb-feature-card__image img n= 7 box= [186, 1313, 532, 185]
+  [self] display: block; position: absolute; width: 532px; height: 185px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; overflow: clip
+## .gc-pb-feature-card__chip n= 12 box= [186, 1640, 115, 33]
+  [self] display: block; width: 114.641px; height: 32.5938px; padding: 6px 12px; borderRadius: 6px; backgroundColor: rgb(244, 243, 242); color: rgb(91, 84, 95); fontSize: 12px; fontWeight: 700; lineHeight: 18.6px; letterSpacing: -0.24px; textAlign: center; border: 1px solid rgb(231, 228, 224)
+## .gc-pb-feature-card__title n= 4 box= [186, 1522, 532, 26]
+  [self] display: block; width: 532px; height: 26.3906px; margin: 0px 0px 12px; color: rgb(21, 12, 24); fontSize: 22px; fontWeight: 700; lineHeight: 26.4px
+## .gc-pb-feature-card__desc n= 4 box= [186, 1561, 532, 65]
+  [self] display: block; width: 532px; height: 65.0625px; margin: 0px 0px 14px; color: rgb(91, 84, 95); fontSize: 14px; fontWeight: 400; lineHeight: 21.7px; letterSpacing: -0.28px
+## .gc-pb-feature-card__body n= 4 box= [186, 1522, 532, 150]
+  [self] display: flex; width: 532px; height: 150.047px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-preset-steps-flow-v2 n= 2 box= [0, 2245, 1432, 890]
+  [self] display: block; width: 1432px; height: 889.641px; padding: 96px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-workflow-checks--v2 n= 1 box= [178, 2991, 1076, 48]
+  [self] display: flex; position: relative; width: 1076.22px; height: 48px; padding: 10px 16px; gap: 24px; borderRadius: 999px; backgroundImage: linear-gradient(rgb(255, 255, 255) 15%, rgba(255, 255, 255, 0.25) 100%); boxShadow: rgba(255, 76, 0, 0.15) 0px 10px 35px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; border: 2px solid rgb(255, 255, 255)
+## .gc-pb-workflow-check n= 4 box= [196, 3003, 237, 24]
+  [self] display: flex; width: 236.781px; height: 24px; gap: 8px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-workflow-check__icon n= 4 box= [196, 3003, 24, 24]
+  [self] display: flex; width: 24px; height: 24px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-steps-flow--v2 n= 2 box= [152, 2501, 1128, 466]
+  [self] display: flex; position: relative; width: 1128px; height: 465.656px; padding: 27px 0px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+  [::before] display: block; position: absolute; height: 2px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; zIndex: 0; content: ""; top: 39px; right: 1128px; bottom: 424.656px
+## .gc-pb-steps-v2-tag n= 3 box= [296, 4303, 87, 27]
+  [self] display: flex; width: 87.2188px; height: 27px; padding: 0px 11px; borderRadius: 6px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); color: rgb(255, 255, 255); fontSize: 10.5px; fontWeight: 800; lineHeight: 10.5px; letterSpacing: 1.2px; textTransform: uppercase; textAlign: center; border: 1px solid rgb(255, 76, 0)
+## .gc-pb-steps-v2-number n= 3 box= [259, 4350, 161, 165]
+  [self] display: block; width: 161.016px; height: 165px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); backgroundClip: text; webkitBackgroundClip: text; fontSize: 150px; fontWeight: 900; lineHeight: 165px; letterSpacing: -2px; textAlign: center
+## .gc-pb-steps-v2-arrow n= 2 box= [512, 4300, 32, 32]
+  [self] display: flex; width: 32px; height: 32px; margin: -2.5px -16px 0px; borderRadius: 16px; backgroundColor: rgb(255, 76, 0); boxShadow: rgba(255, 76, 0, 0.35) 0px 4.571px 11.429px -2.286px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-steps-v2-title n= 3 box= [220, 4535, 241, 23]
+  [self] display: block; width: 240.875px; height: 22.5px; color: rgb(21, 12, 24); fontSize: 18px; fontWeight: 700; lineHeight: 22.5px; textAlign: center
+## .gc-pb-steps-v2-desc n= 3 box= [200, 4577, 280, 81]
+  [self] display: block; width: 280px; height: 81px; color: rgb(91, 84, 95); fontSize: 13.5px; fontWeight: 500; lineHeight: 20.25px; textAlign: center
+## .gc-pb-steps-v2-headline n= 2 box= [152, 2341, 1128, 55]
+  [self] display: block; width: 1128px; height: 55.1875px; margin: 0px 0px 12px; color: rgb(21, 12, 24); fontSize: 46px; fontWeight: 700; lineHeight: 55.2px; textAlign: center
+## .gc-pb-steps-v2-subtitle n= 2 box= [152, 2409, 1128, 29]
+  [self] display: block; width: 1128px; height: 28.7969px; color: rgb(91, 84, 95); fontSize: 16px; fontWeight: 400; lineHeight: 25.6px; letterSpacing: -0.32px; textAlign: center
+## .gc-preset-pain n= 1 box= [0, 3135, 1432, 888]
+  [self] display: block; width: 1432px; height: 887.703px; padding: 96px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-pain-card n= 3 box= [152, 3397, 360, 432]
+  [self] display: flex; position: relative; width: 360px; height: 432.328px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1)
+## .gc-pb-pain-card .gc-pb-feature-card__image n= 3 box= [152, 3397, 360, 185]
+  [self] display: block; position: relative; width: 360px; height: 185px; borderRadius: 20px 20px 0px 0px; backgroundColor: rgb(30, 18, 36); backgroundImage: radial-gradient(49.73% 49.73% at 50% 100%, rgba(168, 130, 255, 0.18) 0%, rgba(168, 130, 255, 0) 100%); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; overflow: hidden
+## .gc-pb-pain-body n= 3 box= [152, 3582, 360, 247]
+  [self] display: flex; width: 360px; height: 247.328px; padding: 32px; borderRadius: 0px 0px 20px 20px; backgroundImage: linear-gradient(rgb(255, 255, 255) 15%, rgba(255, 255, 255, 0.25) 100%); boxShadow: rgba(255, 76, 0, 0.1) 0px 10px 45px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; border: 2px solid rgb(255, 255, 255)
+## .gc-pb-pain-tag n= 3 box= [186, 3616, 292, 14]
+  [self] display: block; width: 292px; height: 13.7969px; margin: 0px 0px 14px; color: rgb(255, 76, 0); fontSize: 12px; fontWeight: 700; lineHeight: 13.8px; letterSpacing: 0.24px; textTransform: uppercase
+## .gc-pb-pain-title n= 3 box= [186, 3644, 292, 53]
+  [self] display: block; width: 292px; height: 52.7812px; margin: 0px 0px 12px; color: rgb(21, 12, 24); fontSize: 22px; fontWeight: 700; lineHeight: 26.4px
+## .gc-pb-pain-text n= 3 box= [186, 3709, 292, 87]
+  [self] display: block; width: 292px; height: 86.75px; color: rgb(91, 84, 95); fontSize: 14px; fontWeight: 400; lineHeight: 21.7px; letterSpacing: -0.28px
+## .gc-pb-callout-quote n= 1 box= [266, 3863, 900, 64]
+  [self] display: flex; width: 900px; height: 64px; padding: 18px 26px; margin: 0px 114px; gap: 14px; borderRadius: 999px; backgroundColor: rgba(255, 255, 255, 0.15); boxShadow: rgba(255, 76, 0, 0.1) 0px 10px 45px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; textAlign: center; border: 2px solid rgb(255, 255, 255)
+## .gc-pb-pulse-dot n= 1 box= [304, 3890, 10, 10]
+  [self] display: block; width: 10px; height: 10px; borderRadius: 50%; backgroundColor: rgb(255, 76, 0); boxShadow: rgb(255, 227, 208) 0px 0px 0px 3px, rgba(255, 76, 0, 0.02) 0px 0px 0px 7.73778px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; textAlign: center; animationName: gc-pb-callout-pulse; animationDuration: 1.8s; animationTimingFunction: ease-in-out; animationIterationCount: infinite
+## .gc-preset-stats-dark-band n= 1 box= [0, 4774, 1432, 687]
+  [self] display: block; width: 1432px; height: 686.594px; padding: 96px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-stats-dark-band n= 1 box= [152, 4870, 1128, 495]
+  [self] display: flex; position: relative; width: 1128px; height: 494.594px; borderRadius: 25px; backgroundColor: rgb(30, 18, 36); backgroundImage: radial-gradient(49.73% 49.73% at 50% 100%, rgba(168, 130, 255, 0.18) 0%, rgba(168, 130, 255, 0) 100%); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; overflow: hidden
+## .gc-stats-dark-band__title n= 1 box= [200, 4918, 541, 106]
+  [self] display: block; width: 540.578px; height: 105.594px; color: rgb(255, 255, 255); fontSize: 48px; fontWeight: 700; lineHeight: 52.8px; letterSpacing: -2px
+## .gc-stats-dark-band__desc n= 1 box= [200, 5040, 440, 57]
+  [self] display: block; width: 440px; height: 57px; color: rgb(255, 255, 255); fontSize: 16px; fontWeight: 500
+## .gc-stats-dark-band__item n= 4 box= [200, 5129, 258, 78]
+  [self] display: block; width: 258.281px; height: 78px; padding: 0px 0px 0px 16px; borderLeft: 3px solid rgb(255, 76, 0); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-stats-dark-band__num n= 4 box= [219, 5129, 239, 52]
+  [self] display: block; width: 239.281px; height: 52.4062px; color: rgb(255, 255, 255); fontSize: 46px; fontWeight: 800; lineHeight: 50.6px; letterSpacing: -0.92px
+## .gc-stats-dark-band__num-suffix n= 4 box= [294, 5147, 14, 29]
+  [self] display: inline; color: rgb(255, 76, 0); fontSize: 24px; fontWeight: 800; lineHeight: 38.4px; letterSpacing: -0.48px
+## .gc-stats-dark-band__label n= 4 box= [219, 5181, 239, 26]
+  [self] display: block; width: 239.281px; height: 25.5938px; color: rgb(231, 228, 224); fontSize: 16px; fontWeight: 400; lineHeight: 25.6px; letterSpacing: -0.32px
+## .gc-stats-dark-band__aside n= 1 box= [789, 4870, 491, 495]
+  [self] display: block; position: relative; width: 491.422px; height: 494.594px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; overflow: hidden
+## .gc-stats-dark-band__video n= 1 box= [789, 4870, 491, 495]
+  [self] display: block; position: absolute; width: 491.422px; height: 494.594px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; overflow: clip; objectFit: cover
+## .gc-pb-dns-bento n= 1 box= [1280, 5697, 0, 0]
+  [self] display: block; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-dns-bento-cell n= 4 box= [1280, 5697, 0, 0]
+  [self] display: block; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-dns-bento-head n= 1 box= [152, 5697, 0, 0]
+  [self] display: block; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-preset-use-cases n= 1 box= [0, 6059, 1432, 1285]
+  [self] display: block; width: 1432px; height: 1284.86px; padding: 96px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-uc-grid n= 1 box= [152, 6350, 1128, 898]
+  [self] display: grid; width: 1128px; height: 898.484px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-uc-cell n= 6 box= [152, 6350, 564, 309]
+  [self] display: block; position: relative; width: 564px; height: 308.625px; padding: 48px 53px 44px 52px; borderRight: 1px solid rgb(231, 228, 224); borderBottom: 1px solid rgb(231, 228, 224); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-uc-icon n= 6 box= [595, 6374, 88, 88]
+  [self] display: block; position: absolute; width: 88px; height: 88px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transition: transform 0.3s; top: 24px; left: 443px; right: 32px; bottom: 195.625px
+## .gc-pb-uc-icon img n= 6 box= [595, 6374, 88, 88]
+  [self] display: block; width: 88px; height: 88px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; overflow: clip; objectFit: contain
+## .gc-pb-uc-industry n= 6 box= [204, 6399, 138, 19]
+  [self] display: inline-block; width: 137.891px; height: 19.1875px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); backgroundClip: text; webkitBackgroundClip: text; fontSize: 12px; fontWeight: 700; lineHeight: 19.2px; textTransform: uppercase
+## .gc-pb-uc-title n= 6 box= [204, 6432, 333, 53]
+  [self] display: block; width: 333px; height: 52.7812px; margin: 14px 0px 0px; color: rgb(21, 12, 24); fontSize: 22px; fontWeight: 700; lineHeight: 26.4px
+## .gc-pb-uc-desc n= 6 box= [204, 6496, 458, 65]
+  [self] display: block; width: 458px; height: 65.0625px; margin: 11px 0px 0px; color: rgb(91, 84, 95); fontSize: 14px; fontWeight: 400; lineHeight: 21.7px; letterSpacing: -0.28px
+## .gc-pb-uc-chip n= 18 box= [204, 6581, 110, 33]
+  [self] display: flex; width: 109.766px; height: 32.5938px; padding: 6px 12px; borderRadius: 6px; backgroundImage: linear-gradient(rgb(255, 255, 255) 15%, rgba(255, 255, 255, 0.25) 100%); color: rgb(91, 84, 95); fontSize: 12px; fontWeight: 700; lineHeight: 18.6px; letterSpacing: -0.24px; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1); border: 1px solid rgb(231, 228, 224)
+## .gc-preset-storage-pricing n= 1 box= [0, 7344, 1432, 1238]
+  [self] display: block; width: 1432px; height: 1237.73px; padding: 96px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-sp-card--basic n= 1 box= [66, 7732, 420, 444]
+  [self] display: flex; position: relative; width: 420px; height: 444.328px; padding: 40px; gap: 32px; borderTop: 2px solid rgb(255, 255, 255); borderBottom: 2px solid rgb(255, 255, 255); borderLeft: 2px solid rgb(255, 255, 255); borderRadius: 20px 0px 0px 20px; backgroundImage: linear-gradient(rgb(255, 255, 255) 15%, rgba(255, 255, 255, 0.25) 100%); boxShadow: rgba(255, 76, 0, 0.1) 0px 10px 45px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1)
+## .gc-pb-sp-card--start n= 1 box= [486, 7640, 460, 628]
+  [self] display: flex; position: relative; width: 460px; height: 628.281px; padding: 40px; gap: 32px; borderLeft: 2px solid rgb(255, 255, 255); borderRadius: 24px; backgroundColor: rgb(30, 18, 36); backgroundImage: radial-gradient(49.73% 49.73% at 50% 100%, rgba(168, 130, 255, 0.18) 0%, rgba(168, 130, 255, 0) 100%), none; backgroundSize: auto, auto; backgroundPosition: 0% 0%, 0% 0%; backgroundRepeat: repeat, repeat; backgroundClip: border-box, border-box; webkitBackgroundClip: border-box, border-box; color: rgb(255, 255, 255); fontSize: 16px; fontWeight: 500; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1)
+## .gc-pb-sp-card--pro n= 1 box= [946, 7640, 420, 628]
+  [self] display: flex; position: relative; width: 420px; height: 628.281px; padding: 40px; gap: 32px; borderRadius: 20px; backgroundImage: linear-gradient(rgb(255, 255, 255) 15%, rgba(255, 255, 255, 0.25) 100%); boxShadow: rgba(255, 76, 0, 0.1) 0px 10px 45px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1); border: 2px solid rgb(255, 255, 255)
+## .gc-pb-sp-pill n= 3 box= [108, 7774, 84, 36]
+  [self] display: flex; width: 83.5px; height: 36px; padding: 0px 20px; borderRadius: 999px; color: rgb(21, 12, 24); fontSize: 13px; fontWeight: 700; letterSpacing: -0.1px; border: 1px solid rgb(21, 12, 24)
+## .gc-pb-sp-card--start .gc-pb-sp-pill n= 1 box= [528, 7680, 83, 36]
+  [self] display: flex; width: 82.6719px; height: 36px; padding: 0px 20px; borderRadius: 999px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); color: rgb(255, 255, 255); fontSize: 13px; fontWeight: 700; letterSpacing: -0.1px
+## .gc-pb-sp-feature n= 20 box= [108, 7945, 338, 25]
+  [self] display: flex; width: 338px; height: 25.1875px; gap: 12px; color: rgb(21, 12, 24); fontSize: 18px; fontWeight: 500; lineHeight: 25.2px; letterSpacing: -0.18px
+## .gc-pb-sp-card--start .gc-pb-sp-feature n= 6 box= [528, 7870, 378, 25]
+  [self] display: flex; width: 378px; height: 25.1875px; gap: 12px; color: rgb(255, 255, 255); fontSize: 18px; fontWeight: 500; lineHeight: 25.2px; letterSpacing: -0.18px
+## .gc-pb-sp-price n= 3 box= [108, 7826, 197, 86]
+  [self] display: block; width: 196.531px; height: 86.3906px; color: rgb(21, 12, 24); fontSize: 72px; fontWeight: 900; lineHeight: 86.4px; letterSpacing: -0.1px; textTransform: uppercase
+## .gc-pb-sp-price--gradient n= 1 box= [528, 7732, 179, 106]
+  [self] display: block; width: 178.609px; height: 105.594px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); backgroundClip: text; webkitBackgroundClip: text; color: rgb(255, 255, 255); fontSize: 88px; fontWeight: 800; lineHeight: 105.6px; letterSpacing: -0.1px
+## .gc-pb-sp-enterprise n= 1 box= [66, 8308, 1300, 177]
+  [self] display: flex; position: relative; width: 1300px; height: 177.484px; padding: 40px; margin: 40px 0px 0px 564px; gap: 24px; borderRadius: 20px; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); boxShadow: rgba(255, 76, 0, 0.1) 0px 10px 45px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transform: matrix(1, 0, 0, 1, -650, 0)
+## .gc-pb-sp-ent-title n= 1 box= [106, 8348, 700, 40]
+  [self] display: block; width: 700px; height: 40.2969px; color: rgb(255, 255, 255); fontSize: 26px; fontWeight: 700; lineHeight: 40.3px; letterSpacing: -0.2px
+## .gc-preset-bottom-cta n= 1 box= [0, 8582, 1432, 678]
+  [self] display: block; width: 1432px; height: 677.656px; padding: 96px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-bcta-card n= 1 box= [152, 8678, 1128, 486]
+  [self] display: flex; position: relative; width: 1128px; height: 485.656px; padding: 96px 32px; gap: 18px; borderRadius: 20px; backgroundColor: rgb(30, 18, 36); backgroundImage: radial-gradient(49.73% 49.73% at 50% 100%, rgba(168, 130, 255, 0.18) 0%, rgba(168, 130, 255, 0) 100%), none; backgroundSize: auto, auto; backgroundPosition: 0% 0%, 0% 0%; backgroundRepeat: repeat, repeat; backgroundClip: border-box, border-box; webkitBackgroundClip: border-box, border-box; boxShadow: rgba(255, 76, 0, 0.1) 0px 10px 45px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; textAlign: center
+## .gc-pb-bcta-title n= 1 box= [344, 8774, 745, 113]
+  [self] display: block; width: 744.844px; height: 112.781px; color: rgb(255, 255, 255); fontSize: 46px; fontWeight: 700; lineHeight: 55.2px; textAlign: center
+## .gc-pb-bcta-accent n= 1 box= [836, 8773, 253, 57]
+  [self] display: inline; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); backgroundClip: text; webkitBackgroundClip: text; color: rgb(255, 255, 255); fontSize: 46px; fontWeight: 700; lineHeight: 55.2px; textAlign: center
+## .gc-pb-bcta-sub n= 1 box= [468, 8905, 496, 26]
+  [self] display: block; width: 496.109px; height: 25.5938px; color: rgb(231, 228, 224); fontSize: 16px; fontWeight: 400; lineHeight: 25.6px; letterSpacing: -0.32px; textAlign: center
+## .gc-pb-bcta-note n= 1 box= [576, 9046, 280, 22]
+  [self] display: block; width: 280.328px; height: 21.6875px; color: rgb(244, 243, 242); fontSize: 14px; fontWeight: 400; lineHeight: 21.7px; letterSpacing: -0.28px; textAlign: center
+## .faq2-section n= 1 box= [0, 9260, 1432, 840]
+  [self] display: block; width: 1432px; height: 839.875px; padding: 80px 0px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .faq2-item n= 8 box= [176, 9527, 528, 149]
+  [self] display: block; width: 528px; height: 149.062px; borderRadius: 14px; backgroundColor: rgb(255, 255, 255); boxShadow: rgba(255, 76, 0, 0.15) 0px 12px 24px -12px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1); overflow: hidden; border: 1px solid rgb(255, 154, 112)
+## .faq2-item.faq-open n= 2 box= [176, 9527, 528, 149]
+  [self] display: block; width: 528px; height: 149.062px; borderRadius: 14px; backgroundColor: rgb(255, 255, 255); boxShadow: rgba(255, 76, 0, 0.15) 0px 12px 24px -12px; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1); overflow: hidden; border: 1px solid rgb(255, 154, 112)
+## .faq2-ic n= 8 box= [650, 9541, 37, 37]
+  [self] display: flex; width: 26px; height: 26px; borderRadius: 50%; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); color: rgb(255, 255, 255); fontSize: 16px; fontWeight: 800; lineHeight: 16px; letterSpacing: -0.32px; textAlign: left; transform: matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 0); transition: transform 0.2s, background-color 0.2s, color 0.2s
+## .faq2-item.faq-open .faq2-ic n= 2 box= [650, 9541, 37, 37]
+  [self] display: flex; width: 26px; height: 26px; borderRadius: 50%; backgroundImage: linear-gradient(196deg, rgb(255, 154, 112) 0.96%, rgb(255, 76, 0) 30.02%, rgb(255, 76, 0) 64.37%, rgb(255, 188, 159) 92.1%); color: rgb(255, 255, 255); fontSize: 16px; fontWeight: 800; lineHeight: 16px; letterSpacing: -0.32px; textAlign: left; transform: matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 0); transition: transform 0.2s, background-color 0.2s, color 0.2s
+## footer n= 1 box= [0, 10099, 1432, 732]
+  [self] display: block; width: 1432px; height: 732px; backgroundColor: rgb(255, 255, 255); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-divider n= 2 box= [1062, 10716, 1, 16]
+  [self] display: block; width: 1px; height: 16px; backgroundColor: rgb(237, 237, 237); color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-pb-theme-toggle n= 1 box= [1358, 760, 52, 52]
+  [self] display: flex; position: fixed; width: 52px; height: 52px; borderRadius: 50%; backgroundColor: rgb(21, 12, 24); boxShadow: rgba(0, 0, 0, 0.35) 0px 8px 24px -8px; color: rgb(255, 255, 255); fontSize: 16px; fontWeight: 400; textAlign: center; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; zIndex: 10; top: 760px; left: 1358px; right: 22px; bottom: 88px
+## body n= 1 box= [0, 0, 1432, 10831]
+  [self] display: block; width: 1432px; height: 10831.4px; backgroundImage: url("https://assets.gcore.pro/site-media/uploads/Gcore_Background_efc2352a8c.png"); backgroundSize: cover; color: rgb(21, 12, 24); fontSize: 16px; fontWeight: 500
+## .gc-page-builder n= 2 box= [0, 0, 1432, 39]
+  [self] display: block; width: 1432px; height: 39px; color: rgb(21, 12, 24); fontSize: 14px; fontWeight: 400; lineHeight: 21.7px
+ANIMS [
+{
+"tag": "span",
+"cls": "gc-pb-pulse-dot",
+"pseudo": null,
+"name": "gc-pb-callout-pulse",
+"dur": "1.8s",
+"tf": "ease-in-out",
+"iter": "infinite",
+"delay": "0s",
+"dir": "normal",
+"inSvg": false
+},
+{
+"tag": "iframe",
+"cls": "",
+"pseudo": null,
+"name": "ww-586bd691-ac02-42d5-8491-0292bfbe87c6-widgetOnLoad",
+"dur": "0.2s",
+"tf": "ease-in",
+"iter": "1",
+"delay": "0.5s",
+"dir": "normal",
+"inSvg": false
+}
+]
+KF {
+"gc-pb-callout-pulse": "@keyframes gc-pb-callout-pulse { \n  0%, 100% { box-shadow: rgb(255, 227, 208) 0px 0px 0px 3px, rgba(255, 76, 0, 0.55) 0px 0px; }\n  50% { box-shadow: rgb(255, 227, 208) 0px 0px 0px 3px, rgba(255, 76, 0, 0) 0px 0px 0px 8px; }\n}",
+"ww-586bd691-ac02-42d5-8491-0292bfbe87c6-widgetOnLoad": "@-webkit-keyframes ww-586bd691-ac02-42d5-8491-0292bfbe87c6-widgetOnLoad { \n  0% { opacity: 0; }\n  100% { opacity: 1; }\n}"
+}
