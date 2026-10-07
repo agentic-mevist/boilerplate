@@ -1,0 +1,7 @@
+node_modules/
+build/
+*.raw
+audio/*.wav
+audio/stems/
+audio/vo/*.txt
+audio/music/*.log

@@ -1,0 +1,2047 @@
+[
+ {
+  "id": "hook",
+  "label": "-",
+  "words": [
+   {
+    "w": "How",
+    "hl": false
+   },
+   {
+    "w": "does",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "website",
+    "hl": false
+   },
+   {
+    "w": "from",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "other",
+    "hl": false
+   },
+   {
+    "w": "side",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "planet",
+    "hl": false
+   },
+   {
+    "w": "open",
+    "hl": false
+   },
+   {
+    "w": "in",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "blink",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "an",
+    "hl": false
+   },
+   {
+    "w": "eye?",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "blink": 12
+  },
+  "text": "How does a website from the other side of the planet open in the blink of an eye?"
+ },
+ {
+  "id": "distance",
+  "label": "distance",
+  "words": [
+   {
+    "w": "Let's",
+    "hl": false
+   },
+   {
+    "w": "start",
+    "hl": false
+   },
+   {
+    "w": "with",
+    "hl": false
+   },
+   {
+    "w": "something",
+    "hl": false
+   },
+   {
+    "w": "strange:",
+    "hl": false
+   },
+   {
+    "w": "when",
+    "hl": false
+   },
+   {
+    "w": "you",
+    "hl": false
+   },
+   {
+    "w": "open",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "website,",
+    "hl": false
+   },
+   {
+    "w": "you're",
+    "hl": false
+   },
+   {
+    "w": "usually",
+    "hl": false
+   },
+   {
+    "w": "not",
+    "hl": false
+   },
+   {
+    "w": "talking",
+    "hl": false
+   },
+   {
+    "w": "to",
+    "hl": false
+   },
+   {
+    "w": "that",
+    "hl": false
+   },
+   {
+    "w": "website",
+    "hl": false
+   },
+   {
+    "w": "at",
+    "hl": false
+   },
+   {
+    "w": "all.",
+    "hl": false
+   },
+   {
+    "w": "Here's",
+    "hl": false
+   },
+   {
+    "w": "why.",
+    "hl": false
+   },
+   {
+    "w": "Say",
+    "hl": false
+   },
+   {
+    "w": "an",
+    "hl": false
+   },
+   {
+    "w": "online",
+    "hl": false
+   },
+   {
+    "w": "store",
+    "hl": false
+   },
+   {
+    "w": "keeps",
+    "hl": false
+   },
+   {
+    "w": "its",
+    "hl": false
+   },
+   {
+    "w": "server",
+    "hl": false
+   },
+   {
+    "w": "in",
+    "hl": false
+   },
+   {
+    "w": "Frankfurt,",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "you're",
+    "hl": false
+   },
+   {
+    "w": "in",
+    "hl": false
+   },
+   {
+    "w": "Sydney.",
+    "hl": false
+   },
+   {
+    "w": "That's",
+    "hl": false
+   },
+   {
+    "w": "sixteen",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "half",
+    "hl": false
+   },
+   {
+    "w": "thousand",
+    "hl": false
+   },
+   {
+    "w": "kilometers",
+    "hl": false
+   },
+   {
+    "w": "away.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "strange": 5,
+   "fra": 29,
+   "syd": 33,
+   "km": 35
+  },
+  "text": "Let's start with something strange: when you open a website, you're usually not talking to that website at all. Here's why. Say an online store keeps its server in Frankfurt, and you're in Sydney. That's sixteen and a half thousand kilometers away."
+ },
+ {
+  "id": "light",
+  "label": "light",
+  "words": [
+   {
+    "w": "Data",
+    "hl": false
+   },
+   {
+    "w": "runs",
+    "hl": false
+   },
+   {
+    "w": "through",
+    "hl": false
+   },
+   {
+    "w": "fiber-optic",
+    "hl": false
+   },
+   {
+    "w": "cable",
+    "hl": false
+   },
+   {
+    "w": "at",
+    "hl": false
+   },
+   {
+    "w": "about",
+    "hl": false
+   },
+   {
+    "w": "two",
+    "hl": false
+   },
+   {
+    "w": "hundred",
+    "hl": false
+   },
+   {
+    "w": "thousand",
+    "hl": false
+   },
+   {
+    "w": "kilometers",
+    "hl": false
+   },
+   {
+    "w": "per",
+    "hl": false
+   },
+   {
+    "w": "second.",
+    "hl": false
+   },
+   {
+    "w": "Sounds",
+    "hl": false
+   },
+   {
+    "w": "instant.",
+    "hl": false
+   },
+   {
+    "w": "But",
+    "hl": false
+   },
+   {
+    "w": "cables",
+    "hl": false
+   },
+   {
+    "w": "don't",
+    "hl": false
+   },
+   {
+    "w": "run",
+    "hl": false
+   },
+   {
+    "w": "in",
+    "hl": false
+   },
+   {
+    "w": "straight",
+    "hl": false
+   },
+   {
+    "w": "lines,",
+    "hl": false
+   },
+   {
+    "w": "so",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "trip",
+    "hl": false
+   },
+   {
+    "w": "to",
+    "hl": false
+   },
+   {
+    "w": "Frankfurt",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "back",
+    "hl": false
+   },
+   {
+    "w": "takes",
+    "hl": false
+   },
+   {
+    "w": "about",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "quarter",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "second.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "speed": 7,
+   "curvy": 17,
+   "rtt": 27
+  },
+  "text": "Data runs through fiber-optic cable at about two hundred thousand kilometers per second. Sounds instant. But cables don't run in straight lines, so a trip to Frankfurt and back takes about a quarter of a second."
+ },
+ {
+  "id": "handshake",
+  "label": "handshake",
+  "words": [
+   {
+    "w": "And",
+    "hl": false
+   },
+   {
+    "w": "one",
+    "hl": false
+   },
+   {
+    "w": "trip",
+    "hl": false
+   },
+   {
+    "w": "is",
+    "hl": false
+   },
+   {
+    "w": "never",
+    "hl": false
+   },
+   {
+    "w": "enough.",
+    "hl": false
+   },
+   {
+    "w": "First,",
+    "hl": false
+   },
+   {
+    "w": "your",
+    "hl": false
+   },
+   {
+    "w": "browser",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "server",
+    "hl": false
+   },
+   {
+    "w": "shake",
+    "hl": false
+   },
+   {
+    "w": "hands:",
+    "hl": false
+   },
+   {
+    "w": "open",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "connection,",
+    "hl": false
+   },
+   {
+    "w": "agree",
+    "hl": false
+   },
+   {
+    "w": "on",
+    "hl": false
+   },
+   {
+    "w": "encryption,",
+    "hl": false
+   },
+   {
+    "w": "then",
+    "hl": false
+   },
+   {
+    "w": "ask",
+    "hl": false
+   },
+   {
+    "w": "for",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "page.",
+    "hl": false
+   },
+   {
+    "w": "Three,",
+    "hl": false
+   },
+   {
+    "w": "four",
+    "hl": false
+   },
+   {
+    "w": "round",
+    "hl": false
+   },
+   {
+    "w": "trips,",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "that's",
+    "hl": false
+   },
+   {
+    "w": "almost",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "second",
+    "hl": true
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "blank",
+    "hl": false
+   },
+   {
+    "w": "screen.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "hs": 12,
+   "tcp": 14,
+   "tls": 17,
+   "get": 21,
+   "blank": 31
+  },
+  "text": "And one trip is never enough. First, your browser and the server shake hands: open a connection, agree on encryption, then ask for the page. Three, four round trips, and that's almost a second of blank screen."
+ },
+ {
+  "id": "patience",
+  "label": "patience",
+  "words": [
+   {
+    "w": "And",
+    "hl": false
+   },
+   {
+    "w": "people",
+    "hl": false
+   },
+   {
+    "w": "don't",
+    "hl": false
+   },
+   {
+    "w": "wait.",
+    "hl": false
+   },
+   {
+    "w": "Google",
+    "hl": false
+   },
+   {
+    "w": "found",
+    "hl": false
+   },
+   {
+    "w": "that",
+    "hl": false
+   },
+   {
+    "w": "more",
+    "hl": false
+   },
+   {
+    "w": "than",
+    "hl": false
+   },
+   {
+    "w": "half",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "mobile",
+    "hl": false
+   },
+   {
+    "w": "visitors",
+    "hl": false
+   },
+   {
+    "w": "leave",
+    "hl": false
+   },
+   {
+    "w": "if",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "page",
+    "hl": false
+   },
+   {
+    "w": "takes",
+    "hl": false
+   },
+   {
+    "w": "longer",
+    "hl": false
+   },
+   {
+    "w": "than",
+    "hl": false
+   },
+   {
+    "w": "three",
+    "hl": false
+   },
+   {
+    "w": "seconds.",
+    "hl": false
+   },
+   {
+    "w": "And",
+    "hl": false
+   },
+   {
+    "w": "Amazon",
+    "hl": false
+   },
+   {
+    "w": "calculated",
+    "hl": false
+   },
+   {
+    "w": "that",
+    "hl": false
+   },
+   {
+    "w": "every",
+    "hl": false
+   },
+   {
+    "w": "extra",
+    "hl": false
+   },
+   {
+    "w": "hundred",
+    "hl": false
+   },
+   {
+    "w": "milliseconds",
+    "hl": false
+   },
+   {
+    "w": "cost",
+    "hl": false
+   },
+   {
+    "w": "them",
+    "hl": false
+   },
+   {
+    "w": "one",
+    "hl": false
+   },
+   {
+    "w": "percent",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "sales.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "g53": 7,
+   "s3": 20,
+   "amz": 26,
+   "pct1": 32
+  },
+  "text": "And people don't wait. Google found that more than half of mobile visitors leave if a page takes longer than three seconds. And Amazon calculated that every extra hundred milliseconds cost them one percent of sales."
+ },
+ {
+  "id": "edge",
+  "label": "edge",
+  "words": [
+   {
+    "w": "Light",
+    "hl": false
+   },
+   {
+    "w": "won't",
+    "hl": false
+   },
+   {
+    "w": "go",
+    "hl": false
+   },
+   {
+    "w": "any",
+    "hl": false
+   },
+   {
+    "w": "faster.",
+    "hl": false
+   },
+   {
+    "w": "So",
+    "hl": false
+   },
+   {
+    "w": "you",
+    "hl": false
+   },
+   {
+    "w": "move",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "website",
+    "hl": false
+   },
+   {
+    "w": "closer.",
+    "hl": false
+   },
+   {
+    "w": "That's",
+    "hl": false
+   },
+   {
+    "w": "what",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "CDN",
+    "hl": true
+   },
+   {
+    "w": "does:",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "content",
+    "hl": false
+   },
+   {
+    "w": "delivery",
+    "hl": false
+   },
+   {
+    "w": "network.",
+    "hl": false
+   },
+   {
+    "w": "Gcore",
+    "hl": false
+   },
+   {
+    "w": "has",
+    "hl": false
+   },
+   {
+    "w": "more",
+    "hl": false
+   },
+   {
+    "w": "than",
+    "hl": false
+   },
+   {
+    "w": "two",
+    "hl": false
+   },
+   {
+    "w": "hundred",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "ten",
+    "hl": false
+   },
+   {
+    "w": "points",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "presence",
+    "hl": false
+   },
+   {
+    "w": "on",
+    "hl": false
+   },
+   {
+    "w": "six",
+    "hl": false
+   },
+   {
+    "w": "continents,",
+    "hl": false
+   },
+   {
+    "w": "each",
+    "hl": false
+   },
+   {
+    "w": "keeping",
+    "hl": false
+   },
+   {
+    "w": "copies",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "websites",
+    "hl": false
+   },
+   {
+    "w": "right",
+    "hl": false
+   },
+   {
+    "w": "next",
+    "hl": false
+   },
+   {
+    "w": "to",
+    "hl": false
+   },
+   {
+    "w": "their",
+    "hl": false
+   },
+   {
+    "w": "users.",
+    "hl": false
+   },
+   {
+    "w": "For",
+    "hl": false
+   },
+   {
+    "w": "you",
+    "hl": false
+   },
+   {
+    "w": "in",
+    "hl": false
+   },
+   {
+    "w": "Sydney,",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "store",
+    "hl": false
+   },
+   {
+    "w": "is",
+    "hl": false
+   },
+   {
+    "w": "now",
+    "hl": false
+   },
+   {
+    "w": "just",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "few",
+    "hl": false
+   },
+   {
+    "w": "kilometers",
+    "hl": false
+   },
+   {
+    "w": "away.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "closer": 10,
+   "pops": 22,
+   "six": 32,
+   "near": 52
+  },
+  "text": "Light won't go any faster. So you move the website closer. That's what a CDN does: a content delivery network. Gcore has more than two hundred and ten points of presence on six continents, each keeping copies of websites right next to their users. For you in Sydney, the store is now just a few kilometers away."
+ },
+ {
+  "id": "routing",
+  "label": "routing",
+  "words": [
+   {
+    "w": "But",
+    "hl": false
+   },
+   {
+    "w": "how",
+    "hl": false
+   },
+   {
+    "w": "does",
+    "hl": false
+   },
+   {
+    "w": "your",
+    "hl": false
+   },
+   {
+    "w": "browser",
+    "hl": false
+   },
+   {
+    "w": "find",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "nearest",
+    "hl": false
+   },
+   {
+    "w": "one?",
+    "hl": false
+   },
+   {
+    "w": "Every",
+    "hl": false
+   },
+   {
+    "w": "point",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "presence",
+    "hl": false
+   },
+   {
+    "w": "answers",
+    "hl": false
+   },
+   {
+    "w": "to",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "same",
+    "hl": false
+   },
+   {
+    "w": "address,",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "internet's",
+    "hl": false
+   },
+   {
+    "w": "routing",
+    "hl": false
+   },
+   {
+    "w": "simply",
+    "hl": false
+   },
+   {
+    "w": "sends",
+    "hl": false
+   },
+   {
+    "w": "you",
+    "hl": false
+   },
+   {
+    "w": "to",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "closest",
+    "hl": false
+   },
+   {
+    "w": "door.",
+    "hl": false
+   },
+   {
+    "w": "That's",
+    "hl": false
+   },
+   {
+    "w": "called",
+    "hl": false
+   },
+   {
+    "w": "anycast.",
+    "hl": true
+   }
+  ],
+  "cues": {
+   "same": 9,
+   "door": 23,
+   "anycast": 31
+  },
+  "text": "But how does your browser find the nearest one? Every point of presence answers to the same address, and the internet's routing simply sends you to the closest door. That's called anycast."
+ },
+ {
+  "id": "cache",
+  "label": "cache",
+  "words": [
+   {
+    "w": "The",
+    "hl": false
+   },
+   {
+    "w": "first",
+    "hl": false
+   },
+   {
+    "w": "visitor",
+    "hl": false
+   },
+   {
+    "w": "in",
+    "hl": false
+   },
+   {
+    "w": "Sydney",
+    "hl": false
+   },
+   {
+    "w": "gets",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "miss:",
+    "hl": true
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "edge",
+    "hl": false
+   },
+   {
+    "w": "fetches",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "page",
+    "hl": false
+   },
+   {
+    "w": "from",
+    "hl": false
+   },
+   {
+    "w": "Frankfurt",
+    "hl": false
+   },
+   {
+    "w": "once,",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "keeps",
+    "hl": false
+   },
+   {
+    "w": "it.",
+    "hl": false
+   },
+   {
+    "w": "Everyone",
+    "hl": false
+   },
+   {
+    "w": "after",
+    "hl": false
+   },
+   {
+    "w": "that",
+    "hl": false
+   },
+   {
+    "w": "gets",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "hit,",
+    "hl": true
+   },
+   {
+    "w": "straight",
+    "hl": false
+   },
+   {
+    "w": "from",
+    "hl": false
+   },
+   {
+    "w": "next",
+    "hl": false
+   },
+   {
+    "w": "door.",
+    "hl": false
+   },
+   {
+    "w": "On",
+    "hl": false
+   },
+   {
+    "w": "average,",
+    "hl": false
+   },
+   {
+    "w": "Gcore",
+    "hl": false
+   },
+   {
+    "w": "answers",
+    "hl": false
+   },
+   {
+    "w": "eighty-five",
+    "hl": false
+   },
+   {
+    "w": "percent",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "requests",
+    "hl": false
+   },
+   {
+    "w": "without",
+    "hl": false
+   },
+   {
+    "w": "even",
+    "hl": false
+   },
+   {
+    "w": "bothering",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "original",
+    "hl": false
+   },
+   {
+    "w": "server.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "miss": 7,
+   "keep": 16,
+   "hit": 24,
+   "p85": 33
+  },
+  "text": "The first visitor in Sydney gets a miss: the edge fetches the page from Frankfurt once, and keeps it. Everyone after that gets a hit, straight from next door. On average, Gcore answers eighty-five percent of requests without even bothering the original server."
+ },
+ {
+  "id": "weight",
+  "label": "weight",
+  "words": [
+   {
+    "w": "On",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "way,",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "edge",
+    "hl": false
+   },
+   {
+    "w": "also",
+    "hl": false
+   },
+   {
+    "w": "puts",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "site",
+    "hl": false
+   },
+   {
+    "w": "on",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "diet.",
+    "hl": false
+   },
+   {
+    "w": "Photos",
+    "hl": false
+   },
+   {
+    "w": "get",
+    "hl": false
+   },
+   {
+    "w": "converted",
+    "hl": false
+   },
+   {
+    "w": "to",
+    "hl": false
+   },
+   {
+    "w": "WebP",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "AVIF,",
+    "hl": false
+   },
+   {
+    "w": "up",
+    "hl": false
+   },
+   {
+    "w": "to",
+    "hl": false
+   },
+   {
+    "w": "eighty-five",
+    "hl": false
+   },
+   {
+    "w": "percent",
+    "hl": false
+   },
+   {
+    "w": "lighter.",
+    "hl": false
+   },
+   {
+    "w": "Fewer",
+    "hl": false
+   },
+   {
+    "w": "bytes,",
+    "hl": false
+   },
+   {
+    "w": "less",
+    "hl": false
+   },
+   {
+    "w": "waiting.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "diet": 9,
+   "webp": 16,
+   "lighter": 19,
+   "less": 26
+  },
+  "text": "On the way, the edge also puts the site on a diet. Photos get converted to WebP and AVIF, up to eighty-five percent lighter. Fewer bytes, less waiting."
+ },
+ {
+  "id": "rush",
+  "label": "rush",
+  "words": [
+   {
+    "w": "Now",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "real",
+    "hl": false
+   },
+   {
+    "w": "test.",
+    "hl": false
+   },
+   {
+    "w": "A",
+    "hl": false
+   },
+   {
+    "w": "big",
+    "hl": false
+   },
+   {
+    "w": "game",
+    "hl": false
+   },
+   {
+    "w": "update",
+    "hl": false
+   },
+   {
+    "w": "drops,",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "millions",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "players",
+    "hl": false
+   },
+   {
+    "w": "hit",
+    "hl": false
+   },
+   {
+    "w": "download",
+    "hl": false
+   },
+   {
+    "w": "in",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "same",
+    "hl": false
+   },
+   {
+    "w": "minute.",
+    "hl": false
+   },
+   {
+    "w": "One",
+    "hl": false
+   },
+   {
+    "w": "server",
+    "hl": false
+   },
+   {
+    "w": "would",
+    "hl": false
+   },
+   {
+    "w": "melt.",
+    "hl": true
+   },
+   {
+    "w": "A",
+    "hl": false
+   },
+   {
+    "w": "CDN",
+    "hl": false
+   },
+   {
+    "w": "splits",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "crowd",
+    "hl": false
+   },
+   {
+    "w": "across",
+    "hl": false
+   },
+   {
+    "w": "hundreds",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "locations,",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "each",
+    "hl": false
+   },
+   {
+    "w": "one",
+    "hl": false
+   },
+   {
+    "w": "serves",
+    "hl": false
+   },
+   {
+    "w": "its",
+    "hl": false
+   },
+   {
+    "w": "own",
+    "hl": false
+   },
+   {
+    "w": "neighborhood.",
+    "hl": false
+   },
+   {
+    "w": "Gcore",
+    "hl": false
+   },
+   {
+    "w": "actually",
+    "hl": false
+   },
+   {
+    "w": "grew",
+    "hl": false
+   },
+   {
+    "w": "up",
+    "hl": false
+   },
+   {
+    "w": "on",
+    "hl": false
+   },
+   {
+    "w": "this:",
+    "hl": false
+   },
+   {
+    "w": "it",
+    "hl": false
+   },
+   {
+    "w": "started",
+    "hl": false
+   },
+   {
+    "w": "out",
+    "hl": false
+   },
+   {
+    "w": "building",
+    "hl": false
+   },
+   {
+    "w": "infrastructure",
+    "hl": false
+   },
+   {
+    "w": "for",
+    "hl": false
+   },
+   {
+    "w": "online",
+    "hl": false
+   },
+   {
+    "w": "games.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "million": 10,
+   "melt": 19,
+   "split": 25,
+   "grew": 41
+  },
+  "text": "Now the real test. A big game update drops, and millions of players hit download in the same minute. One server would melt. A CDN splits the crowd across hundreds of locations, and each one serves its own neighborhood. Gcore actually grew up on this: it started out building infrastructure for online games."
+ },
+ {
+  "id": "shield",
+  "label": "shield",
+  "words": [
+   {
+    "w": "Same",
+    "hl": false
+   },
+   {
+    "w": "trick",
+    "hl": false
+   },
+   {
+    "w": "against",
+    "hl": false
+   },
+   {
+    "w": "attackers.",
+    "hl": false
+   },
+   {
+    "w": "In",
+    "hl": false
+   },
+   {
+    "w": "twenty",
+    "hl": false
+   },
+   {
+    "w": "twenty-five,",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "botnet",
+    "hl": false
+   },
+   {
+    "w": "hit",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "gaming",
+    "hl": false
+   },
+   {
+    "w": "host",
+    "hl": false
+   },
+   {
+    "w": "protected",
+    "hl": false
+   },
+   {
+    "w": "by",
+    "hl": false
+   },
+   {
+    "w": "Gcore",
+    "hl": false
+   },
+   {
+    "w": "with",
+    "hl": false
+   },
+   {
+    "w": "six",
+    "hl": true
+   },
+   {
+    "w": "terabits",
+    "hl": true
+   },
+   {
+    "w": "per",
+    "hl": false
+   },
+   {
+    "w": "second.",
+    "hl": false
+   },
+   {
+    "w": "Over",
+    "hl": false
+   },
+   {
+    "w": "five",
+    "hl": false
+   },
+   {
+    "w": "billion",
+    "hl": false
+   },
+   {
+    "w": "packets,",
+    "hl": false
+   },
+   {
+    "w": "every",
+    "hl": false
+   },
+   {
+    "w": "second.",
+    "hl": false
+   },
+   {
+    "w": "Spread",
+    "hl": false
+   },
+   {
+    "w": "across",
+    "hl": false
+   },
+   {
+    "w": "two",
+    "hl": false
+   },
+   {
+    "w": "hundred",
+    "hl": false
+   },
+   {
+    "w": "terabits",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "capacity,",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "flood",
+    "hl": false
+   },
+   {
+    "w": "was",
+    "hl": false
+   },
+   {
+    "w": "absorbed,",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "service",
+    "hl": false
+   },
+   {
+    "w": "kept",
+    "hl": false
+   },
+   {
+    "w": "running.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "t6": 17,
+   "bpps": 21,
+   "t200": 29,
+   "absorb": 37
+  },
+  "text": "Same trick against attackers. In twenty twenty-five, a botnet hit a gaming host protected by Gcore with six terabits per second. Over five billion packets, every second. Spread across two hundred terabits of capacity, the flood was absorbed, and the service kept running."
+ },
+ {
+  "id": "result",
+  "label": "result",
+  "words": [
+   {
+    "w": "So,",
+    "hl": false
+   },
+   {
+    "w": "without",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "CDN:",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "quarter",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "second,",
+    "hl": false
+   },
+   {
+    "w": "every",
+    "hl": false
+   },
+   {
+    "w": "round",
+    "hl": false
+   },
+   {
+    "w": "trip.",
+    "hl": false
+   },
+   {
+    "w": "With",
+    "hl": false
+   },
+   {
+    "w": "Gcore:",
+    "hl": false
+   },
+   {
+    "w": "about",
+    "hl": false
+   },
+   {
+    "w": "thirty",
+    "hl": true
+   },
+   {
+    "w": "milliseconds",
+    "hl": false
+   },
+   {
+    "w": "on",
+    "hl": false
+   },
+   {
+    "w": "average.",
+    "hl": false
+   },
+   {
+    "w": "That's",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "difference",
+    "hl": false
+   },
+   {
+    "w": "between",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "blank",
+    "hl": false
+   },
+   {
+    "w": "screen",
+    "hl": false
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "a",
+    "hl": false
+   },
+   {
+    "w": "page",
+    "hl": false
+   },
+   {
+    "w": "that's",
+    "hl": false
+   },
+   {
+    "w": "just",
+    "hl": false
+   },
+   {
+    "w": "there.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "slow": 4,
+   "fast": 14,
+   "there": 31
+  },
+  "text": "So, without a CDN: a quarter of a second, every round trip. With Gcore: about thirty milliseconds on average. That's the difference between a blank screen and a page that's just there."
+ },
+ {
+  "id": "outro",
+  "label": "-",
+  "words": [
+   {
+    "w": "Follow",
+    "hl": false
+   },
+   {
+    "w": "Gcore,",
+    "hl": true
+   },
+   {
+    "w": "and",
+    "hl": false
+   },
+   {
+    "w": "we'll",
+    "hl": false
+   },
+   {
+    "w": "break",
+    "hl": false
+   },
+   {
+    "w": "down",
+    "hl": false
+   },
+   {
+    "w": "more",
+    "hl": false
+   },
+   {
+    "w": "of",
+    "hl": false
+   },
+   {
+    "w": "the",
+    "hl": false
+   },
+   {
+    "w": "tech",
+    "hl": false
+   },
+   {
+    "w": "you",
+    "hl": false
+   },
+   {
+    "w": "use",
+    "hl": false
+   },
+   {
+    "w": "every",
+    "hl": false
+   },
+   {
+    "w": "day.",
+    "hl": false
+   }
+  ],
+  "cues": {
+   "follow": 1
+  },
+  "text": "Follow Gcore, and we'll break down more of the tech you use every day."
+ }
+]
