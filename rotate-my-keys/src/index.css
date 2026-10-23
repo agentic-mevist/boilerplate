@@ -1,0 +1,288 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+/* Follow the OS theme. */
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
+/* Variants the shadcn/ui components rely on (from shadcn/tailwind.css, MIT). */
+@custom-variant data-open {
+  &:where([data-state="open"]),
+  &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+@custom-variant data-closed {
+  &:where([data-state="closed"]),
+  &:where([data-closed]:not([data-closed="false"])) {
+    @slot;
+  }
+}
+@custom-variant data-checked {
+  &:where([data-state="checked"]),
+  &:where([data-checked]:not([data-checked="false"])) {
+    @slot;
+  }
+}
+@custom-variant data-unchecked {
+  &:where([data-state="unchecked"]),
+  &:where([data-unchecked]:not([data-unchecked="false"])) {
+    @slot;
+  }
+}
+@custom-variant data-disabled {
+  &:where([data-disabled="true"]),
+  &:where([data-disabled]:not([data-disabled="false"])) {
+    @slot;
+  }
+}
+@custom-variant data-active {
+  &:where([data-state="active"]),
+  &:where([data-active]:not([data-active="false"])) {
+    @slot;
+  }
+}
+@custom-variant data-horizontal {
+  &:where([data-orientation="horizontal"]) {
+    @slot;
+  }
+}
+@custom-variant data-vertical {
+  &:where([data-orientation="vertical"]) {
+    @slot;
+  }
+}
+
+@theme inline {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-heading: var(--font-sans);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-brand-1: var(--brand-1);
+  --color-brand-2: var(--brand-2);
+  --color-brand-3: var(--brand-3);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height, auto);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height, auto);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: -100% 0;
+    }
+  }
+  @keyframes flip-in {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --background: oklch(0.985 0.005 290);
+  --foreground: oklch(0.2 0.03 285);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.03 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.03 285);
+  --primary: oklch(0.52 0.24 293);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.955 0.012 290);
+  --secondary-foreground: oklch(0.25 0.04 285);
+  --muted: oklch(0.955 0.012 290);
+  --muted-foreground: oklch(0.48 0.03 285);
+  --accent: oklch(0.94 0.03 293);
+  --accent-foreground: oklch(0.3 0.12 293);
+  --destructive: oklch(0.55 0.22 27);
+  --success: oklch(0.55 0.15 155);
+  --border: oklch(0.91 0.012 290);
+  --input: oklch(0.88 0.015 290);
+  --ring: oklch(0.6 0.2 293);
+
+  --brand-1: oklch(0.56 0.25 293);
+  --brand-2: oklch(0.6 0.26 340);
+  --brand-3: oklch(0.7 0.18 50);
+
+  --grid-line: oklch(0.2 0.03 285 / 6%);
+  --glow-1: oklch(0.7 0.2 293 / 22%);
+  --glow-2: oklch(0.72 0.2 340 / 16%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(0.14 0.02 285);
+    --foreground: oklch(0.97 0.005 285);
+    --card: oklch(0.18 0.025 285);
+    --card-foreground: oklch(0.97 0.005 285);
+    --popover: oklch(0.18 0.025 285);
+    --popover-foreground: oklch(0.97 0.005 285);
+    --primary: oklch(0.72 0.18 293);
+    --primary-foreground: oklch(0.16 0.03 285);
+    --secondary: oklch(0.24 0.03 285);
+    --secondary-foreground: oklch(0.96 0.005 285);
+    --muted: oklch(0.23 0.025 285);
+    --muted-foreground: oklch(0.74 0.025 285);
+    --accent: oklch(0.27 0.06 293);
+    --accent-foreground: oklch(0.93 0.04 293);
+    --destructive: oklch(0.7 0.19 22);
+    --success: oklch(0.75 0.15 155);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.72 0.18 293);
+
+    --brand-1: oklch(0.72 0.2 293);
+    --brand-2: oklch(0.74 0.2 340);
+    --brand-3: oklch(0.82 0.15 60);
+
+    --grid-line: oklch(1 0 0 / 5%);
+    --glow-1: oklch(0.55 0.25 293 / 35%);
+    --glow-2: oklch(0.6 0.25 340 / 20%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply bg-background font-sans text-foreground antialiased;
+    color-scheme: light dark;
+  }
+  body {
+    @apply min-h-dvh bg-background;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  ::selection {
+    @apply bg-brand-1/30;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(100deg, var(--brand-1), var(--brand-2) 55%, var(--brand-3));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility bg-brand-gradient {
+  background-image: linear-gradient(100deg, var(--brand-1), var(--brand-2) 60%, var(--brand-3));
+}
+
+/* Same in both themes. Deep enough for white text (≥ 4.5:1 throughout). */
+@utility bg-button-gradient {
+  background-image: linear-gradient(
+    100deg,
+    oklch(0.541 0.281 293),
+    oklch(0.591 0.293 323) 55%,
+    oklch(0.586 0.253 17.6)
+  );
+}
+
+/* Matches public/favicon.svg. */
+@utility bg-logo-gradient {
+  background-image: linear-gradient(100deg, #7c3aed, #db2777 60%, #f59e0b);
+}
+
+/* Faint grid that fades out away from the top of the page. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 25%, transparent 75%);
+}
+
+@utility bg-glow {
+  background:
+    radial-gradient(40% 50% at 30% 0%, var(--glow-1), transparent 70%),
+    radial-gradient(35% 45% at 75% 5%, var(--glow-2), transparent 70%);
+}
+
+/* The hero's headline word: shows up upright, then gets rotated. */
+@utility flip-in {
+  transform: rotate(180deg);
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: flip-in 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
+  }
+}
+
+/* The "AI is thinking" text effect. */
+@utility shimmer-text {
+  background-image: linear-gradient(
+    90deg,
+    var(--muted-foreground) 0%,
+    var(--muted-foreground) 35%,
+    var(--foreground) 50%,
+    var(--muted-foreground) 65%,
+    var(--muted-foreground) 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 1.8s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    color: var(--muted-foreground);
+    background: none;
+  }
+}

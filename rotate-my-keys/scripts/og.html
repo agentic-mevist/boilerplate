@@ -1,0 +1,116 @@
+<!doctype html>
+<!-- Source for public/og.png (the link preview image). Rendered by render-images.mjs. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: Geist;
+        src: url(../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2) format("woff2");
+        font-weight: 100 900;
+      }
+      @font-face {
+        font-family: GeistMono;
+        src: url(../node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2) format("woff2");
+        font-weight: 100 900;
+      }
+      :root {
+        --brand: linear-gradient(100deg, oklch(0.72 0.2 293), oklch(0.74 0.2 340) 55%, oklch(0.82 0.15 60));
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        position: relative;
+        background: oklch(0.14 0.02 285);
+        color: oklch(0.97 0.005 285);
+        font-family: Geist, sans-serif;
+      }
+      .glow {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(45% 60% at 22% 0%, oklch(0.55 0.25 293 / 45%), transparent 70%),
+          radial-gradient(40% 55% at 85% 100%, oklch(0.6 0.25 340 / 30%), transparent 70%);
+      }
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(to right, oklch(1 0 0 / 6%) 1px, transparent 1px),
+          linear-gradient(to bottom, oklch(1 0 0 / 6%) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: radial-gradient(ellipse 85% 85% at 30% 30%, black 30%, transparent 80%);
+      }
+      .g { background-image: var(--brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .content { position: absolute; left: 72px; top: 64px; width: 640px; }
+      .brand { display: flex; align-items: center; gap: 14px; font-size: 34px; font-weight: 600; letter-spacing: -0.02em; }
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: linear-gradient(100deg, #7c3aed, #db2777 60%, #f59e0b);
+      }
+      h1 { margin: 60px 0 0; font-size: 84px; line-height: 1.02; font-weight: 600; letter-spacing: -0.035em; }
+      .flip { display: inline-block; transform: rotate(180deg); padding-bottom: 6px; }
+      p { margin: 30px 0 0; font-size: 28px; line-height: 1.35; color: oklch(0.8 0.025 285); width: 560px; }
+      .url { position: absolute; left: 72px; bottom: 56px; font-family: GeistMono, monospace; font-size: 24px; color: oklch(0.8 0.025 285); }
+      .card {
+        position: absolute;
+        right: 64px;
+        top: 150px;
+        width: 400px;
+        padding: 24px 26px;
+        border-radius: 22px;
+        background: oklch(0.19 0.025 285 / 92%);
+        box-shadow: 0 0 0 1px oklch(1 0 0 / 10%), 0 30px 80px -20px oklch(0 0 0 / 60%);
+        transform: rotate(3deg);
+      }
+      .card-title { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 600; }
+      .ok { color: oklch(0.75 0.15 155); }
+      ol { margin: 18px 0 0; padding: 0; list-style: none; font-family: GeistMono, monospace; font-size: 21px; }
+      li { display: flex; gap: 14px; padding: 9px 12px; border-radius: 10px; background: oklch(0.23 0.025 285); margin-top: 10px; }
+      li span:first-child { color: oklch(0.6 0.025 285); }
+      li span:last-child { display: inline-block; transform: rotate(180deg); }
+      .stats { display: flex; gap: 10px; margin-top: 18px; }
+      .stat { flex: 1; padding: 10px 12px; border-radius: 10px; box-shadow: inset 0 0 0 1px oklch(1 0 0 / 10%); }
+      .stat small { display: block; font-size: 13px; color: oklch(0.7 0.025 285); }
+      .stat b { font-family: GeistMono, monospace; font-size: 24px; }
+    </style>
+  </head>
+  <body>
+    <div class="glow"></div>
+    <div class="grid"></div>
+    <div class="content">
+      <div class="brand">
+        <span class="logo">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)">
+            <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+            <circle cx="16.5" cy="7.5" r=".5" fill="#fff" />
+          </svg>
+        </span>
+        <span>Rot<span class="g">AI</span>te</span>
+      </div>
+      <h1>AI-powered key<br /><span class="flip g">rotation</span></h1>
+      <p>Paste all your API keys. Our AI rotates every single one of them. By exactly 180°.</p>
+    </div>
+    <div class="url">rotate-my-keys.pages.dev</div>
+    <div class="card">
+      <div class="card-title"><span class="ok">✓</span> 4 keys rotated by 180°</div>
+      <ol>
+        <li><span>1</span><span>sk-definitely-not-real</span></li>
+        <li><span>2</span><span>ghp_NiceTryThisIsFake</span></li>
+        <li><span>3</span><span>hunter2</span></li>
+        <li><span>4</span><span>password123</span></li>
+      </ol>
+      <div class="stats">
+        <div class="stat"><small>Keys actually changed</small><b>0</b></div>
+        <div class="stat"><small>Bytes sent anywhere</small><b>0</b></div>
+      </div>
+    </div>
+  </body>
+</html>
