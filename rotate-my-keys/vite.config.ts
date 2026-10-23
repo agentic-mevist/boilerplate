@@ -5,8 +5,9 @@ import react from "@vitejs/plugin-react"
 import { defineConfig, type Plugin } from "vite"
 
 // The security story of the whole site lives here. Browsers enforce this
-// policy, so the page cannot fetch, beacon, open sockets, submit forms, load
-// third-party code or be framed, no matter what its JavaScript tries to do.
+// policy, so the page cannot fetch, beacon, open WebSockets, load images from
+// elsewhere, submit forms, load third-party code or be framed. CSP can't stop
+// navigation or WebRTC; the code itself never does either.
 const CSP: Array<[string, string]> = [
   ["default-src", "'none'"],
   ["script-src", "'self'"],

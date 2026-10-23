@@ -1,10 +1,23 @@
 import { expect, test, type Page } from "@playwright/test"
 
+import { flipLines } from "../src/lib/flip"
+
+const ALNUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+const randomChars = (length: number, chars = ALNUM) =>
+  Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join("")
+
 // A token in GitHub's format, generated so the repo never contains one.
-function fakeGithubToken() {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-  const body = Array.from({ length: 36 }, () => chars[Math.floor(Math.random() * chars.length)]).join("")
-  return `ghp_${body}`
+const fakeGithubToken = () => `ghp_${randomChars(36)}`
+
+/** Stubs the clipboard so tests can see what the page copied. */
+async function captureClipboard(page: Page) {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "share", { value: undefined })
+    navigator.clipboard.writeText = async (text: string) => {
+      ;(window as unknown as { copied: string }).copied = text
+    }
+  })
+  return () => page.evaluate(() => (window as unknown as { copied: string }).copied)
 }
 
 /** Collects every request the page makes, plus console errors and CSP violations. */
@@ -65,7 +78,7 @@ test("rotating makes no network requests at all", async ({ page }) => {
   expect(problems).toEqual([])
 })
 
-test("the browser blocks any attempt to phone home", async ({ page }) => {
+test("the browser blocks requests from the page", async ({ page }) => {
   await page.goto("/")
   const outcome = await page.evaluate(async () => {
     const violations: string[] = []
@@ -120,35 +133,40 @@ test("warns about real-looking keys and redacts them", async ({ page }) => {
   await expect(view).not.toContainText(token.slice(4, 12))
 })
 
+test("never shows any part of a long or oddly shaped secret", async ({ page }) => {
+  const copied = await captureClipboard(page)
+  const token = `IQoJb3JpZ2luX2Vj${randomChars(700, `${ALNUM}+/`)}`
+  await page.goto("/")
+  await keyBox(page).fill(`DB_PASSWORD=P#ssw0rd!2024\nexport AWS_SESSION_TOKEN="${token}"`)
+  await rotateButton(page).click()
+  const view = page.getByTestId("rotated-view")
+  await expect(view).toHaveAttribute("translate", "no")
+  await page.getByRole("button", { name: "Copy rotated keys" }).click()
+  const visible = [await view.innerText(), flipLines((await copied()).split("\n").reverse())]
+  for (const text of visible) {
+    expect(text).not.toContain("ssw0rd")
+    for (let i = 0; i + 12 <= token.length; i += 12) expect(text).not.toContain(token.slice(i, i + 12))
+  }
+})
+
 test("Share never includes anything from the box", async ({ page }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, "share", { value: undefined })
-    navigator.clipboard.writeText = async (text: string) => {
-      ;(window as unknown as { copied: string }).copied = text
-    }
-  })
+  const copied = await captureClipboard(page)
   await page.goto("/")
   await keyBox(page).fill("hunter2\nsk-very-secret-but-fake")
   await rotateButton(page).click()
   await page.getByRole("button", { name: "Share the joke" }).click()
-  const copied = await page.evaluate(() => (window as unknown as { copied: string }).copied)
-  expect(copied).toContain("rotate 2 of my API keys by 180°")
-  expect(copied).not.toContain("hunter2")
-  expect(copied).not.toContain("very-secret")
+  expect(await copied()).toContain("rotate 2 of my API keys by 180°")
+  expect(await copied()).not.toContain("hunter2")
+  expect(await copied()).not.toContain("very-secret")
 })
 
 test("copies keys upside down", async ({ page }) => {
-  await page.addInitScript(() => {
-    navigator.clipboard.writeText = async (text: string) => {
-      ;(window as unknown as { copied: string }).copied = text
-    }
-  })
+  const copied = await captureClipboard(page)
   await page.goto("/")
   await keyBox(page).fill("hello\nworld")
   await rotateButton(page).click()
   await page.getByRole("button", { name: "Copy rotated keys" }).click()
-  const copied = await page.evaluate(() => (window as unknown as { copied: string }).copied)
-  expect(copied).toBe("plɹoʍ\nollǝɥ")
+  expect(await copied()).toBe("plɹoʍ\nollǝɥ")
 })
 
 test("rotates the entire website, and Esc puts it back", async ({ page }) => {
@@ -185,6 +203,7 @@ test("the box opts out of spellcheck, autofill and grammar extensions", async ({
   await expect(box).toHaveAttribute("autocomplete", "off")
   await expect(box).toHaveAttribute("data-gramm", "false")
   await expect(box).toHaveAttribute("data-lpignore", "true")
+  await expect(box).toHaveAttribute("translate", "no")
 })
 
 test("leaving the page wipes the box", async ({ page }) => {

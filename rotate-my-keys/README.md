@@ -18,19 +18,24 @@ three seconds, then rotates every key by exactly 180°. Physically. With CSS.
 The page asks people to paste secrets, so it's built to make that as harmless as possible, and to
 tell people loudly not to do it.
 
-- **Nothing can leave the page.** There is no backend. The CSP sets `default-src 'none'`,
-  `connect-src 'none'` and `form-action 'none'`, so the browser blocks every fetch, beacon, socket,
-  image ping and form post, whatever the JavaScript tries. Only same-origin scripts, styles and
-  fonts load. Trusted Types are enforced. The policy is defined once in `vite.config.ts` and
-  shipped both as a Cloudflare Pages `_headers` file and as a `<meta>` tag.
+- **Nothing leaves the page.** There is no backend, and the code never sends, navigates or opens
+  connections. On top of that, the CSP sets `default-src 'none'`, `connect-src 'none'` and
+  `form-action 'none'`, so the browser blocks fetches, beacons, WebSockets, image pings and form
+  posts even if some script tried. Only same-origin scripts, styles and fonts load, and Trusted
+  Types are enforced. (No CSP can block top-level navigation or WebRTC, so for those the guarantee
+  is the code, which you can read.) The policy is defined once in `vite.config.ts` and shipped both
+  as a Cloudflare Pages `_headers` file and as a `<meta>` tag.
 - **Nothing is stored.** No cookies, storage, analytics or third-party requests of any kind. The
   box empties itself on `pagehide`.
 - **Real keys get called out.** `src/lib/secrets.ts` recognizes about 25 credential formats (GitHub,
-  OpenAI, Anthropic, AWS, Stripe, Slack, private keys, JWTs, passwords in URLs, …), plus a heuristic
-  for random-looking tokens. If you paste one, the page tells you, links to where to revoke it,
-  and redacts it from the rotated output so it can't end up in a screenshot.
+  OpenAI, Anthropic, AWS, Azure, Stripe, Slack, private keys, JWTs, passwords in URLs and in
+  `NAME=value` / JSON / YAML assignments, …), plus a heuristic for random-looking tokens. If you
+  paste one, the page tells you, links to where to revoke it, and masks it in the rotated output so
+  it can't end up in a screenshot. Masks never show only part of a secret, and always have the same
+  length, so they don't give away how long a password is.
 - **Extensions are asked to stay out.** The box disables spellcheck, autocorrect, autocomplete,
-  Grammarly, LanguageTool and password-manager capture.
+  Grammarly, LanguageTool and password-manager capture, and the keys are marked `translate="no"` so
+  browser translation never sends them to a translation service.
 - **Share never includes key content.** Only the count and the angle.
 - **You can verify all of it.** Source maps ship on purpose (DevTools → Sources shows the real code),
   and the e2e tests assert there are zero network requests while rotating.

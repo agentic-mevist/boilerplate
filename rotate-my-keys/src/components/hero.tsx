@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 
 const PROMISES: Array<{ icon: LucideIcon; label: string }> = [
   { icon: MonitorSmartphone, label: "Runs 100% in your browser" },
-  { icon: WifiOff, label: "Can't phone home" },
+  { icon: WifiOff, label: "Sends nothing anywhere" },
   { icon: Code, label: "Open source" },
 ]
 

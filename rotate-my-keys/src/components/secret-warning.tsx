@@ -29,7 +29,7 @@ export function SecretWarning({ detections, redacted = false, onClear }: SecretW
         <div className="min-w-0 space-y-3">
           <p className="font-semibold text-destructive">{title}</p>
           <p className="text-pretty text-foreground/80">
-            Nothing has left your browser. This page can't send anything anywhere. But you just pasted
+            Nothing has left your browser: this page never sends anything anywhere. But you just pasted
             a credential into a website from a group chat, and browser extensions can read anything on
             a page. Our AI is disappointed in you.
           </p>

@@ -37,7 +37,9 @@ export function RotatedView({ lines, hidden, mode, rotation, reducedMotion }: Ro
   return (
     <div
       data-testid="rotated-view"
-      className="min-h-44 overflow-hidden rounded-lg border border-input bg-muted/40 px-3 py-2.5 font-mono text-[0.9rem] leading-relaxed dark:bg-input/20"
+      // Keys must never go to a browser's translation service.
+      translate="no"
+      className="notranslate min-h-44 overflow-hidden rounded-lg border border-input bg-muted/40 px-3 py-2.5 font-mono text-[0.9rem] leading-relaxed dark:bg-input/20"
     >
       <ol className="space-y-1">
         {lines.map((line, i) => (

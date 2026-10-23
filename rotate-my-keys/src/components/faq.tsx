@@ -29,7 +29,7 @@ const QUESTIONS: Array<{ q: string; a: React.ReactNode }> = [
   },
   {
     q: "I pasted a real key. Am I hacked?",
-    a: "Almost certainly not: nothing left your browser, and this page can't send it anywhere. But a browser extension could have read it, so if you're not sure, revoke it and create a new one. That's real rotation. It takes two minutes and zero AI.",
+    a: "Almost certainly not: this page never sends anything anywhere. But a browser extension could have read it, so if you're not sure, revoke it and create a new one. That's real rotation. It takes two minutes and zero AI.",
   },
   {
     q: "Why does this exist?",

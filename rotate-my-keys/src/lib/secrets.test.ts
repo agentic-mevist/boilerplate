@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import { FAKE_KEYS, hallucinateKeys } from "@/lib/fake-keys"
-import { countKeys, findSecrets, looksRandom, prepareKeys, summarize } from "@/lib/secrets"
+import { countKeys, findSecrets, isSecretName, looksRandom, prepareKeys, summarize } from "@/lib/secrets"
 
 // Fixtures are generated at runtime so this repo never contains anything
 // shaped like a real credential (and secret scanners stay quiet).
@@ -24,6 +24,8 @@ const digits = (n: number) => pick("0123456789", n)
 const urlsafe = (n: number) => pick(`${ALNUM}-_`, n)
 
 const kindsIn = (text: string) => findSecrets(text).map((d) => d.kind.id)
+const shown = (text: string) =>
+  prepareKeys(text, { maxLength: 100_000 }).lines.map((line) => line.text).join("\n")
 
 describe("findSecrets: known formats", () => {
   const BEGIN = "-----BEGIN"
@@ -168,10 +170,116 @@ describe("prepareKeys", () => {
   })
 })
 
+describe("never half-masks a secret", () => {
+  it.each([
+    ["a # early in the value", "DB_PASSWORD=P#ssw0rd!2024", "ssw0rd!2024"],
+    ["a # mid-value", "DB_PASSWORD=hunter22#Summer2024", "Summer2024"],
+    ["a quoted passphrase", 'PASSWORD="correct horse battery staple"', "horse battery"],
+    ["a JSON key", '"password": "Summer2024!Company"', "Summer2024"],
+    ["a quoted YAML key", "'db_password': Summer2024!Company", "Summer2024"],
+    ["_PASS", "DB_PASS=Summer2024!Company", "Summer2024"],
+    ["a passphrase", "GPG_PASSPHRASE=Summer2024!Company", "Summer2024"],
+    ["camelCase", "clientSecret: Summer2024!Company", "Summer2024"],
+    ["a CLI flag", "mysql --password=Summer2024!Company", "Summer2024"],
+    ["a long name", "SPRING_DATASOURCE_HIKARI_PRIMARY_REPLICA_POOL_PASSWORD=Summer2024!Company", "Summer2024"],
+    ["the second of two", "user=bob password=Summer2024!Company", "Summer2024"],
+    ["an @ in a URL password", "postgres://admin:p@ssw0rd!2024@db.example.com:5432/app", "ssw0rd"],
+    ["a URL with no username", "redis://:Summer2024!Company@cache.example.com:6379/0", "Summer2024"],
+    ["an Authorization header", "Authorization: Bearer Summer2024!Company", "Summer2024"],
+  ])("with %s", (_, text, secretPart) => {
+    expect(shown(text)).not.toContain(secretPart)
+  })
+
+  it("masks all of a long session token", () => {
+    const token = `IQoJb3JpZ2luX2Vj${pick(`${ALNUM}+/`, 700)}`
+    const out = shown(`export AWS_SESSION_TOKEN="${token}"`)
+    for (let i = 0; i + 12 <= token.length; i += 12) expect(out).not.toContain(token.slice(i, i + 12))
+  })
+
+  it("leaves no tail of a long blob", () => {
+    const blob = pick(`${ALNUM}+/`, 1039)
+    expect(shown(`CREDS_B64=${blob}`)).not.toContain(blob.slice(-15))
+    expect(shown(blob)).not.toContain(blob.slice(-15))
+  })
+
+  it("widens a detection to the whole token around it", () => {
+    expect(shown(`ghp_${alnum(36)}/extra-${alnum(20)}`)).toBe("ghp_••••••••••••")
+  })
+
+  it("doesn't reveal how long a secret was", () => {
+    expect(shown("PASSWORD=abcd")).toBe(shown(`PASSWORD=${"abcdefgh".repeat(10)}`))
+  })
+})
+
+describe("finds keys where they hide", () => {
+  it("in URL paths as often as anywhere else", () => {
+    const tokens = Array.from({ length: 300 }, () => alnum(32))
+    const caught = tokens.filter((token) => !shown(`https://api.example.com/v1/projects/${token}/settings`).includes(token))
+    expect(caught.length / tokens.length).toBeGreaterThan(0.95)
+  })
+
+  it("in Telegram bot URLs", () => {
+    expect(kindsIn(`https://api.telegram.org/bot${digits(10)}:AA${urlsafe(33)}/sendMessage`)).toContain("telegram")
+  })
+
+  it.each([
+    ["OpenRouter", () => `sk-or-v1-${hex(64)}`],
+    ["Databricks", () => `dapi${hex(32)}`],
+    ["Mailchimp", () => `${hex(32)}-us21`],
+  ])("behind a prefix (%s style)", (_, make) => {
+    for (let i = 0; i < 200; i++) expect(findSecrets(make()).length).toBeGreaterThan(0)
+  })
+
+  it("in Azure client secrets", () => {
+    for (let i = 0; i < 200; i++) {
+      const secret = `${pick(`${ALNUM}_~.`, 3)}${digits(1)}Q~${pick(`${ALNUM}_~.-`, 34)}`
+      expect(kindsIn(secret)).toEqual(["azure"])
+    }
+  })
+
+  it("in Slack workflow trigger URLs", () => {
+    const url = `https://hooks.slack.com/triggers/T${upperDigits(10)}/${digits(13)}/${alnum(32)}`
+    expect(kindsIn(url)).toEqual(["slack-webhook"])
+  })
+})
+
+describe("doesn't cry wolf", () => {
+  it.each([
+    "COMPASS: north",
+    "secretary: Jane",
+    "passport: valid",
+    "Reset your password at the usual page",
+    "Note: this is fine",
+    "time: 10:30",
+    "https://example.com:8080/path",
+  ])("on %s", (text) => {
+    expect(findSecrets(text)).toEqual([])
+  })
+
+  it.each([
+    ["DB_PASS", true],
+    ["clientSecret", true],
+    ["x-api-key", true],
+    ["APIKEY", true],
+    ["GITHUB_TOKENS", true],
+    ["Authorization", true],
+    ["COMPASS", false],
+    ["secretary", false],
+    ["passport", false],
+    ["monkey", false],
+    ["TOKENIZER", false],
+  ])("knows whether %s names a secret (%s)", (name, expected) => {
+    expect(isSecretName(name)).toBe(expected)
+  })
+})
+
 describe("performance", () => {
   it.each([
     ["url-ish", `a://a:${"b".repeat(19_990)}`],
     ["assignment-ish", "PASSWORD=".repeat(2_200)],
+    ["name-ish", "key: ".repeat(4_000)],
+    ["dash-ish", "a-".repeat(10_000)],
+    ["at-ish", `a://:${"@".repeat(19_990)}`],
     ["jwt-ish", `eyJ${"a".repeat(19_990)}`],
     ["pem-ish", `-----BEGIN PRIVATE KEY-----${"x".repeat(19_970)}`],
     ["random", alnum(20_000)],

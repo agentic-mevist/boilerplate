@@ -15,12 +15,13 @@ const FACTS: Array<{ icon: LucideIcon; title: string; body: React.ReactNode; war
   },
   {
     icon: WifiOff,
-    title: "It physically can't phone home",
+    title: "Locked out of the network, mostly",
     body: (
       <>
-        The page ships a Content-Security-Policy with <InlineCode>connect-src 'none'</InlineCode> and{" "}
-        <InlineCode>form-action 'none'</InlineCode>, so your browser blocks every fetch, beacon, socket and form
-        submission it might try.
+        The Content-Security-Policy sets <InlineCode>connect-src 'none'</InlineCode> and{" "}
+        <InlineCode>form-action 'none'</InlineCode>, so your browser blocks fetches, beacons, WebSockets,
+        image pings and form posts. No policy can stop a page from navigating away or opening a WebRTC
+        connection, so for those it's down to the code: it does neither, and you can read it.
       </>
     ),
   },
@@ -32,7 +33,7 @@ const FACTS: Array<{ icon: LucideIcon; title: string; body: React.ReactNode; war
   {
     icon: EyeOff,
     title: "Extensions are asked to look away",
-    body: "Spellcheck, autocorrect, Grammarly and password managers are switched off for the box. Asked, not forced: any extension with access to this page could still read it.",
+    body: "Spellcheck, autocorrect, Grammarly, page translation and password managers are switched off for your keys. Asked, not forced: any extension with access to this page could still read them.",
   },
   {
     icon: Code,

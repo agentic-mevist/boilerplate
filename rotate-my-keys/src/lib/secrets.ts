@@ -1,8 +1,8 @@
 // Spots things that look like real credentials, so the page can tell people
 // to go rotate them for real and keep them out of screenshots.
 //
-// Everything here runs locally on the text in the box. Quantifiers are
-// bounded so a hostile paste can't make the regexes backtrack for long.
+// Everything here runs locally on the text in the box. Every pattern is
+// bounded or linear, so a hostile paste can't make them backtrack for long.
 
 export interface SecretKind {
   id: string
@@ -13,6 +13,8 @@ export interface SecretKind {
   regex: RegExp
   /** Only this capture group is the secret (e.g. the password in a URL). */
   group?: number
+  /** Extra check a match has to pass to count. */
+  accept?: (match: RegExpMatchArray) => boolean
   /** Non-secret prefix kept visible when redacting, e.g. "ghp_". */
   prefix?: RegExp
   /** Where to revoke it and make a new one. */
@@ -99,8 +101,8 @@ export const SECRET_KINDS: SecretKind[] = [
   {
     id: "slack-webhook",
     label: "Slack webhook URL",
-    regex: /https:\/\/hooks\.slack\.com\/services\/[A-Za-z0-9_/-]{20,200}/g,
-    prefix: /^https:\/\/hooks\.slack\.com\/services\//,
+    regex: /https:\/\/hooks\.slack\.com\/(?:services|triggers|workflows)\/[A-Za-z0-9_/-]{20,200}/g,
+    prefix: /^https:\/\/hooks\.slack\.com\/[a-z]+\//,
     rotateUrl: "https://api.slack.com/apps",
     rotateHint: "Remove the webhook in your Slack app and create a new one.",
   },
@@ -162,7 +164,8 @@ export const SECRET_KINDS: SecretKind[] = [
   {
     id: "telegram",
     label: "Telegram bot token",
-    regex: /\b\d{8,10}:AA[A-Za-z0-9_-]{33}(?![A-Za-z0-9_-])/g,
+    // No \b: in bot URLs the token comes right after "bot".
+    regex: /(?<!\d)\d{8,10}:AA[A-Za-z0-9_-]{33}(?![A-Za-z0-9_-])/g,
     rotateUrl: "https://t.me/BotFather",
     rotateHint: "Send /revoke to @BotFather.",
   },
@@ -221,10 +224,18 @@ export const SECRET_KINDS: SecretKind[] = [
     rotateHint: "If it is long-lived, revoke the session or rotate the signing secret.",
   },
   {
+    id: "azure",
+    label: "Azure client secret",
+    regex: /(?<![A-Za-z0-9_~.-])[A-Za-z0-9_~.]{3}\dQ~[A-Za-z0-9_~.-]{31,34}(?![A-Za-z0-9_~.-])/g,
+    rotateUrl: "https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade",
+    rotateHint: "Delete it under App registrations → Certificates & secrets.",
+  },
+  {
     id: "url-password",
     label: "Password in a URL",
     noun: "password in a URL",
-    regex: /\b[a-z][a-z0-9+.-]{1,20}:\/\/[^\s:@/]{1,64}:([^\s@/]{1,128})@/dgi,
+    // Greedy up to the last "@", since passwords sometimes contain one.
+    regex: /\b[a-z][a-z0-9+.-]{1,20}:\/\/[^\s:@/]{0,64}:([^\s/]{1,128})@/dgi,
     group: 1,
     rotateHint: "Change that password (and maybe keep it out of URLs).",
   },
@@ -232,9 +243,12 @@ export const SECRET_KINDS: SecretKind[] = [
     id: "assignment",
     label: "Password or token",
     noun: "password or token",
-    regex:
-      /\b[A-Z0-9_]{0,40}(?:PASSWORD|PASSWD|PWD|SECRET|TOKEN|API_?KEY|PRIVATE_?KEY|ACCESS_?KEY)[A-Z0-9_]{0,40}\s{0,4}[=:]\s{0,4}["']?([^\s"'#]{4,256})/dgi,
-    group: 1,
+    // NAME=value, NAME: value, "name": "value", --name=value. The value runs
+    // to the end of the line, because passwords can contain #, quotes and
+    // spaces. It sits in a lookahead so the next name on the line still matches.
+    regex: /(?<![\w.])["']?([A-Za-z_][\w.-]{0,80})["']?\s{0,4}[=:]\s{0,4}(?=(\S[^\r\n]{0,4095}))/dg,
+    group: 2,
+    accept: (match) => isSecretName(match[1]),
     rotateHint: "If that value is real, change it wherever it is used.",
   },
 ]
@@ -242,8 +256,33 @@ export const SECRET_KINDS: SecretKind[] = [
 export const GENERIC_KIND: SecretKind = {
   id: "random",
   label: "Suspiciously random string",
-  regex: /[A-Za-z0-9+/_-]{20,512}={0,2}/g,
+  regex: /[A-Za-z0-9+/_-]{20,}={0,2}/g,
   rotateHint: "If it is a real credential, revoke it and create a new one wherever it came from.",
+}
+
+const SECRET_WORDS = new Set([
+  "password",
+  "passwd",
+  "pass",
+  "passphrase",
+  "pwd",
+  "secret",
+  "token",
+  "key",
+  "apikey",
+  "privatekey",
+  "accesskey",
+  "secretkey",
+  "credential",
+  "creds",
+  "authorization",
+])
+
+/** Whether a variable name is about a secret: DB_PASS, clientSecret, x-api-key
+ *  yes; COMPASS, secretary, passport no. */
+export function isSecretName(name: string): boolean {
+  const words = name.replace(/([a-z\d])([A-Z])/g, "$1 $2").toLowerCase().split(/[^a-z\d]+/)
+  return words.some((word) => SECRET_WORDS.has(word) || SECRET_WORDS.has(word.replace(/s$/, "")))
 }
 
 export interface Detection {
@@ -290,6 +329,9 @@ export function looksRandom(token: string): boolean {
   if (alnum.length >= 32 && hexLike) {
     return entropy(alnum) >= 3
   }
+  // Prefixed hex ("sk-or-v1-…", "dapi…", "…-us21"): a–f pairs read as English too often.
+  const hexRun = /[0-9a-f]{32,}|[0-9A-F]{32,}/.exec(alnum)?.[0]
+  if (hexRun && /\d/.test(hexRun) && /[a-f]/i.test(hexRun) && entropy(hexRun) >= 3) return true
 
   const classes = [/[a-z]/, /[A-Z]/, /\d/].filter((re) => re.test(alnum)).length
   if (classes < 2 || (classes === 2 && alnum.length < 32) || entropy(alnum) < 3.5) return false
@@ -300,16 +342,27 @@ export function looksRandom(token: string): boolean {
   }
   // Mostly digits with the odd letter: words don't look like that either.
   if (pairs.length < 8) return true
-  return pairs.filter((p) => COMMON_BIGRAMS.has(p)).length / pairs.length < 0.45
+  return pairs.filter((p) => COMMON_BIGRAMS.has(p)).length / pairs.length < 0.5
 }
 
 export function findSecrets(text: string): Detection[] {
   const found: Detection[] = []
-  const overlaps = (start: number, end: number) =>
-    found.some((d) => start < d.end && end > d.start)
+  const overlapping = (start: number, end: number) =>
+    found.filter((d) => start < d.end && end > d.start)
+  // A match that touches an earlier detection widens it instead of being
+  // dropped, so a secret never ends up half-masked.
+  const add = (start: number, end: number, kind: SecretKind) => {
+    const hits = overlapping(start, end)
+    for (const d of hits) {
+      d.start = Math.min(d.start, start)
+      d.end = Math.max(d.end, end)
+    }
+    if (!hits.length) found.push({ start, end, kind })
+  }
 
   for (const kind of SECRET_KINDS) {
     for (const match of text.matchAll(kind.regex)) {
+      if (kind.accept && !kind.accept(match)) continue
       let start = match.index
       let end = start + match[0].length
       if (kind.group !== undefined) {
@@ -317,26 +370,41 @@ export function findSecrets(text: string): Detection[] {
         if (!span) continue
         ;[start, end] = span
       }
-      if (!overlaps(start, end)) found.push({ start, end, kind })
+      add(start, end, kind)
     }
   }
 
   for (const match of text.matchAll(GENERIC_KIND.regex)) {
+    const run = match[0]
     const start = match.index
-    const end = start + match[0].length
-    if (looksRandom(match[0]) && !overlaps(start, end)) {
-      found.push({ start, end, kind: GENERIC_KIND })
+    const end = start + run.length
+    if (overlapping(start, end).length || looksRandom(run)) {
+      add(start, end, GENERIC_KIND)
+      continue
+    }
+    // "/" glues URL path words onto tokens, so judge each path segment too.
+    let offset = start
+    for (const part of run.split("/")) {
+      if (looksRandom(part)) add(offset, offset + part.length, GENERIC_KIND)
+      offset += part.length + 1
     }
   }
 
-  return found.sort((a, b) => a.start - b.start)
+  // Widening can make detections overlap. Merge them, keeping the first kind.
+  const merged: Detection[] = []
+  for (const d of found.sort((a, b) => a.start - b.start)) {
+    const last = merged.at(-1)
+    if (last && d.start < last.end) last.end = Math.max(last.end, d.end)
+    else merged.push(d)
+  }
+  return merged
 }
 
-/** Replacement shown instead of a secret: its harmless prefix, then dots. */
+/** Replacement shown instead of a secret: its harmless prefix, then dots.
+ *  Always 12 dots, so a screenshot doesn't give away how long it was. */
 export function maskSecret(secret: string, kind: SecretKind): string {
-  const prefix = kind.prefix?.exec(secret)?.[0] ?? ""
-  const dots = Math.min(12, Math.max(4, secret.length - prefix.length))
-  return `${prefix}${"•".repeat(dots)}`
+  const prefix = kind.prefix?.exec(secret.replace(/^["'`]+/, ""))?.[0] ?? ""
+  return `${prefix}${"•".repeat(12)}`
 }
 
 export interface PreparedLine {

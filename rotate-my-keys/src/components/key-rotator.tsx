@@ -253,6 +253,7 @@ export function KeyRotator({ onPageRotate }: { onPageRotate: (degrees: number) =
               maxLength={MAX_INPUT}
               rows={6}
               aria-label="API keys to rotate, one per line"
+              translate="no"
               placeholder={"Paste your API keys here, one per line.\n\nOr don't. Seriously. Use the fake ones."}
               // Keep spellcheckers, autocorrect, grammar and password-manager
               // extensions away from whatever ends up in here.
@@ -289,7 +290,7 @@ export function KeyRotator({ onPageRotate }: { onPageRotate: (degrees: number) =
               <Stat label="Total rotation" value={`${totalDegrees.toLocaleString("en-US")}°`} />
               <Stat label="Hackers confused" value={effective === 0 ? "0%" : "100%"} />
               <Stat label="Keys actually changed" value="0" note="as designed" />
-              <Stat label="Bytes sent anywhere" value="0" note="can't, by design" />
+              <Stat label="Bytes sent anywhere" value="0" note="by design" />
             </dl>
           </div>
         )}
