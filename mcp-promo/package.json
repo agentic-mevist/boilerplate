@@ -1,0 +1,16 @@
+{
+  "name": "handlepilot-mcp-promo",
+  "version": "1.0.0",
+  "description": "HandlePilot MCP server promo (43 s), rendered from code on the motion reel engine",
+  "scripts": {
+    "still": "node tools/still.mjs",
+    "sheet": "node tools/sheet.mjs",
+    "render": "node tools/render.mjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.9"
+  },
+  "type": "module"
+}
