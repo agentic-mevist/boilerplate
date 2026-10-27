@@ -4,6 +4,8 @@ A 45-second promo for the HandlePilot MCP server (`https://app.handlepilot.com/m
 
 1920×1080 · 60 fps · H.264 + AAC. No prices anywhere in the picture.
 
+v4 (2026-10-27) changes the opening and thins out the sound effects, as Victor asked: the first screen draws an Instagram profile under "Give your Instagram" and its icon instead of showing a creator's reels, the words slide in on soft air instead of a hit each, the floating pieces share one whoosh instead of a pop each, the hub's four powers get a faint brush of air instead of four notes, and the agent's tool calls, the reel breakdown rows, the "connected" moment and the logo's heartbeat at the end play without effects. The edit, the remix and the wall keep theirs.
+
 v3 (2026-10-27) keeps v2's look and music and changes what Victor asked for: text always sits above the highlighter (`head()` draws every line's marks before any words), real people in the carousels, Adam Mosseri in the lookup, a reel that is watched *and remixed*, a highlighter colour per verb on the wall, @lotosinbloom's reels without Russian on them, and recorded sound effects in place of the synth blips.
 
 v2 (2026-10-27) is drawn in the website's style guide (`public/site/landing.css` in the handlepilot repo): `#f7f7f7` paper, `#0a0a0a` ink, `#3478f5` blue, the `#c0efad` green highlighter behind key words, Inter 600 headlines at -0.045em, uppercase eyebrows, white cards with `#e4e4e4` hairlines, the app's own lucide icons. The tokens are `HP` in `src/timeline.js`; the drawing helpers (`head`, `eyebrow`, `body`, `markRect`, `hpCard`, `iconTile`) are at the end of `src/engine/ui.js`.
@@ -14,7 +16,7 @@ v2 (2026-10-27) is drawn in the website's style guide (`public/site/landing.css`
 
 | Bars | Scene | What happens |
 |---|---|---|
-| 1–2 | Hook | "Give your Instagram" word by word over four of @lotosinbloom's reels (talking-head frames with no subtitles on screen), then "AI superpowers." with the highlighter; the product's pieces float out like the site's hero and get pulled into the mark. |
+| 1–2 | Hook | "Give your Instagram" word by word, the Instagram icon pops in after it and a profile mockup draws itself underneath (avatar ring, counting stats, a grid of posts); on the downbeat it parks in the corner, "AI superpowers." gets the highlighter and the product's pieces float out like the site's hero (a top reel, follower growth, a carousel, the calendar, the app's icons), then everything is pulled into the mark. |
 | 3–5 | The hub | ChatGPT, Claude, Claude Code, Codex, Cursor and GitHub Copilot (their real marks) wire into HandlePilot. "Your AI does the work." "HandlePilot gives it superpowers." Then what that means: eyes on Instagram, a memory for your brand, the playbooks, editors for every post. |
 | 6–7 | Ask | A chat with your agent: the raw take is dropped in, "Edit this into a reel", then `get_playbook`, `get_creator_context`, `watch_video`, render. |
 | 8–11 | Edit | Bar 8: Victor's raw teleprompter take. On the drop a scan line turns it into the effects reel Claude cut from it, one effect per eighth note (20), ending on its pull-back: "Uploaded to HandlePilot · Ready to publish". |
@@ -26,7 +28,6 @@ v2 (2026-10-27) is drawn in the website's style guide (`public/site/landing.css`
 ## Media
 
 - `assets/img/`: the HandlePilot logo (`logo.png`, the site's `logo-512.png` with its light edge fringe cleaned off) and, all fetched with HandlePilot's own tools on 2026-10-27:
-  - hook: `d5` (the cover of one of @lotosinbloom's reels), `h1` and `h3` (frames of her reels `DVItk47j6_U` at 0:10.85 and `DXOAil_PRLM` at 0:17.8, between subtitles), `h4` (a frame of `DdjNxHYzEto` with its caption box removed by Gemini image editing; nothing else changed);
   - lookup: `mo1`–`mo6` (frames of @mosseri's six most-viewed recent reels: `DeuX3Thu4UA`, `Dey7vpthPgn`, `DGVfPMfyLu6`, `De9m9lchZXj`, `DeZY3ipuZcl`, `De9qKAvJFKY`), `mo-avatar` (his face from `DGVfPMfyLu6`);
   - watch: `c0`–`c4` (one frame per beat of @askcatgpt's `DWHXyMhgicK`, from `tools/clips.sh`);
   - carousels: `car-*` (photos generated with Gemini 3 Pro Image for the five example creators; the people are not real), laid out live in `src/scenes/slides.js`.
@@ -53,4 +54,4 @@ node tools/render.mjs --samples 6 --workers 4 --out out/handlepilot-mcp-promo.mp
 
 ## Credits
 
-Typefaces under the SIL Open Font License (`fonts/licenses/`): Inter, Anybody, Instrument Serif, JetBrains Mono, Space Grotesk. Icons: Lucide (ISC), LobeHub Icons (MIT). The agents' marks belong to their companies and are shown to say HandlePilot works with them. Sound effects: CC0 recordings from Freesound, credited in `assets/sfx/CREDITS.md`. The reels shown belong to @lotosinbloom, @mosseri (and his collaborators) and @askcatgpt.
+Typefaces under the SIL Open Font License (`fonts/licenses/`): Inter, Anybody, Instrument Serif, JetBrains Mono, Space Grotesk. Icons: Lucide (ISC), LobeHub Icons (MIT). The agents' marks belong to their companies and are shown to say HandlePilot works with them. Sound effects: CC0 recordings from Freesound, credited in `assets/sfx/CREDITS.md`. The reels shown belong to @mosseri (and his collaborators) and @askcatgpt. The hook's profile is a mockup ("yourbrand"), not a real account.

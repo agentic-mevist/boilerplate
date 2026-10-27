@@ -410,16 +410,14 @@ def w13(i, t, g, pan=0.0, f=5000):
     fx.add(x, t - 0.3, g, pan)
 
 
-# Bar 0 — "Give your Instagram": a hit on each word, the caret ticking, the reels popping in
-for i, (tc, note, g) in enumerate(zip([0.02, 0.5 * B, B], ["D4", "F4", "A4"], [0.7, 0.55, 0.62])):
-    pan = -0.35 + 0.35 * i
-    dry.add(kick(hi=125, lo=58, decay=0.12, click=0.25, d=0.3), tc, 0.8 * g, pan)
-    kal(note, tc, 0.5 * g + 0.1, pan)
+# Bar 0 — "Give your Instagram": v4 (Victor) no hit on the words, just the air
+# of each one sliding up, then a single pop for the Instagram icon and a paper
+# swish as the profile draws itself in
+for i, tc in enumerate([0.02, 0.5 * B, B]):
+    land("whoosh_air", tc + 0.16, 0.13, -0.3 + 0.3 * i, f=3800, ratio=1.1)
 duck.add(pad([hz(n) for n in CHORDS["Dm"]], BAR + 0.2, a=0.6, r=0.15, cutoff=900), 0.0, 0.14)
-for k in range(5):  # caret blink
-    hit("wood_pat", 1.5 * B + k * 0.5 * B, 0.05, 0.4, f=4000)
-for i in range(4):  # the reels
-    hit("pop_mouth", 1.45 * B + i * 0.07, 0.22, -0.5 + 0.33 * i, ratio=0.9 + 0.06 * i)
+hit("pop_soft", 1.5 * B, 0.18, 0.3, f=6000)  # the Instagram icon
+hit("paper", 1.7 * B, 0.1, 0.1, f=5000)  # the profile
 land("whoosh_deep", BAR - 0.05, 0.22)
 
 # drums, bass, pads, bar by bar
@@ -464,10 +462,8 @@ st1 = stab([hz(n) for n in ["D4", "F4", "A4", "D5", "E5"]], 0.7)
 dry.add(st1, T1, 0.26)
 verb.add(st1, T1, 0.2)
 land("whoosh_air", T1 + 0.42, 0.12, 0.3, f=5000)  # the mark sweeps
-for i, n in enumerate(["A4", "D5", "F4"]):  # sparkles
-    kal(n, T1 + 0.5 + i * 0.12, 0.12, (-0.5, 0.6, -0.2)[i], d=0.6)
-for i, t in enumerate([0.75, 1.0, 1.25, 1.45, 1.65, 1.85]):  # floaters
-    hit(("pop_mouth", "pop_soft")[i % 2], T1 + t * B, 0.2, (-0.7, 0.6, -0.8, 0.5, -0.2, 0.8)[i], ratio=0.85 + 0.05 * i)
+# the pieces float out on one breath of air, not a pop each (v4)
+land("whoosh_double", T1 + 1.2 * B, 0.1, -0.2, f=4500, stereo=True)
 # everything is pulled into the mark
 land("whoosh_swing", bar_t(2) - 0.02, 0.3, f=6000)
 kal("D5", T1 + 3 * B + 0.12, 0.16, d=1.0)
@@ -477,14 +473,13 @@ T2 = bar_t(2)
 dry.add(boom(1.2, 80, 36), T2, 0.22)
 hit("impact_low", T2, 0.32, stereo=True)
 dry.add(stab([hz(n) for n in ["F4", "A4", "C5", "E5"]], 0.7), T2 + 0.15, 0.2)
-for i in range(6):
-    hit(("pop1", "pop_mouth", "pop2")[i % 3], T2 + 0.3 + i * 0.4 * B, 0.22, -0.6 + 0.24 * i, f=6000, ratio=0.9 + 0.03 * i)
+for i in (0, 2, 4):  # the agents: every other one, softer (v4)
+    hit(("pop1", "pop_soft", "pop2")[i // 2], T2 + 0.3 + i * 0.4 * B, 0.13, -0.6 + 0.24 * i, f=5000, ratio=0.9 + 0.03 * i)
 hit("crash", bar_t(3), 0.08, f=7000, stereo=True)
 land("whoosh_swipe", bar_t(3) - 0.04, 0.16, -0.3, f=6000)
 land("whoosh_swipe", bar_t(4) - 0.04, 0.16, 0.3, f=6000)
-for i, n in enumerate(["D4", "F4", "A4", "D5"]):  # one note per power
-    t = bar_t(4) + 0.1 + i * 0.5 * B
-    kal(n, t, 0.3, -0.4 + 0.27 * i, send=0.6)
+for i in range(4):  # the powers: v4 a soft brush of air each, not a note
+    w13(i + 6, bar_t(4) + 0.1 + i * 0.5 * B, 0.035, -0.4 + 0.27 * i, f=3500)
 # fall into the @: the reversed crash swells into the chat
 land("revcrash", bar_t(5) - 0.02, 0.2, f=6500, stereo=True)
 
@@ -497,10 +492,7 @@ land("whoosh_air", bar_t(5) + B - 0.02, 0.16, 0.6, f=5500)  # the file flies in
 hit("knock_deep", bar_t(5) + B, 0.7)  # and lands
 t_type0, t_type1 = bar_t(5) + B + 0.1, bar_t(5) + 3 * B
 typing(t_type0, t_type1, 0.3, 0.1)
-for i in range(4):
-    t0 = bar_t(5) + 3.3 * B + i * B
-    kal(["A4", "C5", "D5", "E5"][i], t0, 0.2, 0.2, d=0.9)
-    hit("pop2", t0 + 0.75 * B, 0.18, -0.2, f=5000)
+# (v4: the four tool calls play silent, the plucks carry them)
 land("whoosh_deep", bar_t(7) - 0.04, 0.26)
 
 # bars 7–10: the edit. Raw take on a half-time bar, then the drop on the wipe
@@ -530,10 +522,7 @@ hit("impact_low", bar_t(11) + 2 * B, 0.12)
 for i in range(6):  # lookup: views land
     hit(("pop1", "pop2")[i % 2], bar_t(12) + 2 * B + i * 0.05, 0.12, rng.uniform(-0.6, 0.6), f=5000)
 kal("A4", bar_t(12) + 2.6 * B, 0.2, d=0.9)  # 2.5x his median
-for i in range(3):  # watch: a row of the breakdown lands
-    kal(["D5", "F4", "A4"][i], bar_t(13) + 0.45 + i * B * 1.2, 0.16, (-0.4, 0.4)[i % 2], d=0.8)
-for k in range(5):  # the five beats of the reel
-    hit("pop2", bar_t(13) + 0.45 + B * 1.2 + 0.15 + k * 0.06, 0.12, -0.5 + 0.25 * k, f=5000)
+# watch: the breakdown rows land silent (v4), the remix gets the sound
 land("whoosh_swipe", bar_t(13) + 4 * B + 0.12, 0.12, 0.4, f=5500)  # the remix card
 hit("card", bar_t(13) + 4 * B + 0.1, 0.22, 0.3, f=6000)
 for i, n in enumerate(["D4", "A4", "D5"]):
@@ -555,13 +544,11 @@ for i in range(4):
     dry.add(kick(hi=160, lo=55, decay=0.1, click=0.5, d=0.25), t, 0.3)
 land("whoosh_swing", bar_t(20) - 0.03, 0.2, f=6000)
 
-# bars 20–21: connect. Typing, two clicks, the connected chime
+# bars 20–21: connect. Typing and two clicks; v4 lets "connected" land silent
 for t_a, t_b, at in [(bar_t(20) + 0.3, bar_t(20) + 0.75, 0.5), (bar_t(20) + 0.85, bar_t(20) + 2.6 * B + 0.4, 3.0)]:
     typing(t_a, t_b, 0.28, 0.1, at=at)
 for t in (bar_t(20) + 4 * B, bar_t(20) + 6 * B):
     hit("click", t, 0.4, f=7000)
-for i, n in enumerate(["D4", "F#4", "A4", "D5"]):
-    kal(n, bar_t(20) + 7 * B + i * 0.06, 0.2, -0.3 + 0.2 * i, send=0.7)
 land("riser", bar_t(22) - 0.04, 0.18, f=7500, stereo=True)
 
 # bars 22–23: the end card. The mark drops and lands on the "and" of beat 1
@@ -585,9 +572,7 @@ hit("pop_soft", T8 + 2 * B, 0.24, 0.2)  # the button
 kal("A4", T8 + 2 * B, 0.18, 0.2)
 for i in range(4):  # soft pulse under the tagline
     dry.add(kick(hi=90, lo=45, decay=0.18, click=0.02, d=0.4), T8 + beat(2 + i), 0.22)
-dry.add(kick(hi=95, lo=45, decay=0.14, click=0.05, d=0.4), T8 + 7 * B, 0.55)
-dry.add(kick(hi=85, lo=42, decay=0.12, click=0.05, d=0.4), T8 + 7 * B + 0.16, 0.38)
-kal("D4", T8 + 7 * B, 0.1, send=0.8)
+# (v4: the logo's heartbeat at 7 beats plays silent)
 
 # the effects bus joins the mix
 if "--levels" in sys.argv:  # per bar: music vs effects (dB RMS, pre-master)
