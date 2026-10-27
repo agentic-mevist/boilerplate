@@ -211,36 +211,41 @@ export function head(ctx, lt, lines, x, y, {
     const widest = Math.max(...parsed.map((p) => widthOf(p, size)));
     if (widest > maxW) size *= maxW / widest;
   }
-  const out = [];
-  parsed.forEach((segs, li) => {
-    const base = y + size * 0.73 + li * size * lead;
+  // two passes: every line's marks first, then every line's words, so a mark
+  // never covers the descenders of the line above it
+  const out = parsed.map((segs, li) => {
     const tl = t0 + li * stagger;
-    const p = curves.snap(seg(lt, tl, tl + rise));
     const lw = widthOf(segs, size);
-    const x0 = x - lw * align;
-    out.push({ x: x0, base, w: lw });
-    if (p <= 0) return;
-    // marks first, under the words
-    let cx = x0;
-    const pm = curves.glide(seg(lt, tl + markAt, tl + markAt + markD));
-    for (const g of segs) {
+    return {
+      segs, x: x - lw * align, base: y + size * 0.73 + li * size * lead, w: lw,
+      p: curves.snap(seg(lt, tl, tl + rise)),
+      pm: curves.glide(seg(lt, tl + markAt, tl + markAt + markD)),
+    };
+  });
+  for (const L of out) {
+    if (L.p <= 0) continue;
+    let cx = L.x;
+    for (const g of L.segs) {
       const gw = measureInter(ctx, g.s.replace(/\s+$/, ""), { size, w, ls: ls(size) });
-      if (g.mark) markRect(ctx, cx, base, gw, size, pm, markColor);
+      if (g.mark) markRect(ctx, cx, L.base, gw, size, L.pm, markColor);
       cx += measureInter(ctx, g.s, { size, w, ls: ls(size) });
     }
+  }
+  for (const L of out) {
+    if (L.p <= 0) continue;
     ctx.save();
     ctx.beginPath();
-    ctx.rect(0, base - size * 1.02, 1920, size * 1.32);
+    ctx.rect(0, L.base - size * 1.02, 1920, size * 1.32);
     ctx.clip();
-    cx = x0;
-    const dy = (1 - p) * size * 1.05;
-    for (const g of segs) {
-      const col = g.mark && pm > 0.5 ? markInk : color;
-      cx += native(ctx, "Inter", g.s, cx, base + dy, { size, w, color: col, ls: ls(size) });
+    let cx = L.x;
+    const dy = (1 - L.p) * size * 1.05;
+    for (const g of L.segs) {
+      const col = g.mark && L.pm > 0.5 ? markInk : color;
+      cx += native(ctx, "Inter", g.s, cx, L.base + dy, { size, w, color: col, ls: ls(size) });
     }
     ctx.restore();
-  });
-  return { h: lines.length * size * lead, size, lines: out };
+  }
+  return { h: lines.length * size * lead, size, lines: out.map(({ x, base, w }) => ({ x, base, w })) };
 }
 
 // uppercase label, as the site's .eyebrow

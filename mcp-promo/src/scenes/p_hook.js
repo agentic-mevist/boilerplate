@@ -19,11 +19,13 @@ const LS = tight(SIZE);
 
 // your Instagram: four of @lotosinbloom's reels, a row in bar 1 that scatters
 // to the corners on the downbeat of bar 2 (cx, cy, rotation, views)
+// (h1, h3: frames of DVItk47j6_U and DXOAil_PRLM between subtitles; h4: a
+// frame of DdjNxHYzEto with its caption box removed; d5: her own cover)
 const COVERS = [
-  ["d1", 196, 272, -0.07, "22.1K"],
-  ["d3", 1724, 272, 0.06, "2.4K"],
-  ["d4", 236, 826, 0.05, "2.2K"],
-  ["d5", 1684, 820, -0.05, "1K"],
+  ["h1", 196, 272, -0.07, "1.1K"],
+  ["d5", 1724, 272, 0.06, "1K"],
+  ["h3", 236, 826, 0.05, "712"],
+  ["h4", 1684, 820, -0.05, "695"],
 ];
 const CW = 176, CH = 313, CS = 0.64;
 // floaters: [kind, x, y, w, h, enter, extra]
@@ -163,6 +165,14 @@ export default {
       }
       ctx.restore();
     });
+    // line 2's highlighter goes down before any words, so the descenders of
+    // "Instagram" and "your" stay on top of it
+    const w2f = measureInter(ctx, L2, { size: SIZE, w: 600, ls: LS });
+    const x2 = W / 2 - w2f / 2;
+    const p2 = curves.snap(seg(lt, T_L2, T_L2 + 0.4));
+    const pm = curves.glide(seg(lt, T_L2 + 0.22, T_L2 + 0.62));
+    if (p2 > 0) markRect(ctx, x2, base2, w2f, SIZE, pm);
+
     // the words, over the pieces
     const full = measureInter(ctx, L1.join(" "), { size: SIZE, w: 600, ls: LS });
     const space = measureInter(ctx, " ", { size: SIZE, w: 600, ls: LS });
@@ -187,13 +197,7 @@ export default {
     }
 
     // line 2: rises on the downbeat, then the highlighter sweeps under it
-    const w2 = measureInter(ctx, L2.replace(/\.$/, ""), { size: SIZE, w: 600, ls: LS });
-    const w2f = measureInter(ctx, L2, { size: SIZE, w: 600, ls: LS });
-    const x2 = W / 2 - w2f / 2;
-    const p2 = curves.snap(seg(lt, T_L2, T_L2 + 0.4));
-    const pm = curves.glide(seg(lt, T_L2 + 0.22, T_L2 + 0.62));
     if (p2 > 0) {
-      markRect(ctx, x2, base2, w2f, SIZE, pm);
       ctx.save();
       ctx.beginPath();
       ctx.rect(0, base2 - SIZE * 1.02, W, SIZE * 1.32);

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Soundtrack for the HandlePilot MCP promo (adapted from the show reel's) — synthesized from scratch, cut to the same grid as
-the picture (128 BPM, 24 bars = 45.000 s). Music bed + a sound-design layer in
-which every visual event (word rises, the highlighter, pops, clicks, the drop,
-the landing, the heartbeat) has its own sound at the exact frame it happens.
+"""Soundtrack for the HandlePilot MCP promo (adapted from the show reel's), cut
+to the same grid as the picture (128 BPM, 24 bars = 45.000 s). A synthesized
+music bed + a sound-design layer of real recordings (assets/sfx) in which every
+visual event (word rises, the highlighter, pops, clicks, the drop, the landing,
+the heartbeat) has its own sound at the exact frame it happens.
 """
 import sys
 from pathlib import Path
@@ -301,20 +302,126 @@ KICKS = []
 LEVEL = {0: 0, 1: 2, 2: 2, 3: 2, 4: 3, 5: 0, 6: 1, 7: 1, 8: 3, 9: 3, 10: 3,
          11: 2, 12: 2, 13: 3, 14: 3, 15: 3, 16: 3, 17: 3, 18: 2, 19: 3, 20: 1, 21: 2}
 
+# ── recorded sound effects ──────────────────────────────────────────────────
+# v3: every effect is a real recording (assets/sfx, CC0 from Freesound via
+# Openverse, see assets/sfx/CREDITS.md) instead of a synth blip: air whooshes,
+# mouth pops, wood knocks, a mouse, a keyboard, a crash cymbal, cinematic
+# impacts, and kalimba notes pitched to the chords where the old blips played
+# the harmony. They sit on their own bus (fx) so `--no-fx` / `--fx-only`
+# can check the balance against the music.
+SFX = Path(__file__).resolve().parent.parent / "assets" / "sfx"
+fx, fxv = Mix(), Mix()  # fx dry, fx reverb send
+_smp = {}
+
+
+def S(name):
+    if name not in _smp:
+        _, x = wavfile.read(SFX / f"{name}.wav")
+        x = x.astype(np.float64) / 32768
+        _smp[name] = x.T.copy() if x.ndim == 2 else np.stack([x, x])
+    return _smp[name]
+
+
+def mono(x):
+    return x.mean(0)
+
+
+def warm(x, f=7000):
+    """tame the top end, which is what made the synth effects sound cheap"""
+    return np.stack([lp(c, f) for c in x]) if x.ndim == 2 else lp(x, f)
+
+
+def repitch(x, ratio):
+    n = x.shape[-1]
+    idx = np.arange(0, n - 1, ratio)
+    if x.ndim == 1:
+        return np.interp(idx, np.arange(n), x)
+    return np.stack([np.interp(idx, np.arange(n), c) for c in x])
+
+
+def peak_t(x):
+    e = np.abs(x).max(0) if x.ndim == 2 else np.abs(x)
+    k = int(0.012 * SR)
+    return float(np.argmax(np.convolve(e, np.ones(k) / k, "same")) / SR)
+
+
+def land(name, t, g, pan=0.0, f=7000, ratio=1.0, send=0.0, stereo=False):
+    """place a recording so its loudest moment lands on t (whooshes, risers)"""
+    x = warm(repitch(S(name), ratio), f)
+    x = x if stereo else mono(x)
+    t0 = t - peak_t(x)
+    fx.add(x, t0, g, pan)
+    if send:
+        fxv.add(x, t0, send, pan)
+
+
+def hit(name, t, g, pan=0.0, f=9000, ratio=1.0, send=0.0, stereo=False):
+    """place a recording from its onset (pops, knocks, clicks, impacts)"""
+    x = warm(repitch(S(name), ratio), f)
+    x = x if stereo else mono(x)
+    fx.add(x, t, g, pan)
+    if send:
+        fxv.add(x, t, send, pan)
+
+
+def _f0(x, nominal):
+    m = mono(x)
+    on = int(np.argmax(np.abs(m) > 0.3 * np.abs(m).max())) + int(0.05 * SR)
+    seg_ = m[on:on + SR]
+    nfft = 8 * len(seg_)
+    X = np.abs(np.fft.rfft(seg_ * np.hanning(len(seg_)), nfft))
+    fr = np.fft.rfftfreq(nfft, 1 / SR)
+    band = (fr > nominal * 0.94) & (fr < nominal * 1.06)
+    return float(fr[band][np.argmax(X[band])])
+
+
+KAL = {}
+for _n in ["G3", "B3", "D4", "E4", "G4", "A4", "B4", "D5", "E5"]:
+    KAL[_n] = _f0(S("kal_" + _n), hz(_n))
+
+
+def kal(note, t, g, pan=0.0, send=0.5, d=None):
+    """a kalimba note, pitched from the nearest recorded one"""
+    f = hz(note)
+    src = min(KAL, key=lambda k: abs(np.log(KAL[k] / f)))
+    x = mono(repitch(S("kal_" + src), f / KAL[src]))
+    if d:
+        x = fade(x[:int(d * SR)], 0.001, min(0.25, d / 2))
+    fx.add(x, t, g, pan)
+    fxv.add(x, t, g * send, pan)
+
+
+def typing(t0, t1, g, pan=0.0, at=0.0):
+    x = warm(mono(S("typing")), 6500)
+    i = int(at * SR)
+    x = fade(x[i:i + int((t1 - t0) * SR)], 0.02, 0.05)
+    fx.add(x, t0, g, pan)
+
+
+# the 13 short whooshes in one recording, cut apart at their peaks
+_w = mono(S("whoosh13"))
+_e = np.convolve(np.abs(_w), np.ones(480) / 480, "same")
+_pk = signal.find_peaks(_e, height=0.25 * _e.max(), distance=int(0.6 * SR))[0]
+W13 = [_w[max(0, p - int(0.3 * SR)):p + int(0.35 * SR)] for p in _pk]
+
+
+def w13(i, t, g, pan=0.0, f=5000):
+    x = fade(lp(W13[i % len(W13)], f), 0.01, 0.08)
+    fx.add(x, t - 0.3, g, pan)
+
+
 # Bar 0 — "Give your Instagram": a hit on each word, the caret ticking, the reels popping in
-for i, (tc, note, g) in enumerate(zip([0.02, 0.5 * B, B], ["D5", "F5", "A5"], [0.7, 0.55, 0.62])):
+for i, (tc, note, g) in enumerate(zip([0.02, 0.5 * B, B], ["D4", "F4", "A4"], [0.7, 0.55, 0.62])):
     pan = -0.35 + 0.35 * i
     dry.add(kick(hi=125, lo=58, decay=0.12, click=0.25, d=0.3), tc, 0.8 * g, pan)
-    dry.add(blip(hz(note)), tc, 0.24 * g / 0.7 + 0.05, pan)
-    verb.add(blip(hz(note)), tc, 0.12, pan)
+    kal(note, tc, 0.5 * g + 0.1, pan)
 duck.add(pad([hz(n) for n in CHORDS["Dm"]], BAR + 0.2, a=0.6, r=0.15, cutoff=900), 0.0, 0.14)
 for k in range(5):  # caret blink
-    dry.add(tick(2600, 0.014), 1.5 * B + k * 0.5 * B, 0.07, 0.4)
+    hit("wood_pat", 1.5 * B + k * 0.5 * B, 0.05, 0.4, f=4000)
 for i in range(4):  # the reels
-    dry.add(bloop(440 + 70 * i, 0.16, 1.5), 1.45 * B + i * 0.07, 0.15, -0.5 + 0.33 * i)
-dry.add(whoosh(0.75, 400, 7000, "in"), BAR - 0.75, 0.3)
+    hit("pop_mouth", 1.45 * B + i * 0.07, 0.22, -0.5 + 0.33 * i, ratio=0.9 + 0.06 * i)
+land("whoosh_deep", BAR - 0.05, 0.22)
 
-# drums, bass, pads, bar by bar
 # drums, bass, pads, bar by bar
 for k, lv in LEVEL.items():
     if lv == 0:
@@ -350,132 +457,156 @@ for k, lv in LEVEL.items():
 
 # bar 1 — "AI superpowers.": the drop of the hook, the highlighter, the pieces floating out
 T1 = bar_t(1)
-dry.add(boom(1.4, 78, 34), T1, 0.55)
-dry.add(crash(1.6, 0.9), T1, 0.32)
-verb.add(crash(1.6), T1, 0.12)
+dry.add(boom(1.4, 78, 34), T1, 0.4)  # the sub under the recorded hit
+hit("impact_soft", T1, 0.6, stereo=True)
+hit("crash", T1, 0.16, f=8000, send=0.06, stereo=True)
 st1 = stab([hz(n) for n in ["D4", "F4", "A4", "D5", "E5"]], 0.7)
 dry.add(st1, T1, 0.26)
 verb.add(st1, T1, 0.2)
-dry.add(whoosh(0.4, 900, 5000, "swell", width=0.3), T1 + 0.2, 0.09, 0.3)  # the mark sweeps
-for i, n in enumerate(["A6", "D7", "F6"]):  # sparkles
-    dry.add(blip(hz(n), 0.12), T1 + 0.5 + i * 0.12, 0.06, (-0.5, 0.6, -0.2)[i])
+land("whoosh_air", T1 + 0.42, 0.12, 0.3, f=5000)  # the mark sweeps
+for i, n in enumerate(["A4", "D5", "F4"]):  # sparkles
+    kal(n, T1 + 0.5 + i * 0.12, 0.12, (-0.5, 0.6, -0.2)[i], d=0.6)
 for i, t in enumerate([0.75, 1.0, 1.25, 1.45, 1.65, 1.85]):  # floaters
-    dry.add(bloop(520 + 60 * i, 0.15, 1.6), T1 + t * B, 0.13, (-0.7, 0.6, -0.8, 0.5, -0.2, 0.8)[i])
+    hit(("pop_mouth", "pop_soft")[i % 2], T1 + t * B, 0.2, (-0.7, 0.6, -0.8, 0.5, -0.2, 0.8)[i], ratio=0.85 + 0.05 * i)
 # everything is pulled into the mark
-dry.add(whoosh(0.45, 6000, 500, "in"), bar_t(2) - 0.45, 0.28)
-dry.add(blip(hz("D6"), 0.25, 0.05), T1 + 3 * B + 0.12, 0.12)
+land("whoosh_swing", bar_t(2) - 0.02, 0.3, f=6000)
+kal("D5", T1 + 3 * B + 0.12, 0.16, d=1.0)
 
 # bars 2–4: the hub. The mark lands, the agents pop in, the words change, the powers fire out
 T2 = bar_t(2)
-dry.add(boom(1.2, 80, 36), T2, 0.4)
+dry.add(boom(1.2, 80, 36), T2, 0.22)
+hit("impact_low", T2, 0.32, stereo=True)
 dry.add(stab([hz(n) for n in ["F4", "A4", "C5", "E5"]], 0.7), T2 + 0.15, 0.2)
 for i in range(6):
-    dry.add(bloop(500 + 90 * i, 0.18, 1.5), T2 + 0.3 + i * 0.4 * B, 0.2, -0.6 + 0.24 * i)
-dry.add(crash(1.2, 0.8), bar_t(3), 0.2)
-dry.add(whoosh(0.3, 3000, 800, "in"), bar_t(3) - 0.3, 0.12)
-dry.add(whoosh(0.3, 3000, 800, "in"), bar_t(4) - 0.3, 0.12)
-for i, n in enumerate(["D5", "F5", "A5", "D6"]):  # one pluck per power
+    hit(("pop1", "pop_mouth", "pop2")[i % 3], T2 + 0.3 + i * 0.4 * B, 0.22, -0.6 + 0.24 * i, f=6000, ratio=0.9 + 0.03 * i)
+hit("crash", bar_t(3), 0.08, f=7000, stereo=True)
+land("whoosh_swipe", bar_t(3) - 0.04, 0.16, -0.3, f=6000)
+land("whoosh_swipe", bar_t(4) - 0.04, 0.16, 0.3, f=6000)
+for i, n in enumerate(["D4", "F4", "A4", "D5"]):  # one note per power
     t = bar_t(4) + 0.1 + i * 0.5 * B
-    dry.add(pluck(hz(n), 0.5), t, 0.16, -0.4 + 0.27 * i)
-    verb.add(pluck(hz(n), 0.6), t, 0.08)
-    dry.add(blip(hz(n) * 2, 0.1), t + 0.38, 0.05, 0.5 - 0.3 * i)
-# fall into the @: riser + reverse swell
-dry.add(whoosh(0.5, 400, 7000, "in"), bar_t(5) - 0.5, 0.32)
+    kal(n, t, 0.3, -0.4 + 0.27 * i, send=0.6)
+# fall into the @: the reversed crash swells into the chat
+land("revcrash", bar_t(5) - 0.02, 0.2, f=6500, stereo=True)
 
-# bars 5–6: the chat. Air, the drop of the file, typing, ticks for each tool
+# bars 5–6: the chat. Air, the drop of the file, typing, a note for each tool
 duck.add(pad([hz(n) for n in CHORDS["Dm"]], 2 * BAR, 0.3, 0.3, 1200), bar_t(5), 0.2)
 for i in range(16):
     n = ["D5", "A5", "F5", "C6"][i % 4]
     dry.add(pluck(hz(n), 0.35, 0.7), bar_t(5) + beat(i * 0.5), 0.06, (-0.5 if i % 2 else 0.5))
-dry.add(whoosh(0.45, 300, 2500), bar_t(5) + 0.25, 0.12, 0.6)
-dry.add(kick(hi=110, lo=50, decay=0.2, click=0.4), bar_t(5) + B, 0.45)
+land("whoosh_air", bar_t(5) + B - 0.02, 0.16, 0.6, f=5500)  # the file flies in
+hit("knock_deep", bar_t(5) + B, 0.7)  # and lands
 t_type0, t_type1 = bar_t(5) + B + 0.1, bar_t(5) + 3 * B
-nk = int((t_type1 - t_type0) / 0.055)
-for i in range(nk):
-    dry.add(tick(rng.uniform(3000, 4500), 0.01), t_type0 + i * 0.055 + rng.uniform(-0.01, 0.01), 0.05, rng.uniform(-0.3, 0.3))
+typing(t_type0, t_type1, 0.3, 0.1)
 for i in range(4):
     t0 = bar_t(5) + 3.3 * B + i * B
-    dry.add(blip(hz(["A5", "C6", "D6", "E6"][i]), 0.14), t0, 0.12, 0.2)
-    dry.add(blip(hz(["D6", "F6", "A6", "C7"][i]), 0.2), t0 + 0.75 * B, 0.1, -0.2)
-dry.add(whoosh(0.9, 200, 8000, "in"), bar_t(7) - 0.9, 0.3)
+    kal(["A4", "C5", "D5", "E5"][i], t0, 0.2, 0.2, d=0.9)
+    hit("pop2", t0 + 0.75 * B, 0.18, -0.2, f=5000)
+land("whoosh_deep", bar_t(7) - 0.04, 0.26)
 
 # bars 7–10: the edit. Raw take on a half-time bar, then the drop on the wipe
 dry.add(swoop(90, 160, 0.3), bar_t(7), 0.2)
-dry.add(whoosh(1.2, 300, 9000, "in"), bar_t(8) - 1.2, 0.38)
+land("riser", bar_t(8) - 0.04, 0.22, f=8000, stereo=True)
+land("revcrash", bar_t(8) - 0.03, 0.22, f=7000, stereo=True)
 gapA = bar_t(8)
-dry.add(boom(1.8), gapA, 0.9)
-dry.add(crash(2.0, 1.0), gapA, 0.4)
-verb.add(crash(2.0), gapA, 0.2)
+dry.add(boom(1.8), gapA, 0.6)
+hit("impact_soft", gapA, 0.8, stereo=True)
+hit("crash", gapA, 0.24, f=9000, send=0.1, stereo=True)
 dry.add(stab([hz(n) for n in ["D4", "F4", "A4", "D5", "E5"]], 0.8), gapA, 0.3)
-# a tick for every effect (one per eighth)
+# a note and a breath of air for every effect (one per eighth)
 for i in range(19):
     t = gapA + i * B / 2
-    dry.add(blip(hz(["D6", "A5", "F6", "C6"][i % 4]), 0.08, 0.03), t, 0.07, (-0.6, 0.6)[i % 2])
-    dry.add(whoosh(0.14, 4000, 900, "in"), t - 0.1, 0.05, (0.6, -0.6)[i % 2])
-dry.add(whoosh(0.9, 6000, 300, "swell", stereo=0.9), gapA + 19 * B / 2, 0.15)
-dry.add(chime := blip(hz("A6"), 0.5, 0.0), bar_t(11) - 2 * B, 0.12)
-verb.add(chime, bar_t(11) - 2 * B, 0.12)
+    kal(["D4", "A4", "F4", "C5"][i % 4], t, 0.1, (-0.6, 0.6)[i % 2], send=0.3, d=0.5)
+    w13(i, t, 0.07, (0.6, -0.6)[i % 2])
+land("whoosh_deep", gapA + 19 * B / 2 + 0.3, 0.16, stereo=True)
+for i, n in enumerate(["A4", "D5", "E5"]):  # uploaded
+    kal(n, bar_t(11) - 2 * B + i * 0.05, 0.16, -0.2 + 0.2 * i, send=0.7)
 
 # bars 11–17: one tool per bar (the reel breakdown gets two), a whoosh on each cut
-for k in (11, 12, 13, 15, 16, 17):
-    dry.add(whoosh(0.28, 7000, 600, "in"), bar_t(k) - 0.28, 0.2, (k % 2) * 0.8 - 0.4)
-    dry.add(crash(0.9, 0.7), bar_t(k), 0.12)
-dry.add(kick(hi=180, lo=60, decay=0.1, click=0.5, d=0.3), bar_t(11) + 2 * B, 0.4)  # Free stamp
+for j, k in enumerate((11, 12, 13, 15, 16, 17)):
+    land(("whoosh_swipe", "whoosh_air", "whoosh_swing")[j % 3], bar_t(k) - 0.03, 0.2, (k % 2) * 0.8 - 0.4, f=6000)
+    hit("crash", bar_t(k), 0.05, f=6000, stereo=True)
+hit("knock_deep", bar_t(11) + 2 * B, 0.55)  # Free stamp
+hit("impact_low", bar_t(11) + 2 * B, 0.12)
 for i in range(6):  # lookup: views land
-    dry.add(tick(rng.uniform(2600, 4200)), bar_t(12) + 2 * B + i * 0.05, 0.08, rng.uniform(-0.6, 0.6))
-dry.add(blip(hz("A6"), 0.16), bar_t(12) + 2.6 * B, 0.1)  # 22x her median
-for i in range(4):  # watch: a row of the breakdown lands
-    t = bar_t(13) + 0.45 + i * B * 1.5
-    dry.add(blip(hz(["D6", "F6", "A6", "C7"][i]), 0.14), t, 0.09, (-0.4, 0.4)[i % 2])
-for k in range(13):  # the 13 shots
-    dry.add(tick(rng.uniform(3200, 5200)), bar_t(13) + 0.45 + B * 1.5 + 0.15 + k * 0.035, 0.05, rng.uniform(-0.7, 0.7))
+    hit(("pop1", "pop2")[i % 2], bar_t(12) + 2 * B + i * 0.05, 0.12, rng.uniform(-0.6, 0.6), f=5000)
+kal("A4", bar_t(12) + 2.6 * B, 0.2, d=0.9)  # 2.5x his median
+for i in range(3):  # watch: a row of the breakdown lands
+    kal(["D5", "F4", "A4"][i], bar_t(13) + 0.45 + i * B * 1.2, 0.16, (-0.4, 0.4)[i % 2], d=0.8)
+for k in range(5):  # the five beats of the reel
+    hit("pop2", bar_t(13) + 0.45 + B * 1.2 + 0.15 + k * 0.06, 0.12, -0.5 + 0.25 * k, f=5000)
+land("whoosh_swipe", bar_t(13) + 4 * B + 0.12, 0.12, 0.4, f=5500)  # the remix card
+hit("card", bar_t(13) + 4 * B + 0.1, 0.22, 0.3, f=6000)
+for i, n in enumerate(["D4", "A4", "D5"]):
+    kal(n, bar_t(13) + 4 * B + 0.15 + i * 0.06, 0.14, -0.2 + 0.2 * i, send=0.6)
+typing(bar_t(13) + 4 * B + 0.3, bar_t(13) + 4 * B + 1.1, 0.16, 0.2, at=2.0)
 for i in range(16):  # plan: posts landing
-    dry.add(tick(rng.uniform(2400, 5200)), bar_t(15) + 0.3 + i * 0.065, 0.08, rng.uniform(-0.7, 0.7))
+    hit(("pop1", "pop2", "pop_mouth")[i % 3], bar_t(15) + 0.3 + i * 0.065, 0.08, rng.uniform(-0.7, 0.7), f=4500, ratio=rng.uniform(0.9, 1.1))
+for b in (1, 2, 3):  # carousel: the deck slides a slide per beat
+    hit("paper", bar_t(16) + beat(b) - 0.05, 0.16, 0.3, f=6000)
+hit("click", bar_t(16) + 2.2 * B, 0.18, f=6000)  # Edit text
 for i in range(4):  # board: card hops
-    dry.add(bloop(420 + 60 * i, 0.16, 1.4), bar_t(17) + i * B + 0.1, 0.16)
+    hit(("card", "wood_pat")[i % 2], bar_t(17) + i * B + 0.1, 0.16, -0.3 + 0.2 * i, f=6000)
 
 # bars 18–19: the wall pulls back, then Research. Plan. Make. Ship.
-dry.add(whoosh(0.9, 2500, 300, "swell", stereo=0.9), bar_t(18), 0.22)
+land("whoosh_deep", bar_t(18) + 0.45, 0.2, stereo=True)
 for i in range(4):
     t = bar_t(19) + beat(i)
     dry.add(stab([hz(n) for n in [["D4", "F4", "A4"], ["F4", "A4", "C5"], ["G4", "Bb4", "D5"], ["A4", "C#5", "E5"]][i]], 0.45), t, 0.26)
     dry.add(kick(hi=160, lo=55, decay=0.1, click=0.5, d=0.25), t, 0.3)
-dry.add(whoosh(0.4, 9000, 400, "in"), bar_t(20) - 0.4, 0.2)
+land("whoosh_swing", bar_t(20) - 0.03, 0.2, f=6000)
 
 # bars 20–21: connect. Typing, two clicks, the connected chime
-for t_a, t_b in [(bar_t(20) + 0.3, bar_t(20) + 0.75), (bar_t(20) + 0.85, bar_t(20) + 2.6 * B + 0.4)]:
-    for i in range(int((t_b - t_a) / 0.05)):
-        dry.add(tick(rng.uniform(3000, 4500), 0.01), t_a + i * 0.05, 0.05, rng.uniform(-0.3, 0.3))
+for t_a, t_b, at in [(bar_t(20) + 0.3, bar_t(20) + 0.75, 0.5), (bar_t(20) + 0.85, bar_t(20) + 2.6 * B + 0.4, 3.0)]:
+    typing(t_a, t_b, 0.28, 0.1, at=at)
 for t in (bar_t(20) + 4 * B, bar_t(20) + 6 * B):
-    dry.add(tick(1800, 0.02), t, 0.3)
-    dry.add(blip(hz("E5"), 0.1), t, 0.1)
-for i, n in enumerate(["D5", "F#5", "A5", "D6"]):
-    dry.add(blip(hz(n), 0.3, 0.0), bar_t(20) + 7 * B + i * 0.06, 0.12, -0.3 + 0.2 * i)
-    verb.add(blip(hz(n), 0.4, 0.0), bar_t(20) + 7 * B + i * 0.06, 0.1)
-dry.add(whoosh(0.6, 300, 8000, "in"), bar_t(22) - 0.6, 0.3)
+    hit("click", t, 0.4, f=7000)
+for i, n in enumerate(["D4", "F#4", "A4", "D5"]):
+    kal(n, bar_t(20) + 7 * B + i * 0.06, 0.2, -0.3 + 0.2 * i, send=0.7)
+land("riser", bar_t(22) - 0.04, 0.18, f=7500, stereo=True)
 
 # bars 22–23: the end card. The mark drops and lands on the "and" of beat 1
 T8 = bar_t(22)
 TL = T8 + 0.5 * B
-dry.add(boom(2.6), TL, 0.95)
-dry.add(crash(3.0, 1.0), TL, 0.36)
-verb.add(crash(3.0), TL, 0.2)
-dry.add(swoop(980, 320, 0.22), T8, 0.06)
+land("whoosh_swing", TL - 0.02, 0.18, f=5000)  # the mark falls
+dry.add(boom(2.6), TL, 0.85)
+hit("impact", TL, 0.9, stereo=True)
+hit("impact_soft", TL, 0.35, stereo=True)
+hit("crash", TL, 0.22, f=9000, send=0.1, stereo=True)
 end_pad = pad([hz(n) for n in ["D3", "A3", "D4", "E4", "F4", "A4"]], DUR - T8 + 0.5, a=0.01, r=1.2, cutoff=2200)
 dry.add(end_pad * np.exp(-tt(DUR - T8 + 0.5) / 2.2), T8, 0.2)
 verb.add(end_pad, T8, 0.16)
 st_ = stab([hz(n) for n in ["D4", "F4", "A4", "D5", "E5"]], 0.9)
 dry.add(st_, TL, 0.3)
 verb.add(st_, TL, 0.3)
-for i, n in enumerate(["D5", "F5", "A5", "C6", "D6", "E6"]):  # the letters rise
-    dry.add(blip(hz(n), 0.12), T8 + 0.08 + i * 0.04 + 0.05, 0.05, -0.5 + i * 0.2)
-dry.add(whoosh(0.35, 900, 5000, "swell", width=0.3), T8 + B + 0.3, 0.08)  # Free to start.
-dry.add(blip(hz("A5"), 0.3, 0.06), T8 + 2 * B, 0.2, 0.2)  # the button
+for i, n in enumerate(["D4", "F4", "A4", "C5", "D5", "E5"]):  # the letters rise
+    kal(n, T8 + 0.08 + i * 0.04 + 0.05, 0.07, -0.5 + i * 0.2, d=0.7)
+land("whoosh_air", T8 + B + 0.42, 0.1, f=5000)  # Free to start.
+hit("pop_soft", T8 + 2 * B, 0.24, 0.2)  # the button
+kal("A4", T8 + 2 * B, 0.18, 0.2)
 for i in range(4):  # soft pulse under the tagline
     dry.add(kick(hi=90, lo=45, decay=0.18, click=0.02, d=0.4), T8 + beat(2 + i), 0.22)
 dry.add(kick(hi=95, lo=45, decay=0.14, click=0.05, d=0.4), T8 + 7 * B, 0.55)
 dry.add(kick(hi=85, lo=42, decay=0.12, click=0.05, d=0.4), T8 + 7 * B + 0.16, 0.38)
-verb.add(blip(hz("D6"), 0.5, 0.0), T8 + 7 * B, 0.06)
+kal("D4", T8 + 7 * B, 0.1, send=0.8)
+
+# the effects bus joins the mix
+if "--levels" in sys.argv:  # per bar: music vs effects (dB RMS, pre-master)
+    print("KAL", {k: round(v, 1) for k, v in KAL.items()}, "W13", len(W13))
+    for k in range(24):
+        a, b_ = int(bar_t(k) * SR), int(bar_t(k + 1) * SR)
+        mus = np.concatenate([dry.L[a:b_] + duck.L[a:b_], dry.R[a:b_] + duck.R[a:b_]])
+        efx = np.concatenate([fx.L[a:b_], fx.R[a:b_]])
+        db = lambda v: 20 * np.log10(np.sqrt(np.mean(v ** 2)) + 1e-9)
+        print(f"bar {k:2d}  music {db(mus):6.1f}  fx {db(efx):6.1f}  fx peak {20*np.log10(np.abs(efx).max()+1e-9):6.1f}")
+FXG = 0.0 if "--no-fx" in sys.argv else 1.2
+if "--fx-only" in sys.argv:
+    for m_ in (dry, verb, duck):
+        m_.L[:] = 0
+        m_.R[:] = 0
+dry.L += FXG * fx.L
+dry.R += FXG * fx.R
+verb.L += FXG * fxv.L
+verb.R += FXG * fxv.R
 DIPS = [bar_t(8), T8]
 
 # ── sidechain, reverb, master ───────────────────────────────────────────────
@@ -535,6 +666,10 @@ L[:96] *= np.linspace(0, 1, 96)
 R[:96] *= np.linspace(0, 1, 96)
 pk = max(np.max(np.abs(L)), np.max(np.abs(R)))
 L, R = L / pk * 0.94, R / pk * 0.94
+# level: -14.8 dBFS RMS lands at about -14 LUFS integrated (the streaming norm);
+# never above the peak ceiling
+g_ = min(1.0, 10 ** ((-14.8 - 20 * np.log10(np.sqrt(np.mean((L ** 2 + R ** 2) / 2)))) / 20))
+L, R = L * g_, R * g_
 
 OUT.mkdir(exist_ok=True)
 st = np.stack([L, R], axis=1)

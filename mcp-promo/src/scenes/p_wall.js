@@ -37,7 +37,7 @@ const pos = (i) => {
   const gw = COLS * TW + (COLS - 1) * GAP, gh = ROWS * TH + (ROWS - 1) * GAP;
   return [W / 2 - gw / 2 + c * (TW + GAP), H / 2 - gh / 2 + r * (TH + GAP)];
 };
-const WORDS = ["Research.", "Plan.", "Make.", "Ship."];
+const WORDS = [["Research.", HP.markSky], ["Plan.", HP.markSun], ["Make.", HP.markPeach], ["Ship.", HP.green]];
 
 export default {
   hud: () => "dark",
@@ -87,9 +87,9 @@ export default {
     }
     // the four verbs, one per beat in bar 2, stacked and left-aligned; each
     // gets the highlighter as it lands
-    WORDS.forEach((w, i) => {
+    WORDS.forEach(([w, markColor], i) => {
       const t0 = 4 * B + i * B;
-      head(ctx, lt, [`[${w}]`], 150, 160 + i * 208, { size: 162, t0, markAt: 0.12, markD: 0.26 });
+      head(ctx, lt, [`[${w}]`], 150, 160 + i * 208, { size: 162, t0, markColor, markAt: 0.12, markD: 0.26 });
     });
   },
 };

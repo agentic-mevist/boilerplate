@@ -6,6 +6,7 @@
 import { W, H, BEAT, HP } from "../timeline.js";
 import { clamp, seg, lerp, ease, curves, TAU, alpha } from "../engine/math.js";
 import { rrect } from "../engine/draw.js";
+import { SLIDES, drawSlide } from "./slides.js";
 import { jb, card, cover, circleImg, pop, typed, measure, it, head, body, eyebrow, hpCard, iconTile, measureInter, tight, playTri } from "../engine/ui.js";
 
 const B = BEAT;
@@ -24,7 +25,7 @@ function toolPill(ctx, str, x, y, { bg, fg, dot = HP.green }) {
   jb(ctx, str, x + pad + 24, y + 8, { size, color: fg });
 }
 
-function frame(ctx, lt, { bg, fg = HP.ink, sub = HP.muted, kicker, kickerColor, tool, lines, line2, toolBg = HP.ink, toolFg = "#fff", markInk = HP.ink }) {
+function frame(ctx, lt, { bg, fg = HP.ink, sub = HP.muted, kicker, kickerColor, tool, tool2, t2 = 0, lines, line2, maxW = 790, toolBg = HP.ink, toolFg = "#fff", markInk = HP.ink }) {
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
   const pk = seg(lt, 0.02, 0.3);
@@ -34,11 +35,12 @@ function frame(ctx, lt, { bg, fg = HP.ink, sub = HP.muted, kicker, kickerColor, 
     eyebrow(ctx, kicker, LX, 262, { size: 20, w: 600, color: kickerColor || sub });
     ctx.restore();
   }
-  const hd = head(ctx, lt, lines, LX, 296, { size: 112, color: fg, markInk, t0: 0.04, stagger: 0.08, maxW: 790, markAt: 0.26 });
+  const hd = head(ctx, lt, lines, LX, 296, { size: 112, color: fg, markInk, t0: 0.04, stagger: 0.08, maxW, markAt: 0.26 });
   const by = 296 + hd.h + 58;
   body(ctx, lt, line2, LX, by, { size: 38, color: sub, t0: 0.34 });
-  const pt = seg(lt, 0.55, 0.95);
-  if (pt > 0) toolPill(ctx, typed(tool, pt) + (pt < 1 ? "▍" : ""), LX, by + 92, { bg: toolBg, fg: toolFg });
+  // the tool call types itself out; a second call retypes the pill at t2
+  const [str, pt] = tool2 && lt >= t2 ? [tool2, seg(lt, t2, t2 + 0.4)] : [tool, seg(lt, 0.55, 0.95)];
+  if (pt > 0) toolPill(ctx, typed(str, pt) + (pt < 1 ? "▍" : ""), LX, by + 92, { bg: toolBg, fg: toolFg });
 }
 
 const slideIn = (lt, d = 0.34) => (1 - curves.snap(seg(lt, 0, d))) * 760;
@@ -97,33 +99,51 @@ export const playbooks = {
 };
 
 // ── LOOKUPS ─────────────────────────────────────────────────────────────────
-// @lotosinbloom as get_instagram_account returned it on 2026-10-27
-const fmt = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "K" : String(Math.round(n)));
+// @mosseri as get_instagram_account and get_instagram_post returned him on
+// 2026-10-27: his six most-viewed recent reels (the top one is the Rings film
+// he shares with @design), against his median reel
+const fmt = (n) =>
+  n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "K" : String(Math.round(n));
 const comma = (n) => Math.round(n).toLocaleString("en-US");
-const GRID = ["d1", "d2", "d3", "d4", "d5", "d6"];
-const VIEWS = [22087, 3856, 2360, 2180, 1024, 715];
-const MEDIAN = 1024;
+const GRID = ["mo1", "mo2", "mo3", "mo4", "mo5", "mo6"];
+const VIEWS = [22902836, 10032447, 9243966, 9191598, 7830437, 6668849];
+const MEDIAN = 9212768;
 export const lookup = {
   hud: () => "light",
   blur: blurIn,
   render(ctx, lt, env) {
     frame(ctx, lt, {
-      bg: HP.blue, fg: "#fff", sub: "rgba(255,255,255,.82)", kicker: "Instagram lookups", tool: "get_instagram_account(\"@lotosinbloom\")",
+      bg: HP.blue, fg: "#fff", sub: "rgba(255,255,255,.82)", kicker: "Instagram lookups", tool: "get_instagram_account(\"@mosseri\")",
       lines: ["Look up", "[any account.]"], line2: "And what works for them.", toolBg: "#fff", toolFg: HP.ink,
     });
     const dx = slideIn(lt);
     const x = VX + dx, y = 120;
     hpCard(ctx, x, y, 790, 840, { r: 30, shadow: 0.9, stroke: null });
-    circleImg(ctx, env.images.d5, x + 96, y + 100, 54);
+    circleImg(ctx, env.images["mo-avatar"], x + 96, y + 100, 54);
     ctx.strokeStyle = HP.line;
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(x + 96, y + 100, 56, 0, TAU);
     ctx.stroke();
-    it(ctx, "@lotosinbloom", x + 178, y + 92, { size: 36, w: 600, color: HP.ink, ls: tight(36) });
-    it(ctx, "Daria · psychology and meditation for women", x + 178, y + 130, { size: 21, w: 400, color: HP.muted });
+    const hw = it(ctx, "@mosseri", x + 178, y + 92, { size: 36, w: 600, color: HP.ink, ls: tight(36) });
+    // the verified tick
+    const vx = x + 178 + hw + 20, vy = y + 80;
+    ctx.fillStyle = HP.blue;
+    ctx.beginPath();
+    ctx.arc(vx, vy, 14, 0, TAU);
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 3.4;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(vx - 6, vy + 0.5);
+    ctx.lineTo(vx - 1.5, vy + 5);
+    ctx.lineTo(vx + 6.5, vy - 4.5);
+    ctx.stroke();
+    it(ctx, "Adam Mosseri · head of Instagram", x + 178, y + 130, { size: 21, w: 400, color: HP.muted });
     const k = ease.outCubic(seg(lt, 0.25, 1.1));
-    const stats = [["Followers", comma(5086 * k)], ["Posts", comma(2925 * k)], ["Median reel views", comma(MEDIAN * k)]];
+    const stats = [["Followers", fmt(4248662 * k)], ["Posts", comma(1385 * k)], ["Median reel views", fmt(MEDIAN * k)]];
     stats.forEach(([l, v], i) => {
       it(ctx, v, x + 50 + i * 240, y + 232, { size: 44, w: 600, color: HP.ink, ls: tight(44) });
       it(ctx, l, x + 50 + i * 240, y + 266, { size: 18, w: 500, color: HP.soft });
@@ -137,7 +157,7 @@ export const lookup = {
       ctx.translate(cx + cw / 2, cy + ch / 2);
       ctx.scale(clamp(p, 0, 1.2), clamp(p, 0, 1.2));
       cover(ctx, env.images[n], -cw / 2, -ch / 2, cw, ch, 12, { ay: 0.3 });
-      // views land on beat 3; the top reel is called out against her median
+      // views land on beat 3; the top reel is called out against his median
       const pr = pop(lt, 2 * B + i * 0.05, 420, 24);
       if (pr > 0) {
         const top = i === 0;
@@ -156,34 +176,38 @@ export const lookup = {
       ctx.translate(gx + 14, gy + 14);
       ctx.scale(clamp(po, 0, 1.15), clamp(po, 0, 1.15));
       hpCard(ctx, 0, 0, 198, 44, { r: 22, fill: HP.ink, stroke: null, shadow: 0.4 });
-      it(ctx, `${Math.round(VIEWS[0] / MEDIAN)}× her median`, 99, 29, { size: 19, w: 600, color: "#fff", align: 0.5 });
+      it(ctx, `${(VIEWS[0] / MEDIAN).toFixed(1)}× his median`, 99, 29, { size: 19, w: 600, color: "#fff", align: 0.5 });
       ctx.restore();
     }
   },
 };
 
 // ── WATCH ───────────────────────────────────────────────────────────────────
-// Daria's montage from the landing page, playing from her run, and what
-// watch_video reads in it: the hook on screen, its 13 shots, why it holds.
+// @askcatgpt's "How to start using AI agents" (DWHXyMhgicK, 2.6M views),
+// playing from its hook, and what watch_video read in it on 2026-10-27; in bar
+// 2 the agent turns that format into a scripted card for you (create_card).
 const ROWS = [
-  ["Hook · 0:00", "“The real reason for my productivity”", "text on screen over a gym selfie"],
-  ["Structure", "13 shots, about a second each", null],
-  ["Pace", "A new place every second", "gym, run, beach, yoga, ride"],
-  ["Why it works", "The hook asks, the montage answers", "she moves, every single day."],
+  ["Hook · 0:00", "“How to start using AI agents”", "Title on screen, straight to camera"],
+  ["Structure", "Hook, compare, demo, 3 rules, CTA", null],
+  ["Why it works", "Three rules make a big idea easy", "A real example proves it first"],
 ];
+// the beats watch_video found, as [label, start s], for the strip
+const BEATS = [["Hook", 0], ["Compare", 6], ["Demo", 16], ["3 rules", 51], ["CTA", 108]];
+const CAT_LEN = 120;
+const T_REMIX = 4 * B;
 export const watch = {
   hud: () => "dark",
   blur: blurIn,
   render(ctx, lt, env) {
     frame(ctx, lt, {
-      bg: HP.paper, kicker: "Reel breakdowns", tool: "watch_video(reel)",
-      lines: ["Watch", "[any reel.]"], line2: "Every shot, hook and beat.",
+      bg: HP.paper, kicker: "Reel breakdowns", tool: "watch_video(\"DWHXyMhgicK\")", tool2: "create_card(remix)", t2: T_REMIX,
+      lines: ["Watch and remix", "[any reel.]"], line2: "Its hook and beats, then yours.", maxW: 690,
     });
     const dx = slideIn(lt);
     // the reel, playing, with a scan line reading it
     const x = 880 + dx, y = 196, rw = 340, rh = 604;
     card(ctx, x - 10, y - 10, rw + 20, rh + 20, { r: 40, fill: HP.ink, shadow: 0.6 });
-    cover(ctx, env.clip("run", lt * 30) || env.images.rs3, x, y, rw, rh, 32);
+    cover(ctx, env.clip("cat", lt * 30) || env.images.c0, x, y, rw, rh, 32);
     const sp = seg(lt, 0.2, 1.7);
     if (sp > 0 && sp < 1) {
       const sy = y + rh * sp;
@@ -198,8 +222,8 @@ export const watch = {
     // playhead under the phone
     const prog = clamp(lt / 3.75);
     card(ctx, x, y + rh + 34, rw, 6, { r: 3, fill: HP.line });
-    card(ctx, x, y + rh + 34, rw * (0.07 + 0.26 * prog), 6, { r: 3, fill: HP.blue });
-    it(ctx, "@lotosinbloom · 0:" + String(1 + Math.floor(lt)).padStart(2, "0") + " / 0:14", x, y + rh + 78, { size: 20, w: 500, color: HP.soft });
+    card(ctx, x, y + rh + 34, rw * (0.02 + 0.1 * prog), 6, { r: 3, fill: HP.blue });
+    it(ctx, "@askcatgpt · 0:0" + Math.floor(lt) + " / 2:00 · 2.6M views", x, y + rh + 78, { size: 20, w: 500, color: HP.soft });
 
     // the breakdown card, typed out row by row
     const bx = x + rw + 50, by = 150, bw = 1800 - bx;
@@ -210,31 +234,55 @@ export const watch = {
     ctx.translate(0, (1 - clamp(pc)) * 40);
     hpCard(ctx, bx, by, bw, 780, { r: 28, shadow: 0.4 });
     ROWS.forEach(([l, v, s], i) => {
-      const t0 = 0.45 + i * B * 1.5;
-      const p = seg(lt, t0, t0 + 0.55);
+      const t0 = 0.45 + i * B * 1.2;
+      const p = seg(lt, t0, t0 + 0.5);
       if (p <= 0) return;
-      const ry = by + 64 + i * 182;
+      const ry = by + 64 + i * 172;
       eyebrow(ctx, l, bx + 40, ry, { size: 16, w: 600, color: i === 0 ? HP.blue : HP.soft });
-      it(ctx, typed(v, p), bx + 40, ry + 44, { size: 27, w: 600, color: HP.ink, ls: -0.6 });
+      it(ctx, typed(v, p), bx + 40, ry + 44, { size: 26, w: 600, color: HP.ink, ls: -0.6 });
       if (s) it(ctx, s, bx + 40, ry + 80, { size: 21, w: 400, color: HP.muted });
       if (i === 1) {
-        // the 13 shots as a strip, cut by cut
-        for (let k = 0; k < 13; k++) {
-          const q = pop(lt, t0 + 0.15 + k * 0.035, 420, 24);
-          if (q <= 0) continue;
-          const tw = 30, th = 54, sx = bx + 40 + k * (tw + 4);
-          ctx.save();
-          ctx.translate(sx + tw / 2, ry + 64 + th / 2);
-          ctx.scale(clamp(q, 0, 1.15), clamp(q, 0, 1.15));
-          cover(ctx, env.images["m" + String(k).padStart(2, "0")], -tw / 2, -th / 2, tw, th, 5);
-          ctx.restore();
-        }
+        // one frame per beat, widths by how long each runs
+        const sw = bw - 80, gap = 5;
+        let sx = bx + 40;
+        BEATS.forEach(([lab, t], k) => {
+          const end = k < BEATS.length - 1 ? BEATS[k + 1][1] : CAT_LEN;
+          const tw = Math.max(46, ((end - t) / CAT_LEN) * (sw - gap * 4 - 46 * 2.2));
+          const q = pop(lt, t0 + 0.15 + k * 0.06, 420, 24);
+          if (q > 0) {
+            ctx.save();
+            ctx.translate(sx + tw / 2, ry + 54 + 30);
+            ctx.scale(clamp(q, 0, 1.15), clamp(q, 0, 1.15));
+            cover(ctx, env.images["c" + k], -tw / 2, -30, tw, 60, 7, { ay: 0.35 });
+            ctx.restore();
+          }
+          sx += tw + gap;
+        });
       }
-      if (i < ROWS.length - 1) {
-        ctx.fillStyle = HP.line;
-        ctx.fillRect(bx + 40, ry + 128, bw - 80, 1.5);
-      }
+      ctx.fillStyle = HP.line;
+      ctx.fillRect(bx + 40, ry + 122, bw - 80, 1.5);
     });
+    // bar 2: the remix, written for you, lands as a card from the board
+    const pr = pop(lt, T_REMIX + 0.1, 300, 20);
+    if (pr > 0) {
+      const ry = by + 64 + 3 * 172 - 18, rx = bx + 24, rww = bw - 48, rhh = 200;
+      ctx.save();
+      ctx.translate(rx + rww / 2, ry + rhh / 2);
+      ctx.scale(clamp(pr, 0, 1.08), clamp(pr, 0, 1.08));
+      ctx.translate(-rww / 2, -rhh / 2);
+      hpCard(ctx, 0, 0, rww, rhh, { r: 20, fill: HP.sagePanel, stroke: null, shadow: 0.3 });
+      card(ctx, 16, 18, 112, 34, { r: 17, fill: HP.green });
+      it(ctx, "Remix", 72, 42, { size: 18, w: 600, color: HP.ink, align: 0.5 });
+      eyebrow(ctx, "Scripted for you · Idea", 144, 41, { size: 14, w: 600 });
+      const pt = seg(lt, T_REMIX + 0.3, T_REMIX + 1.1);
+      it(ctx, typed("“How to start using AI in your job search”", pt), 16, 100, { size: 23, w: 600, color: HP.ink, ls: -0.5 });
+      if (lt > T_REMIX + 1.0) {
+        ctx.globalAlpha = clamp((lt - T_REMIX - 1.0) / 0.3);
+        it(ctx, "Same hook, demo and 3 rules, in your voice", 16, 138, { size: 20, w: 400, color: HP.muted });
+        it(ctx, "Board · Idea → Pre-production", 16, 176, { size: 17, w: 500, color: HP.greenDeep });
+      }
+      ctx.restore();
+    }
     ctx.restore();
   },
 };
@@ -289,7 +337,7 @@ export const plan = {
 };
 
 // ── CAROUSELS ───────────────────────────────────────────────────────────────
-const SLIDES = ["noticed-0", "offline-3", "weekend-0", "noticed-3", "offline-4"];
+// five creators, five styles (src/scenes/slides.js)
 export const carousel = {
   hud: () => "dark",
   blur: blurIn,
@@ -307,7 +355,7 @@ export const carousel = {
     // the deck slides along one slide per beat
     const step = Math.min(3, Math.floor(lt / B)) + curves.swift(clamp((lt % B) / 0.22)) - 1;
     const scroll = Math.max(0, step);
-    SLIDES.forEach((n, i) => {
+    SLIDES.forEach((_, i) => {
       const p = pop(lt, 0.05 + i * 0.05, 300, 22);
       if (p <= 0) return;
       const off = i - scroll;
@@ -318,25 +366,30 @@ export const carousel = {
       ctx.translate(x + sw / 2, y + sh / 2);
       ctx.scale(s, s);
       hpCard(ctx, -sw / 2 - 6, -sh / 2 - 6, sw + 12, sh + 12, { r: 20, shadow: 0.5 });
-      cover(ctx, env.images[n], -sw / 2, -sh / 2, sw, sh, 14);
+      ctx.beginPath();
+      rrect(ctx, -sw / 2, -sh / 2, sw, sh, 14);
+      ctx.clip();
+      drawSlide(ctx, env, i, -sw / 2, -sh / 2, sw);
       ctx.restore();
     });
     // the editing caret: a selection box on the headline of the slide in view
     const pe = seg(lt, 2.2 * B, 2.6 * B);
     if (pe > 0) {
-      const x = VX + 40 + dx + (Math.round(scroll) - scroll) * (sw + 30);
+      const k = sw / 1080, [ex, ey, ew, eh] = SLIDES[Math.round(scroll)].edit;
+      const x = VX + 40 + dx + (Math.round(scroll) - scroll) * (sw + 30) + ex * k;
+      const y = 290 + ey * k;
       ctx.save();
       ctx.globalAlpha = clamp(pe * 2);
       ctx.strokeStyle = HP.blue;
       ctx.lineWidth = 3;
       ctx.setLineDash([10, 7]);
       ctx.beginPath();
-      rrect(ctx, x + 18, 290 + 56, sw - 36, 120 * curves.snap(pe), 6);
+      rrect(ctx, x, y, ew * k, eh * k * curves.snap(pe), 6);
       ctx.stroke();
       ctx.setLineDash([]);
       const lw = measureInter(ctx, "Edit text", { size: 17, w: 600 }) + 28;
-      card(ctx, x + 18, 290 + 21, lw, 34, { r: 17, fill: HP.blue });
-      it(ctx, "Edit text", x + 32, 290 + 44, { size: 17, w: 600, color: "#fff" });
+      card(ctx, x, y - 40, lw, 34, { r: 17, fill: HP.blue });
+      it(ctx, "Edit text", x + 14, y - 17, { size: 17, w: 600, color: "#fff" });
       ctx.restore();
     }
     ctx.restore();

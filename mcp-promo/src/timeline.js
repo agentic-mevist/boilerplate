@@ -38,6 +38,10 @@ export const HP = {
   skyPanel: "#eaf0fc",
   sagePanel: "#eaf0e6",
   navy: "#021838", // the logo's ring
+  // more highlighters, pastel like the green, one per verb on the wall
+  markSky: "#bfd6ff", // research: looking, the brand blue softened
+  markSun: "#ffe68f", // plan: a sticky note on the calendar
+  markPeach: "#ffc8b0", // make: warm, hands-on
 };
 
 // Scene list: id, HUD label, length in bars. The router and the soundtrack
@@ -49,7 +53,7 @@ export const CHAPTERS = [
   { key: "edit", title: "EDIT", bars: 4 },
   { key: "playbooks", title: "PLAYBOOKS", bars: 1 },
   { key: "lookup", title: "RESEARCH", bars: 1 },
-  { key: "watch", title: "WATCH", bars: 2 },
+  { key: "watch", title: "WATCH & REMIX", bars: 2 },
   { key: "plan", title: "PLAN", bars: 1 },
   { key: "carousel", title: "MAKE", bars: 1 },
   { key: "board", title: "SHIP", bars: 1 },
