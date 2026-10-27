@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Soundtrack for the HandlePilot MCP promo (adapted from the show reel's) — synthesized from scratch, cut to the same grid as
-the picture (128 BPM, 8 bars = 15.000 s). Music bed + a sound-design layer in
-which every visual event (bounce, word slam, shatter, splash, flip, heartbeat)
-has its own sound at the exact frame it happens.
+the picture (128 BPM, 24 bars = 45.000 s). Music bed + a sound-design layer in
+which every visual event (word rises, the highlighter, pops, clicks, the drop,
+the landing, the heartbeat) has its own sound at the exact frame it happens.
 """
 import sys
 from pathlib import Path
@@ -14,7 +14,7 @@ from scipy.io import wavfile
 SR = 48000
 B = 60 / 128
 BAR = 4 * B
-DUR = 23 * BAR
+DUR = 24 * BAR  # src/timeline.js CHAPTERS
 N = int(round(SR * DUR))
 PAD = SR * 3
 rng = np.random.default_rng(2026)
@@ -276,9 +276,9 @@ def reverb_ir(sec=1.9, seed=11):
 
 
 # ── arrangement ─────────────────────────────────────────────────────────────
-# Bars (0-based) follow src/timeline.js: 0 bounce, 1 type, 2 grid, 3-4 hub,
-# 5-6 chat, 7-10 edit (8 = the drop), 11-16 tools, 17-18 wall, 19-20 connect,
-# 21-22 identity.
+# Bars (0-based) follow src/timeline.js: 0-1 hook, 2-4 hub, 5-6 chat,
+# 7-10 edit (8 = the drop), 11 playbooks, 12 lookup, 13-14 watch, 15 plan,
+# 16 carousel, 17 board, 18-19 wall, 20-21 connect, 22-23 end card.
 beat = lambda n: n * B
 bar_t = lambda k: k * BAR
 CHORDS = {
@@ -292,32 +292,29 @@ CHORDS = {
 PROG = ["Dm", "Bbmaj7", "Fmaj7", "Cadd9"]
 ROOT = {"Dm": "D2", "Bbmaj7": "Bb1", "Fmaj7": "F2", "Cadd9": "C2", "Gm7": "G1", "A7": "A1"}
 def chord_of(k):
-    if k in (6, 18, 20):
+    if k in (6, 19, 21):
         return "A7"
     return PROG[k % 4]
 KICKS = []
 
 # energy per bar: 0 none, 1 half-time, 2 groove, 3 full (16th hats)
-LEVEL = {0: 0, 1: 2, 2: 2, 3: 2, 4: 2, 5: 0, 6: 1, 7: 1, 8: 3, 9: 3, 10: 3,
-         11: 2, 12: 2, 13: 3, 14: 3, 15: 3, 16: 3, 17: 2, 18: 3, 19: 1, 20: 2}
+LEVEL = {0: 0, 1: 2, 2: 2, 3: 2, 4: 3, 5: 0, 6: 1, 7: 1, 8: 3, 9: 3, 10: 3,
+         11: 2, 12: 2, 13: 3, 14: 3, 15: 3, 16: 3, 17: 3, 18: 2, 19: 3, 20: 1, 21: 2}
 
-# Bar 0 — the bounce IS the rhythm (as in the show reel)
-C = [B, 2 * B, 2.5 * B, 2.75 * B]
-for i, (tc, note, g) in enumerate(zip(C, ["D5", "F5", "A5", "D6"], [0.7, 0.52, 0.36, 0.24])):
-    pan = -0.45 + 0.15 * i
-    dry.add(kick(hi=125, lo=58, decay=0.12, click=0.25, d=0.3), tc - 0.025, 0.75 * g, pan)
-    dry.add(blip(hz(note)), tc - 0.025, 0.24 * g / 0.7 + 0.05, pan)
-    verb.add(blip(hz(note)), tc - 0.025, 0.12, pan)
-dry.add(whoosh(0.4, 500, 1600), 0.0, 0.06, -0.6)
-duck.add(pad([hz(n) for n in CHORDS["Dm"]], BAR + 0.2, a=1.2, r=0.15, cutoff=900), 0.0, 0.12)
-dry.add(swoop(220, 360, 0.14), 1.34, 0.05)
-dry.add(swoop(420, 1700, 0.18), 1.47, 0.09)
-pp_ = bp(noise(int(0.06 * SR)), 1200, 4000) * np.exp(-tt(0.06) / 0.012)
-dry.add(pp_, 3.5 * B, 0.45)
-for k in range(7):
-    dry.add(blip(hz(["A6", "D7", "F6", "A6", "E7", "C7", "D7"][k]), 0.12), 3.5 * B + 0.012 * k, 0.05, (k % 3 - 1) * 0.7)
-dry.add(whoosh(0.32, 2500, 9000, "in"), BAR - 0.32, 0.32)
+# Bar 0 — "Give your Instagram": a hit on each word, the caret ticking, the reels popping in
+for i, (tc, note, g) in enumerate(zip([0.02, 0.5 * B, B], ["D5", "F5", "A5"], [0.7, 0.55, 0.62])):
+    pan = -0.35 + 0.35 * i
+    dry.add(kick(hi=125, lo=58, decay=0.12, click=0.25, d=0.3), tc, 0.8 * g, pan)
+    dry.add(blip(hz(note)), tc, 0.24 * g / 0.7 + 0.05, pan)
+    verb.add(blip(hz(note)), tc, 0.12, pan)
+duck.add(pad([hz(n) for n in CHORDS["Dm"]], BAR + 0.2, a=0.6, r=0.15, cutoff=900), 0.0, 0.14)
+for k in range(5):  # caret blink
+    dry.add(tick(2600, 0.014), 1.5 * B + k * 0.5 * B, 0.07, 0.4)
+for i in range(4):  # the reels
+    dry.add(bloop(440 + 70 * i, 0.16, 1.5), 1.45 * B + i * 0.07, 0.15, -0.5 + 0.33 * i)
+dry.add(whoosh(0.75, 400, 7000, "in"), BAR - 0.75, 0.3)
 
+# drums, bass, pads, bar by bar
 # drums, bass, pads, bar by bar
 for k, lv in LEVEL.items():
     if lv == 0:
@@ -351,21 +348,37 @@ for k, lv in LEVEL.items():
             duck.add(bass(f, BAR * 0.9, 0.1), tb, 0.3)
     duck.add(pad([hz(n) for n in CHORDS[ch]], BAR, 0.08, 0.15, 1700 if lv < 3 else 2600), t0, 0.16)
 
-# bars 1–2: type slams, grid strums
-dry.add(crash(1.6, 0.9), bar_t(1), 0.32)
-verb.add(crash(1.6), bar_t(1), 0.12)
-for i, n in enumerate(["D4", "F4", "A4", "C5"]):
-    dry.add(pluck(hz(n), 0.5), bar_t(2) + beat(i), 0.14, -0.4 + 0.25 * i)
-    verb.add(pluck(hz(n), 0.6), bar_t(2) + beat(i), 0.08)
-dry.add(whoosh(0.3, 6000, 300, "in"), bar_t(3) - 0.32, 0.22)
+# bar 1 — "AI superpowers.": the drop of the hook, the highlighter, the pieces floating out
+T1 = bar_t(1)
+dry.add(boom(1.4, 78, 34), T1, 0.55)
+dry.add(crash(1.6, 0.9), T1, 0.32)
+verb.add(crash(1.6), T1, 0.12)
+st1 = stab([hz(n) for n in ["D4", "F4", "A4", "D5", "E5"]], 0.7)
+dry.add(st1, T1, 0.26)
+verb.add(st1, T1, 0.2)
+dry.add(whoosh(0.4, 900, 5000, "swell", width=0.3), T1 + 0.2, 0.09, 0.3)  # the mark sweeps
+for i, n in enumerate(["A6", "D7", "F6"]):  # sparkles
+    dry.add(blip(hz(n), 0.12), T1 + 0.5 + i * 0.12, 0.06, (-0.5, 0.6, -0.2)[i])
+for i, t in enumerate([0.75, 1.0, 1.25, 1.45, 1.65, 1.85]):  # floaters
+    dry.add(bloop(520 + 60 * i, 0.15, 1.6), T1 + t * B, 0.13, (-0.7, 0.6, -0.8, 0.5, -0.2, 0.8)[i])
+# everything is pulled into the mark
+dry.add(whoosh(0.45, 6000, 500, "in"), bar_t(2) - 0.45, 0.28)
+dry.add(blip(hz("D6"), 0.25, 0.05), T1 + 3 * B + 0.12, 0.12)
 
-# bars 3–4: the hub. The mark lands, the agents pop in and connect
-dry.add(boom(1.4, 80, 36), bar_t(3) + 0.2, 0.45)
-dry.add(stab([hz(n) for n in ["F4", "A4", "C5", "E5"]], 0.7), bar_t(3) + 0.25, 0.22)
+# bars 2–4: the hub. The mark lands, the agents pop in, the words change, the powers fire out
+T2 = bar_t(2)
+dry.add(boom(1.2, 80, 36), T2, 0.4)
+dry.add(stab([hz(n) for n in ["F4", "A4", "C5", "E5"]], 0.7), T2 + 0.15, 0.2)
 for i in range(6):
-    t = bar_t(3) + 0.45 + i * 0.5 * B
-    dry.add(bloop(500 + 90 * i, 0.18, 1.5), t, 0.22, -0.6 + 0.24 * i)
-dry.add(crash(1.2, 0.8), bar_t(4), 0.2)
+    dry.add(bloop(500 + 90 * i, 0.18, 1.5), T2 + 0.3 + i * 0.4 * B, 0.2, -0.6 + 0.24 * i)
+dry.add(crash(1.2, 0.8), bar_t(3), 0.2)
+dry.add(whoosh(0.3, 3000, 800, "in"), bar_t(3) - 0.3, 0.12)
+dry.add(whoosh(0.3, 3000, 800, "in"), bar_t(4) - 0.3, 0.12)
+for i, n in enumerate(["D5", "F5", "A5", "D6"]):  # one pluck per power
+    t = bar_t(4) + 0.1 + i * 0.5 * B
+    dry.add(pluck(hz(n), 0.5), t, 0.16, -0.4 + 0.27 * i)
+    verb.add(pluck(hz(n), 0.6), t, 0.08)
+    dry.add(blip(hz(n) * 2, 0.1), t + 0.38, 0.05, 0.5 - 0.3 * i)
 # fall into the @: riser + reverse swell
 dry.add(whoosh(0.5, 400, 7000, "in"), bar_t(5) - 0.5, 0.32)
 
@@ -403,52 +416,61 @@ dry.add(whoosh(0.9, 6000, 300, "swell", stereo=0.9), gapA + 19 * B / 2, 0.15)
 dry.add(chime := blip(hz("A6"), 0.5, 0.0), bar_t(11) - 2 * B, 0.12)
 verb.add(chime, bar_t(11) - 2 * B, 0.12)
 
-# bars 11–16: one tool per bar, a whoosh on each cut and its own accent
-for k in range(11, 17):
+# bars 11–17: one tool per bar (the reel breakdown gets two), a whoosh on each cut
+for k in (11, 12, 13, 15, 16, 17):
     dry.add(whoosh(0.28, 7000, 600, "in"), bar_t(k) - 0.28, 0.2, (k % 2) * 0.8 - 0.4)
     dry.add(crash(0.9, 0.7), bar_t(k), 0.12)
-dry.add(kick(hi=180, lo=60, decay=0.1, click=0.5, d=0.3), bar_t(11) + 2 * B, 0.4)  # FREE stamp
+dry.add(kick(hi=180, lo=60, decay=0.1, click=0.5, d=0.3), bar_t(11) + 2 * B, 0.4)  # Free stamp
+for i in range(6):  # lookup: views land
+    dry.add(tick(rng.uniform(2600, 4200)), bar_t(12) + 2 * B + i * 0.05, 0.08, rng.uniform(-0.6, 0.6))
+dry.add(blip(hz("A6"), 0.16), bar_t(12) + 2.6 * B, 0.1)  # 22x her median
+for i in range(4):  # watch: a row of the breakdown lands
+    t = bar_t(13) + 0.45 + i * B * 1.5
+    dry.add(blip(hz(["D6", "F6", "A6", "C7"][i]), 0.14), t, 0.09, (-0.4, 0.4)[i % 2])
+for k in range(13):  # the 13 shots
+    dry.add(tick(rng.uniform(3200, 5200)), bar_t(13) + 0.45 + B * 1.5 + 0.15 + k * 0.035, 0.05, rng.uniform(-0.7, 0.7))
 for i in range(16):  # plan: posts landing
-    dry.add(tick(rng.uniform(2400, 5200)), bar_t(14) + 0.3 + i * 0.065, 0.08, rng.uniform(-0.7, 0.7))
+    dry.add(tick(rng.uniform(2400, 5200)), bar_t(15) + 0.3 + i * 0.065, 0.08, rng.uniform(-0.7, 0.7))
 for i in range(4):  # board: card hops
-    dry.add(bloop(420 + 60 * i, 0.16, 1.4), bar_t(16) + i * B + 0.1, 0.16)
+    dry.add(bloop(420 + 60 * i, 0.16, 1.4), bar_t(17) + i * B + 0.1, 0.16)
 
-# bars 17–18: the wall pulls back, then RESEARCH. PLAN. MAKE. SHIP.
-dry.add(whoosh(0.9, 2500, 300, "swell", stereo=0.9), bar_t(17), 0.22)
+# bars 18–19: the wall pulls back, then Research. Plan. Make. Ship.
+dry.add(whoosh(0.9, 2500, 300, "swell", stereo=0.9), bar_t(18), 0.22)
 for i in range(4):
-    t = bar_t(18) + beat(i)
+    t = bar_t(19) + beat(i)
     dry.add(stab([hz(n) for n in [["D4", "F4", "A4"], ["F4", "A4", "C5"], ["G4", "Bb4", "D5"], ["A4", "C#5", "E5"]][i]], 0.45), t, 0.26)
     dry.add(kick(hi=160, lo=55, decay=0.1, click=0.5, d=0.25), t, 0.3)
-dry.add(whoosh(0.4, 9000, 400, "in"), bar_t(19) - 0.4, 0.2)
+dry.add(whoosh(0.4, 9000, 400, "in"), bar_t(20) - 0.4, 0.2)
 
-# bars 19–20: connect. Typing, two clicks, the connected chime
-for t_a, t_b in [(bar_t(19) + 0.3, bar_t(19) + 0.75), (bar_t(19) + 0.85, bar_t(19) + 2.6 * B + 0.4)]:
+# bars 20–21: connect. Typing, two clicks, the connected chime
+for t_a, t_b in [(bar_t(20) + 0.3, bar_t(20) + 0.75), (bar_t(20) + 0.85, bar_t(20) + 2.6 * B + 0.4)]:
     for i in range(int((t_b - t_a) / 0.05)):
         dry.add(tick(rng.uniform(3000, 4500), 0.01), t_a + i * 0.05, 0.05, rng.uniform(-0.3, 0.3))
-for t in (bar_t(19) + 4 * B, bar_t(19) + 6 * B):
+for t in (bar_t(20) + 4 * B, bar_t(20) + 6 * B):
     dry.add(tick(1800, 0.02), t, 0.3)
     dry.add(blip(hz("E5"), 0.1), t, 0.1)
 for i, n in enumerate(["D5", "F#5", "A5", "D6"]):
-    dry.add(blip(hz(n), 0.3, 0.0), bar_t(19) + 7 * B + i * 0.06, 0.12, -0.3 + 0.2 * i)
-    verb.add(blip(hz(n), 0.4, 0.0), bar_t(19) + 7 * B + i * 0.06, 0.1)
-dry.add(whoosh(0.6, 300, 8000, "in"), bar_t(21) - 0.6, 0.3)
+    dry.add(blip(hz(n), 0.3, 0.0), bar_t(20) + 7 * B + i * 0.06, 0.12, -0.3 + 0.2 * i)
+    verb.add(blip(hz(n), 0.4, 0.0), bar_t(20) + 7 * B + i * 0.06, 0.1)
+dry.add(whoosh(0.6, 300, 8000, "in"), bar_t(22) - 0.6, 0.3)
 
-# bars 21–22: identity (the show reel's ending, held for two bars)
-T8 = bar_t(21)
-dry.add(boom(2.6), T8, 0.95)
-dry.add(crash(3.0, 1.0), T8, 0.36)
-verb.add(crash(3.0), T8, 0.2)
+# bars 22–23: the end card. The mark drops and lands on the "and" of beat 1
+T8 = bar_t(22)
+TL = T8 + 0.5 * B
+dry.add(boom(2.6), TL, 0.95)
+dry.add(crash(3.0, 1.0), TL, 0.36)
+verb.add(crash(3.0), TL, 0.2)
+dry.add(swoop(980, 320, 0.22), T8, 0.06)
 end_pad = pad([hz(n) for n in ["D3", "A3", "D4", "E4", "F4", "A4"]], DUR - T8 + 0.5, a=0.01, r=1.2, cutoff=2200)
 dry.add(end_pad * np.exp(-tt(DUR - T8 + 0.5) / 2.2), T8, 0.2)
 verb.add(end_pad, T8, 0.16)
 st_ = stab([hz(n) for n in ["D4", "F4", "A4", "D5", "E5"]], 0.9)
-dry.add(st_, T8, 0.3)
-verb.add(st_, T8, 0.3)
-dry.add(swoop(320, 980, 0.4), T8 + 0.07, 0.07)
-for i, n in enumerate(["D5", "F5", "A5", "C6", "D6", "E6"]):
-    dry.add(blip(hz(n), 0.12), T8 + 0.06 + i * 0.045 + 0.05, 0.06, -0.5 + i * 0.2)
-dry.add(blip(hz("D5"), 0.3, 0.06), T8 + B, 0.3, 0.35)
-dry.add(kick(hi=140, lo=70, decay=0.08, click=0.2, d=0.2), T8 + B, 0.35, 0.35)
+dry.add(st_, TL, 0.3)
+verb.add(st_, TL, 0.3)
+for i, n in enumerate(["D5", "F5", "A5", "C6", "D6", "E6"]):  # the letters rise
+    dry.add(blip(hz(n), 0.12), T8 + 0.08 + i * 0.04 + 0.05, 0.05, -0.5 + i * 0.2)
+dry.add(whoosh(0.35, 900, 5000, "swell", width=0.3), T8 + B + 0.3, 0.08)  # Free to start.
+dry.add(blip(hz("A5"), 0.3, 0.06), T8 + 2 * B, 0.2, 0.2)  # the button
 for i in range(4):  # soft pulse under the tagline
     dry.add(kick(hi=90, lo=45, decay=0.18, click=0.02, d=0.4), T8 + beat(2 + i), 0.22)
 dry.add(kick(hi=95, lo=45, decay=0.14, click=0.05, d=0.4), T8 + 7 * B, 0.55)

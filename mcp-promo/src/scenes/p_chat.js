@@ -1,7 +1,7 @@
 // 05 — ASK
 // Out of the @, a chat with your agent. A raw take is dropped in, one line is
 // typed, and the agent works through HandlePilot's tools on the beat.
-import { W, H, BEAT, PAL } from "../timeline.js";
+import { W, H, BEAT, PAL, HP } from "../timeline.js";
 import { clamp, seg, lerp, ease, curves, spring, TAU, alpha } from "../engine/math.js";
 import { rrect } from "../engine/draw.js";
 import { sg, jb, card, cover, pop, typed, measure } from "../engine/ui.js";
@@ -49,12 +49,12 @@ export default {
     sg(ctx, "Your AI agent", WX + 310, WY + 58, { size: 24, w: 700, color: PAL.paper });
     // connected badge
     const bw = measure(ctx, "HandlePilot connected", { size: 18, w: 500 }) + 46;
-    card(ctx, WX + WW - 40 - bw, WY + 30, bw, 40, { r: 20, fill: "rgba(32,214,143,.14)" });
-    ctx.fillStyle = PAL.lime;
+    card(ctx, WX + WW - 40 - bw, WY + 30, bw, 40, { r: 20, fill: "rgba(192,239,173,.14)" });
+    ctx.fillStyle = HP.green;
     ctx.beginPath();
     ctx.arc(WX + WW - 40 - bw + 20, WY + 50, 6, 0, TAU);
     ctx.fill();
-    sg(ctx, "HandlePilot connected", WX + WW - 40 - bw + 34, WY + 57, { size: 18, w: 500, color: PAL.lime });
+    sg(ctx, "HandlePilot connected", WX + WW - 40 - bw + 34, WY + 57, { size: 18, w: 500, color: HP.green });
 
     // 1. the take is dropped in (a drag from off-screen, landing on beat 2)
     const pd = curves.snap(seg(lt, 0.25, B + 0.1));
@@ -86,7 +86,7 @@ export default {
       const cut0 = ASK.indexOf("motion");
       const bwid = Math.max(measure(ctx, ASK.slice(0, cut0), { size: 28, w: 500 }), measure(ctx, ASK.slice(cut0), { size: 28, w: 500 })) + 64;
       const bx = WX + WW - 60 - bwid, by = THUMB.y + THUMB.h + 22;
-      card(ctx, bx, by, bwid, 116, { r: 26, fill: PAL.cobalt });
+      card(ctx, bx, by, bwid, 116, { r: 26, fill: HP.blue });
       // two lines
       const cut = ASK.indexOf("motion");
       const l1 = str.slice(0, Math.min(str.length, cut)), l2 = str.length > cut ? str.slice(cut) : "";
@@ -106,7 +106,7 @@ export default {
       card(ctx, ax, y, 520, 62, { r: 16, fill: "#242833" });
       const done = lt > t0 + 0.75 * B;
       // spinner → check
-      ctx.strokeStyle = done ? PAL.lime : PAL.paper;
+      ctx.strokeStyle = done ? HP.green : PAL.paper;
       ctx.lineWidth = 3.5;
       ctx.beginPath();
       if (done) {
@@ -127,7 +127,7 @@ export default {
     if (pp > 0) {
       const y = ay + 4 * 72 + 4;
       card(ctx, ax, y, 520, 10, { r: 5, fill: "#242833" });
-      card(ctx, ax, y, 520 * ease.inOutCubic(pp), 10, { r: 5, fill: PAL.lime });
+      card(ctx, ax, y, 520 * ease.inOutCubic(pp), 10, { r: 5, fill: HP.green });
     }
     ctx.restore();
   },

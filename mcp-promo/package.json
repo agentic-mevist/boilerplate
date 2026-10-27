@@ -1,7 +1,7 @@
 {
   "name": "handlepilot-mcp-promo",
   "version": "1.0.0",
-  "description": "HandlePilot MCP server promo (43 s), rendered from code on the motion reel engine",
+  "description": "HandlePilot MCP server promo (45 s), rendered from code on the motion reel engine",
   "scripts": {
     "still": "node tools/still.mjs",
     "sheet": "node tools/sheet.mjs",

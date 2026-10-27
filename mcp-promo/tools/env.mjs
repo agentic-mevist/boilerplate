@@ -15,11 +15,28 @@ initFonts(map);
 const root = new URL("..", import.meta.url).pathname;
 for (const w of [400, 500, 700]) GlobalFonts.registerFromPath(path.join(root, `fonts/space-grotesk-latin-${w}-normal.woff2`), "Space Grotesk");
 GlobalFonts.registerFromPath(path.join(root, "fonts/JetBrainsMono-VF.ttf"), "JetBrains Mono");
+// Inter is the website's face (headlines 600, body 400/500).
+for (const w of [400, 500, 600]) GlobalFonts.registerFromPath(path.join(root, `fonts/inter-${w}.woff2`), "Inter");
 
 // Stills, decoded once before the first frame.
 const imgDir = path.join(root, "assets/img");
 const images = {};
 for (const f of fs.readdirSync(imgDir)) if (/\.(png|jpe?g)$/.test(f)) images[f.replace(/\.\w+$/, "")] = await loadImage(path.join(imgDir, f));
+
+// Icons: SVGs rasterized at 192 px, once per colour. l-* are the app's lucide
+// line icons (tinted), a-* the agents' own marks (their colours, currentColor → ink).
+const iconDir = path.join(root, "assets/icons");
+const TINTS = { ink: "#0a0a0a", blue: "#3478f5", white: "#ffffff", muted: "#515151" };
+const icons = {};
+for (const f of fs.readdirSync(iconDir)) if (f.endsWith(".svg")) {
+  const name = f.slice(0, -4);
+  const src = fs.readFileSync(path.join(iconDir, f), "utf8")
+    .replace(/\swidth="[^"]*"/, ' width="192"')
+    .replace(/\sheight="[^"]*"/, ' height="192"');
+  const tints = name.startsWith("l-") ? TINTS : { ink: TINTS.ink, white: TINTS.white };
+  icons[name] = {};
+  for (const [k, c] of Object.entries(tints)) icons[name][k] = await loadImage(Buffer.from(src.replaceAll("currentColor", c)));
+}
 
 // Clips: raw RGBA frame files (assets/clips/<name>.rgba + .json), read on demand.
 const clipDir = path.join(root, "assets/clips");
@@ -48,7 +65,7 @@ function clip(name, i) {
   return cv;
 }
 
-export const env = { createCanvas: (w, h) => createCanvas(w, h), node: true, images, clip, clips };
+export const env = { createCanvas: (w, h) => createCanvas(w, h), node: true, images, icons, clip, clips };
 
 // sRGB <-> linear lookup tables
 const DEC = new Float32Array(256);

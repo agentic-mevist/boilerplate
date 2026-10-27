@@ -1,10 +1,10 @@
 // 13 — ALL OF IT
 // Pull back from the board into a wall of everything we just saw, then four
 // words slam over it on the beat: RESEARCH. PLAN. MAKE. SHIP.
-import { W, H, BEAT, PAL } from "../timeline.js";
+import { W, H, BEAT, PAL, HP } from "../timeline.js";
 import { clamp, seg, lerp, ease, curves, spring, alpha } from "../engine/math.js";
 import { rrect } from "../engine/draw.js";
-import { riseLines } from "../engine/ui.js";
+import { head } from "../engine/ui.js";
 import { playbooks, lookup, watch, plan, carousel, board } from "./p_tools.js";
 import hub from "./p_hub.js";
 import chat from "./p_chat.js";
@@ -16,7 +16,7 @@ const TW = 560, TH = 315, GAP = 36;
 const TILES = [
   [hub, 3.0], [playbooks, 1.7], [lookup, 1.7], [chat, 3.2],
   [watch, 1.7], [plan, 1.7], [board, 1.8], [carousel, 1.7],
-  [lookup, 1.0], [watch, 1.2], [playbooks, 1.1], [plan, 1.0],
+  [lookup, 1.0], [watch, 3.2], [playbooks, 1.1], [plan, 1.0],
 ];
 const HOME = 6; // index of the board tile
 let cache = null;
@@ -37,14 +37,14 @@ const pos = (i) => {
   const gw = COLS * TW + (COLS - 1) * GAP, gh = ROWS * TH + (ROWS - 1) * GAP;
   return [W / 2 - gw / 2 + c * (TW + GAP), H / 2 - gh / 2 + r * (TH + GAP)];
 };
-const WORDS = [["RESEARCH.", PAL.paper], ["PLAN.", PAL.yellow], ["MAKE.", PAL.orange], ["SHIP.", PAL.lime]];
+const WORDS = ["Research.", "Plan.", "Make.", "Ship."];
 
 export default {
-  hud: () => "light",
+  hud: () => "dark",
   blur: (lt) => (lt < 0.6 ? { samples: 2.5 } : null),
   render(ctx, lt, env) {
     const T = tiles(env);
-    ctx.fillStyle = PAL.ink;
+    ctx.fillStyle = HP.paper;
     ctx.fillRect(0, 0, W, H);
     // camera: from the board tile filling the frame to the whole wall, drifting
     const pb = curves.glide(seg(lt, 0, 0.9));
@@ -64,21 +64,32 @@ export default {
       if (p <= 0) return;
       ctx.save();
       ctx.globalAlpha = p;
+      ctx.shadowColor = "rgba(0,0,0,.12)";
+      ctx.shadowBlur = 30;
+      ctx.shadowOffsetY = 10;
+      ctx.fillStyle = "#fff";
       ctx.beginPath();
-      rrect(ctx, x, y, TW, TH, 14);
+      rrect(ctx, x, y + (1 - p) * 40, TW, TH, 14);
+      ctx.fill();
+      ctx.restore();
+      ctx.save();
+      ctx.globalAlpha = p;
+      ctx.beginPath();
+      rrect(ctx, x, y + (1 - p) * 40, TW, TH, 14);
       ctx.clip();
       ctx.drawImage(img, x, y + (1 - p) * 40, TW, TH);
       ctx.restore();
     });
     ctx.restore();
     if (dim > 0) {
-      ctx.fillStyle = alpha(PAL.ink, 0.72 * dim);
+      ctx.fillStyle = alpha(HP.paper, 0.86 * dim);
       ctx.fillRect(0, 0, W, H);
     }
-    // the four verbs, one per beat in bar 2, stacked and left-aligned
-    WORDS.forEach(([w, c], i) => {
+    // the four verbs, one per beat in bar 2, stacked and left-aligned; each
+    // gets the highlighter as it lands
+    WORDS.forEach((w, i) => {
       const t0 = 4 * B + i * B;
-      riseLines(ctx, lt, [w], 140, 190 + i * 196, { size: 190, color: c, t0, wdth: 118, wght: 900 });
+      head(ctx, lt, [`[${w}]`], 150, 160 + i * 208, { size: 162, t0, markAt: 0.12, markD: 0.26 });
     });
   },
 };

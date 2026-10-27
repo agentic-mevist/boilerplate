@@ -162,3 +162,146 @@ export function whip(lt, len, { inD = 0.32, outD = 0.16 } = {}) {
 }
 
 export { alpha };
+
+// ── HandlePilot brand (the website's style guide) ──────────────────────────
+// Inter, tight headlines (600, -0.045em), the green highlighter "mark" behind
+// key words, uppercase eyebrows, white cards with hairline borders.
+import { HP } from "../timeline.js";
+export const it = (ctx, str, x, y, o = {}) => native(ctx, "Inter", str, x, y, { w: 500, ...o });
+export const tight = (size) => -0.045 * size;
+export function measureInter(ctx, str, { size = 24, w = 600, ls = 0 } = {}) {
+  ctx.font = `${w} ${size}px "Inter"`;
+  ctx.letterSpacing = `${ls}px`;
+  const m = ctx.measureText(str).width;
+  ctx.letterSpacing = "0px";
+  return m;
+}
+
+// "Look up [any account.]" → [{ s: "Look up ", mark: false }, { s: "any account.", mark: true }]
+function parseMarks(line) {
+  const out = [];
+  const re = /\[([^\]]*)\]|([^[]+)/g;
+  let m;
+  while ((m = re.exec(line))) out.push(m[1] !== undefined ? { s: m[1], mark: true } : { s: m[2], mark: false });
+  return out;
+}
+
+// The green highlighter: drawn like the site's <mark> (content box of the
+// line, padding 0 .11em .03em, radius 5px at 16px).
+export function markRect(ctx, x, base, w, size, p = 1, color = HP.green) {
+  if (p <= 0) return;
+  const px = 0.11 * size, top = base - 0.93 * size, h = 1.18 * size;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  rrect(ctx, x - px, top, (w + 2 * px) * p, h, Math.min(0.09 * size, ((w + 2 * px) * p) / 2));
+  ctx.fill();
+}
+
+// Headline: one entry per line, each rising through its own mask on the beat,
+// then the marked words get highlighted with a left-to-right sweep.
+// Returns { h, size, lines: [{ x, base, w }] }.
+export function head(ctx, lt, lines, x, y, {
+  size = 110, color = HP.ink, markInk = HP.ink, markColor = HP.green, t0 = 0, stagger = 0.08, lead = 1.08,
+  align = 0, maxW = 0, w = 600, markAt = 0.3, markD = 0.32, rise = 0.42,
+} = {}) {
+  const parsed = lines.map(parseMarks);
+  const ls = (s) => tight(s);
+  const widthOf = (segs, s) => segs.reduce((a, g) => a + measureInter(ctx, g.s, { size: s, w, ls: ls(s) }), 0);
+  if (maxW) {
+    const widest = Math.max(...parsed.map((p) => widthOf(p, size)));
+    if (widest > maxW) size *= maxW / widest;
+  }
+  const out = [];
+  parsed.forEach((segs, li) => {
+    const base = y + size * 0.73 + li * size * lead;
+    const tl = t0 + li * stagger;
+    const p = curves.snap(seg(lt, tl, tl + rise));
+    const lw = widthOf(segs, size);
+    const x0 = x - lw * align;
+    out.push({ x: x0, base, w: lw });
+    if (p <= 0) return;
+    // marks first, under the words
+    let cx = x0;
+    const pm = curves.glide(seg(lt, tl + markAt, tl + markAt + markD));
+    for (const g of segs) {
+      const gw = measureInter(ctx, g.s.replace(/\s+$/, ""), { size, w, ls: ls(size) });
+      if (g.mark) markRect(ctx, cx, base, gw, size, pm, markColor);
+      cx += measureInter(ctx, g.s, { size, w, ls: ls(size) });
+    }
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, base - size * 1.02, 1920, size * 1.32);
+    ctx.clip();
+    cx = x0;
+    const dy = (1 - p) * size * 1.05;
+    for (const g of segs) {
+      const col = g.mark && pm > 0.5 ? markInk : color;
+      cx += native(ctx, "Inter", g.s, cx, base + dy, { size, w, color: col, ls: ls(size) });
+    }
+    ctx.restore();
+  });
+  return { h: lines.length * size * lead, size, lines: out };
+}
+
+// uppercase label, as the site's .eyebrow
+export function eyebrow(ctx, str, x, y, { size = 20, color = HP.soft, align = 0, w = 500 } = {}) {
+  return native(ctx, "Inter", str.toUpperCase(), x, y, { size, w, color, align, ls: 0.1 * size });
+}
+
+// body line that fades up into place
+export function body(ctx, lt, str, x, y, { size = 36, color = HP.muted, t0 = 0, d = 0.35, align = 0, w = 400 } = {}) {
+  const p = seg(lt, t0, t0 + d);
+  if (p <= 0) return 0;
+  ctx.save();
+  ctx.globalAlpha *= curves.glide(p);
+  const r = native(ctx, "Inter", str, x, y + (1 - curves.snap(p)) * 18, { size, w, color, align, ls: -0.01 * size });
+  ctx.restore();
+  return r;
+}
+
+// an icon from env.icons, centred on (cx, cy)
+export function icon(ctx, env, name, cx, cy, size, tint = "ink") {
+  const set = env.icons && env.icons[name];
+  if (!set) return;
+  const img = set[tint] || set.ink;
+  ctx.drawImage(img, cx - size / 2, cy - size / 2, size, size);
+}
+
+// a soft square tile with a line icon in it, like the site's floating icons
+export function iconTile(ctx, env, name, cx, cy, s, { fill = HP.skyPanel, tint = "blue", r = 0.26, stroke } = {}) {
+  card(ctx, cx - s / 2, cy - s / 2, s, s, { r: s * r, fill, stroke });
+  icon(ctx, env, name, cx, cy, s * 0.5, tint);
+}
+
+// the site's white card: hairline border, faint lift
+export function hpCard(ctx, x, y, w, h, { r = 22, fill = HP.white, stroke = HP.line, shadow = 0.25 } = {}) {
+  card(ctx, x, y, w, h, { r, fill, stroke, shadow, lw: 1.5 });
+}
+
+// the four-point sparkle the site puts next to the mark (✦ has no Inter glyph)
+export function sparkle(ctx, cx, cy, r, color = HP.blue, rot = 0) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rot);
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(r, 0);
+  for (let i = 1; i <= 4; i++) {
+    const a = (i * Math.PI) / 2, c = a - Math.PI / 4;
+    ctx.quadraticCurveTo(Math.cos(c) * r * 0.16, Math.sin(c) * r * 0.16, Math.cos(a) * r, Math.sin(a) * r);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+// a play triangle (the views badge), drawn so it never depends on a glyph
+export function playTri(ctx, x, cy, s, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x, cy - s / 2);
+  ctx.lineTo(x + s * 0.88, cy);
+  ctx.lineTo(x, cy + s / 2);
+  ctx.closePath();
+  ctx.fill();
+}
