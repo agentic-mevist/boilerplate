@@ -194,8 +194,10 @@ function profile(ctx, lt, env) {
   // handle and buttons
   const rx = 248;
   const ph = seg(lt, t0 + 0.42, t0 + 0.66);
-  if (ph > 0) it(ctx, "yourbrand", rx, 76, { size: 30, w: 600, color: HP.ink, ls: tight(30) * 0.6 });
-  [["Follow", HP.blue, "#fff", 404], ["Message", "#efefef", HP.ink, 540]].forEach(([l, bg, fg, bx], i) => {
+  const hs = { size: 30, w: 600, color: HP.ink, ls: tight(30) * 0.6 };
+  if (ph > 0) it(ctx, "yourhandle", rx, 76, hs);
+  const bx0 = rx + measureInter(ctx, "yourhandle", hs) + 22;
+  [["Follow", HP.blue, "#fff", bx0], ["Message", "#efefef", HP.ink, bx0 + 136]].forEach(([l, bg, fg, bx], i) => {
     const pb = pop(lt, t0 + 0.52 + i * 0.06, 360, 20);
     if (pb <= 0) return;
     ctx.save();
@@ -216,7 +218,7 @@ function profile(ctx, lt, env) {
   // name and bio, as bars that grow
   const pn = curves.glide(seg(lt, t0 + 0.6, t0 + 0.9));
   if (pn > 0) {
-    it(ctx, "Your Brand", rx, 168, { size: 18, w: 600, color: HP.ink });
+    it(ctx, "Your Name", rx, 168, { size: 18, w: 600, color: HP.ink });
     ctx.fillStyle = "#e9e9e9";
     for (const [y, bw] of [[184, 330], [204, 240]]) {
       ctx.beginPath();
@@ -293,7 +295,7 @@ export default {
     const up = curves.snap(seg(lt, T_L2 - 0.12, T_L2 + 0.3));
     const base1 = lerp(372, 492, up), base2 = 492 + SIZE * 1.08;
     // the profile, under line 1 in bar 1; on the downbeat it steps aside
-    const pc = curves.snap(seg(lt, T_L2 - 0.1, T_L2 + 0.42));
+    const pc = curves.snap(seg(lt, T_L2 - 0.18, T_L2 + 0.34));
     if (lt >= T_DRAW) {
       const [tx, ty, ts, tr] = P_TO;
       const bob = Math.sin(lt * 2 + 1.3) * 6 * pc;

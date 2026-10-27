@@ -4,6 +4,8 @@ A 45-second promo for the HandlePilot MCP server (`https://app.handlepilot.com/m
 
 1920×1080 · 60 fps · H.264 + AAC. No prices anywhere in the picture.
 
+v5 (2026-10-27) clears the frame: only the HandlePilot mark stays in the corner (no "MCP server" eyebrow, chapter name or chapter progress), and the profile in the hook is "yourhandle".
+
 v4 (2026-10-27) changes the opening and thins out the sound effects, as Victor asked: the first screen draws an Instagram profile under "Give your Instagram" and its icon instead of showing a creator's reels, the words slide in on soft air instead of a hit each, the floating pieces share one whoosh instead of a pop each, the hub's four powers get a faint brush of air instead of four notes, and the agent's tool calls, the reel breakdown rows, the "connected" moment and the logo's heartbeat at the end play without effects. The edit, the remix and the wall keep theirs.
 
 v3 (2026-10-27) keeps v2's look and music and changes what Victor asked for: text always sits above the highlighter (`head()` draws every line's marks before any words), real people in the carousels, Adam Mosseri in the lookup, a reel that is watched *and remixed*, a highlighter colour per verb on the wall, @lotosinbloom's reels without Russian on them, and recorded sound effects in place of the synth blips.
@@ -54,4 +56,4 @@ node tools/render.mjs --samples 6 --workers 4 --out out/handlepilot-mcp-promo.mp
 
 ## Credits
 
-Typefaces under the SIL Open Font License (`fonts/licenses/`): Inter, Anybody, Instrument Serif, JetBrains Mono, Space Grotesk. Icons: Lucide (ISC), LobeHub Icons (MIT). The agents' marks belong to their companies and are shown to say HandlePilot works with them. Sound effects: CC0 recordings from Freesound, credited in `assets/sfx/CREDITS.md`. The reels shown belong to @mosseri (and his collaborators) and @askcatgpt. The hook's profile is a mockup ("yourbrand"), not a real account.
+Typefaces under the SIL Open Font License (`fonts/licenses/`): Inter, Anybody, Instrument Serif, JetBrains Mono, Space Grotesk. Icons: Lucide (ISC), LobeHub Icons (MIT). The agents' marks belong to their companies and are shown to say HandlePilot works with them. Sound effects: CC0 recordings from Freesound, credited in `assets/sfx/CREDITS.md`. The reels shown belong to @mosseri (and his collaborators) and @askcatgpt. The hook's profile is a mockup ("yourhandle"), not a real account.

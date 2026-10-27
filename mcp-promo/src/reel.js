@@ -1,9 +1,8 @@
 // The reel: routes global time to scenes, then draws the HUD + film finish.
 import { W, H, BAR, BEAT, DURATION, FPS, PAL, HP, CHAPTERS } from "./timeline.js";
-import { clamp, seg, ease, curves, hash, mix, alpha } from "./engine/math.js";
-import { rrect } from "./engine/draw.js";
+import { seg, ease, curves, hash, mix, alpha } from "./engine/math.js";
 
-import { it, eyebrow, logo, tight } from "./engine/ui.js";
+import { it, logo, tight } from "./engine/ui.js";
 import hook from "./scenes/p_hook.js";
 import hub from "./scenes/p_hub.js";
 import chat from "./scenes/p_chat.js";
@@ -36,8 +35,9 @@ export function renderOverlay(ctx, t, env, { grain = true } = {}) {
 }
 
 // ── HUD ────────────────────────────────────────────────────────────────────
-// The website's header, small: the mark + "HandlePilot" top left, the chapter
-// as an eyebrow bottom left, chapter progress bottom right.
+// The website's header, small: the mark + "HandlePilot" top left. (v5: no
+// "MCP server" eyebrow, chapter name or chapter progress; Victor found them
+// distracting.)
 function hudColor(t) {
   const s = sceneAt(t);
   const lt = t - s.start;
@@ -60,35 +60,6 @@ function drawHUD(ctx, t, env) {
   // top-left: the brand, as in the site header
   logo(ctx, env, 84 + 19, 84, 19);
   it(ctx, "HandlePilot", 84 + 50, 93, { size: 26, w: 600, color: col, ls: tight(26) * 0.6 });
-  // top-right: what this is
-  eyebrow(ctx, "MCP server", W - 84, 92, { size: 15, color: col, align: 1, w: 600 });
-
-  // bottom-left: chapter
-  const ch = s.chapter;
-  const p = clamp(lt / 0.25);
-  ctx.save();
-  ctx.globalAlpha = a * (0.4 + 0.6 * p);
-  eyebrow(ctx, `${ch.id} · ${ch.title}`, 84, H - 78, { size: 15, color: col, w: 600 });
-  ctx.restore();
-
-  // bottom-right: chapter progress
-  const segW = 18, gap = 5, n = SCENES.length;
-  const x0 = W - 84 - n * segW - (n - 1) * gap;
-  for (let i = 0; i < n; i++) {
-    const fill = clamp((t - SCENES[i].start) / (SCENES[i].end - SCENES[i].start));
-    const x = x0 + i * (segW + gap);
-    ctx.save();
-    ctx.globalAlpha = a * 0.3;
-    ctx.beginPath();
-    rrect(ctx, x, H - 86, segW, 4, 2);
-    ctx.fill();
-    ctx.restore();
-    if (fill > 0) {
-      ctx.beginPath();
-      rrect(ctx, x, H - 86, segW * fill, 4, 2);
-      ctx.fill();
-    }
-  }
   ctx.restore();
 }
 
