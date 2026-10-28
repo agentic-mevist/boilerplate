@@ -4,6 +4,8 @@ A 45-second promo for the HandlePilot MCP server (`https://app.handlepilot.com/m
 
 1920×1080 · 60 fps · H.264 + AAC. No prices anywhere in the picture.
 
+**Watch it:** https://handlepilot-mcp-promo.donatizehelp.workers.dev (published 2026-10-28; page source and publish steps in `site/`).
+
 v5 (2026-10-27) clears the frame: only the HandlePilot mark stays in the corner (no "MCP server" eyebrow, chapter name or chapter progress), and the profile in the hook is "yourhandle".
 
 v4 (2026-10-27) changes the opening and thins out the sound effects, as Victor asked: the first screen draws an Instagram profile under "Give your Instagram" and its icon instead of showing a creator's reels, the words slide in on soft air instead of a hit each, the floating pieces share one whoosh instead of a pop each, the hub's four powers get a faint brush of air instead of four notes, and the agent's tool calls, the reel breakdown rows, the "connected" moment and the logo's heartbeat at the end play without effects. The edit, the remix and the wall keep theirs.
