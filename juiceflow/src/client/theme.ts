@@ -1,14 +1,12 @@
 import type { Health } from "../shared/model";
 
-/** Palette (sRGB hex). Shaders take these as raw sRGB, matching the CSS exactly. */
+/** Palette (sRGB hex). Shaders take these as raw sRGB, matching the CSS exactly. The juice colors live in juices.ts. */
 export const C = {
   bg: "#f4f2ee",
   ink: "#1d1c1a",
   inkSoft: "#6f6a62",
   grid: "#d9d4cb",
   dash: "#c2b9ab",
-  juice: "#ff6a2b",
-  juiceHot: "#ff8f45",
   suspicious: "#f0a04b",
   toxic: "#8a7db0",
   nofollow: "#a8a197",
@@ -23,8 +21,9 @@ export const C = {
 export const HEALTH_CODE: Record<Health, number> = { clean: 0, suspicious: 1, toxic: 2, nofollow: 3, leak: 4, lost: 5 };
 export const OUTPUT_CODE = 6;
 
+/** CSS colors for each kind of link (clean juice follows the chosen juice). */
 export const HEALTH_COLOR: Record<Health, string> = {
-  clean: C.juice,
+  clean: "var(--juice)",
   suspicious: C.suspicious,
   toxic: C.toxic,
   nofollow: C.nofollow,

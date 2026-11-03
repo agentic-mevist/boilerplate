@@ -1,6 +1,6 @@
 /**
- * GLSL for the board: the dot grid, favicons, soft key shadows and the score
- * ring. The juice itself lives in liquid/shaders.ts.
+ * GLSL for the board: the dot grid, favicons and soft key shadows. The juice
+ * itself lives in liquid/shaders.ts.
  *
  * Colors are raw sRGB (no color-space conversion) so they match the CSS.
  */
@@ -79,38 +79,5 @@ void main() {
   a = a * a * vA;
   if (a < 0.003) discard;
   gl_FragColor = vec4(0.30, 0.26, 0.20, a);
-}
-`;
-
-export const ringVertex = /* glsl */ `
-varying vec2 vP;
-void main() {
-  vP = position.xy;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-}
-`;
-
-export const ringFragment = /* glsl */ `
-uniform float uTime;
-uniform float uScore;   // 0..1, animated
-uniform vec3 uColor;
-uniform vec3 uTrack;
-uniform float uInner;
-uniform float uOuter;
-varying vec2 vP;
-void main() {
-  float r = length(vP);
-  float ang = atan(vP.y, vP.x);              // -pi..pi
-  float a01 = fract((ang / 6.28318530718) + 0.25); // 0 at top, clockwise-ish
-  float mid = (uInner + uOuter) * 0.5;
-  float halfW = (uOuter - uInner) * 0.5;
-  float band = 1.0 - smoothstep(halfW - 0.015, halfW + 0.015, abs(r - mid));
-  // Score arc (solid) + rotating dashes on the remainder (like a loading ring).
-  float onArc = step(a01, uScore);
-  float dashes = step(0.5, fract(a01 * 18.0 - uTime * 0.15));
-  vec3 col = mix(uTrack, uColor, onArc);
-  float alpha = band * mix(0.9 * dashes * 0.8, 1.0, onArc);
-  if (alpha < 0.01) discard;
-  gl_FragColor = vec4(col, alpha);
 }
 `;

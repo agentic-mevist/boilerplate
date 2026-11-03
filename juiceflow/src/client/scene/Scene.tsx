@@ -201,7 +201,7 @@ export function Scene({ insets }: { insets: Insets }) {
             {layout.mode === "funnel" && <OutputCards result={result} slots={layout.outputs} revealKey={revealKey} />}
           </group>
         )}
-        <Hub domain={domain} score={result?.score ?? 0} revealKey={revealKey} />
+        {result && domain && <Hub domain={domain} revealKey={revealKey} />}
       </group>
     </Canvas>
   );

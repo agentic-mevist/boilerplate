@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { DEFAULT_PARAMS, runModel, type JuiceResult, type ModelParams } from "../shared/model";
 import type { AnalyzeResponse } from "../shared/types";
+import { DEFAULT_JUICE, loadJuice, saveJuice, type JuiceId } from "./juices";
 import type { LayoutMode } from "./scene/layout";
 
 export type Status = "idle" | "loading" | "ready" | "error";
@@ -26,6 +27,8 @@ interface State {
   selected: string | null;
   panel: "sources" | "insights" | null;
   howOpen: boolean;
+  /** Which juice flows: colors the liquid, the cards and the accents. */
+  juice: JuiceId;
   /** Bumped on every new result so the scene can replay its entrance animation. */
   revealKey: number;
   view: ViewCmd;
@@ -46,6 +49,7 @@ interface State {
   select: (id: string | null) => void;
   setPanel: (p: State["panel"]) => void;
   setHowOpen: (v: boolean) => void;
+  setJuice: (j: JuiceId) => void;
 }
 
 export const useStore = create<State>((set, get) => ({
@@ -61,6 +65,7 @@ export const useStore = create<State>((set, get) => ({
   selected: null,
   panel: null,
   howOpen: false,
+  juice: typeof window !== "undefined" ? loadJuice() : DEFAULT_JUICE,
   revealKey: 0,
   view: { kind: "fit", n: 0 },
   zoomPct: 100,
@@ -101,4 +106,8 @@ export const useStore = create<State>((set, get) => ({
     })),
   setPanel: (panel) => set({ panel, hovered: null }),
   setHowOpen: (howOpen) => set({ howOpen, hovered: null }),
+  setJuice: (juice) => {
+    saveJuice(juice);
+    set({ juice });
+  },
 }));

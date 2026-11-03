@@ -1,19 +1,44 @@
 import { useEffect, useRef, useState } from "react";
 import { DEMOS } from "../api";
 import { compact, int, pct } from "../format";
+import { glassMarkup, juiceById, JUICES } from "../juices";
 import { useStore } from "../store";
-import { C } from "../theme";
 import { Favicon } from "./Favicon";
+
+/** A glass of whatever juice is flowing. */
+export function GlassMark({ size = 28 }: { size?: number }) {
+  const juice = juiceById(useStore((s) => s.juice));
+  return <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden dangerouslySetInnerHTML={{ __html: glassMarkup(juice) }} />;
+}
 
 export function Logo() {
   return (
     <a className="logo" href="/" aria-label="Juiceflow home">
-      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden>
-        <path d="M13 2.5c3.6 4.5 7.5 8.6 7.5 13a7.5 7.5 0 0 1-15 0c0-4.4 3.9-8.5 7.5-13Z" fill={C.juice} />
-        <path d="M9.6 16.6a3.6 3.6 0 0 0 3.4 3.4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" fill="none" opacity=".85" />
-      </svg>
+      <GlassMark />
       <span>juiceflow</span>
     </a>
+  );
+}
+
+/** Pick the juice: recolors the streams, the cards and the accents. */
+export function JuicePicker() {
+  const juice = useStore((s) => s.juice);
+  const setJuice = useStore((s) => s.setJuice);
+  return (
+    <div className="juices" role="radiogroup" aria-label="Juice">
+      {JUICES.map((j) => (
+        <button
+          key={j.id}
+          role="radio"
+          aria-checked={juice === j.id}
+          aria-label={j.name}
+          title={j.name}
+          className={`juice-dot ${juice === j.id ? "is-on" : ""}`}
+          style={{ ["--c" as string]: j.deep, ["--c2" as string]: j.shallow }}
+          onClick={() => setJuice(j.id)}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -21,6 +46,7 @@ export function SearchBar({ onSubmit, big }: { onSubmit: (d: string) => void; bi
   const domain = useStore((s) => s.payload?.target ?? s.domain ?? "");
   const status = useStore((s) => s.status);
   const [value, setValue] = useState(domain);
+  const input = useRef<HTMLInputElement>(null);
   const first = useRef(true);
   useEffect(() => {
     if (first.current && !domain) return;
@@ -33,10 +59,12 @@ export function SearchBar({ onSubmit, big }: { onSubmit: (d: string) => void; bi
       onSubmit={(e) => {
         e.preventDefault();
         if (value.trim()) onSubmit(value.trim());
+        else input.current?.focus();
       }}
     >
       <span className="search__prefix">https://</span>
       <input
+        ref={input}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="yourwebsite.com"
@@ -111,6 +139,7 @@ export function Legend() {
         <span className="legend__lbl">river</span>
         <span className="legend__hint">Wider = more juice · click any site for details</span>
       </div>
+      <JuicePicker />
       <div className="seg" role="group" aria-label="Layout">
         <button className={mode === "funnel" ? "is-on" : ""} onClick={() => setMode("funnel")}>
           Stream

@@ -28,7 +28,7 @@ export function App() {
   const vp = useViewport();
   const mobile = vp.w < 760;
 
-  const run = useCallback(async (input: string, opts: { quiet?: boolean } = {}) => {
+  const run = useCallback(async (input: string) => {
     const domain = normalizeDomain(input);
     const st = useStore.getState();
     if (!domain) {
@@ -40,12 +40,10 @@ export function App() {
     abort.current = ctl;
     st.setDomain(domain);
     st.setStatus("loading");
-    if (!opts.quiet) {
-      setLanding(false);
-      const url = new URL(location.href);
-      url.searchParams.set("d", domain);
-      history.replaceState(null, "", url);
-    }
+    setLanding(false);
+    const url = new URL(location.href);
+    url.searchParams.set("d", domain);
+    history.replaceState(null, "", url);
     try {
       const res = await analyze(domain, ctl.signal);
       if (ctl.signal.aborted) return;
@@ -57,9 +55,10 @@ export function App() {
     }
   }, []);
 
+  // A shared link (?d=site) opens straight onto the board; otherwise the page waits for you.
   useEffect(() => {
     const d = new URLSearchParams(location.search).get("d");
-    run(d || "figma.com", { quiet: !d });
+    if (d) run(d);
   }, [run]);
 
   // Whiteboard shortcuts: + / − to zoom, 0 to fit, Esc to close things.
@@ -85,7 +84,7 @@ export function App() {
 
   const insets: Insets = useMemo(() => {
     if (mobile) return { top: landing ? 250 : 120, right: 10, bottom: panel ? Math.round(vp.h * 0.55) : 150, left: 10 };
-    return { top: landing ? 268 : 118, right: panel ? 430 : 40, bottom: 96, left: landing ? 40 : 220 };
+    return { top: landing ? 268 : 124, right: panel ? 430 : 40, bottom: 96, left: landing ? 40 : 296 };
   }, [mobile, landing, panel, vp.h]);
 
   return (
@@ -95,7 +94,10 @@ export function App() {
 
       <header className="topbar">
         <Logo />
-        {!landing && <SearchBar onSubmit={(d) => run(d)} />}
+        <div className="topbar__center">
+          {!landing && <SearchBar onSubmit={(d) => run(d)} />}
+          {!landing && <DemoChipsCompact onPick={(d) => run(d)} />}
+        </div>
         <nav className="topbar__nav">
           <button className="link-btn" onClick={() => setHowOpen(true)}>
             How it works
@@ -114,7 +116,6 @@ export function App() {
       )}
 
       {!landing && status !== "loading" && payload && <Summary />}
-      {!landing && <DemoChipsCompact onPick={(d) => run(d)} />}
 
       <Legend />
       <Panel />

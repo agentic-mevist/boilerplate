@@ -1,10 +1,13 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { juiceById, type Juice } from "../juices";
 import { useStore } from "../store";
 import { C, hexToRgb } from "../theme";
 import { HUB_RADIUS, LAKE_RADIUS, SAMPLES, type Layout } from "./layout";
 import {
+  DEEP,
+  RUN_ON,
   detailGenFragment,
   genVertex,
   lakeFieldFragment,
@@ -30,8 +33,9 @@ const WATER_Y = 0.016;
 const TEX = 256;
 
 export const riverSpeed = (strength: number) => 0.45 + 2.7 * strength;
-/** Height of the liquid (world units): a thin film for a spring, a deep river for the top source. */
-export const liquidHeight = (width: number) => 0.02 + 0.13 * width;
+/** Height of the liquid (world units): a thin film for a spring, a deeper river for the top source. */
+export const liquidHeight = (width: number) => 0.02 + 0.05 * width;
+const LAKE_H = 0.07;
 
 // Light comes from the top-left of the screen, as for the key-caps' shadows.
 const SHADOW_DIR = new THREE.Vector2(0.1, 0.13).normalize();
@@ -41,28 +45,31 @@ const BOX = new THREE.Vector3(-SHADOW_DIR.x * 0.47, 0.88, -SHADOW_DIR.y * 0.47).
 function buildRivers(layout: Layout): THREE.BufferGeometry {
   // narrow first; order doesn't matter for the additive field, but keeps it stable
   const order = layout.paths.map((_, i) => i).filter((i) => layout.paths[i]!.kind !== "lost");
-  const n = order.length * SAMPLES * 2;
+  const pts = SAMPLES + 1; // the path's samples plus one point where the river runs on into the lake
+  const n = order.length * pts * 2;
   const f2 = (k: number) => new Float32Array(n * k);
-  const a = { aC: f2(2), aN: f2(2), aT: f2(2), aSide: f2(1), aS: f2(1), aLen: f2(1), aHalf: f2(1), aH: f2(1), aSpeed: f2(1), aIdx: f2(1), aFade: f2(1), aDelay: f2(1), aFroth: f2(1) };
+  const a = { aC: f2(2), aN: f2(2), aT: f2(2), aSide: f2(1), aAlong: f2(1), aLen: f2(1), aHalf: f2(1), aH: f2(1), aSpeed: f2(1), aIdx: f2(1), aFade: f2(1), aDelay: f2(1), aFroth: f2(1) };
   const idx: number[] = [];
   let v = 0;
   for (const pi of order) {
     const p = layout.paths[pi]!;
     const speed = p.kind === "tail" ? 0.5 : riverSpeed(p.strength);
     const base = v;
-    for (let i = 0; i < SAMPLES; i++) {
-      const x = p.points[i * 2]!, z = p.points[i * 2 + 1]!;
-      const ia = Math.max(0, i - 1), ib = Math.min(SAMPLES - 1, i + 1);
+    for (let i = 0; i < pts; i++) {
+      const j = Math.min(i, SAMPLES - 1);
+      const ia = Math.max(0, j - 1), ib = Math.min(SAMPLES - 1, j + 1);
       let tx = p.points[ib * 2]! - p.points[ia * 2]!, tz = p.points[ib * 2 + 1]! - p.points[ia * 2 + 1]!;
       const tl = Math.hypot(tx, tz) || 1;
       tx /= tl;
       tz /= tl;
+      const run = i < SAMPLES ? 0 : RUN_ON;
+      const x = p.points[j * 2]! + tx * run, z = p.points[j * 2 + 1]! + tz * run;
       for (const side of [-1, 1]) {
         a.aC.set([x, z], v * 2);
         a.aN.set([-tz, tx], v * 2);
         a.aT.set([tx, tz], v * 2);
         a.aSide[v] = side;
-        a.aS[v] = i / (SAMPLES - 1);
+        a.aAlong[v] = (j / (SAMPLES - 1)) * p.length + run;
         a.aLen[v] = p.length;
         a.aHalf[v] = p.width / 2;
         a.aH[v] = liquidHeight(p.width);
@@ -73,7 +80,7 @@ function buildRivers(layout: Layout): THREE.BufferGeometry {
         a.aFroth[v] = 0.05 + 0.2 * p.strength;
         v++;
       }
-      if (i < SAMPLES - 1) {
+      if (i < pts - 1) {
         const q = base + i * 2;
         idx.push(q, q + 1, q + 3, q, q + 3, q + 2);
       }
@@ -92,12 +99,12 @@ function buildPools(layout: Layout): THREE.InstancedBufferGeometry {
   layout.keys.forEach((k) => {
     if (k.path < 0 || k.kind === "lost") return;
     const p = layout.paths[k.path]!;
-    pools.push({ x: k.x, z: k.z, r: k.size * 0.5 + p.width * 0.3, h: Math.max(0.07, liquidHeight(p.width)), idx: k.path, fade: p.fade, delay: p.delay, speed: riverSpeed(p.strength) });
+    pools.push({ x: k.x, z: k.z, r: k.size * 0.5 + p.width * 0.3, h: Math.max(0.04, liquidHeight(p.width)), idx: k.path, fade: p.fade, delay: p.delay, speed: riverSpeed(p.strength) });
   });
   const tailPath = layout.paths.findIndex((p) => p.kind === "tail");
   if (tailPath >= 0) {
     const p = layout.paths[tailPath]!;
-    pools.push({ x: p.points[0]!, z: p.points[1]!, r: 0.45, h: 0.07, idx: tailPath, fade: 0, delay: p.delay, speed: 0.5 });
+    pools.push({ x: p.points[0]!, z: p.points[1]!, r: 0.45, h: 0.04, idx: tailPath, fade: 0, delay: p.delay, speed: 0.5 });
   }
   const g = new THREE.InstancedBufferGeometry();
   const quad = new THREE.PlaneGeometry(2, 2);
@@ -193,6 +200,17 @@ const additive = {
   glslVersion: THREE.GLSL3,
 } as const;
 
+const JUICE_UNIFORMS = [
+  ["uThin", "thin"],
+  ["uShallow", "shallow"],
+  ["uDeep", "deep"],
+  ["uRim", "rim"],
+  ["uFoam", "foam"],
+  ["uGlow", "glow"],
+  ["uShade", "shade"],
+] as const satisfies readonly (readonly [string, keyof Juice])[];
+const juiceUniforms = (j: Juice) => Object.fromEntries(JUICE_UNIFORMS.map(([name, key]) => [name, { value: v3(j[key]) }]));
+const tmpV = new THREE.Vector3();
 const tmpSize = new THREE.Vector2();
 const tmpDir = new THREE.Vector3();
 const tmpColor = new THREE.Color();
@@ -207,8 +225,8 @@ export function Liquid({ layout, fadeR }: { layout: Layout; fadeR: number }) {
   const needsStart = useRef(true);
   const textures = useMemo(() => generateTextures(gl), [gl]);
 
+  const floatOK = useMemo(() => gl.extensions.has("EXT_color_buffer_float") || gl.extensions.has("EXT_color_buffer_half_float"), [gl]);
   const field = useMemo(() => {
-    const floatOK = gl.extensions.has("EXT_color_buffer_float") || gl.extensions.has("EXT_color_buffer_half_float");
     return new THREE.WebGLRenderTarget(1, 1, {
       count: 2,
       type: floatOK ? THREE.HalfFloatType : THREE.UnsignedByteType,
@@ -218,7 +236,7 @@ export function Liquid({ layout, fadeR }: { layout: Layout; fadeR: number }) {
       depthBuffer: false,
       stencilBuffer: false,
     });
-  }, [gl]);
+  }, [floatOK]);
   useEffect(() => () => field.dispose(), [field]);
   useEffect(() => {
     const k = fieldScale(dpr);
@@ -232,11 +250,14 @@ export function Liquid({ layout, fadeR }: { layout: Layout; fadeR: number }) {
       uFocus: { value: -1 },
       uPx: { value: 0.05 },
       uShadowDir: { value: SHADOW_DIR.clone() },
-      uShadowLen: { value: 0.9 },
+      uShadowLen: { value: 1.3 },
+      // Smooth-union width. 8-bit targets can't hold the full range, so they get a wider, scaled field.
+      uK: { value: floatOK ? 0.05 : 0.1 },
+      uWS: { value: floatOK ? 1 : Math.exp(-DEEP / 0.1) },
     }),
-    [],
+    [floatOK],
   );
-  const lakeU = useMemo(() => ({ uInner: { value: HUB_RADIUS - 0.12 }, uOuter: { value: LAKE_RADIUS }, uFill: { value: 0 } }), []);
+  const lakeU = useMemo(() => ({ uInner: { value: HUB_RADIUS - 0.12 }, uOuter: { value: LAKE_RADIUS }, uFill: { value: 0 }, uLakeH: { value: LAKE_H } }), []);
 
   // The off-screen field scene: rivers, pools and the lake, all additive.
   const fieldScene = useMemo(() => {
@@ -283,6 +304,8 @@ export function Liquid({ layout, fadeR }: { layout: Layout; fadeR: number }) {
           uTexel: { value: new THREE.Vector2(1, 1) },
           uWorldTexel: { value: new THREE.Vector2(0.05, 0.05) },
           uTime: shared.uTime,
+          uK: shared.uK,
+          uWS: shared.uWS,
           uSun: { value: SUN },
           uView: { value: new THREE.Vector3(0, 1, 0) },
           uBox: { value: BOX },
@@ -291,13 +314,7 @@ export function Liquid({ layout, fadeR }: { layout: Layout; fadeR: number }) {
           uSpacing: { value: 1.2 },
           uDotR: { value: 0.05 },
           uFadeR: { value: fadeR },
-          uThin: { value: v3("#ffdcc4") },
-          uShallow: { value: v3("#ff9a5c") },
-          uDeep: { value: v3(C.juice) },
-          uRim: { value: v3("#e8521c") },
-          uFoam: { value: v3("#fff4ea") },
-          uGlow: { value: v3("#ffb27a") },
-          uShade: { value: v3("#e6c2a6") },
+          ...juiceUniforms(juiceById(useStore.getState().juice)),
         },
       }),
     [field, textures, shared, fadeR],
@@ -322,7 +339,7 @@ export function Liquid({ layout, fadeR }: { layout: Layout; fadeR: number }) {
 
   // Renders the field, then the whole scene (a positive priority takes over the render loop,
   // so this runs after the camera has moved for this frame).
-  useFrame((state) => {
+  useFrame((state, dt) => {
     let t = state.clock.elapsedTime;
     if (dev) {
       dev.__liquid ??= { t };
@@ -336,8 +353,12 @@ export function Liquid({ layout, fadeR }: { layout: Layout; fadeR: number }) {
     }
     const since = t - shared.uStart.value;
     lakeU.uFill.value = since < 0.4 ? 0 : Math.min(1, 1 - Math.exp(-(since - 0.4) * 3.2));
-    const { hovered, selected } = useStore.getState();
+    const { hovered, selected, juice } = useStore.getState();
     const focus = hovered ?? selected;
+    // a new juice blends in over a fraction of a second
+    const target = juiceById(juice);
+    const k = 1 - Math.exp(-Math.min(dt, 0.1) * 8);
+    for (const [name, key] of JUICE_UNIFORMS) (surface.uniforms[name]!.value as THREE.Vector3).lerp(tmpV.set(...hexToRgb(target[key])), k);
     shared.uFocus.value = focus != null ? (pathIndex.get(focus) ?? -1) : -1;
 
     const cam = state.camera as THREE.OrthographicCamera;

@@ -5,6 +5,8 @@ import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.j
 import { CATEGORY_META } from "../../shared/categories";
 import type { JuiceResult } from "../../shared/model";
 import { pct } from "../format";
+import { juiceById, type Juice } from "../juices";
+import { useStore } from "../store";
 import { C } from "../theme";
 import type { OutputSlot } from "./layout";
 
@@ -21,22 +23,22 @@ function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: n
   ctx.closePath();
 }
 
-type Draw = (ctx: CanvasRenderingContext2D, w: number, h: number) => void;
+type Draw = (ctx: CanvasRenderingContext2D, w: number, h: number, j: Juice) => void;
 
-function header(ctx: CanvasRenderingContext2D, title: string, w: number) {
+function header(ctx: CanvasRenderingContext2D, title: string, w: number, j: Juice) {
   ctx.fillStyle = C.inkSoft;
   ctx.font = "500 38px Geist, Inter, system-ui, sans-serif";
   ctx.textBaseline = "alphabetic";
   ctx.textAlign = "left";
   ctx.fillText(title, 44, 78);
-  ctx.fillStyle = C.juice;
+  ctx.fillStyle = j.main;
   ctx.beginPath();
   ctx.arc(w - 52, 66, 9, 0, Math.PI * 2);
   ctx.fill();
 }
 
-const drawScore = (r: JuiceResult): Draw => (ctx, w, h) => {
-  header(ctx, "Juice score", w);
+const drawScore = (r: JuiceResult): Draw => (ctx, w, h, j) => {
+  header(ctx, "Juice score", w, j);
   ctx.fillStyle = C.ink;
   ctx.font = "600 190px Geist, Inter, system-ui, sans-serif";
   ctx.fillText(String(Math.round(r.score)), 40, 300);
@@ -51,7 +53,7 @@ const drawScore = (r: JuiceResult): Draw => (ctx, w, h) => {
   ctx.beginPath();
   ctx.arc(cx, cy, rad, Math.PI * 0.75, Math.PI * 2.25);
   ctx.stroke();
-  ctx.strokeStyle = C.juice;
+  ctx.strokeStyle = j.main;
   ctx.beginPath();
   ctx.arc(cx, cy, rad, Math.PI * 0.75, Math.PI * 0.75 + Math.PI * 1.5 * Math.min(1, r.score / 100));
   ctx.stroke();
@@ -63,8 +65,8 @@ const drawScore = (r: JuiceResult): Draw => (ctx, w, h) => {
   void h;
 };
 
-const drawSources = (r: JuiceResult): Draw => (ctx, w) => {
-  header(ctx, "Where it flows from", w);
+const drawSources = (r: JuiceResult): Draw => (ctx, w, _h, j) => {
+  header(ctx, "Where it flows from", w, j);
   const cats = r.byCategory.slice(0, 4);
   const max = Math.max(...cats.map((c) => c.share), 0.0001);
   cats.forEach((c, i) => {
@@ -79,14 +81,14 @@ const drawSources = (r: JuiceResult): Draw => (ctx, w) => {
     ctx.fillStyle = "#f0ece6";
     rr(ctx, 44, y + 44, w - 88, 14, 7);
     ctx.fill();
-    ctx.fillStyle = i === 0 ? C.juice : "#ffb48a";
+    ctx.fillStyle = i === 0 ? j.main : j.line;
     rr(ctx, 44, y + 44, Math.max(14, (w - 88) * (c.share / max)), 14, 7);
     ctx.fill();
   });
 };
 
-const drawReclaim = (r: JuiceResult): Draw => (ctx, w) => {
-  header(ctx, "Juice you could reclaim", w);
+const drawReclaim = (r: JuiceResult): Draw => (ctx, w, _h, j) => {
+  header(ctx, "Juice you could reclaim", w, j);
   const gain = r.total > 0 ? r.reclaimable / r.total : 0;
   const leaks = r.byHealth.leak.count;
   const lost = r.lost.length;
@@ -114,7 +116,7 @@ const drawReclaim = (r: JuiceResult): Draw => (ctx, w) => {
   ctx.fillText(parts.length ? parts.join(" · ") : "no leaks or lost links found", 46, 350);
 };
 
-function useCardTexture(draw: Draw) {
+function useCardTexture(draw: Draw, juice: Juice) {
   const [tex] = useState(() => {
     const canvas = document.createElement("canvas");
     canvas.width = Math.round(W * PX);
@@ -134,7 +136,7 @@ function useCardTexture(draw: Draw) {
       ctx.fillStyle = "#ffffff";
       rr(ctx, 0, 0, canvas.width, canvas.height, 46);
       ctx.fill();
-      draw(ctx, canvas.width, canvas.height);
+      draw(ctx, canvas.width, canvas.height, juice);
       tex.needsUpdate = true;
     };
     paint();
@@ -142,7 +144,7 @@ function useCardTexture(draw: Draw) {
     return () => {
       alive = false;
     };
-  }, [draw, tex]);
+  }, [draw, tex, juice]);
   useEffect(() => () => tex.dispose(), [tex]);
   return tex;
 }
@@ -165,7 +167,8 @@ const shadowMat = new THREE.ShaderMaterial({
 });
 
 function Card({ slot, draw, delay }: { slot: OutputSlot; draw: Draw; delay: number }) {
-  const tex = useCardTexture(draw);
+  const juice = juiceById(useStore((s) => s.juice));
+  const tex = useCardTexture(draw, juice);
   const geo = useMemo(() => new RoundedBoxGeometry(W, T, D, 3, 0.18), []);
   const bodyMat = useMemo(() => new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.6 }), []);
   const topMat = useMemo(() => new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false }), [tex]);
