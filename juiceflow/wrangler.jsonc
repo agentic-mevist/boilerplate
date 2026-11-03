@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "juiceflow",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "kv_namespaces": [{ "binding": "CACHE", "id": "db36ca2cf26c470fb2b7d43330e3dc8a" }],
+  "vars": {
+    // Hard cap on DataForSEO spend per UTC day (fresh analyses only; cached ones are free).
+    "DAILY_BUDGET_USD": "3",
+    // Fresh analyses per visitor IP per UTC day.
+    "PER_IP_DAILY": "10",
+    // How long an analysis stays cached.
+    "CACHE_DAYS": "7"
+  },
+  "observability": { "enabled": true }
+}
