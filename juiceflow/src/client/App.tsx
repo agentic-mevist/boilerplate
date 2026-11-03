@@ -63,8 +63,8 @@ export function App() {
   }, [run]);
 
   const insets: Insets = useMemo(() => {
-    if (mobile) return { top: landing ? 230 : 128, right: 14, bottom: panel ? Math.round(vp.h * 0.55) : 132, left: 14 };
-    return { top: landing ? 300 : 118, right: panel ? 430 : 40, bottom: 96, left: 40 };
+    if (mobile) return { top: landing ? 250 : 120, right: 10, bottom: panel ? Math.round(vp.h * 0.55) : 150, left: 10 };
+    return { top: landing ? 268 : 118, right: panel ? 430 : 40, bottom: 96, left: landing ? 40 : 220 };
   }, [mobile, landing, panel, vp.h]);
 
   return (

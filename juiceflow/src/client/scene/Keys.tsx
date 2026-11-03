@@ -76,7 +76,7 @@ export function Keys({ layout }: { layout: Layout }) {
     if (b.instanceColor) b.instanceColor.needsUpdate = true;
     ic.geometry.setAttribute("aRect", new THREE.InstancedBufferAttribute(attrs.rect, 4));
     ic.geometry.setAttribute("aAlpha", new THREE.InstancedBufferAttribute(attrs.iconAlpha, 1));
-    sh.geometry.setAttribute("aAlpha", new THREE.InstancedBufferAttribute(attrs.shadowAlpha, 1));
+    sh.geometry.setAttribute("aAlpha", new THREE.InstancedBufferAttribute(new Float32Array(n), 1));
     anim.current = { y: new Float32Array(n).fill(9), v: new Float32Array(n), start: -1 };
   }, [layout, attrs, n]);
 
@@ -89,6 +89,7 @@ export function Keys({ layout }: { layout: Layout }) {
     if (a.start < 0) a.start = t;
     const { hovered, selected } = useStore.getState();
     const step = Math.min(dt, 1 / 30);
+    const shadowAttr = sh.geometry.getAttribute("aAlpha") as THREE.InstancedBufferAttribute | undefined;
     layout.keys.forEach((k, i) => {
       const p = layout.paths[k.path];
       const appear = a.start + (p ? p.delay * 0.55 : 0) + (k.kind === "tail" ? 0.3 : 0);
@@ -119,7 +120,9 @@ export function Keys({ layout }: { layout: Layout }) {
       ic.setMatrixAt(i, tmpM);
 
       const lift = Math.max(0, y);
-      const ss = size * (1.75 + lift * 0.25) * s;
+      // A falling key casts a fainter, slightly larger shadow that sharpens as it lands.
+      if (shadowAttr) shadowAttr.setX(i, visible ? attrs.shadowAlpha[i]! * Math.max(0, 1 - lift / 3.5) : 0);
+      const ss = size * (1.75 + Math.min(lift, 3.5) * 0.12) * s;
       tmpP.set(k.x + 0.12, 0.006, k.z + 0.16);
       tmpS.set(ss, ss, ss);
       tmpM.compose(tmpP, tmpQ.clone().multiply(flat), tmpS);
@@ -128,6 +131,7 @@ export function Keys({ layout }: { layout: Layout }) {
     b.instanceMatrix.needsUpdate = true;
     ic.instanceMatrix.needsUpdate = true;
     sh.instanceMatrix.needsUpdate = true;
+    if (shadowAttr) shadowAttr.needsUpdate = true;
   });
 
   const idAt = (e: ThreeEvent<PointerEvent | MouseEvent>) => (e.instanceId != null ? layout.keys[e.instanceId]?.id ?? null : null);

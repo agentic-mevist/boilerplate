@@ -22,9 +22,10 @@ const TOP_N = 6;
 
 function candidates(layout: Layout | null, hovered: string | null, selected: string | null): KeyNode[] {
   if (!layout) return [];
-  const top = layout.keys.filter((k) => k.kind === "main").slice(0, TOP_N);
-  const focus = layout.keys.filter((k) => (k.id === hovered || k.id === selected) && !top.includes(k));
-  return [...focus, ...top];
+  // While a source is in focus, only its own tag shows.
+  const focusId = hovered ?? selected;
+  if (focusId) return layout.keys.filter((k) => k.id === focusId);
+  return layout.keys.filter((k) => k.kind === "main").slice(0, TOP_N);
 }
 
 /** Lives inside the Canvas: projects key positions and lays labels out. */
@@ -62,6 +63,13 @@ export function LabelProjector({ layout, rotation, revealKey }: { layout: Layout
       placed.push({ x: sx - r, y: sy - r * 0.62, w: r * 2, h: r * 1.24 });
     }
     const obstacles = placed.length;
+    if (import.meta.env.DEV) {
+      // Test hook: screen positions of the strongest keys.
+      (window as unknown as { __keys?: unknown }).__keys = layout.keys.slice(0, 12).map((k) => {
+        v.current.set(k.x * cos + k.z * sin, KEY_H, -k.x * sin + k.z * cos).project(camera);
+        return { id: k.id, x: ((v.current.x + 1) / 2) * size.width, y: ((1 - v.current.y) / 2) * size.height };
+      });
+    }
     for (const k of list) {
       const el = shared.els.get(k.id);
       if (!el) continue;

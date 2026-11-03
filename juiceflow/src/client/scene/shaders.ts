@@ -43,7 +43,8 @@ float revealFront(float L, float delay, float speed) {
 }
 
 float focusDim(float row, float dimTo) {
-  return (uFocus >= 0.0 && abs(uFocus - row) > 0.5) ? dimTo : 1.0;
+  if (uFocus < 0.0) return 1.0;
+  return abs(uFocus - row) > 0.5 ? dimTo : 1.6; // the focused stream glows a little brighter
 }
 `;
 
@@ -92,10 +93,8 @@ void main() {
 
   alpha *= smoothstep(0.0, 0.05, t) * (1.0 - smoothstep(0.95, 1.0, t));
   alpha *= focusDim(aPath, 0.1) * (1.0 - fade);
-  // Slight glow as streams converge into the hub.
-  col = mix(col, uColors[0] * 1.08, 0.0);
   vColor = col;
-  vAlpha = alpha;
+  vAlpha = min(alpha, 1.0);
   vUv = vec2(position.x, position.y + 0.5);
 
   vec2 p = pathAt(row, t);
@@ -156,7 +155,7 @@ void main() {
   } else if (health > 5.5) {
     col = uOutput;
   }
-  alpha *= (1.0 - smoothstep(0.97, 1.0, t)) * focusDim(aPath, 0.35) * (1.0 - fade * 0.85);
+  alpha *= (1.0 - smoothstep(0.97, 1.0, t)) * min(focusDim(aPath, 0.35), 1.0) * (1.0 - fade * 0.85);
   vColor = col;
   vAlpha = alpha;
   vUv = vec2(position.x, position.y + 0.5);
@@ -222,7 +221,7 @@ void main() {
     base *= 0.0;
   }
   alpha *= base * focusDim(aPath, 0.15) * (1.0 - fade) * smoothstep(0.0, 0.06, aS) * (1.0 - smoothstep(0.96, 1.0, aS));
-  vAlpha = alpha;
+  vAlpha = min(alpha, 0.85);
   vColor = col;
   vS = aS;
   vV = aV;

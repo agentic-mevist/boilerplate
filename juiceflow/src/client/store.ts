@@ -40,7 +40,7 @@ export const useStore = create<State>((set, get) => ({
   result: null,
   error: null,
   params: DEFAULT_PARAMS,
-  mode: "funnel",
+  mode: typeof window !== "undefined" && window.innerWidth < 760 ? "vortex" : "funnel",
   showLost: false,
   hovered: null,
   selected: null,

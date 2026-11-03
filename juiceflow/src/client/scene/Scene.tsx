@@ -9,6 +9,7 @@ import { LabelProjector } from "./KeyLabels";
 import { Keys } from "./Keys";
 import { computeLayout, type Layout } from "./layout";
 import { OutputCards } from "./OutputCards";
+import { SplitFan } from "./SplitFan";
 import { Streams } from "./Streams";
 
 const ELEVATION = 34 * (Math.PI / 180);
@@ -140,6 +141,7 @@ export function Scene({ insets }: { insets: Insets }) {
         {layout && result && (
           <group key={sceneKey}>
             <Streams layout={layout} />
+            <SplitFan layout={layout} />
             <Keys layout={layout} />
             <LabelProjector layout={layout} rotation={rotation} revealKey={revealKey} />
             {layout.mode === "funnel" && <OutputCards result={result} slots={layout.outputs} revealKey={revealKey} />}
