@@ -5,6 +5,14 @@ import type { LayoutMode } from "./scene/layout";
 
 export type Status = "idle" | "loading" | "ready" | "error";
 
+/** Camera commands from the HUD (zoom buttons, fit, focus on a source). */
+export interface ViewCmd {
+  kind: "fit" | "zoom" | "focus";
+  factor?: number;
+  id?: string;
+  n: number;
+}
+
 interface State {
   status: Status;
   domain: string | null;
@@ -20,6 +28,13 @@ interface State {
   howOpen: boolean;
   /** Bumped on every new result so the scene can replay its entrance animation. */
   revealKey: number;
+  view: ViewCmd;
+  /** Current zoom relative to "fit to screen", in percent. */
+  zoomPct: number;
+  zoomBy: (factor: number) => void;
+  fitView: () => void;
+  focusOn: (id: string) => void;
+  setZoomPct: (p: number) => void;
   setPayload: (p: AnalyzeResponse) => void;
   setStatus: (s: Status, error?: string | null) => void;
   setDomain: (d: string | null) => void;
@@ -47,6 +62,12 @@ export const useStore = create<State>((set, get) => ({
   panel: null,
   howOpen: false,
   revealKey: 0,
+  view: { kind: "fit", n: 0 },
+  zoomPct: 100,
+  zoomBy: (factor) => set((s) => ({ view: { kind: "zoom", factor, n: s.view.n + 1 } })),
+  fitView: () => set((s) => ({ view: { kind: "fit", n: s.view.n + 1 } })),
+  focusOn: (id) => set((s) => ({ view: { kind: "focus", id, n: s.view.n + 1 } })),
+  setZoomPct: (zoomPct) => (Math.abs(get().zoomPct - zoomPct) >= 1 ? set({ zoomPct }) : undefined),
   setPayload: (payload) =>
     set((s) => ({
       payload,
@@ -71,7 +92,13 @@ export const useStore = create<State>((set, get) => ({
   setMode: (mode) => set((s) => ({ mode, revealKey: s.revealKey + 1 })),
   setShowLost: (showLost) => set({ showLost }),
   hover: (hovered) => (get().hovered === hovered ? undefined : set({ hovered })),
-  select: (selected) => set({ selected, panel: selected ? "sources" : get().panel }),
+  // Selecting a source opens its details and pans the board so it stays in view.
+  select: (selected) =>
+    set((s) => ({
+      selected,
+      panel: selected ? "sources" : s.panel,
+      view: selected ? { kind: "focus", id: selected, n: s.view.n + 1 } : s.view,
+    })),
   setPanel: (panel) => set({ panel, hovered: null }),
   setHowOpen: (howOpen) => set({ howOpen, hovered: null }),
 }));

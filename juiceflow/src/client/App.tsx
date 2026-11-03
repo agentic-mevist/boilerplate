@@ -5,7 +5,7 @@ import { ScreenLabels } from "./scene/KeyLabels";
 import { Scene, type Insets } from "./scene/Scene";
 import { useStore } from "./store";
 import { HowItWorks } from "./ui/HowItWorks";
-import { DemoChips, ErrorToast, Legend, Loading, Logo, SearchBar, Summary, Tooltip } from "./ui/Hud";
+import { DemoChips, ErrorToast, Legend, Loading, Logo, SearchBar, Summary, ZoomControls } from "./ui/Hud";
 import { Panel } from "./ui/Panel";
 
 function useViewport() {
@@ -62,6 +62,27 @@ export function App() {
     run(d || "figma.com", { quiet: !d });
   }, [run]);
 
+  // Whiteboard shortcuts: + / − to zoom, 0 to fit, Esc to close things.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const st = useStore.getState();
+      if (e.key === "+" || e.key === "=") st.zoomBy(1.3);
+      else if (e.key === "-" || e.key === "_") st.zoomBy(1 / 1.3);
+      else if (e.key === "0") st.fitView();
+      else if (e.key === "Escape") {
+        if (st.howOpen) st.setHowOpen(false);
+        else if (st.selected) st.select(null);
+        else if (st.panel) st.setPanel(null);
+      } else return;
+      e.preventDefault();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   const insets: Insets = useMemo(() => {
     if (mobile) return { top: landing ? 250 : 120, right: 10, bottom: panel ? Math.round(vp.h * 0.55) : 150, left: 10 };
     return { top: landing ? 268 : 118, right: panel ? 430 : 40, bottom: 96, left: landing ? 40 : 220 };
@@ -97,7 +118,7 @@ export function App() {
 
       <Legend />
       <Panel />
-      <Tooltip />
+      <ZoomControls />
       <Loading />
       <ErrorToast />
       <HowItWorks />

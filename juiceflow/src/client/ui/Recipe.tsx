@@ -1,6 +1,10 @@
+import { useEffect, useState } from "react";
 import { CATEGORY_META } from "../../shared/categories";
 import { DEFAULT_PARAMS, scoreOf, type JuiceSource, type ModelParams } from "../../shared/model";
+import type { RawLink } from "../../shared/types";
+import { fetchLinks, type LinksResponse } from "../api";
 import { int, mult, pct, timeAgo } from "../format";
+import { useStore } from "../store";
 import { HEALTH_COLOR, HEALTH_LABEL } from "../theme";
 import { Favicon } from "./Favicon";
 
@@ -9,6 +13,76 @@ function Bar({ value, max = 100, color = "var(--juice)" }: { value: number; max?
     <span className="bar">
       <span className="bar__fill" style={{ width: `${Math.max(2, Math.min(100, (value / max) * 100))}%`, background: color }} />
     </span>
+  );
+}
+
+function shortUrl(u: string): string {
+  try {
+    const x = new URL(u);
+    return (x.hostname.replace(/^www\./, "") + decodeURI(x.pathname) + x.search).replace(/\/$/, "");
+  } catch {
+    return u;
+  }
+}
+
+/** One referring link: the page it's on, its anchor text, and where it points on your site. */
+function LinkCard({ link, compact }: { link: RawLink; compact?: boolean }) {
+  const rel = link.attributes.filter((a) => ["nofollow", "ugc", "sponsored"].includes(a.toLowerCase()));
+  const follow = link.dofollow && !rel.length;
+  return (
+    <a className={`linkcard ${compact ? "linkcard--compact" : ""}`} href={link.url} target="_blank" rel="noreferrer noopener" title={link.url}>
+      {!compact && <span className="linkcard__eyebrow">Linking page</span>}
+      <span className="linkcard__title">{link.title || shortUrl(link.url)}</span>
+      <span className="linkcard__url">{shortUrl(link.url)} ↗</span>
+      {link.anchor && <span className="linkcard__anchor">“{link.anchor}”</span>}
+      {!compact && link.context && <span className="linkcard__context">…{link.context}…</span>}
+      <span className="linkcard__meta">
+        <span className={`badge ${follow ? "badge--ok" : "badge--muted"}`}>{follow ? "dofollow" : rel.join(", ") || "nofollow"}</span>
+        {link.placement && <span className="badge">{link.placement}</span>}
+        <span className="linkcard__to" title={link.urlTo}>
+          → {shortUrl(link.urlTo)}
+        </span>
+      </span>
+    </a>
+  );
+}
+
+/** Loads every link this site has to you (on demand: it's a paid lookup, cached for a week). */
+function AllLinks({ source }: { source: JuiceSource }) {
+  const target = useStore((s) => s.payload?.target);
+  const [state, setState] = useState<{ status: "idle" | "loading" | "done" | "error"; data?: LinksResponse; error?: string }>({ status: "idle" });
+  useEffect(() => setState({ status: "idle" }), [source.id]);
+  const n = source.link.groupCount;
+  if (!target || source.health === "lost" || n <= 1) return null;
+  const load = () => {
+    setState({ status: "loading" });
+    fetchLinks(target, source.root)
+      .then((data) => setState({ status: "done", data }))
+      .catch((e: Error) => setState({ status: "error", error: e.message }));
+  };
+  return (
+    <div className="alllinks">
+      {state.status === "idle" && (
+        <button className="keycap alllinks__btn" onClick={load}>
+          Show every link from {source.root}
+        </button>
+      )}
+      {state.status === "loading" && <div className="alllinks__note">Loading links from {source.root}…</div>}
+      {state.status === "error" && <div className="alllinks__note">{state.error}</div>}
+      {state.status === "done" && state.data && (
+        <>
+          <div className="recipe__section">
+            {int(state.data.total)} link{state.data.total === 1 ? "" : "s"} from {source.root}
+            {state.data.total > state.data.links.length ? ` · strongest ${state.data.links.length}` : ""}
+          </div>
+          <div className="alllinks__list">
+            {state.data.links.map((l, i) => (
+              <LinkCard key={`${l.url}|${i}`} link={l} compact />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 
@@ -60,10 +134,13 @@ export function Recipe({ source, params = DEFAULT_PARAMS, onBack }: { source: Ju
         </div>
       </div>
 
-      <a className="recipe__url" href={l.url} target="_blank" rel="noreferrer noopener" title={l.url}>
-        {l.title || l.url}
-      </a>
-      {l.context && <p className="recipe__context">“…{l.context}…”</p>}
+      <div className="recipe__links">
+        <a className="recipe__visit" href={`https://${l.domain}`} target="_blank" rel="noreferrer noopener">
+          Visit {source.root} ↗
+        </a>
+      </div>
+      <LinkCard link={l} />
+      <AllLinks source={source} />
 
       <div className="recipe__section">The recipe</div>
       <Row label="Domain rating" value={Math.round(f.dr)}>

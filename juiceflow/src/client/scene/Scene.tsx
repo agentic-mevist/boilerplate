@@ -1,4 +1,4 @@
-import { OrbitControls } from "@react-three/drei";
+import { MapControls } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -6,15 +6,18 @@ import { useStore } from "../store";
 import { Ground } from "./Ground";
 import { Hub } from "./Hub";
 import { LabelProjector } from "./KeyLabels";
-import { Keys } from "./Keys";
+import { KEY_H, Keys } from "./Keys";
 import { computeLayout, type Layout } from "./layout";
 import { OutputCards } from "./OutputCards";
 import { SplitFan } from "./SplitFan";
 import { Streams } from "./Streams";
 
-const ELEVATION = 34 * (Math.PI / 180);
+/** A fixed, mostly top-down view: you pan and zoom like a whiteboard, nothing rotates. */
+const ELEVATION = 52 * (Math.PI / 180);
 const CAM_DIST = 120;
 const BASE_POS = new THREE.Vector3(0, Math.sin(ELEVATION) * CAM_DIST, Math.cos(ELEVATION) * CAM_DIST);
+const RIGHT = new THREE.Vector3(1, 0, 0);
+const UP = new THREE.Vector3().subVectors(new THREE.Vector3(), BASE_POS).normalize().cross(RIGHT).negate();
 
 export interface Insets {
   top: number;
@@ -23,57 +26,103 @@ export interface Insets {
   left: number;
 }
 
-/** Frames the layout inside the part of the screen the HUD leaves free, and eases there. */
+type Controls = { target: THREE.Vector3; update: () => void; minZoom: number; maxZoom: number };
+
+/** Frames the layout, runs zoom/fit/focus commands from the HUD, and reports the zoom level. */
 function CameraRig({ layout, rotation, insets }: { layout: Layout | null; rotation: number; insets: Insets }) {
   const { camera, size, controls } = useThree();
   const goal = useRef<{ zoom: number; target: THREE.Vector3 } | null>(null);
-  const settled = useRef(false);
+  const fitZoom = useRef(1);
+  const first = useRef(true);
+  const insetsRef = useRef(insets);
+  insetsRef.current = insets;
+  const view = useStore((s) => s.view);
 
-  useEffect(() => {
-    const cam = camera as THREE.OrthographicCamera;
+  const computeFit = () => {
+    const ins = insetsRef.current;
     const b = layout?.bounds ?? { minX: -8, maxX: 8, minZ: -6, maxZ: 6 };
     const rot = new THREE.Matrix4().makeRotationY(rotation);
-    const pts: THREE.Vector3[] = [];
-    for (const x of [b.minX, b.maxX]) for (const z of [b.minZ, b.maxZ]) for (const y of [0, 1]) pts.push(new THREE.Vector3(x, y, z).applyMatrix4(rot));
-    // Measure at zoom 1 from the base pose.
-    const probe = cam.clone();
+    const probe = (camera as THREE.OrthographicCamera).clone();
     probe.position.copy(BASE_POS);
     probe.zoom = 1;
     probe.lookAt(0, 0, 0);
     probe.updateProjectionMatrix();
     probe.updateMatrixWorld();
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    for (const p of pts) {
-      const v = p.clone().project(probe);
-      const x = (v.x * size.width) / 2, y = (v.y * size.height) / 2;
-      minX = Math.min(minX, x); maxX = Math.max(maxX, x);
-      minY = Math.min(minY, y); maxY = Math.max(maxY, y);
-    }
-    const availW = Math.max(200, size.width - insets.left - insets.right);
-    const availH = Math.max(200, size.height - insets.top - insets.bottom);
+    for (const x of [b.minX, b.maxX])
+      for (const z of [b.minZ, b.maxZ])
+        for (const y of [0, 1]) {
+          const v = new THREE.Vector3(x, y, z).applyMatrix4(rot).project(probe);
+          const px = (v.x * size.width) / 2, py = (v.y * size.height) / 2;
+          minX = Math.min(minX, px); maxX = Math.max(maxX, px);
+          minY = Math.min(minY, py); maxY = Math.max(maxY, py);
+        }
+    const availW = Math.max(200, size.width - ins.left - ins.right);
+    const availH = Math.max(200, size.height - ins.top - ins.bottom);
     const zoom = Math.min(availW / (maxX - minX), availH / (maxY - minY));
     const cx = ((minX + maxX) / 2) * zoom, cy = ((minY + maxY) / 2) * zoom;
-    const ax = (insets.left - insets.right) / 2, ay = (insets.bottom - insets.top) / 2;
-    const right = new THREE.Vector3(1, 0, 0);
-    const up = new THREE.Vector3().subVectors(new THREE.Vector3(0, 0, 0), BASE_POS).normalize().cross(right).negate();
-    const target = right.multiplyScalar((cx - ax) / zoom).add(up.multiplyScalar((cy - ay) / zoom));
-    goal.current = { zoom, target };
-    if (!settled.current) {
-      cam.zoom = zoom * 0.92;
-      settled.current = true;
+    const ax = (ins.left - ins.right) / 2, ay = (ins.bottom - ins.top) / 2;
+    const target = RIGHT.clone().multiplyScalar((cx - ax) / zoom).add(UP.clone().multiplyScalar((cy - ay) / zoom));
+    fitZoom.current = zoom;
+    const ctl = controls as unknown as Controls | null;
+    if (ctl) {
+      ctl.minZoom = zoom * 0.35;
+      ctl.maxZoom = zoom * 9;
     }
-  }, [layout, rotation, size.width, size.height, insets.top, insets.right, insets.bottom, insets.left, camera]);
+    return { zoom, target };
+  };
+
+  // Re-frame when the data, layout or window changes (opening the side panel doesn't move the board).
+  useEffect(() => {
+    goal.current = computeFit();
+    if (first.current) {
+      (camera as THREE.OrthographicCamera).zoom = goal.current.zoom * 0.9;
+      camera.updateProjectionMatrix();
+      first.current = false;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layout, rotation, size.width, size.height, insets.top, insets.left, insets.bottom, controls]);
+
+  // Commands from the zoom buttons, the keyboard and the source list.
+  useEffect(() => {
+    if (view.n === 0) return;
+    const cam = camera as THREE.OrthographicCamera;
+    const ctl = controls as unknown as Controls | null;
+    const target = ctl?.target.clone() ?? new THREE.Vector3();
+    if (view.kind === "fit") goal.current = computeFit();
+    else if (view.kind === "zoom") {
+      const from = goal.current?.zoom ?? cam.zoom;
+      const z = THREE.MathUtils.clamp(from * (view.factor ?? 1), ctl?.minZoom ?? 0.01, ctl?.maxZoom ?? 1e4);
+      goal.current = { zoom: z, target: goal.current?.target ?? target };
+    } else if (view.kind === "focus" && view.id && layout) {
+      const k = layout.keys.find((key) => key.id === view.id);
+      if (!k) return;
+      const cos = Math.cos(rotation), sin = Math.sin(rotation);
+      const world = new THREE.Vector3(k.x * cos + k.z * sin, KEY_H, -k.x * sin + k.z * cos);
+      const v = world.clone().project(cam);
+      const sx = (v.x * size.width) / 2, sy = (v.y * size.height) / 2;
+      const ins = insetsRef.current;
+      const ax = (ins.left - ins.right) / 2, ay = (ins.bottom - ins.top) / 2;
+      const halfW = (size.width - ins.left - ins.right) / 2, halfH = (size.height - ins.top - ins.bottom) / 2;
+      // Only pan when the key is near the edge of (or outside) the free area.
+      if (Math.abs(sx - ax) < halfW * 0.7 && Math.abs(sy - ay) < halfH * 0.7) return;
+      const shift = RIGHT.clone().multiplyScalar((sx - ax) / cam.zoom).add(UP.clone().multiplyScalar((sy - ay) / cam.zoom));
+      goal.current = { zoom: cam.zoom, target: target.add(shift) };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view.n]);
 
   useFrame((_, dt) => {
+    const cam = camera as THREE.OrthographicCamera;
+    useStore.getState().setZoomPct(Math.round((cam.zoom / fitZoom.current) * 100));
     const g = goal.current;
     if (!g) return;
-    const cam = camera as THREE.OrthographicCamera;
-    const k = 1 - Math.exp(-dt * 3.2);
-    const ctl = controls as unknown as { target: THREE.Vector3; update: () => void } | null;
+    const k = 1 - Math.exp(-dt * 7);
+    const ctl = controls as unknown as Controls | null;
     const cur = ctl?.target ?? new THREE.Vector3();
     const dz = g.zoom - cam.zoom;
     const dTarget = g.target.clone().sub(cur);
-    if (Math.abs(dz) < 1e-3 && dTarget.lengthSq() < 1e-6) {
+    if (Math.abs(dz) < g.zoom * 1e-3 && dTarget.lengthSq() < 1e-6) {
       goal.current = null;
       return;
     }
@@ -110,7 +159,7 @@ export function Scene({ insets }: { insets: Insets }) {
   const layout = useMemo(() => (result ? computeLayout(result, mode, showLost) : null), [result, mode, showLost]);
   // Remount the animated layers when a new analysis or layout arrives so the "pour" replays.
   const sceneKey = `${revealKey}:${mode}:${showLost}`;
-  const rotation = mode === "funnel" ? 26 * (Math.PI / 180) : 0;
+  const rotation = mode === "funnel" ? 22 * (Math.PI / 180) : 0;
 
   return (
     <Canvas
@@ -118,23 +167,11 @@ export function Scene({ insets }: { insets: Insets }) {
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true, toneMapping: THREE.NeutralToneMapping, powerPreference: "high-performance" }}
       camera={{ position: BASE_POS.toArray() as [number, number, number], zoom: 12, near: 1, far: 600 }}
-      onPointerMissed={() => select(null)}
+      onPointerMissed={(e) => e.type === "click" && select(null)}
       style={{ position: "absolute", inset: 0 }}
     >
       <Lights />
-      <OrbitControls
-        makeDefault
-        enableDamping
-        dampingFactor={0.08}
-        minPolarAngle={0.32}
-        maxPolarAngle={1.18}
-        minAzimuthAngle={-0.7}
-        maxAzimuthAngle={0.7}
-        minZoom={4}
-        maxZoom={120}
-        zoomSpeed={0.8}
-        screenSpacePanning
-      />
+      <MapControls makeDefault enableRotate={false} enableDamping dampingFactor={0.14} zoomToCursor screenSpacePanning zoomSpeed={1.1} />
       <CameraRig layout={layout} rotation={rotation} insets={insets} />
       <group rotation-y={rotation}>
         <Ground radius={mode === "funnel" ? 30 : 26} />

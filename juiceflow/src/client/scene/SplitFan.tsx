@@ -72,6 +72,7 @@ export function SplitFan({ layout }: { layout: Layout }) {
         transparent: true,
         depthWrite: false,
         depthTest: false,
+        side: THREE.DoubleSide,
         uniforms: { uTime: { value: 0 }, uGrow: { value: 0 }, uColor: { value: new THREE.Vector3(...hexToRgb("#a59d91")) } },
       }),
     [],

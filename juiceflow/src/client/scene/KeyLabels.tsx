@@ -1,8 +1,9 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { pct } from "../format";
+import { compact, pct } from "../format";
 import { useStore } from "../store";
+import { Favicon } from "../ui/Favicon";
 import { KEY_H } from "./Keys";
 import type { KeyNode, Layout } from "./layout";
 
@@ -25,7 +26,10 @@ function candidates(layout: Layout | null, hovered: string | null, selected: str
   // While a source is in focus, only its own tag shows.
   const focusId = hovered ?? selected;
   if (focusId) return layout.keys.filter((k) => k.id === focusId);
-  return layout.keys.filter((k) => k.kind === "main").slice(0, TOP_N);
+  return layout.keys
+    .filter((k) => k.kind === "main")
+    .sort((a, b) => a.source.rank - b.source.rank)
+    .slice(0, TOP_N);
 }
 
 /** Lives inside the Canvas: projects key positions and lays labels out. */
@@ -59,16 +63,39 @@ export function LabelProjector({ layout, rotation, revealKey }: { layout: Layout
     {
       v.current.set(0, 0.6, 0).project(camera);
       const sx = ((v.current.x + 1) / 2) * size.width, sy = ((1 - v.current.y) / 2) * size.height;
-      const r = 2.9 * zoom;
-      placed.push({ x: sx - r, y: sy - r * 0.62, w: r * 2, h: r * 1.24 });
+      const r = 3.9 * zoom;
+      placed.push({ x: sx - r, y: sy - r * 0.7, w: r * 2, h: r * 1.4 });
+    }
+    // Rivers are obstacles too, so tags never sit on top of the juice.
+    for (const p of layout.paths) {
+      if (p.kind === "lost") continue;
+      for (let i = 4; i < 60; i += 5) {
+        const px = p.points[i * 2]!, pz = p.points[i * 2 + 1]!;
+        v.current.set(px * cos + pz * sin, 0, -px * sin + pz * cos).project(camera);
+        const sx = ((v.current.x + 1) / 2) * size.width, sy = ((1 - v.current.y) / 2) * size.height;
+        const half = Math.max(3, p.width * zoom * 0.55);
+        placed.push({ x: sx - half, y: sy - half, w: half * 2, h: half * 2 });
+      }
     }
     const obstacles = placed.length;
     if (import.meta.env.DEV) {
       // Test hook: screen positions of the strongest keys.
-      (window as unknown as { __keys?: unknown }).__keys = layout.keys.slice(0, 12).map((k) => {
+      (window as unknown as { __keys?: unknown }).__keys = layout.keys.map((k) => {
         v.current.set(k.x * cos + k.z * sin, KEY_H, -k.x * sin + k.z * cos).project(camera);
         return { id: k.id, x: ((v.current.x + 1) / 2) * size.width, y: ((1 - v.current.y) / 2) * size.height };
       });
+    }
+    const tailEl = shared.els.get("__tail");
+    if (tailEl && layout.tail) {
+      const tl = layout.tail;
+      v.current.set(tl.x * cos + tl.z * sin, 0.3, -tl.x * sin + tl.z * cos).project(camera);
+      const sx = ((v.current.x + 1) / 2) * size.width, sy = ((1 - v.current.y) / 2) * size.height;
+      const w = tailEl.offsetWidth || 120, h = tailEl.offsetHeight || 22;
+      const focusAny = hovered ?? selected;
+      tailEl.style.opacity = ready && !focusAny ? "1" : "0";
+      const tx = Math.min(Math.max(sx - w / 2, 8), size.width - w - 8);
+      tailEl.style.transform = `translate(${Math.round(tx)}px, ${Math.round(sy + 0.9 * zoom)}px)`;
+      placed.push({ x: sx - w / 2 - 3, y: sy + 0.9 * zoom - 3, w: w + 6, h: h + 6 });
     }
     for (const k of list) {
       const el = shared.els.get(k.id);
@@ -83,17 +110,29 @@ export function LabelProjector({ layout, rotation, revealKey }: { layout: Layout
       const sy = ((1 - v.current.y) / 2) * size.height;
       const w = el.offsetWidth || 90, h = el.offsetHeight || 22;
       const off = k.size * zoom * 0.55 + 6;
-      const options = [
-        { x: sx - w / 2, y: sy + off },
+      // Rivers run from each key toward the hub, so the free side is the one facing away from it.
+      v.current.set(0, 0, 0).project(camera);
+      const hx = ((v.current.x + 1) / 2) * size.width, hy = ((1 - v.current.y) / 2) * size.height;
+      let dx = sx - hx, dy = sy - hy;
+      const dl = Math.hypot(dx, dy) || 1;
+      dx /= dl;
+      dy /= dl;
+      const reach = off + 4;
+      const outward = { x: sx + dx * (reach + w / 2) - w / 2, y: sy + dy * (reach + h / 2) - h / 2 };
+      const outwardFar = { x: sx + dx * (reach * 1.9 + w / 2) - w / 2, y: sy + dy * (reach * 1.9 + h / 2) - h / 2 };
+      const below = [
+        outward,
+        outwardFar,
         { x: sx - w / 2, y: sy - off - h },
+        { x: sx - w / 2, y: sy + off },
         { x: sx + off * 1.25, y: sy - h / 2 },
         { x: sx - off * 1.25 - w, y: sy - h / 2 },
-        { x: sx - w / 2, y: sy + off * 2.1 },
-        { x: sx - w / 2, y: sy - off * 2.1 - h },
       ];
+      // A focused key's card floats right above its icon.
+      const options = focus ? [{ x: sx - w / 2, y: sy - off - h - 4 }, ...below] : below;
       let spot = null as null | { x: number; y: number };
       let best = { o: options[0]!, area: Infinity };
-      const rank = layout.keys.indexOf(k);
+      const rank = k.kind === "main" ? k.source.rank : -1;
       for (const o of options) {
         const r = { x: o.x - 3, y: o.y - 3, w: w + 6, h: h + 6 };
         let area = 0;
@@ -111,11 +150,14 @@ export function LabelProjector({ layout, rotation, revealKey }: { layout: Layout
         if (area < best.area) best = { o, area };
       }
       // The strongest few always get a tag, in their least-crowded spot.
-      if (!spot && (focus || (rank >= 0 && rank < 3))) spot = best.o;
+      if (focus) spot = options[0]!;
+      else if (!spot && rank >= 0 && rank < 3) spot = best.o;
       if (!spot) {
         el.style.opacity = "0";
         continue;
       }
+      // Keep every tag fully on screen.
+      spot = { x: Math.min(Math.max(spot.x, 8), size.width - w - 8), y: Math.min(Math.max(spot.y, 8), size.height - h - 8) };
       placed.push({ x: spot.x - 3, y: spot.y - 3, w: w + 6, h: h + 6 });
       el.style.opacity = "1";
       el.style.transform = `translate(${Math.round(spot.x)}px, ${Math.round(spot.y)}px)`;
@@ -138,22 +180,53 @@ export function ScreenLabels() {
     return () => clearTimeout(t);
   }, [result, mode, showLost]);
   const list = candidates(shared.layout, hovered, selected);
+  const tail = shared.layout?.tail;
   return (
     <div className="labels" aria-hidden>
-      {list.map((k) => (
+      {tail && (
         <div
-          key={k.id}
           ref={(el) => {
-            if (el) shared.els.set(k.id, el);
-            else shared.els.delete(k.id);
+            if (el) shared.els.set("__tail", el);
+            else shared.els.delete("__tail");
           }}
-          className={`key-label ${k.id === hovered || k.id === selected ? "is-focus" : ""}`}
+          className="key-label key-label--tail"
           style={{ opacity: 0 }}
         >
-          <span className="key-label__name">{k.source.root}</span>
-          {k.kind !== "lost" && <span className="key-label__share">{pct(k.source.share)}</span>}
+          <span className="key-label__name">+{tail.count.toLocaleString("en-US")} smaller sites</span>
+          <span className="key-label__share">{pct(tail.share)}</span>
         </div>
-      ))}
+      )}
+      {list.map((k) => {
+        const focus = k.id === hovered || k.id === selected;
+        const f = k.source.factors;
+        const ref = (el: HTMLDivElement | null) => {
+          if (el) shared.els.set(k.id, el);
+          else shared.els.delete(k.id);
+        };
+        if (!focus) {
+          return (
+            <div key={k.id} ref={ref} className="key-label" style={{ opacity: 0 }}>
+              <span className="key-label__name">{k.source.root}</span>
+              {k.kind !== "lost" && <span className="key-label__share">{pct(k.source.share)}</span>}
+            </div>
+          );
+        }
+        return (
+          <div key={k.id} ref={ref} className={`key-card ${k.kind === "lost" ? "is-lost" : ""}`} style={{ opacity: 0 }}>
+            <div className="key-card__top">
+              <Favicon domain={k.source.link.domain} size={18} />
+              <span className="key-card__name">{k.source.root}</span>
+              <span className="key-card__share">{k.kind === "lost" ? "lost" : pct(k.source.share)}</span>
+            </div>
+            <div className="key-card__meta">
+              {k.kind === "lost"
+                ? `was DR ${Math.round(f.dr)} · could add ${pct(k.source.potential / Math.max(1e-9, useStore.getState().result?.total ?? 1))}`
+                : `of your juice · DR ${Math.round(f.dr)} · ${f.dilutionEstimated ? "?" : compact(f.outgoing)} outgoing · ${f.follow < 1 ? "nofollow" : "dofollow"}`}
+            </div>
+            {!selected && <div className="key-card__hint">Click for details</div>}
+          </div>
+        );
+      })}
     </div>
   );
 }

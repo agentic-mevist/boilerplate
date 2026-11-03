@@ -1,8 +1,13 @@
 /**
- * Turns a JuiceResult into geometry: where each key-cap sits and the path its
- * stream follows into the hub. Everything here is in a local 2D frame on the
- * ground plane (x, z) with the hub at the origin; in "funnel" mode juice flows
- * along +x (sources on the left, outputs on the right, like a Sankey diagram).
+ * Turns a JuiceResult into geometry: where each key-cap sits and the river its
+ * juice follows into your site's lake. Everything is in a local 2D frame on the
+ * ground plane (x, z) with the hub at the origin.
+ *
+ * Rivers never pass under another site's key: sources sit on two rings, and
+ * every outer river flows through a reserved corridor between two inner keys.
+ * Corridors are sized from the actual river widths (a 1-D packing along the
+ * arc), like the nodes of a Sankey diagram. Inside the rings the rivers converge
+ * and pour into the lake.
  */
 import type { Health, JuiceResult, JuiceSource } from "../../shared/model";
 
@@ -10,6 +15,15 @@ export type LayoutMode = "funnel" | "vortex";
 
 export const SAMPLES = 64;
 export const HUB_RADIUS = 2.6;
+export const LAKE_RADIUS = 3.7;
+
+/** River width (world units) for a share of the juice: tiny springs to wide rivers. */
+export const W_MIN = 0.08;
+export const W_MAX = 1.9;
+export function riverWidth(share: number, maxShare: number): number {
+  if (!(share > 0) || !(maxShare > 0)) return W_MIN;
+  return W_MIN + (W_MAX - W_MIN) * Math.pow(Math.min(1, share / maxShare), 0.6);
+}
 
 export interface KeyNode {
   id: string;
@@ -22,27 +36,35 @@ export interface KeyNode {
   fade: number;
   /** Rotation around the vertical axis. */
   rot: number;
-  /** Index of the stream path in `paths` (or -1). */
+  /** Index of the river in `paths` (or -1). */
   path: number;
 }
 
 export interface StreamPath {
   id: string;
   key: number;
-  /** Uniform arc-length samples, SAMPLES long. */
+  /** Uniform arc-length samples, SAMPLES long, xz pairs. */
   points: Float32Array;
   length: number;
-  halfWidth: number;
-  /** 0..1 visual strength (sqrt of share relative to the strongest stream). */
+  /** Full river width in world units. */
+  width: number;
+  /** 0..1 visual strength (relative to the strongest river). */
   strength: number;
   health: Health;
   kind: "main" | "tail" | "lost";
-  /** Seconds after reveal starts when this stream begins to flow. */
+  /** Seconds after the reveal starts when this river begins to flow. */
   delay: number;
   fade: number;
 }
 
 export interface OutputSlot {
+  x: number;
+  z: number;
+}
+
+export interface TailInfo {
+  count: number;
+  share: number;
   x: number;
   z: number;
 }
@@ -53,21 +75,20 @@ export interface Layout {
   paths: StreamPath[];
   outputs: OutputSlot[];
   outputLine: Float32Array | null;
+  tail: TailInfo | null;
+  /** Radius inside which rivers converge (no keys there). */
+  packRadius: number;
   /** Approximate extent of the scene in local units, used to frame the camera. */
   bounds: { minX: number; maxX: number; minZ: number; maxZ: number };
 }
 
-const MAIN_KEYS = 28;
-const TAIL_KEYS = 30;
-const LOST_KEYS = 12;
-
-/** Deterministic jitter in [-1, 1] so layouts look hand-placed but stay stable. */
-const jitter = (i: number, salt: number) => {
-  const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
-  return (x - Math.floor(x)) * 2 - 1;
-};
-
 const DEG = Math.PI / 180;
+const GAP = 0.34;
+
+const smoothstep = (a: number, b: number, x: number) => {
+  const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+};
 
 function resample(dense: [number, number][]): { points: Float32Array; length: number } {
   const cum = [0];
@@ -92,104 +113,134 @@ function resample(dense: [number, number][]): { points: Float32Array; length: nu
   return { points: out, length: total };
 }
 
-function bezier(p0: [number, number], p1: [number, number], p2: [number, number], p3: [number, number], n = 120): [number, number][] {
-  const pts: [number, number][] = [];
-  for (let i = 0; i <= n; i++) {
-    const t = i / n;
-    const u = 1 - t;
-    const a = u * u * u, b = 3 * u * u * t, c = 3 * u * t * t, d = t * t * t;
-    pts.push([a * p0[0] + b * p1[0] + c * p2[0] + d * p3[0], a * p0[1] + b * p1[1] + c * p2[1] + d * p3[1]]);
-  }
-  return pts;
-}
-
-/** Visual half-width of a stream from its share of the juice. */
-export function halfWidthFor(share: number, maxShare: number): number {
-  if (!(share > 0) || !(maxShare > 0)) return 0.03;
-  const s = Math.sqrt(share / maxShare);
-  return 0.05 + 1.0 * s;
-}
-
-/** Spread order for slots: center first, then alternating outward (0, +1, -1, +2, -2, ...). */
+/** Spread order for slots: center first, then alternating outward. */
 function centerOut(n: number): number[] {
   const mid = (n - 1) / 2;
   return Array.from({ length: n }, (_, i) => i).sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid) || a - b);
 }
 
-interface Slot {
-  x: number;
-  z: number;
-  angle: number;
-  r: number;
-}
-
-/** Slots on arcs to the left of the hub (angles measured from -x, positive toward +z). */
-function fanSlots(radii: number[], spread: number, spacing: number[]): Slot[][] {
-  return radii.map((r, ri) => {
-    const arc = 2 * spread * r;
-    const n = Math.max(1, Math.floor(arc / spacing[ri]!));
-    const step = (2 * spread) / n;
-    const shift = ri % 2 ? 0.25 : -0.25; // stagger rings so outer streams pass between inner keys
-    const slots: Slot[] = [];
-    for (let i = 0; i < n; i++) {
-      const a = -spread + step * (i + 0.5 + shift);
-      slots.push({ angle: a, r, x: -r * Math.cos(a), z: r * Math.sin(a) });
-    }
-    return centerOut(slots.length).map((i) => slots[i]!);
-  });
-}
-
-/** Chartbrew-style path: leave the key heading right, then curve into the hub at `entry` (polar angle on the hub rim). */
-function funnelPath(x: number, z: number, entry: number): [number, number][] {
-  const ex = HUB_RADIUS * Math.cos(entry);
-  const ez = HUB_RADIUS * Math.sin(entry);
-  const dirIn: [number, number] = [-Math.cos(entry), -Math.sin(entry)];
-  const dist = Math.hypot(x - ex, z - ez);
-  const p1: [number, number] = [x + dist * 0.42, z];
-  const p2: [number, number] = [ex - dirIn[0] * dist * 0.38, ez - dirIn[1] * dist * 0.38];
-  return bezier([x, z], p1, p2, [ex, ez]);
-}
-
-/** Main fan: compress the slot angle into the hub's left rim so streams converge like rivers into a lake. */
-const fanEntry = (angle: number, spread: number) => Math.PI - (angle / spread) * 80 * DEG;
-
-function vortexPath(r0: number, a0: number, swirl: number): [number, number][] {
-  const pts: [number, number][] = [];
-  const n = 140;
-  for (let i = 0; i <= n; i++) {
-    const t = i / n;
-    const e = Math.pow(t, 1.08);
-    const r = r0 + (HUB_RADIUS - r0) * e;
-    const a = a0 + swirl * (r0 - r);
-    pts.push([r * Math.cos(a), r * Math.sin(a)]);
+/** Golden-ratio spread: positions for ranks so big rivers are evenly spaced around a circle. */
+function goldenOrder(n: number): number[] {
+  const used = new Set<number>();
+  const out: number[] = [];
+  for (let k = 0; k < n; k++) {
+    let p = Math.floor(((k * 0.6180339887) % 1) * n);
+    while (used.has(p)) p = (p + 1) % n;
+    used.add(p);
+    out.push(p);
   }
-  return pts;
+  return out; // out[rank] = position
+}
+
+const keySize = (s: JuiceSource, ring: number) => (1.0 + 0.55 * Math.min(1, Math.max(0, s.factors.dr / 100))) * (ring === 0 ? 1 : 0.9);
+
+interface Item {
+  kind: "inner" | "corridor" | "tail";
+  source?: JuiceSource;
+  width: number; // river width
+  span: number; // linear width reserved along the packing arc
+  angle: number; // center angle (pre-swirl)
 }
 
 export function computeLayout(result: JuiceResult, mode: LayoutMode, showLost: boolean): Layout {
   const sources = result.sources;
   const maxShare = sources[0]?.share ?? 0;
+  const vortex = mode === "vortex";
+
+  const maxInner = vortex ? 16 : 14;
+  const total = sources.length;
+  let nInner = vortex ? Math.min(maxInner, Math.ceil(total / 2)) : Math.min(maxInner, Math.ceil((total + 1) / 2));
+  nInner = Math.max(nInner, Math.min(total, 1));
+  const nOuter = Math.max(0, Math.min(vortex ? nInner : nInner - 1, total - nInner));
+  const inner = sources.slice(0, nInner);
+  const outer = sources.slice(nInner, nInner + nOuter);
+  const rest = sources.slice(nInner + nOuter);
+  const tailShare = rest.reduce((a, s) => a + s.share, 0);
+
+  // --- order items around the arc
+  const innerPos: (JuiceSource | undefined)[] = new Array(nInner);
+  const corrCount = vortex ? nInner : Math.max(0, nInner - 1);
+  const corrPos: (JuiceSource | undefined)[] = new Array(corrCount);
+  if (vortex) {
+    goldenOrder(nInner).forEach((p, rank) => (innerPos[p] = inner[rank]));
+    goldenOrder(corrCount).forEach((p, rank) => (corrPos[p] = outer[rank]));
+  } else {
+    centerOut(nInner).forEach((p, rank) => (innerPos[p] = inner[rank]));
+    centerOut(corrCount).forEach((p, rank) => (corrPos[p] = outer[rank]));
+  }
+
+  const items: Item[] = [];
+  for (let i = 0; i < nInner; i++) {
+    const s = innerPos[i]!;
+    const w = riverWidth(s.share, maxShare);
+    items.push({ kind: "inner", source: s, width: w, span: Math.max(keySize(s, 0), w) + GAP, angle: 0 });
+    if (i < corrCount) {
+      const o = corrPos[i];
+      const ow = o ? riverWidth(o.share, maxShare) : 0;
+      items.push({ kind: "corridor", source: o, width: ow, span: o ? ow + GAP * 1.6 : GAP * 0.6, angle: 0 });
+    }
+  }
+  if (rest.length) {
+    const tw = riverWidth(tailShare, maxShare);
+    const tailItem: Item = { kind: "tail", width: tw, span: Math.max(1.4, tw + GAP * 2), angle: 0 };
+    if (vortex) {
+      // put the long tail opposite the strongest river
+      const topIdx = items.findIndex((it) => it.source === inner[0]);
+      items.splice((topIdx + Math.floor(items.length / 2)) % Math.max(1, items.length), 0, tailItem);
+    } else items.push(tailItem);
+  }
+
+  // --- pack along an arc at radius R
+  const available = vortex ? Math.PI * 2 : 200 * DEG;
+  const sum = items.reduce((a, it) => a + it.span, 0);
+  const R = Math.max(vortex ? 5.4 : 6.2, sum / available);
+  const span = sum / R;
+  const center = Math.PI; // the fan opens to the left of the hub
+  let acc = center - span / 2;
+  for (const it of items) {
+    const a = it.span / R;
+    it.angle = acc + a / 2;
+    acc += a;
+  }
+  const r0 = R + 1.0;
+  const outerKeyMax = Math.max(1.0, ...outer.map((s) => keySize(s, 1)));
+  const r1 = r0 + 2.2 + outerKeyMax;
+
+  const swirl = vortex ? 0.085 : 0.022;
+  const rRef = r1 + 3;
+  const compress = vortex ? 1 : 0.9;
+  const tw = (r: number, a: number) => a + swirl * (rRef - r);
+  const polar = (r: number, a: number): [number, number] => {
+    const t = tw(r, a);
+    return [r * Math.cos(t), r * Math.sin(t)];
+  };
+  /** Angle of a river at radius r: straight through the rings, converging inside R. */
+  const riverAngle = (a: number, r: number) => {
+    if (r >= R) return a;
+    const e = smoothstep(R, LAKE_RADIUS, r);
+    return center + (a - center) * (1 - (1 - compress) * e);
+  };
+
   const keys: KeyNode[] = [];
   const paths: StreamPath[] = [];
 
-  const main = sources.slice(0, MAIN_KEYS);
-  const tail = sources.slice(MAIN_KEYS, MAIN_KEYS + TAIL_KEYS);
-  const lost = showLost ? result.lost.slice(0, LOST_KEYS) : [];
-
-  const keySize = (s: JuiceSource, base: number, span: number) => base + span * Math.min(1, Math.max(0, s.factors.dr / 100));
-
-  const addPath = (key: KeyNode, dense: [number, number][], src: JuiceSource, kind: StreamPath["kind"], delay: number) => {
+  const addRiver = (key: KeyNode, a: number, rStart: number, rEnd: number, src: JuiceSource | null, kind: StreamPath["kind"], width: number, health: Health, delay: number, id = key.id) => {
+    const dense: [number, number][] = [];
+    const steps = Math.max(24, Math.ceil((rStart - rEnd) / 0.08));
+    for (let i = 0; i <= steps; i++) {
+      const r = rStart + (rEnd - rStart) * (i / steps);
+      dense.push(polar(r, riverAngle(a, r)));
+    }
     const { points, length } = resample(dense);
-    const share = kind === "lost" ? 0 : src.share;
-    const strength = maxShare > 0 ? Math.sqrt(Math.max(0, share) / maxShare) : 0;
+    const share = src && kind !== "lost" ? src.share : kind === "tail" ? tailShare : 0;
     paths.push({
-      id: key.id,
-      key: keys.length - 1,
+      id,
+      key: keys.indexOf(key),
       points,
       length,
-      halfWidth: kind === "lost" ? 0.03 : halfWidthFor(share, maxShare),
-      strength,
-      health: src.health,
+      width,
+      strength: maxShare > 0 ? Math.min(1, Math.sqrt(share / maxShare)) : 0,
+      health,
       kind,
       delay,
       fade: key.fade,
@@ -197,106 +248,73 @@ export function computeLayout(result: JuiceResult, mode: LayoutMode, showLost: b
     key.path = paths.length - 1;
   };
 
+  for (const it of items) {
+    if (it.kind === "inner" && it.source) {
+      const s = it.source;
+      const [x, z] = polar(r0, it.angle);
+      const key: KeyNode = { id: s.id, source: s, kind: "main", x, z, size: keySize(s, 0), fade: 0, rot: 0, path: -1 };
+      keys.push(key);
+      addRiver(key, it.angle, r0, LAKE_RADIUS - 0.4, s, "main", it.width, s.health, 0.15 + s.rank * 0.05);
+    } else if (it.kind === "corridor" && it.source) {
+      const s = it.source;
+      const [x, z] = polar(r1, it.angle);
+      const key: KeyNode = { id: s.id, source: s, kind: "main", x, z, size: keySize(s, 1), fade: 0, rot: 0, path: -1 };
+      keys.push(key);
+      addRiver(key, it.angle, r1, LAKE_RADIUS - 0.4, s, "main", it.width, s.health, 0.15 + s.rank * 0.05);
+    }
+  }
+
+  // --- the long tail: a cluster of small faded keys sharing one creek
+  let tail: TailInfo | null = null;
+  const tailItem = items.find((it) => it.kind === "tail");
+  if (tailItem && rest.length) {
+    const rT = r1 + 0.4;
+    const [tx, tz] = polar(rT, tailItem.angle);
+    const pebbles = rest.slice(0, 9);
+    // The head is only an anchor for the shared creek; it is not a key.
+    const head: KeyNode = { id: "tail", source: rest[0]!, kind: "tail", x: tx, z: tz, size: 0, fade: 0.12, rot: 0, path: -1 };
+    pebbles.forEach((s, i) => {
+      const row = Math.floor(i / 3), col = (i % 3) - 1;
+      const rad = rT + 1.0 + row * 0.95;
+      const ang = tailItem.angle + (col * 0.78) / rad;
+      const [x, z] = polar(rad, ang);
+      keys.push({ id: s.id, source: s, kind: "tail", x, z, size: 0.55 + 0.2 * (s.factors.dr / 100), fade: 0.18 + row * 0.14, rot: 0, path: -1 });
+    });
+    addRiver(head, tailItem.angle, rT + 0.5, LAKE_RADIUS - 0.4, null, "tail", tailItem.width, "clean", 1.4, "tail");
+    tail = { count: rest.length, share: tailShare, x: tx, z: tz };
+  }
+
+  // --- lost links: ghost keys beyond the outer ring whose dry beds stop short
+  if (showLost && result.lost.length) {
+    const innerItems = items.filter((it) => it.kind === "inner");
+    const slots = vortex ? goldenOrder(innerItems.length) : centerOut(innerItems.length);
+    result.lost.slice(0, Math.min(12, innerItems.length)).forEach((s, k) => {
+      const it = innerItems[slots[k]!]!;
+      const rL = r1 + 2.6 + (k % 2) * 1.1;
+      const [x, z] = polar(rL, it.angle);
+      const key: KeyNode = { id: `lost:${s.id}`, source: s, kind: "lost", x, z, size: 0.85, fade: 0.2, rot: 0, path: -1 };
+      keys.push(key);
+      addRiver(key, it.angle, rL, r1 + 0.6, s, "lost", 0.42, "lost", 0.9 + k * 0.05);
+    });
+  }
+
   let outputs: OutputSlot[] = [];
   let outputLine: Float32Array | null = null;
-
-  if (mode === "funnel") {
-    const spread = 62 * DEG;
-    const mainRings = fanSlots([6.0, 8.5, 11.0, 13.5], spread, [2.3, 2.3, 2.25, 2.2]);
-    const tailRings = fanSlots([15.9, 17.9], spread * 1.03, [1.5, 1.5]);
-    const take = (rings: Slot[][], n: number) => {
-      const out: (Slot & { ring: number })[] = [];
-      rings.forEach((ring, ri) => ring.forEach((sl) => out.length < n && out.push({ ...sl, ring: ri })));
-      return out;
-    };
-    const mainSlots = take(mainRings, main.length);
-    const tailSlots = take(tailRings, tail.length);
-
-    main.forEach((s, i) => {
-      const sl = mainSlots[i]!;
-      const r = sl.r + jitter(i, 1) * 0.3;
-      const a = sl.angle + jitter(i, 2) * 0.035;
-      const x = -r * Math.cos(a), z = r * Math.sin(a);
-      const size = keySize(s, 1.0, 0.6) * (sl.ring >= 3 ? 0.88 : 1);
-      keys.push({ id: s.id, source: s, kind: "main", x, z, size, fade: 0, rot: 0, path: -1 });
-      addPath(keys[keys.length - 1]!, funnelPath(x, z, fanEntry(a, spread)), s, "main", 0.15 + i * 0.06);
-    });
-    tail.forEach((s, i) => {
-      const sl = tailSlots[i];
-      if (!sl) return;
-      const r = sl.r + jitter(i, 3) * 0.7;
-      const a = sl.angle + jitter(i, 4) * 0.04;
-      const x = -r * Math.cos(a), z = r * Math.sin(a);
-      const fade = 0.35 + sl.ring * 0.22 + Math.abs(a / spread) * 0.12;
-      keys.push({ id: s.id, source: s, kind: "tail", x, z, size: 0.62 + 0.25 * (s.factors.dr / 100), fade, rot: 0, path: -1 });
-      addPath(keys[keys.length - 1]!, funnelPath(x, z, fanEntry(a, spread * 1.03)), s, "tail", 1.8 + i * 0.02);
-    });
-    // Lost links sit out on the flanks, beyond the fan.
-    lost.forEach((s, i) => {
-      const side = i % 2 === 0 ? 1 : -1;
-      const row = Math.floor(i / 2);
-      const a = side * (spread + (10 + (row % 2) * 7) * DEG);
-      const r = 7.2 + row * 1.9;
-      const x = -r * Math.cos(a), z = r * Math.sin(a);
-      keys.push({ id: `lost:${s.id}`, source: s, kind: "lost", x, z, size: 0.9, fade: 0.2, rot: 0, path: -1 });
-      addPath(keys[keys.length - 1]!, funnelPath(x, z, Math.PI - side * (86 + row * 3) * DEG), s, "lost", 0.8 + i * 0.05);
-    });
-
-    outputs = [{ x: 6.6, z: 0 }, { x: 11.4, z: 0 }, { x: 16.2, z: 0 }];
+  if (!vortex) {
+    const x0 = LAKE_RADIUS + 3.4;
+    outputs = [{ x: x0, z: 0 }, { x: x0 + 4.8, z: 0 }, { x: x0 + 9.6, z: 0 }];
     const line: [number, number][] = [];
-    for (let i = 0; i <= 40; i++) line.push([HUB_RADIUS + (19.5 - HUB_RADIUS) * (i / 40), 0]);
+    const end = x0 + 12.6;
+    for (let i = 0; i <= 40; i++) line.push([LAKE_RADIUS + (end - LAKE_RADIUS) * (i / 40), 0]);
     outputLine = resample(line).points;
-  } else {
-    // Vortex: rings all around the hub, strongest sources spread evenly by the golden angle.
-    const ringDefs = [
-      { r: 6.3, n: 8 },
-      { r: 9.0, n: 12 },
-      { r: 11.7, n: 16 },
-    ];
-    const tailRingDefs = [
-      { r: 14.3, n: 26 },
-      { r: 16.3, n: 30 },
-    ];
-    const swirl = 0.085;
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    const placeRing = (list: JuiceSource[], defs: { r: number; n: number }[], kind: "main" | "tail", startDelay: number) => {
-      let idx = 0;
-      defs.forEach((def, ri) => {
-        const count = Math.min(def.n, list.length - idx);
-        if (count <= 0) return;
-        const used = new Set<number>();
-        for (let k = 0; k < count; k++) {
-          const s = list[idx + k]!;
-          let slot = Math.floor(((k * golden) / (2 * Math.PI)) % 1 * def.n);
-          while (used.has(slot)) slot = (slot + 1) % def.n;
-          used.add(slot);
-          const a = (slot / def.n) * Math.PI * 2 + ri * 0.21 + (kind === "tail" ? 0.07 : 0);
-          const x = def.r * Math.cos(a), z = def.r * Math.sin(a);
-          const fade = kind === "tail" ? 0.35 + ri * 0.25 : 0;
-          const size = kind === "main" ? keySize(s, 1.0, 0.6) : 0.62 + 0.25 * (s.factors.dr / 100);
-          keys.push({ id: s.id, source: s, kind, x, z, size, fade, rot: -a, path: -1 });
-          addPath(keys[keys.length - 1]!, vortexPath(def.r, a, swirl), s, kind, startDelay + (idx + k) * (kind === "main" ? 0.05 : 0.012));
-        }
-        idx += count;
-      });
-    };
-    placeRing(main, ringDefs, "main", 0.15);
-    placeRing(tail, tailRingDefs, "tail", 1.6);
-    lost.forEach((s, i) => {
-      const a = (i / Math.max(1, lost.length)) * Math.PI * 2 + 0.4;
-      const r = 18.4;
-      const x = r * Math.cos(a), z = r * Math.sin(a);
-      keys.push({ id: `lost:${s.id}`, source: s, kind: "lost", x, z, size: 0.9, fade: 0.2, rot: -a, path: -1 });
-      addPath(keys[keys.length - 1]!, vortexPath(r, a, swirl), s, "lost", 0.8 + i * 0.05);
-    });
   }
 
   const xs = keys.map((k) => k.x), zs = keys.map((k) => k.z);
   const bounds = {
-    minX: Math.min(-HUB_RADIUS, ...xs),
-    maxX: Math.max(HUB_RADIUS, ...xs, ...(outputs.length ? [outputs[outputs.length - 1]!.x + 2.5] : [])),
-    minZ: Math.min(-HUB_RADIUS, ...zs),
-    maxZ: Math.max(HUB_RADIUS, ...zs),
+    minX: Math.min(-LAKE_RADIUS, ...xs) - 0.8,
+    maxX: Math.max(LAKE_RADIUS, ...xs, ...(outputs.length ? [outputs[outputs.length - 1]!.x + 2.4] : [])) + 0.8,
+    minZ: Math.min(-LAKE_RADIUS, ...zs) - 0.8,
+    maxZ: Math.max(LAKE_RADIUS, ...zs) + 0.8,
   };
-  return { mode, keys, paths, outputs, outputLine, bounds };
+  return { mode, keys, paths, outputs, outputLine, tail, packRadius: R, bounds };
 }

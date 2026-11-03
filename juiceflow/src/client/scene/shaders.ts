@@ -1,8 +1,9 @@
 /**
- * GLSL for the flowing juice. All streams live in one float texture
- * (uPaths: SAMPLES × paths, xz per texel) plus a per-path info texture
- * (uInfo: 2 × paths). Particles are instanced quads that follow their path on
- * the GPU, so thousands of Windy-style streaks cost one draw call.
+ * GLSL for the juice. Rivers, spring pools and the lake are crisp stylized
+ * water: a deeper center, lighter shallows, ripples that flow downstream (fast
+ * in big rivers, slow in tiny springs), a darker outline and a wet-sand bank.
+ * Dotted guide lines (nofollow, lost, output) follow paths stored in one float
+ * texture (uPaths: SAMPLES × paths) plus a per-path info texture (uInfo).
  *
  * Colors are raw sRGB (no color-space conversion) so they match the CSS.
  */
@@ -48,80 +49,6 @@ float focusDim(float row, float dimTo) {
 }
 `;
 
-export const streakVertex = /* glsl */ `
-${PATH_LIB}
-uniform vec3 uColors[7];
-uniform vec3 uLeakColor;
-attribute float aPath;
-attribute float aPhase;
-attribute float aSpeed;
-attribute float aLane;
-attribute float aLen;
-attribute float aThick;
-attribute float aBright;
-varying vec2 vUv;
-varying float vAlpha;
-varying vec3 vColor;
-
-void main() {
-  int row = int(aPath + 0.5);
-  vec4 i0 = texelFetch(uInfo, ivec2(0, row), 0);
-  vec4 i1 = texelFetch(uInfo, ivec2(1, row), 0);
-  float L = i0.x;
-  float hw = i0.y;
-  float delay = i0.z;
-  float health = i0.w;
-  float fade = i1.x;
-
-  float t = fract(aPhase + uTime * aSpeed / L);
-  float front = revealFront(L, delay, 9.0);
-  float alpha = aBright * (1.0 - smoothstep(front - 0.05, front, t));
-
-  float lane = aLane * hw * widthProfile(t);
-  vec3 col = uColors[int(health + 0.5)];
-
-  if (health > 3.5 && health < 4.5) {
-    // Leak: the stream spills sideways and soaks away before it reaches you.
-    float k = smoothstep(0.62, 0.95, t);
-    lane += sign(aLane + 1e-4) * k * (0.5 + hw * 1.6);
-    col = mix(uColors[0], uLeakColor, smoothstep(0.5, 0.8, t));
-    alpha *= 1.0 - smoothstep(0.78, 0.96, t);
-  } else if (health > 1.5 && health < 2.5) {
-    // Toxic: filtered out by search engines on the way in.
-    alpha *= 1.0 - smoothstep(0.3, 0.7, t);
-  }
-
-  alpha *= smoothstep(0.0, 0.05, t) * (1.0 - smoothstep(0.95, 1.0, t));
-  alpha *= focusDim(aPath, 0.1) * (1.0 - fade);
-  vColor = col;
-  vAlpha = min(alpha, 1.0);
-  vUv = vec2(position.x, position.y + 0.5);
-
-  vec2 p = pathAt(row, t);
-  vec2 tg = tangentAt(row, t);
-  vec2 nr = vec2(-tg.y, tg.x);
-  vec2 c = p + nr * lane;
-  vec2 w = c + tg * (position.x - 1.0) * aLen + nr * position.y * aThick;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(w.x, 0.035 + aBright * 0.004, w.y, 1.0);
-}
-`;
-
-export const streakFragment = /* glsl */ `
-varying vec2 vUv;
-varying float vAlpha;
-varying vec3 vColor;
-void main() {
-  float along = vUv.x;              // 0 = tail, 1 = head
-  float across = abs(vUv.y - 0.5) * 2.0;
-  float a = pow(along, 1.25) * (1.0 - smoothstep(0.45, 1.0, across));
-  // round, bright head
-  a = max(a, smoothstep(0.92, 1.0, along) * (1.0 - smoothstep(0.2, 1.0, across)));
-  float alpha = a * vAlpha;
-  if (alpha < 0.004) discard;
-  gl_FragColor = vec4(vColor, alpha);
-}
-`;
-
 export const dashVertex = /* glsl */ `
 ${PATH_LIB}
 uniform vec3 uDash;
@@ -151,7 +78,7 @@ void main() {
   vec3 col = uDash;
   if (health > 4.5 && health < 5.5) {
     col = uLost;
-    alpha *= 1.0 - smoothstep(0.5, 0.62, t); // dried up before reaching you
+    alpha *= 1.0 - smoothstep(0.6, 1.0, t); // a dry bed that fades out before reaching you
   } else if (health > 5.5) {
     col = uOutput;
   }
@@ -183,80 +110,240 @@ void main() {
 }
 `;
 
-export const ribbonVertex = /* glsl */ `
-${PATH_LIB}
-attribute float aPath;
-attribute float aS;
-attribute float aV;
-varying float vS;
-varying float vV;
-varying float vAlpha;
-varying vec3 vColor;
-varying float vL;
-uniform vec3 uColors[7];
-uniform vec3 uLeakColor;
-
-void main() {
-  int row = int(aPath + 0.5);
-  vec4 i0 = texelFetch(uInfo, ivec2(0, row), 0);
-  vec4 i1 = texelFetch(uInfo, ivec2(1, row), 0);
-  float L = i0.x;
-  float hw = i0.y;
-  float delay = i0.z;
-  float health = i0.w;
-  float fade = i1.x;
-  float strength = i1.y;
-
-  float front = revealFront(L, delay, 9.0);
-  float alpha = (1.0 - smoothstep(front - 0.06, front, aS));
-  vec3 col = uColors[int(health + 0.5)];
-  float base = 0.12 + 0.36 * strength;
-  if (health > 3.5 && health < 4.5) {
-    col = mix(uColors[0], uLeakColor, smoothstep(0.5, 0.8, aS));
-    alpha *= 1.0 - smoothstep(0.7, 0.92, aS);
-  } else if (health > 1.5 && health < 2.5) {
-    base *= 0.7;
-    alpha *= 1.0 - smoothstep(0.3, 0.72, aS);
-  } else if (health > 2.5 && health < 3.5) {
-    base *= 0.0;
-  }
-  alpha *= base * focusDim(aPath, 0.15) * (1.0 - fade) * smoothstep(0.0, 0.06, aS) * (1.0 - smoothstep(0.96, 1.0, aS));
-  vAlpha = min(alpha, 0.85);
-  vColor = col;
-  vS = aS;
-  vV = aV;
-  vL = L;
-
-  vec2 p = pathAt(row, aS);
-  vec2 tg = tangentAt(row, aS);
-  vec2 nr = vec2(-tg.y, tg.x);
-  float w = hw * widthProfile(aS) * 1.15 + 0.02;
-  vec2 q = p + nr * aV * w;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(q.x, 0.012, q.y, 1.0);
-}
-`;
-
-export const ribbonFragment = /* glsl */ `
-uniform float uTime;
-varying float vS;
-varying float vV;
-varying float vAlpha;
-varying vec3 vColor;
-varying float vL;
-
+const NOISE = /* glsl */ `
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p) {
   vec2 i = floor(p), f = fract(p);
   vec2 u = f * f * (3.0 - 2.0 * f);
   return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
 }
+`;
+
+/** Shared water palette lookup: 0 clean, 1 suspicious, 2 toxic, 4 leak. */
+const WATER_LIB = /* glsl */ `
+uniform vec3 uDeep[6];
+uniform vec3 uShallow[6];
+uniform vec3 uFoam;
+uniform vec3 uFoamMurky;
+uniform vec3 uBank;
+uniform vec3 uBg;
+uniform vec3 uLeak;
+uniform float uTime;
+uniform float uStart;
+uniform float uFocus;
+${NOISE}
+`;
+
+export const waterVertex = /* glsl */ `
+attribute float aS;
+attribute float aV;
+attribute float aLen;
+attribute float aW;
+attribute float aSpeed;
+attribute float aHealth;
+attribute float aIdx;
+attribute float aFade;
+attribute float aDelay;
+attribute float aBankV;
+varying float vS;
+varying float vV;
+varying float vLen;
+varying float vW;
+varying float vSpeed;
+varying float vHealth;
+varying float vIdx;
+varying float vFade;
+varying float vDelay;
+varying float vBankV;
+varying vec2 vXZ;
+void main() {
+  vS = aS; vV = aV; vLen = aLen; vW = aW; vSpeed = aSpeed; vHealth = aHealth;
+  vIdx = aIdx; vFade = aFade; vDelay = aDelay; vBankV = aBankV;
+  vXZ = position.xz;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`;
+
+export const waterFragment = /* glsl */ `
+${WATER_LIB}
+varying float vS;
+varying float vV;
+varying float vLen;
+varying float vW;
+varying float vSpeed;
+varying float vHealth;
+varying float vIdx;
+varying float vFade;
+varying float vDelay;
+varying float vBankV;
+varying vec2 vXZ;
+uniform float uInner;
+uniform float uOuter;
+uniform float uFill;
 
 void main() {
-  float edge = 1.0 - pow(abs(vV), 2.4);
-  float flow = noise(vec2(vS * vL * 0.9 - uTime * 2.2, vV * 2.5));
-  float a = vAlpha * edge * (0.75 + 0.5 * flow);
-  if (a < 0.003) discard;
-  gl_FragColor = vec4(vColor, a);
+  // Rivers stop at the lake shore; the lake carries on from there.
+  if (length(vXZ) < uInner + (uOuter - uInner) * uFill - 0.02) discard;
+  float along = vS * vLen;
+  float av = abs(vV);
+  float aa = max(fwidth(vV), 1e-4);
+
+  // The water pours out of the spring and runs toward the lake.
+  float front = (uTime - uStart - vDelay) * 8.0;
+  float revealed = 1.0 - smoothstep(front - 0.5, front, along);
+  if (revealed <= 0.001) discard;
+
+  int h = int(vHealth + 0.5);
+  float ends = 1.0;
+  if (h == 2) {
+    // murky water gets filtered out before it reaches you
+    ends = 1.0 - smoothstep(0.42, 0.68, vS + (noise(vec2(along * 2.2, vV * 2.0)) - 0.5) * 0.14);
+  } else if (h == 4) {
+    // a leak: the river spills away just before the lake
+    ends = 1.0 - smoothstep(0.8, 0.94, vS + (noise(vec2(along * 3.0, vV * 3.0)) - 0.5) * 0.12);
+  }
+
+  float water = (1.0 - smoothstep(1.0 - aa, 1.0 + aa, av)) * step(0.001, ends);
+  float waterEnd = smoothstep(0.0, 0.08, ends);
+  water *= waterEnd;
+  float bankOuter = 1.0 + vBankV;
+  float bank = (1.0 - smoothstep(bankOuter - vBankV * 0.55, bankOuter, av)) * smoothstep(0.0, 0.25, ends + 0.05);
+
+  vec3 deep = uDeep[h];
+  vec3 shallow = uShallow[h];
+  if (h == 4) {
+    float k = smoothstep(0.55, 0.85, vS);
+    deep = mix(deep, uLeak, k);
+    shallow = mix(shallow, uLeak * 1.15, k);
+  }
+  vec3 col = mix(deep, shallow, smoothstep(0.1, 0.95, av));
+
+  // Ripples: long thin streaks drifting downstream, thresholded for crisp edges.
+  // Narrow springs stay simple; wide rivers get more texture (and move faster).
+  float detail = smoothstep(0.12, 0.6, vW);
+  float t = uTime * vSpeed;
+  float across = vV * max(vW, 0.22);
+  vec2 q = vec2(along * 0.5 - t * 0.5, across * 5.2);
+  float n = noise(q) * 0.6 + noise(q * vec2(1.9, 1.4) + vec2(13.1, 7.7)) * 0.4;
+  float wn = max(fwidth(n), 1e-4);
+  float rip = smoothstep(0.665 - wn, 0.665 + wn, n) * (1.0 - smoothstep(0.7, 0.95, av));
+  vec3 foam = h == 2 ? uFoamMurky : uFoam;
+  col = mix(col, foam, rip * mix(0.35, 0.85, detail));
+  // a thin bright line of foam just inside each bank (wide rivers only)
+  float lip = smoothstep(0.74, 0.86, av) * (1.0 - smoothstep(0.86, 0.96, av));
+  col = mix(col, foam, lip * detail * (0.35 + 0.35 * noise(vec2(along * 2.0 - t, sign(vV) * 3.0))));
+  // crisp darker outline
+  float outline = smoothstep(1.0 - aa * 2.6, 1.0 - aa * 0.7, av);
+  col = mix(col, deep * 0.8, outline);
+
+  vec3 outCol = mix(uBank, col, water);
+  float alpha = max(water, bank * 0.6);
+  if (uFocus >= 0.0 && abs(uFocus - vIdx) > 0.5) {
+    outCol = mix(outCol, uBg, 0.72);
+    alpha *= 0.6;
+  }
+  alpha *= revealed * (1.0 - vFade);
+  if (alpha < 0.01) discard;
+  gl_FragColor = vec4(outCol, alpha);
+}
+`;
+
+/** A little spring pool under each key: concentric ripples spreading outward. */
+export const poolVertex = /* glsl */ `
+attribute float aHealth;
+attribute float aIdx;
+attribute float aFade;
+attribute float aDelay;
+attribute float aSpeed;
+varying vec2 vP;
+varying float vHealth;
+varying float vIdx;
+varying float vFade;
+varying float vDelay;
+varying float vSpeed;
+void main() {
+  vP = position.xy * 2.0; // -1..1 across the disc
+  vHealth = aHealth; vIdx = aIdx; vFade = aFade; vDelay = aDelay; vSpeed = aSpeed;
+  gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(position, 1.0);
+}
+`;
+
+export const poolFragment = /* glsl */ `
+${WATER_LIB}
+varying vec2 vP;
+varying float vHealth;
+varying float vIdx;
+varying float vFade;
+varying float vDelay;
+varying float vSpeed;
+void main() {
+  float r = length(vP);
+  float aa = max(fwidth(r), 1e-4);
+  float appear = smoothstep(0.0, 0.35, uTime - uStart - vDelay);
+  if (appear <= 0.001) discard;
+  int h = int(vHealth + 0.5);
+  float edge = 0.8;
+  float water = 1.0 - smoothstep(edge - aa, edge + aa, r);
+  float bank = 1.0 - smoothstep(0.86, 1.0, r);
+  vec3 deep = uDeep[h], shallow = uShallow[h];
+  vec3 col = mix(deep, shallow, smoothstep(0.35, 0.8, r));
+  // rings welling up from the spring
+  float ring = fract(r * 2.6 - uTime * (0.35 + vSpeed * 0.18));
+  float rw = max(fwidth(r * 2.6), 1e-4);
+  float rings = smoothstep(0.5 - rw, 0.5 + rw, ring) * (1.0 - smoothstep(0.5 + 0.12, 0.62 + rw, ring));
+  col = mix(col, h == 2 ? uFoamMurky : uFoam, rings * 0.55 * smoothstep(0.25, 0.5, r));
+  float outline = smoothstep(edge - aa * 2.6, edge - aa * 0.7, r) * water;
+  col = mix(col, deep * 0.8, outline);
+  vec3 outCol = mix(uBank, col, water);
+  float alpha = max(water, bank * 0.6) * appear;
+  if (uFocus >= 0.0 && abs(uFocus - vIdx) > 0.5) {
+    outCol = mix(outCol, uBg, 0.72);
+    alpha *= 0.6;
+  }
+  alpha *= 1.0 - vFade;
+  if (alpha < 0.01) discard;
+  gl_FragColor = vec4(outCol, alpha);
+}
+`;
+
+/** The lake around your site: the water slowly circles the hub. */
+export const lakeVertex = /* glsl */ `
+varying vec2 vP;
+void main() {
+  vP = position.xy;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`;
+
+export const lakeFragment = /* glsl */ `
+${WATER_LIB}
+uniform float uInner;
+uniform float uOuter;
+uniform float uFill;
+varying vec2 vP;
+void main() {
+  float r = length(vP);
+  float aa = max(fwidth(r), 1e-4);
+  float outer = uInner + (uOuter - uInner) * uFill;
+  if (uFill <= 0.001) discard;
+  float water = 1.0 - smoothstep(outer - aa, outer + aa, r);
+  float bank = 1.0 - smoothstep(outer + 0.05, outer + 0.32, r);
+  float ang = atan(vP.y, vP.x);
+  vec3 deep = uDeep[0], shallow = uShallow[0];
+  vec3 col = mix(deep, shallow, smoothstep(uInner + 0.2, outer, r) * 0.7);
+  // swirl: ripples drift around the hub
+  vec2 q = vec2(ang * 5.0 - uTime * 0.45, r * 7.5 - uTime * 0.2);
+  float n = noise(q) * 0.6 + noise(q * vec2(1.7, 1.9) + 5.3) * 0.4;
+  float wn = max(fwidth(n), 1e-4);
+  float rip = smoothstep(0.67 - wn, 0.67 + wn, n);
+  col = mix(col, uFoam, rip * 0.8);
+  float outline = smoothstep(outer - aa * 2.6, outer - aa * 0.7, r) * water;
+  col = mix(col, deep * 0.8, outline);
+  vec3 outCol = mix(uBank, col, water);
+  float alpha = max(water, bank * 0.6);
+  if (uFocus >= 0.0) { outCol = mix(outCol, uBg, 0.35); }
+  if (alpha < 0.01) discard;
+  gl_FragColor = vec4(outCol, alpha);
 }
 `;
 

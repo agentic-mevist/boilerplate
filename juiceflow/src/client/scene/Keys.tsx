@@ -123,7 +123,7 @@ export function Keys({ layout }: { layout: Layout }) {
       // A falling key casts a fainter, slightly larger shadow that sharpens as it lands.
       if (shadowAttr) shadowAttr.setX(i, visible ? attrs.shadowAlpha[i]! * Math.max(0, 1 - lift / 3.5) : 0);
       const ss = size * (1.75 + Math.min(lift, 3.5) * 0.12) * s;
-      tmpP.set(k.x + 0.12, 0.006, k.z + 0.16);
+      tmpP.set(k.x + 0.12, 0.03, k.z + 0.16);
       tmpS.set(ss, ss, ss);
       tmpM.compose(tmpP, tmpQ.clone().multiply(flat), tmpS);
       sh.setMatrixAt(i, tmpM);
@@ -138,7 +138,7 @@ export function Keys({ layout }: { layout: Layout }) {
 
   return (
     <group>
-      <instancedMesh ref={shadows} args={[shadowGeo, shadowMat, n]} renderOrder={0} frustumCulled={false} />
+      <instancedMesh ref={shadows} args={[shadowGeo, shadowMat, n]} renderOrder={4} frustumCulled={false} />
       <instancedMesh
         ref={body}
         args={[geo, bodyMat, n]}

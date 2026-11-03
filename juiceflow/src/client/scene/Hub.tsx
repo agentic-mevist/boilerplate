@@ -74,11 +74,11 @@ export function Hub({ domain, score, revealKey }: { domain: string | null; score
   return (
     <group>
       {/* soft shadow under the puck */}
-      <mesh rotation-x={-Math.PI / 2} position={[0.25, 0.004, 0.35]} renderOrder={0}>
+      <mesh rotation-x={-Math.PI / 2} position={[0.25, 0.03, 0.35]} renderOrder={4}>
         <circleGeometry args={[HUB_RADIUS * 1.25, 64]} />
         <meshBasicMaterial color="#4a3f30" transparent opacity={0.09} depthWrite={false} />
       </mesh>
-      <mesh rotation-x={-Math.PI / 2} position={[0.12, 0.005, 0.18]} renderOrder={0}>
+      <mesh rotation-x={-Math.PI / 2} position={[0.12, 0.031, 0.18]} renderOrder={4}>
         <circleGeometry args={[HUB_RADIUS * 1.08, 64]} />
         <meshBasicMaterial color="#4a3f30" transparent opacity={0.08} depthWrite={false} />
       </mesh>

@@ -121,3 +121,39 @@ export async function fetchAnalysis(env: DfsEnv, target: string): Promise<Analys
     totalLostDomains: num((lostT.result as any)?.total_count, lost.length),
   };
 }
+
+export interface LinksPayload {
+  version: number;
+  target: string;
+  from: string;
+  fetchedAt: string;
+  cost: number;
+  /** All live backlinks from `from` to `target` known to the provider. */
+  total: number;
+  links: RawLink[];
+}
+
+/** Every link one referring site (its root domain and all subdomains) has to the target, strongest first. ~$0.025. */
+export async function fetchLinksFrom(env: DfsEnv, target: string, from: string): Promise<LinksPayload> {
+  const t = await dfsPost<any>(env, "backlinks/backlinks/live", {
+    target,
+    mode: "as_is",
+    filters: [["domain_from", "=", from], "or", ["domain_from", "like", `%.${from}`]],
+    limit: 40,
+    order_by: ["rank,desc"],
+    include_subdomains: true,
+    exclude_internal_backlinks: true,
+    backlinks_status_type: "live",
+  });
+  if (t.statusCode === 40501) throw new ProviderError(`DataForSEO rejected the request: ${t.statusMessage}`, 400, 40501);
+  const links = ((t.result as any)?.items ?? []).map(normalizeLink);
+  return {
+    version: PAYLOAD_VERSION,
+    target,
+    from,
+    fetchedAt: new Date().toISOString(),
+    cost: Math.round(t.cost * 1e6) / 1e6,
+    total: num((t.result as any)?.total_count, links.length),
+    links,
+  };
+}

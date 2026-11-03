@@ -67,55 +67,30 @@ export function DemoChips({ onPick }: { onPick: (d: string) => void }) {
   );
 }
 
-export function Tooltip() {
-  const hovered = useStore((s) => s.hovered);
+/** Miro-style zoom widget: −, current zoom (click to fit), +, fit. */
+export function ZoomControls() {
   const result = useStore((s) => s.result);
-  const panel = useStore((s) => s.panel);
-  const howOpen = useStore((s) => s.howOpen);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const move = (e: PointerEvent) => {
-      const el = ref.current;
-      if (!el) return;
-      const w = el.offsetWidth, h = el.offsetHeight;
-      let x = e.clientX + 18, y = e.clientY + 18;
-      if (x + w > window.innerWidth - 12) x = e.clientX - w - 18;
-      if (y + h > window.innerHeight - 12) y = e.clientY - h - 18;
-      el.style.transform = `translate(${x}px, ${y}px)`;
-    };
-    window.addEventListener("pointermove", move);
-    return () => window.removeEventListener("pointermove", move);
-  }, []);
-  const src = hovered && result ? (hovered.startsWith("lost:") ? result.lost.find((s) => `lost:${s.id}` === hovered) : result.sources.find((s) => s.id === hovered)) : null;
-  if (!src || panel || howOpen) return <div ref={ref} className="tooltip is-hidden" />;
-  const f = src.factors;
+  const zoomPct = useStore((s) => s.zoomPct);
+  const zoomBy = useStore((s) => s.zoomBy);
+  const fitView = useStore((s) => s.fitView);
+  if (!result) return null;
   return (
-    <div ref={ref} className="tooltip">
-      <div className="tooltip__head">
-        <Favicon domain={src.link.domain} size={18} />
-        <strong>{src.root}</strong>
-        <span className="tooltip__share" style={{ color: HEALTH_COLOR[src.health] }}>
-          {src.health === "lost" ? "lost" : pct(src.share)}
-        </span>
-      </div>
-      <div className="tooltip__grid">
-        <span>DR</span>
-        <b>{Math.round(f.dr)}</b>
-        <span>Page</span>
-        <b>
-          {Math.round(f.pageAuthority)}
-          {f.authorityEstimated ? "*" : ""}
-        </b>
-        <span>Spam</span>
-        <b className={f.spamScore >= 60 ? "is-bad" : f.spamScore > 30 ? "is-warn" : ""}>{Math.round(f.spamScore)}</b>
-        <span>Outgoing</span>
-        <b>{f.dilutionEstimated ? "?" : compact(f.outgoing)}</b>
-      </div>
-      <div className="tooltip__foot">
-        {f.follow < 1 ? "nofollow" : "dofollow"} · {f.placementLabel}
-        {src.health === "leak" ? " · points to a broken page" : ""}
-      </div>
-      <div className="tooltip__hint">Click for the full recipe</div>
+    <div className="zoom" role="group" aria-label="Zoom">
+      <button onClick={() => zoomBy(1 / 1.3)} aria-label="Zoom out" title="Zoom out (−)">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden><path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      </button>
+      <button className="zoom__pct" onClick={fitView} title="Fit to screen (0)">
+        {zoomPct}%
+      </button>
+      <button onClick={() => zoomBy(1.3)} aria-label="Zoom in" title="Zoom in (+)">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden><path d="M3 7h8M7 3v8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      </button>
+      <span className="zoom__sep" />
+      <button onClick={fitView} aria-label="Fit to screen" title="Fit to screen (0)">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9" />
+        </svg>
+      </button>
     </div>
   );
 }
@@ -129,7 +104,7 @@ export function Legend() {
   if (!result) return null;
   const h = result.byHealth;
   const items: { key: keyof typeof h; label: string; sw: string }[] = [
-    { key: "clean", label: "Juice", sw: "solid" },
+    { key: "clean", label: "Clean juice", sw: "solid" },
     { key: "suspicious", label: "Spammy-ish", sw: "solid" },
     { key: "toxic", label: "Murky spam", sw: "fade" },
     { key: "nofollow", label: "Nofollow", sw: "dots" },
@@ -137,13 +112,13 @@ export function Legend() {
   ];
   return (
     <div className="legend">
-      <div className="legend__row legend__width">
-        <span className="legend__streams">
-          <i style={{ height: 2 }} />
-          <i style={{ height: 5 }} />
-          <i style={{ height: 10 }} />
-        </span>
-        Wider stream = more juice
+      <div className="legend__row legend__width" title="River width follows each site's share of your juice">
+        <span className="legend__river" style={{ height: 3 }} />
+        <span className="legend__lbl">spring</span>
+        <span className="legend__river" style={{ height: 6 }} />
+        <span className="legend__lbl">creek</span>
+        <span className="legend__river" style={{ height: 12 }} />
+        <span className="legend__lbl">river</span>
       </div>
       <div className="legend__row">
         {items

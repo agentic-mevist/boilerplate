@@ -35,21 +35,36 @@ The Worker (`src/worker`) makes 4 DataForSEO Backlinks API calls per fresh analy
 3. The same call with `backlinks_status_type: lost`, the 40 strongest recently lost links
 4. `backlinks/bulk_spam_score/live` for each linking domain's own spam score
 
-Results are cached in KV for 7 days. Cached and demo analyses cost nothing. Two guards protect the balance: a global daily spend cap (`DAILY_BUDGET_USD`, default $3) and a cap on fresh analyses per IP per day (`PER_IP_DAILY`, default 10). Both are set in `wrangler.jsonc`.
+Opening a source and clicking **Show every link from …** calls `/api/links`. That's one more lookup (about $0.025) for every link from that site, covering its root domain and all subdomains.
+
+Results are cached in KV for 7 days. Cached and demo analyses cost nothing. Three guards protect the balance, all set in `wrangler.jsonc`:
+
+- a global daily spend cap (`DAILY_BUDGET_USD`, default $3)
+- fresh analyses per IP per day (`PER_IP_DAILY`, default 10)
+- link lookups per IP per day (`PER_IP_LINKS_DAILY`, default 60)
 
 Demo sites (`public/demo/*.json`) are pre-fetched snapshots, so the landing page never spends credits.
 
 ## The scene
 
-Three.js through react-three-fiber, with an orthographic, Chartbrew-style isometric camera.
+Three.js through react-three-fiber. The camera is a fixed, mostly top-down orthographic view. You drag to pan and scroll, pinch, or use the −/+ buttons to zoom, like a whiteboard. Nothing rotates. Keyboard: `+` / `−` zoom, `0` fits the view, `Esc` closes.
 
-- `scene/layout.ts` places the sources. In **Stream** mode they sit in a fan on the left and feed a Sankey-like flow into the hub, with result cards on the right. In **Vortex** mode they sit in rings with spiral inflow. Stream width is `√(share / top share)`.
-- `scene/Streams.tsx` + `shaders.ts`: every path lives in one float texture. Windy/Esri-style streaks, the dotted guide lines and the soft "river bed" are instanced quads that follow their path on the GPU, so the whole flow takes 3 draw calls.
-  - Murky (spam) juice fades out before it arrives.
-  - Leaks spill sideways.
-  - Lost links are dashed lines that stop short.
+- `scene/layout.ts` places the sources on two rings. Every outer river flows through a reserved corridor between two inner keys, so no river ever passes under another site. Corridors are sized from the actual river widths (a 1-D packing along the arc). `layout.test.ts` checks this on every demo site.
+  - **Stream** mode fans the sources around the left of your site, with result cards on the right.
+  - **Vortex** mode puts them all around and swirls the rivers in.
+  - The long tail of small sites shares one creek.
+- River width = `0.08 + 1.82 × (share / top share)^0.6` world units: a tiny spring for a 0.1% source, a wide fast river for the top one. Ripple speed grows with strength too.
+- `scene/Streams.tsx` + `shaders.ts` render the water as crisp stylized ribbons:
+  - **Rivers:** a deeper center, lighter shallows, foam streaks drifting downstream, a dark outline and wet-sand banks.
+  - **Pools and lake:** every key sits in a spring pool, and all rivers pour into a lake around your site.
+  - **Problem links:**
+    - **Murky (spam) water** dries up before it arrives.
+    - **Leaks** spill out before the lake.
+    - **Nofollow** is a dotted line.
+    - **Lost links** are dry dashed beds that stop short.
 - `scene/Keys.tsx`: instanced key-caps that press on hover. Favicons come from a single atlas texture.
-- `scene/KeyLabels.tsx`: screen-space name tags that avoid keys and each other.
+- `scene/KeyLabels.tsx`: screen-space name tags. They sit on the outer side of their key and avoid keys, rivers and each other. Hovering shows a card with the site's name and its share of your juice. Clicking opens the source's details: the linking page, every link from the site, and the full recipe.
+- `scene/SplitFan.tsx`: on hover, the page's other outgoing links fan out as grey dashed lines.
 
 ## Develop
 
