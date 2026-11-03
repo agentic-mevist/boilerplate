@@ -147,6 +147,23 @@ function useCardTexture(draw: Draw) {
   return tex;
 }
 
+/** A soft rounded-rectangle shadow (a hard-edged plane read as a gray box behind the cards). */
+const shadowMat = new THREE.ShaderMaterial({
+  transparent: true,
+  depthWrite: false,
+  vertexShader: /* glsl */ `
+    varying vec2 vUv;
+    void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: /* glsl */ `
+    varying vec2 vUv;
+    void main() {
+      vec2 q = abs(vUv - 0.5) * 2.0;
+      float d = length(max(q - 0.7, 0.0)) / 0.3;
+      float a = 1.0 - smoothstep(0.0, 1.0, d);
+      gl_FragColor = vec4(0.30, 0.26, 0.20, a * a * 0.12);
+    }`,
+});
+
 function Card({ slot, draw, delay }: { slot: OutputSlot; draw: Draw; delay: number }) {
   const tex = useCardTexture(draw);
   const geo = useMemo(() => new RoundedBoxGeometry(W, T, D, 3, 0.18), []);
@@ -165,9 +182,8 @@ function Card({ slot, draw, delay }: { slot: OutputSlot; draw: Draw; delay: numb
   });
   return (
     <group ref={g} position={[slot.x, 0, slot.z]}>
-      <mesh rotation-x={-Math.PI / 2} position={[0.16, 0.004, 0.2]} renderOrder={0}>
-        <planeGeometry args={[W * 1.12, D * 1.18]} />
-        <meshBasicMaterial color="#4a3f30" transparent opacity={0.07} depthWrite={false} />
+      <mesh rotation-x={-Math.PI / 2} position={[0.16, 0.004, 0.22]} renderOrder={0} material={shadowMat}>
+        <planeGeometry args={[W * 1.22, D * 1.32]} />
       </mesh>
       <mesh geometry={geo} material={bodyMat} position={[0, T / 2, 0]} />
       <mesh rotation-x={-Math.PI / 2} position={[0, T + 0.002, 0]} material={topMat} renderOrder={6}>

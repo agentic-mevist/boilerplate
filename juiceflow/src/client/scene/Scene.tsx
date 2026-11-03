@@ -1,6 +1,6 @@
-import { MapControls } from "@react-three/drei";
+import { MapControls, PerformanceMonitor } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useStore } from "../store";
 import { Ground } from "./Ground";
@@ -8,8 +8,8 @@ import { Hub } from "./Hub";
 import { LabelProjector } from "./KeyLabels";
 import { KEY_H, Keys } from "./Keys";
 import { computeLayout, type Layout } from "./layout";
+import { Liquid } from "./Liquid";
 import { OutputCards } from "./OutputCards";
-import { Streams } from "./Streams";
 
 /** A fixed top-down "flat lay" view, tilted ~10° so key-caps show a hint of thickness. You pan and zoom like a whiteboard; nothing rotates. */
 const ELEVATION = 80 * (Math.PI / 180);
@@ -174,24 +174,28 @@ export function Scene({ insets }: { insets: Insets }) {
   const sceneKey = `${revealKey}:${mode}`;
   // No diagonal: the fan sits left of your site and the result cards line up to the right.
   const rotation = 0;
+  const groundR = mode === "funnel" ? 30 : 26;
+  // Sharpest on retina screens; steps down if a device can't keep the juice smooth.
+  const [maxDpr, setMaxDpr] = useState(2);
 
   return (
     <Canvas
       orthographic
-      dpr={[1, 2]}
+      dpr={[1, maxDpr]}
       gl={{ antialias: true, alpha: true, toneMapping: THREE.NeutralToneMapping, powerPreference: "high-performance" }}
       camera={{ position: BASE_POS.toArray() as [number, number, number], zoom: 12, near: 1, far: 600 }}
       onPointerMissed={(e) => e.type === "click" && select(null)}
       style={{ position: "absolute", inset: 0 }}
     >
+      <PerformanceMonitor flipflops={3} onDecline={() => setMaxDpr(1.25)} onIncline={() => setMaxDpr(2)} onFallback={() => setMaxDpr(1)} />
       <Lights />
       <MapControls makeDefault enableRotate={false} enableDamping dampingFactor={0.14} zoomToCursor screenSpacePanning zoomSpeed={1.1} />
       <CameraRig layout={layout} rotation={rotation} insets={insets} />
       <group rotation-y={rotation}>
-        <Ground radius={mode === "funnel" ? 30 : 26} />
+        <Ground radius={groundR} />
         {layout && result && (
           <group key={sceneKey}>
-            <Streams layout={layout} />
+            <Liquid layout={layout} fadeR={groundR} />
             <Keys layout={layout} />
             <LabelProjector layout={layout} rotation={rotation} revealKey={revealKey} />
             {layout.mode === "funnel" && <OutputCards result={result} slots={layout.outputs} revealKey={revealKey} />}

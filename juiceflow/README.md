@@ -53,8 +53,12 @@ Three.js through react-three-fiber. The camera is a fixed top-down "flat lay" (o
   - **Stream** mode fans the sources around the left of your site, with result cards on the right.
   - **Vortex** mode puts them all around and swirls the rivers in.
   - The long tail of small sites shares one creek.
-- River width = `0.08 + 1.82 × (share / top share)^0.6` world units: a tiny spring for a 0.1% source, a wide fast river for the top one. Ripple speed grows with strength too.
-- `scene/Streams.tsx` + `shaders.ts` render the water as crisp stylized ribbons. Every stream uses the same juice orange; only its width (share of juice) and flow speed differ. Each river has a deeper center, lighter shallows, foam streaks drifting downstream, a dark outline and wet-sand banks. Every key sits in a spring pool, and all rivers pour into a lake around your site. Spam, nofollow and broken targets are explained in the hover card and side panel, not with different-looking streams.
+- River width = `0.08 + 1.52 × (share / top share)^0.6` world units: a tiny spring for a 0.1% source, a wide fast river for the top one. Flow speed grows with strength too.
+- `scene/Liquid.tsx` + `scene/liquid/shaders.ts` render all the juice as one liquid surface, in two passes like screen-space fluid rendering:
+  1. **Field pass** (off screen, additive). Every river, spring pool and the lake adds a smooth coverage bump, plus its height, flow velocity and shadow. Where bumps overlap they add up, so streams merge into pools and the lake with liquid necks instead of stacking like ribbons.
+  2. **Surface pass**. Wherever the coverage crosses ½ there is juice. The shader rebuilds the rounded meniscus from the field and adds ripples carried along by the current (a two-phase flow map, faster in big rivers). It refracts the board seen through the shallows, lights the bed with caustics, and reflects a soft studio light with Fresnel, plus sun sparkles. Froth gathers where the juice pours in and where streams merge, and a soft orange shadow falls away from the light.
+  - The ripple, caustic and bubble textures are generated once on the GPU (`liquid/textures.ts` holds the wave tables). The ripples are a sum of "exponential sine" waves. The caustics come from the same surface, where its curvature focuses light.
+  - Every stream uses the same juice orange; only its width (share of juice) and speed differ. Spam, nofollow and broken targets are explained in the hover card and side panel, not with different-looking streams.
 - `scene/Keys.tsx`: instanced key-caps that press on hover. Favicons come from a single atlas texture.
 - `scene/KeyLabels.tsx`: screen-space name tags. They sit on the outer side of their key and avoid keys, rivers and each other. Hovering shows a card with the site's name and its share of your juice. Clicking opens the source's details: the linking page, every link from the site, and the full recipe.
 
