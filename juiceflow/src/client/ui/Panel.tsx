@@ -9,10 +9,10 @@ import { Recipe } from "./Recipe";
 const FILTERS: { id: "all" | Health; label: string }[] = [
   { id: "all", label: "All" },
   { id: "clean", label: "Clean" },
-  { id: "suspicious", label: "Spammy-ish" },
-  { id: "toxic", label: "Murky" },
+  { id: "suspicious", label: "A bit spammy" },
+  { id: "toxic", label: "Spammy" },
   { id: "nofollow", label: "Nofollow" },
-  { id: "leak", label: "Leaks" },
+  { id: "leak", label: "Broken target" },
   { id: "lost", label: "Lost" },
 ];
 
@@ -33,7 +33,7 @@ function SourceRow({ s, max }: { s: JuiceSource; max: number }) {
       <span className="src__main">
         <span className="src__name">{s.root}</span>
         <span className="src__stream">
-          <span className="src__stream-fill" style={{ width: `${Math.max(1.5, w * 100)}%`, background: HEALTH_COLOR[s.health] }} />
+          <span className="src__stream-fill" style={{ width: `${Math.max(1.5, w * 100)}%`, background: s.health === "lost" ? "#cfc6bc" : "var(--juice)" }} />
         </span>
       </span>
       <span className="src__dr" title="Domain rating">

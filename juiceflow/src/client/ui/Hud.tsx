@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { DEMOS } from "../api";
 import { compact, int, pct } from "../format";
 import { useStore } from "../store";
-import { C, HEALTH_COLOR } from "../theme";
+import { C } from "../theme";
 import { Favicon } from "./Favicon";
 
 export function Logo() {
@@ -99,44 +99,17 @@ export function Legend() {
   const result = useStore((s) => s.result);
   const mode = useStore((s) => s.mode);
   const setMode = useStore((s) => s.setMode);
-  const showLost = useStore((s) => s.showLost);
-  const setShowLost = useStore((s) => s.setShowLost);
   if (!result) return null;
-  const h = result.byHealth;
-  const items: { key: keyof typeof h; label: string; sw: string }[] = [
-    { key: "clean", label: "Clean juice", sw: "solid" },
-    { key: "suspicious", label: "Spammy-ish", sw: "solid" },
-    { key: "toxic", label: "Murky spam", sw: "fade" },
-    { key: "nofollow", label: "Nofollow", sw: "dots" },
-    { key: "leak", label: "Leaking", sw: "spill" },
-  ];
   return (
     <div className="legend">
-      <div className="legend__row legend__width" title="River width follows each site's share of your juice">
+      <div className="legend__row legend__width" title="Each stream's width is that site's share of your juice">
         <span className="legend__river" style={{ height: 3 }} />
         <span className="legend__lbl">spring</span>
         <span className="legend__river" style={{ height: 6 }} />
         <span className="legend__lbl">creek</span>
-        <span className="legend__river" style={{ height: 12 }} />
+        <span className="legend__river" style={{ height: 11 }} />
         <span className="legend__lbl">river</span>
-      </div>
-      <div className="legend__row">
-        {items
-          .filter((i) => i.key === "clean" || h[i.key].count > 0)
-          .map((i) => (
-            <span key={i.key} className="legend__item">
-              <span className={`sw sw--${i.sw}`} style={{ "--c": HEALTH_COLOR[i.key] } as React.CSSProperties} />
-              {i.label}
-              {i.key !== "clean" && <em>{h[i.key].count}</em>}
-            </span>
-          ))}
-        {result.lost.length > 0 && (
-          <label className="legend__item legend__toggle">
-            <input type="checkbox" checked={showLost} onChange={(e) => setShowLost(e.target.checked)} />
-            <span className="sw sw--dash" style={{ "--c": HEALTH_COLOR.lost } as React.CSSProperties} />
-            Lost <em>{result.lost.length}</em>
-          </label>
-        )}
+        <span className="legend__hint">Wider = more juice · click any site for details</span>
       </div>
       <div className="seg" role="group" aria-label="Layout">
         <button className={mode === "funnel" ? "is-on" : ""} onClick={() => setMode("funnel")}>

@@ -19,7 +19,7 @@ export const LAKE_RADIUS = 3.7;
 
 /** River width (world units) for a share of the juice: tiny springs to wide rivers. */
 export const W_MIN = 0.08;
-export const W_MAX = 1.9;
+export const W_MAX = 1.6;
 export function riverWidth(share: number, maxShare: number): number {
   if (!(share > 0) || !(maxShare > 0)) return W_MIN;
   return W_MIN + (W_MAX - W_MIN) * Math.pow(Math.min(1, share / maxShare), 0.6);
@@ -206,7 +206,7 @@ export function computeLayout(result: JuiceResult, mode: LayoutMode, showLost: b
   const outerKeyMax = Math.max(1.0, ...outer.map((s) => keySize(s, 1)));
   const r1 = r0 + 2.2 + outerKeyMax;
 
-  const swirl = vortex ? 0.085 : 0.022;
+  const swirl = vortex ? 0.085 : 0; // the funnel stays symmetric
   const rRef = r1 + 3;
   const compress = vortex ? 1 : 0.9;
   const tw = (r: number, a: number) => a + swirl * (rRef - r);
@@ -301,10 +301,10 @@ export function computeLayout(result: JuiceResult, mode: LayoutMode, showLost: b
   let outputs: OutputSlot[] = [];
   let outputLine: Float32Array | null = null;
   if (!vortex) {
-    const x0 = LAKE_RADIUS + 3.4;
-    outputs = [{ x: x0, z: 0 }, { x: x0 + 4.8, z: 0 }, { x: x0 + 9.6, z: 0 }];
+    const x0 = LAKE_RADIUS + 3.8;
+    outputs = [{ x: x0, z: 0 }, { x: x0 + 5.5, z: 0 }, { x: x0 + 11, z: 0 }];
     const line: [number, number][] = [];
-    const end = x0 + 12.6;
+    const end = x0 + 14;
     for (let i = 0; i <= 40; i++) line.push([LAKE_RADIUS + (end - LAKE_RADIUS) * (i / 40), 0]);
     outputLine = resample(line).points;
   }
@@ -312,7 +312,7 @@ export function computeLayout(result: JuiceResult, mode: LayoutMode, showLost: b
   const xs = keys.map((k) => k.x), zs = keys.map((k) => k.z);
   const bounds = {
     minX: Math.min(-LAKE_RADIUS, ...xs) - 0.8,
-    maxX: Math.max(LAKE_RADIUS, ...xs, ...(outputs.length ? [outputs[outputs.length - 1]!.x + 2.4] : [])) + 0.8,
+    maxX: Math.max(LAKE_RADIUS, ...xs, ...(outputs.length ? [outputs[outputs.length - 1]!.x + 2.7] : [])) + 0.8,
     minZ: Math.min(-LAKE_RADIUS, ...zs) - 0.8,
     maxZ: Math.max(LAKE_RADIUS, ...zs) + 0.8,
   };

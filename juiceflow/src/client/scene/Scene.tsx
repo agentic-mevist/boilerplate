@@ -9,11 +9,10 @@ import { LabelProjector } from "./KeyLabels";
 import { KEY_H, Keys } from "./Keys";
 import { computeLayout, type Layout } from "./layout";
 import { OutputCards } from "./OutputCards";
-import { SplitFan } from "./SplitFan";
 import { Streams } from "./Streams";
 
-/** A fixed, mostly top-down view: you pan and zoom like a whiteboard, nothing rotates. */
-const ELEVATION = 52 * (Math.PI / 180);
+/** A fixed top-down "flat lay" view, tilted ~10° so key-caps show a hint of thickness. You pan and zoom like a whiteboard; nothing rotates. */
+const ELEVATION = 80 * (Math.PI / 180);
 const CAM_DIST = 120;
 const BASE_POS = new THREE.Vector3(0, Math.sin(ELEVATION) * CAM_DIST, Math.cos(ELEVATION) * CAM_DIST);
 const RIGHT = new THREE.Vector3(1, 0, 0);
@@ -31,7 +30,7 @@ type Controls = { target: THREE.Vector3; update: () => void; minZoom: number; ma
 /** Frames the layout, runs zoom/fit/focus commands from the HUD, and reports the zoom level. */
 function CameraRig({ layout, rotation, insets }: { layout: Layout | null; rotation: number; insets: Insets }) {
   const { camera, size, controls } = useThree();
-  const goal = useRef<{ zoom: number; target: THREE.Vector3 } | null>(null);
+  const goal = useRef<{ zoom: number; target: THREE.Vector3; t0: number } | null>(null);
   const fitZoom = useRef(1);
   const first = useRef(true);
   const insetsRef = useRef(insets);
@@ -66,11 +65,21 @@ function CameraRig({ layout, rotation, insets }: { layout: Layout | null; rotati
     fitZoom.current = zoom;
     const ctl = controls as unknown as Controls | null;
     if (ctl) {
-      ctl.minZoom = zoom * 0.35;
-      ctl.maxZoom = zoom * 9;
+      ctl.minZoom = zoom * 0.25;
+      ctl.maxZoom = zoom * 12;
     }
-    return { zoom, target };
+    return { zoom, target, t0: performance.now() };
   };
+
+  // The moment you touch the board (drag, wheel, pinch), any automatic camera move stops,
+  // so it never fights your own zooming or panning.
+  useEffect(() => {
+    const ctl = controls as unknown as THREE.EventDispatcher<{ start: object }> | null;
+    if (!ctl) return;
+    const cancel = () => (goal.current = null);
+    ctl.addEventListener("start", cancel);
+    return () => ctl.removeEventListener("start", cancel);
+  }, [controls]);
 
   // Re-frame when the data, layout or window changes (opening the side panel doesn't move the board).
   useEffect(() => {
@@ -93,7 +102,7 @@ function CameraRig({ layout, rotation, insets }: { layout: Layout | null; rotati
     else if (view.kind === "zoom") {
       const from = goal.current?.zoom ?? cam.zoom;
       const z = THREE.MathUtils.clamp(from * (view.factor ?? 1), ctl?.minZoom ?? 0.01, ctl?.maxZoom ?? 1e4);
-      goal.current = { zoom: z, target: goal.current?.target ?? target };
+      goal.current = { zoom: z, target: goal.current?.target ?? target, t0: performance.now() };
     } else if (view.kind === "focus" && view.id && layout) {
       const k = layout.keys.find((key) => key.id === view.id);
       if (!k) return;
@@ -107,7 +116,7 @@ function CameraRig({ layout, rotation, insets }: { layout: Layout | null; rotati
       // Only pan when the key is near the edge of (or outside) the free area.
       if (Math.abs(sx - ax) < halfW * 0.7 && Math.abs(sy - ay) < halfH * 0.7) return;
       const shift = RIGHT.clone().multiplyScalar((sx - ax) / cam.zoom).add(UP.clone().multiplyScalar((sy - ay) / cam.zoom));
-      goal.current = { zoom: cam.zoom, target: target.add(shift) };
+      goal.current = { zoom: cam.zoom, target: target.add(shift), t0: performance.now() };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view.n]);
@@ -117,6 +126,10 @@ function CameraRig({ layout, rotation, insets }: { layout: Layout | null; rotati
     useStore.getState().setZoomPct(Math.round((cam.zoom / fitZoom.current) * 100));
     const g = goal.current;
     if (!g) return;
+    if (performance.now() - g.t0 > 1800) {
+      goal.current = null; // never keep steering for long
+      return;
+    }
     const k = 1 - Math.exp(-dt * 7);
     const ctl = controls as unknown as Controls | null;
     const cur = ctl?.target ?? new THREE.Vector3();
@@ -151,15 +164,16 @@ function Lights() {
 export function Scene({ insets }: { insets: Insets }) {
   const result = useStore((s) => s.result);
   const mode = useStore((s) => s.mode);
-  const showLost = useStore((s) => s.showLost);
   const revealKey = useStore((s) => s.revealKey);
   const domain = useStore((s) => s.payload?.target ?? s.domain);
   const select = useStore((s) => s.select);
 
-  const layout = useMemo(() => (result ? computeLayout(result, mode, showLost) : null), [result, mode, showLost]);
+  // Lost links live in the side panel; the board only shows juice that actually flows.
+  const layout = useMemo(() => (result ? computeLayout(result, mode, false) : null), [result, mode]);
   // Remount the animated layers when a new analysis or layout arrives so the "pour" replays.
-  const sceneKey = `${revealKey}:${mode}:${showLost}`;
-  const rotation = mode === "funnel" ? 22 * (Math.PI / 180) : 0;
+  const sceneKey = `${revealKey}:${mode}`;
+  // No diagonal: the fan sits left of your site and the result cards line up to the right.
+  const rotation = 0;
 
   return (
     <Canvas
@@ -178,7 +192,6 @@ export function Scene({ insets }: { insets: Insets }) {
         {layout && result && (
           <group key={sceneKey}>
             <Streams layout={layout} />
-            <SplitFan layout={layout} />
             <Keys layout={layout} />
             <LabelProjector layout={layout} rotation={rotation} revealKey={revealKey} />
             {layout.mode === "funnel" && <OutputCards result={result} slots={layout.outputs} revealKey={revealKey} />}

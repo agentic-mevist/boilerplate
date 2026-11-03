@@ -22,7 +22,7 @@ juice = 0.85 × 10^(A / 10) × 1/L × follow × placement × type × spam × sta
 | status | Link to a 4xx/5xx page = leak (×0). Redirect ×0.9. Lost link = dry. | |
 | multi | +10% per 10× more links from the same domain, capped at +30%. | |
 
-Two facts justify the "10 points = 10×" scale. DataForSEO's per-link rank sits about 100 points (on its 0–1000 scale) below the page's rank for every 10× more links on that page. That is exactly how PageRank divides equity. Fitting the resulting Juice Score against DataForSEO domain rank on 5 real sites gave a slope of 0.97, so the 0–100 Juice Score lands close to a familiar DR.
+Two facts justify the "10 points = 10×" scale (the score is then scaled by 0.87). DataForSEO's per-link rank sits about 100 points (on its 0–1000 scale) below the page's rank for every 10× more links on that page. That is exactly how PageRank divides equity. Fitting the resulting Juice Score against DataForSEO domain rank on 5 real sites gave a slope of 0.97, so the 0–100 Juice Score lands close to a familiar DR.
 
 Search caches, translators and archives (`*.bing.com`, `web.archive.org`, …) are ignored. Every factor is returned per source, so the UI can show the full recipe. The "How it works" panel lets you change the weights live.
 
@@ -47,24 +47,16 @@ Demo sites (`public/demo/*.json`) are pre-fetched snapshots, so the landing page
 
 ## The scene
 
-Three.js through react-three-fiber. The camera is a fixed, mostly top-down orthographic view. You drag to pan and scroll, pinch, or use the −/+ buttons to zoom, like a whiteboard. Nothing rotates. Keyboard: `+` / `−` zoom, `0` fits the view, `Esc` closes.
+Three.js through react-three-fiber. The camera is a fixed top-down "flat lay" (orthographic, tilted ~10° so key-caps show their thickness). You drag to pan and scroll, pinch, or use the −/+ buttons to zoom, like a whiteboard. Nothing rotates. Keyboard: `+` / `−` zoom, `0` fits the view, `Esc` closes.
 
 - `scene/layout.ts` places the sources on two rings. Every outer river flows through a reserved corridor between two inner keys, so no river ever passes under another site. Corridors are sized from the actual river widths (a 1-D packing along the arc). `layout.test.ts` checks this on every demo site.
   - **Stream** mode fans the sources around the left of your site, with result cards on the right.
   - **Vortex** mode puts them all around and swirls the rivers in.
   - The long tail of small sites shares one creek.
 - River width = `0.08 + 1.82 × (share / top share)^0.6` world units: a tiny spring for a 0.1% source, a wide fast river for the top one. Ripple speed grows with strength too.
-- `scene/Streams.tsx` + `shaders.ts` render the water as crisp stylized ribbons:
-  - **Rivers:** a deeper center, lighter shallows, foam streaks drifting downstream, a dark outline and wet-sand banks.
-  - **Pools and lake:** every key sits in a spring pool, and all rivers pour into a lake around your site.
-  - **Problem links:**
-    - **Murky (spam) water** dries up before it arrives.
-    - **Leaks** spill out before the lake.
-    - **Nofollow** is a dotted line.
-    - **Lost links** are dry dashed beds that stop short.
+- `scene/Streams.tsx` + `shaders.ts` render the water as crisp stylized ribbons. Every stream uses the same juice orange; only its width (share of juice) and flow speed differ. Each river has a deeper center, lighter shallows, foam streaks drifting downstream, a dark outline and wet-sand banks. Every key sits in a spring pool, and all rivers pour into a lake around your site. Spam, nofollow and broken targets are explained in the hover card and side panel, not with different-looking streams.
 - `scene/Keys.tsx`: instanced key-caps that press on hover. Favicons come from a single atlas texture.
 - `scene/KeyLabels.tsx`: screen-space name tags. They sit on the outer side of their key and avoid keys, rivers and each other. Hovering shows a card with the site's name and its share of your juice. Clicking opens the source's details: the linking page, every link from the site, and the full recipe.
-- `scene/SplitFan.tsx`: on hover, the page's other outgoing links fan out as grey dashed lines.
 
 ## Develop
 

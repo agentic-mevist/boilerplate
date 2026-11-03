@@ -62,8 +62,8 @@ export interface ModelParams {
   platformSubdomainCap: number;
   /** Links assumed to share a page when the provider doesn't know the page's link counts. */
   unknownDilution: number;
-  /** Offset that lines the 0–100 Juice Score up with a familiar domain-rating scale. */
-  scoreOffset: number;
+  /** Scale that lines the 0–100 Juice Score up with a familiar domain-rating scale. */
+  scoreScale: number;
 }
 
 export const DEFAULT_PARAMS: ModelParams = {
@@ -103,7 +103,7 @@ export const DEFAULT_PARAMS: ModelParams = {
   unknownPageFactor: 0.5,
   platformSubdomainCap: 450,
   unknownDilution: 30,
-  scoreOffset: -9,
+  scoreScale: 0.87,
 };
 
 export type Health = "clean" | "suspicious" | "toxic" | "nofollow" | "leak" | "lost";
@@ -333,7 +333,7 @@ export function healthOf(link: RawLink, p: ModelParams = DEFAULT_PARAMS): Health
 /** Score on a 0–100 scale: the authority one perfect link (no other links on its page) would need to deliver this much juice. */
 export function scoreOf(total: number, p: ModelParams = DEFAULT_PARAMS): number {
   if (!(total > 0)) return 0;
-  return clamp((p.decade / 10) * Math.log10(1 + total / p.damping) + p.scoreOffset, 0, 100);
+  return clamp((p.decade / 10) * Math.log10(1 + total / p.damping) * p.scoreScale, 0, 100);
 }
 
 function notesFor(src: JuiceSource, p: ModelParams): string[] {
@@ -420,7 +420,7 @@ function buildInsights(r: Omit<JuiceResult, "insights">, p: ModelParams): Insigh
     out.push({
       id: "lost",
       tone: "warn",
-      title: `${r.lost.length} dried-up stream${r.lost.length === 1 ? "" : "s"}`,
+      title: `${r.lost.length} lost link${r.lost.length === 1 ? "" : "s"}`,
       body: `Recently lost links include ${best
         .slice(0, 3)
         .map((x) => `${x.root} (DR ${Math.round(x.factors.dr)})`)
@@ -435,7 +435,7 @@ function buildInsights(r: Omit<JuiceResult, "insights">, p: ModelParams): Insigh
     out.push({
       id: "toxic",
       tone: "warn",
-      title: `${toxic.length} murky source${toxic.length === 1 ? "" : "s"}`,
+      title: `${toxic.length} spammy source${toxic.length === 1 ? "" : "s"}`,
       body: `These sites have a spam score of ${p.spamToxic}+. Search engines mostly ignore them, so they add almost nothing. You only need to disavow them if you bought them or they're part of a manipulative scheme.`,
       sourceIds: toxic.slice(0, 8).map((x) => x.id),
     });
@@ -447,7 +447,7 @@ function buildInsights(r: Omit<JuiceResult, "insights">, p: ModelParams): Insigh
       id: "nofollow",
       tone: "info",
       title: `${pct(nofollow.length / s.length)} of sources are nofollow`,
-      body: "Nofollow, UGC and sponsored links send visitors but only a trickle of juice. They're shown as dotted streams.",
+      body: "Nofollow, UGC and sponsored links send visitors but pass only a trickle of juice, so their streams are thin.",
       sourceIds: nofollow.slice(0, 8).map((x) => x.id),
     });
   }

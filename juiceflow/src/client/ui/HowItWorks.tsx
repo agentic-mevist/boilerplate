@@ -55,10 +55,10 @@ export function HowItWorks() {
             <b>Placement.</b> Links inside the content pass more than footer, sidebar or menu links (Google's "reasonable surfer").
           </li>
           <li>
-            <b>Spam.</b> Spam scores above {params.spamSafe} get discounted. From {params.spamToxic} up a source counts as murky and is mostly ignored.
+            <b>Spam.</b> Spam scores above {params.spamSafe} get discounted. From {params.spamToxic} up a source counts as spammy and is mostly ignored.
           </li>
           <li>
-            <b>Status.</b> A link to a broken page on your site leaks its juice; a redirect costs a little. Lost links pass nothing, but they're worth winning back.
+            <b>Status.</b> A link to a broken page on your site passes nothing until you redirect that page; a redirect costs a little. Lost links pass nothing, but they're worth winning back.
           </li>
         </ol>
         <p className="muted">
@@ -69,7 +69,7 @@ export function HowItWorks() {
         <div className="eyebrow" style={{ marginTop: 22 }}>
           Play with the algorithm
         </div>
-        <p className="muted">Changes apply instantly. Watch the streams change width.</p>
+        <p className="muted">Changes apply instantly: watch the streams change width. Every stream's width is that site's share of your juice.</p>
         <div className="sliders">
           <Slider label="Nofollow juice" hint="How much a nofollow link passes" value={params.nofollow} min={0} max={1} step={0.05} format={(v) => `${Math.round(v * 100)}%`} onChange={(v) => set({ nofollow: v })} />
           <Slider label="Footer links" hint="Footer link weight vs. in-content" value={params.placement.footer ?? 0.35} min={0} max={1} step={0.05} format={(v) => `${Math.round(v * 100)}%`} onChange={(v) => setPlacement("footer", v)} />

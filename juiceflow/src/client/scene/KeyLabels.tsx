@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { compact, pct } from "../format";
+import { pct } from "../format";
 import { useStore } from "../store";
 import { Favicon } from "../ui/Favicon";
 import { KEY_H } from "./Keys";
@@ -221,7 +221,15 @@ export function ScreenLabels() {
             <div className="key-card__meta">
               {k.kind === "lost"
                 ? `was DR ${Math.round(f.dr)} · could add ${pct(k.source.potential / Math.max(1e-9, useStore.getState().result?.total ?? 1))}`
-                : `of your juice · DR ${Math.round(f.dr)} · ${f.dilutionEstimated ? "?" : compact(f.outgoing)} outgoing · ${f.follow < 1 ? "nofollow" : "dofollow"}`}
+                : [
+                    "of your juice",
+                    `DR ${Math.round(f.dr)}`,
+                    f.follow < 1 ? "nofollow" : "dofollow",
+                    f.spamScore >= 60 ? `spam ${Math.round(f.spamScore)} · mostly ignored` : f.spamScore > 30 ? `spam ${Math.round(f.spamScore)}` : null,
+                    k.source.health === "leak" ? "points to a broken page" : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
             </div>
             {!selected && <div className="key-card__hint">Click for details</div>}
           </div>

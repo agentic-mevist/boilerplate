@@ -8,7 +8,7 @@ import { pct } from "../format";
 import { C } from "../theme";
 import type { OutputSlot } from "./layout";
 
-const W = 4.3, D = 3.1, T = 0.22;
+const W = 5.0, D = 3.6, T = 0.22;
 const PX = 150; // canvas pixels per world unit
 
 function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {

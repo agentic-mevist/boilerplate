@@ -34,11 +34,11 @@ export const HEALTH_COLOR: Record<Health, string> = {
 
 export const HEALTH_LABEL: Record<Health, string> = {
   clean: "Clean juice",
-  suspicious: "Slightly spammy",
-  toxic: "Murky (spam)",
-  nofollow: "Nofollow trickle",
-  leak: "Leaking (broken target)",
-  lost: "Dried up (lost)",
+  suspicious: "A bit spammy",
+  toxic: "Spammy",
+  nofollow: "Nofollow",
+  leak: "Points to a broken page",
+  lost: "Lost link",
 };
 
 export function hexToRgb(hex: string): [number, number, number] {
