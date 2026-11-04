@@ -31,7 +31,7 @@ const ipKey = (kind: BudgetKind, d: string, ip: string) => `${kind === "links" ?
 
 export async function checkBudget(env: BudgetEnv, ip: string, kind: BudgetKind = "analyze"): Promise<BudgetCheck> {
   const limit = Number(env.DAILY_BUDGET_USD ?? "3") || 3;
-  const ipLimit = kind === "links" ? Number(env.PER_IP_LINKS_DAILY ?? "60") || 60 : Number(env.PER_IP_DAILY ?? "10") || 10;
+  const ipLimit = kind === "links" ? Number(env.PER_IP_LINKS_DAILY ?? "60") || 60 : Number(env.PER_IP_DAILY ?? "3") || 3;
   const d = day();
   const [spentRaw, ipRaw] = await Promise.all([env.CACHE.get(`spend:${d}`), env.CACHE.get(ipKey(kind, d, ip))]);
   const spent = Number(spentRaw ?? 0) || 0;

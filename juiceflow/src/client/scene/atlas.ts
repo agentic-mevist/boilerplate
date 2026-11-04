@@ -1,15 +1,16 @@
 import * as THREE from "three";
 import { rootDomain } from "../../shared/domain";
-import { faviconUrl } from "../api";
+import { faviconUrl, hdFaviconUrl } from "../api";
 
 /**
- * One texture holding every favicon (16×16 cells of 64px), so all key-caps
- * render in a single draw call. Icons stream in as they load; unknown sites
- * get a colored monogram.
+ * One texture holding every key-cap favicon (12×12 cells of 128px), so all key-caps render in a
+ * single draw call. Icons stream in as they load; unknown sites get a colored monogram. When the
+ * cells run out, the icon used least recently gives up its cell.
  */
-const CELL = 64;
-const GRID = 16;
+const CELL = 128;
+const GRID = 12;
 const SIZE = CELL * GRID;
+const PAD = CELL * 0.094;
 
 const PALETTE = ["#ffd9c7", "#d9e8ff", "#dff3e4", "#f3e1fb", "#fff0bf", "#d7f2f3", "#fde0e7", "#e6e3ff"];
 const INK = ["#c2410c", "#1d4ed8", "#15803d", "#7e22ce", "#a16207", "#0e7490", "#be185d", "#4338ca"];
@@ -30,6 +31,37 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.closePath();
 }
 
+/**
+ * Turns a favicon response into something drawable. SVGs are rasterized at `size` (vector-sharp);
+ * the returned `done` frees what the image needed once it has been drawn.
+ */
+async function decodeIcon(res: Response, size: number): Promise<{ img: CanvasImageSource; done: () => void } | null> {
+  if (!(res.headers.get("content-type") ?? "").includes("svg")) {
+    const bmp = await createImageBitmap(await res.blob());
+    return { img: bmp, done: () => bmp.close() };
+  }
+  const doc = new DOMParser().parseFromString(await res.text(), "image/svg+xml");
+  const svg = doc.documentElement;
+  if (svg.nodeName.toLowerCase() !== "svg" || doc.getElementsByTagName("parsererror").length) return null;
+  // give it a viewBox (so it scales) and our size (so it's drawn sharp, not stretched from a small bitmap)
+  if (!svg.getAttribute("viewBox")) {
+    const w = svg.getAttribute("width") ?? "", h = svg.getAttribute("height") ?? "";
+    if (!w.includes("%") && !h.includes("%") && parseFloat(w) > 0 && parseFloat(h) > 0) svg.setAttribute("viewBox", `0 0 ${parseFloat(w)} ${parseFloat(h)}`);
+  }
+  svg.setAttribute("width", String(size));
+  svg.setAttribute("height", String(size));
+  const url = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)], { type: "image/svg+xml" }));
+  const img = new Image(size, size);
+  img.src = url;
+  try {
+    await img.decode();
+  } catch {
+    URL.revokeObjectURL(url);
+    return null;
+  }
+  return { img, done: () => URL.revokeObjectURL(url) };
+}
+
 export interface AtlasRect {
   u: number;
   v: number;
@@ -41,7 +73,9 @@ class FaviconAtlas {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   texture: THREE.CanvasTexture;
-  slots = new Map<string, number>();
+  /** Domain → cell, least recently used first. */
+  private slots = new Map<string, number>();
+  private free: number[] = Array.from({ length: GRID * GRID }, (_, i) => i);
   private dirty = false;
   private queue: string[] = [];
   private inflight = 0;
@@ -68,8 +102,17 @@ class FaviconAtlas {
   rect(domain: string): AtlasRect {
     const key = rootDomain(domain);
     let slot = this.slots.get(key);
-    if (slot == null) {
-      slot = this.slots.size % (GRID * GRID);
+    if (slot != null) {
+      // mark as recently used
+      this.slots.delete(key);
+      this.slots.set(key, slot);
+    } else {
+      slot = this.free.pop();
+      if (slot == null) {
+        const [oldest, s] = this.slots.entries().next().value!;
+        this.slots.delete(oldest);
+        slot = s;
+      }
       this.slots.set(key, slot);
       this.drawMonogram(slot, key);
       this.queue.push(key);
@@ -90,20 +133,21 @@ class FaviconAtlas {
     const ctx = this.ctx;
     const h = hash(key) % PALETTE.length;
     ctx.clearRect(x, y, CELL, CELL);
-    roundRect(ctx, x + 6, y + 6, CELL - 12, CELL - 12, 12);
+    roundRect(ctx, x + PAD, y + PAD, CELL - 2 * PAD, CELL - 2 * PAD, CELL * 0.19);
     ctx.fillStyle = PALETTE[h]!;
     ctx.fill();
     ctx.fillStyle = INK[h]!;
     ctx.font = `600 ${CELL * 0.44}px Geist, Inter, system-ui, sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText((key[0] ?? "?").toUpperCase(), x + CELL / 2, y + CELL / 2 + 2);
+    ctx.fillText((key[0] ?? "?").toUpperCase(), x + CELL / 2, y + CELL / 2 + CELL * 0.03);
     this.dirty = true;
   }
 
   private pump() {
     while (this.inflight < 8 && this.queue.length) {
       const key = this.queue.shift()!;
+      if (!this.slots.has(key)) continue; // gave up its cell before it loaded
       this.inflight++;
       this.load(key).finally(() => {
         this.inflight--;
@@ -114,19 +158,21 @@ class FaviconAtlas {
 
   private async load(key: string) {
     try {
-      const res = await fetch(faviconUrl(key));
+      const res = await fetch(faviconUrl(key, CELL));
       if (!res.ok || res.headers.get("x-favicon-default") === "1") return;
-      const bmp = await createImageBitmap(await res.blob());
-      const slot = this.slots.get(key)!;
+      const icon = await decodeIcon(res, CELL);
+      const slot = this.slots.get(key);
+      if (!icon || slot == null) return;
       const [x, y] = this.cellXY(slot);
       const ctx = this.ctx;
       ctx.clearRect(x, y, CELL, CELL);
       ctx.save();
-      roundRect(ctx, x + 6, y + 6, CELL - 12, CELL - 12, 10);
+      roundRect(ctx, x + PAD, y + PAD, CELL - 2 * PAD, CELL - 2 * PAD, CELL * 0.16);
       ctx.clip();
       ctx.imageSmoothingQuality = "high";
-      ctx.drawImage(bmp, x + 6, y + 6, CELL - 12, CELL - 12);
+      ctx.drawImage(icon.img, x + PAD, y + PAD, CELL - 2 * PAD, CELL - 2 * PAD);
       ctx.restore();
+      icon.done();
       this.dirty = true;
     } catch {
       /* keep the monogram */
@@ -137,40 +183,40 @@ class FaviconAtlas {
 let atlas: FaviconAtlas | null = null;
 export const getAtlas = () => (atlas ??= new FaviconAtlas());
 
-/** A standalone square texture for one domain (used by the hub). */
-export function singleIcon(domain: string, size = 256): THREE.CanvasTexture {
+/** A standalone square texture for one domain (your own site, in the middle): its sharpest icon. */
+export function singleIcon(domain: string, size = 1024): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
   canvas.width = canvas.height = size;
   const ctx = canvas.getContext("2d")!;
   const tex = new THREE.CanvasTexture(canvas);
-  tex.colorSpace = THREE.NoColorSpace;
+  // drawn by a standard material, which converts to the screen's colors: mark it sRGB (not raw) so it isn't washed out
+  tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 8;
   const key = rootDomain(domain);
   const h = hash(key) % PALETTE.length;
-  const drawMono = () => {
-    ctx.clearRect(0, 0, size, size);
-    roundRect(ctx, 0, 0, size, size, size * 0.22);
-    ctx.fillStyle = PALETTE[h]!;
-    ctx.fill();
-    ctx.fillStyle = INK[h]!;
-    ctx.font = `600 ${size * 0.46}px Geist, Inter, system-ui, sans-serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText((key[0] ?? "?").toUpperCase(), size / 2, size / 2 + size * 0.03);
-    tex.needsUpdate = true;
-  };
-  drawMono();
-  fetch(faviconUrl(key))
+  ctx.clearRect(0, 0, size, size);
+  roundRect(ctx, 0, 0, size, size, size * 0.22);
+  ctx.fillStyle = PALETTE[h]!;
+  ctx.fill();
+  ctx.fillStyle = INK[h]!;
+  ctx.font = `600 ${size * 0.46}px Geist, Inter, system-ui, sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText((key[0] ?? "?").toUpperCase(), size / 2, size / 2 + size * 0.03);
+  tex.needsUpdate = true;
+  fetch(hdFaviconUrl(key))
     .then(async (res) => {
       if (!res.ok || res.headers.get("x-favicon-default") === "1") return;
-      const bmp = await createImageBitmap(await res.blob());
+      const icon = await decodeIcon(res, size);
+      if (!icon) return;
       ctx.clearRect(0, 0, size, size);
       ctx.save();
       roundRect(ctx, 0, 0, size, size, size * 0.2);
       ctx.clip();
       ctx.imageSmoothingQuality = "high";
-      ctx.drawImage(bmp, 0, 0, size, size);
+      ctx.drawImage(icon.img, 0, 0, size, size);
       ctx.restore();
+      icon.done();
       tex.needsUpdate = true;
     })
     .catch(() => {});

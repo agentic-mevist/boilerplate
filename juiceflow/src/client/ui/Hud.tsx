@@ -130,15 +130,6 @@ export function Legend() {
   if (!result) return null;
   return (
     <div className="legend">
-      <div className="legend__row legend__width" title="Each stream's width is that site's share of your juice">
-        <span className="legend__river" style={{ height: 3 }} />
-        <span className="legend__lbl">spring</span>
-        <span className="legend__river" style={{ height: 6 }} />
-        <span className="legend__lbl">creek</span>
-        <span className="legend__river" style={{ height: 11 }} />
-        <span className="legend__lbl">river</span>
-        <span className="legend__hint">Wider = more juice · click any site for details</span>
-      </div>
       <JuicePicker />
       <div className="seg" role="group" aria-label="Layout">
         <button className={mode === "funnel" ? "is-on" : ""} onClick={() => setMode("funnel")}>

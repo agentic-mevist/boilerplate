@@ -13,12 +13,19 @@
   "vars": {
     // Hard cap on DataForSEO spend per UTC day (fresh analyses only; cached ones are free).
     "DAILY_BUDGET_USD": "3",
-    // Fresh analyses per visitor IP per UTC day.
-    "PER_IP_DAILY": "10",
+    // Fresh analyses per visitor IP per UTC day (cached sites and the demos don't count).
+    "PER_IP_DAILY": "3",
     // "All links from this site" lookups per visitor IP per UTC day (~$0.025 each).
     "PER_IP_LINKS_DAILY": "60",
     // How long an analysis stays cached.
     "CACHE_DAYS": "7"
   },
+  // seojuice.xyz (zone on this account); www redirects to the bare domain with a zone redirect rule.
+  // The workers.dev address stays on too (listing routes would otherwise switch it off).
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "seojuice.xyz", "custom_domain": true },
+    { "pattern": "www.seojuice.xyz", "custom_domain": true }
+  ],
   "observability": { "enabled": true }
 }

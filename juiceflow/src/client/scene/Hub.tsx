@@ -22,7 +22,7 @@ function puckGeometry(radius: number, height: number, bevel: number) {
 export function Hub({ domain, revealKey }: { domain: string; revealKey: number }) {
   const geo = useMemo(() => puckGeometry(HUB_RADIUS, PUCK_H, 0.2), []);
   const mat = useMemo(() => new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.55, emissive: "#ffffff", emissiveIntensity: 0.12 }), []);
-  const icon = useMemo(() => singleIcon(domain), [domain]);
+  const icon = useMemo(() => singleIcon(domain, 1024), [domain]);
   const iconMat = useMemo(() => new THREE.MeshBasicMaterial({ map: icon, transparent: true, toneMapped: false, depthWrite: false }), [icon]);
   useEffect(() => () => icon.dispose(), [icon]);
   useEffect(() => () => iconMat.dispose(), [iconMat]);

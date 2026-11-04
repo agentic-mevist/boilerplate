@@ -149,7 +149,7 @@ export function glassMarkup(j: Juice): string {
 
 // A cartoon "bubble" glass: ribbed sides, juice up to near the rim with a lighter surface,
 // two bubbles and a glass straw. Drawn on a 32×32 grid; {deep}/{shallow}/{rim} take the juice colors.
-const GLASS_OUTLINE = "M7.4 9.2C5.85 9.97 5.85 12.73 7.4 13.5C5.85 14.27 5.85 17.03 7.4 17.8C5.85 18.57 5.85 21.33 7.4 22.1C5.85 22.87 5.85 25.63 7.4 26.4C7.4 28.8 9.32 29.6 11.24 29.6H18.76C20.68 29.6 22.6 28.8 22.6 26.4C24.15 25.63 24.15 22.87 22.6 22.1C24.15 21.33 24.15 18.57 22.6 17.8C24.15 17.03 24.15 14.27 22.6 13.5C24.15 12.73 24.15 9.97 22.6 9.2Z";
+export const GLASS_OUTLINE = "M7.4 9.2C5.85 9.97 5.85 12.73 7.4 13.5C5.85 14.27 5.85 17.03 7.4 17.8C5.85 18.57 5.85 21.33 7.4 22.1C5.85 22.87 5.85 25.63 7.4 26.4C7.4 28.8 9.32 29.6 11.24 29.6H18.76C20.68 29.6 22.6 28.8 22.6 26.4C24.15 25.63 24.15 22.87 22.6 22.1C24.15 21.33 24.15 18.57 22.6 17.8C24.15 17.03 24.15 14.27 22.6 13.5C24.15 12.73 24.15 9.97 22.6 9.2Z";
 const GLASS = [
   `<defs><clipPath id="jf-glass"><path d="${GLASS_OUTLINE}"/></clipPath></defs>`,
   // straw, behind the glass

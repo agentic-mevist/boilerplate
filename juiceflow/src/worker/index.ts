@@ -3,6 +3,7 @@ import type { AnalysisPayload, AnalyzeResponse, ApiError } from "../shared/types
 import { fetchAnalysis, fetchLinksFrom, PAYLOAD_VERSION } from "./analyze";
 import { checkBudget, recordSpend, secondsUntilTomorrow } from "./budget";
 import { ProviderError } from "./dataforseo";
+import { handleFavicon } from "./favicon";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -43,7 +44,11 @@ async function handleAnalyze(req: Request, env: Env, ctx: ExecutionContext): Pro
       429,
       budget.reason === "budget_exhausted"
         ? { error: "Today's free analyses are used up. Cached sites still work. Try again tomorrow.", code: "budget_exhausted", retryAfter }
-        : { error: "You've reached today's limit of fresh analyses. Try again tomorrow.", code: "rate_limited", retryAfter },
+        : {
+            error: `You've used today's ${budget.ipLimit} free lookups. Sites someone already looked up still load, and so do the demos. New lookups open again tomorrow.`,
+            code: "rate_limited",
+            retryAfter,
+          },
       { "retry-after": String(retryAfter) },
     );
   }
@@ -94,39 +99,6 @@ async function handleLinks(req: Request, env: Env, ctx: ExecutionContext): Promi
     console.error("links failed", e);
     return fail(502, { error: "Couldn't load the links right now.", code: "provider_error" });
   }
-}
-
-async function handleFavicon(req: Request, ctx: ExecutionContext): Promise<Response> {
-  const url = new URL(req.url);
-  const domain = normalizeDomain(url.searchParams.get("domain") ?? "");
-  if (!domain) return new Response("bad domain", { status: 400 });
-  const cache = caches.default;
-  const cacheKey = new Request(`https://favicon.cache/${domain}`);
-  const hit = await cache.match(cacheKey);
-  if (hit) return hit;
-
-  let res: Response;
-  try {
-    const upstream = await fetch(`https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`, {
-      cf: { cacheTtl: 60 * 60 * 24 * 7, cacheEverything: true },
-    } as RequestInit);
-    const isDefault = upstream.status === 404;
-    const body = await upstream.arrayBuffer();
-    res = new Response(body, {
-      status: 200,
-      headers: {
-        "content-type": upstream.headers.get("content-type") ?? "image/png",
-        "cache-control": "public, max-age=604800, immutable",
-        "access-control-allow-origin": "*",
-        "access-control-expose-headers": "x-favicon-default",
-        "x-favicon-default": isDefault ? "1" : "0",
-      },
-    });
-  } catch {
-    return new Response("upstream error", { status: 502 });
-  }
-  ctx.waitUntil(cache.put(cacheKey, res.clone()));
-  return res;
 }
 
 export default {

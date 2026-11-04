@@ -28,7 +28,10 @@ export async function analyze(input: string, signal?: AbortSignal): Promise<Anal
   return body;
 }
 
-export const faviconUrl = (domain: string) => `/api/favicon?domain=${encodeURIComponent(domain)}`;
+/** A site's favicon through our proxy, `size` pixels square (32, 64, 128 or 256; smaller icons stay small). */
+export const faviconUrl = (domain: string, size = 64) => `/api/favicon?domain=${encodeURIComponent(domain)}&size=${size}`;
+/** The sharpest icon a site has (its SVG one when there is one), for your own site in the middle. */
+export const hdFaviconUrl = (domain: string) => `/api/favicon?domain=${encodeURIComponent(domain)}&hd=1`;
 
 export interface LinksResponse {
   target: string;

@@ -9,7 +9,7 @@ import { LabelProjector } from "./KeyLabels";
 import { KEY_H, Keys } from "./Keys";
 import { computeLayout, type Layout } from "./layout";
 import { Liquid } from "./Liquid";
-import { OutputCards } from "./OutputCards";
+import { cardsBox, cardsFrame, CARDS_MIN_VIEWPORT, ResultCardsPin, type CardsArrangement } from "./ResultCards";
 
 /** A fixed top-down "flat lay" view, tilted ~10° so key-caps show a hint of thickness. You pan and zoom like a whiteboard; nothing rotates. */
 const ELEVATION = 80 * (Math.PI / 180);
@@ -47,22 +47,61 @@ function CameraRig({ layout, rotation, insets }: { layout: Layout | null; rotati
     probe.lookAt(0, 0, 0);
     probe.updateProjectionMatrix();
     probe.updateMatrixWorld();
+    // Screen offsets from the middle of the view at zoom 1 (y up); at zoom z they scale by z.
+    const toScreen = (x: number, y: number, z: number) => {
+      const v = new THREE.Vector3(x, y, z).applyMatrix4(rot).project(probe);
+      return [(v.x * size.width) / 2, (v.y * size.height) / 2] as const;
+    };
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
     for (const x of [b.minX, b.maxX])
       for (const z of [b.minZ, b.maxZ])
         for (const y of [0, 1]) {
-          const v = new THREE.Vector3(x, y, z).applyMatrix4(rot).project(probe);
-          const px = (v.x * size.width) / 2, py = (v.y * size.height) / 2;
+          const [px, py] = toScreen(x, y, z);
           minX = Math.min(minX, px); maxX = Math.max(maxX, px);
           minY = Math.min(minY, py); maxY = Math.max(maxY, py);
         }
     const availW = Math.max(200, size.width - ins.left - ins.right);
     const availH = Math.max(200, size.height - ins.top - ins.bottom);
-    const zoom = Math.min(availW / (maxX - minX), availH / (maxY - minY));
-    const cx = ((minX + maxX) / 2) * zoom, cy = ((minY + maxY) / 2) * zoom;
+
+    // The result cards are HTML at a fixed size, so they take room on the screen rather than on the
+    // board: find the largest zoom at which both the board and the cards (pinned beside the lake) fit.
+    const slot = layout?.outputs[0];
+    const anchor = slot && size.width >= CARDS_MIN_VIEWPORT ? toScreen(slot.x, 0, slot.z) : null;
+    const extent = (z: number, box: { w: number; h: number } | null) => {
+      let l = minX * z, r = maxX * z, bt = minY * z, t = maxY * z;
+      if (box && anchor) {
+        const ax0 = anchor[0] * z, ay0 = anchor[1] * z;
+        l = Math.min(l, ax0); r = Math.max(r, ax0 + box.w);
+        bt = Math.min(bt, ay0 - box.h / 2); t = Math.max(t, ay0 + box.h / 2);
+      }
+      return { l, r, bt, t };
+    };
+    const solve = (box: { w: number; h: number } | null) => {
+      const fits = (z: number) => {
+        const e = extent(z, box);
+        return e.r - e.l <= availW + 0.5 && e.t - e.bt <= availH + 0.5;
+      };
+      let lo = 0.01, hi = Math.min(availW / (maxX - minX), availH / (maxY - minY));
+      if (fits(hi)) lo = hi;
+      else if (!fits(lo)) return null;
+      else for (let i = 0; i < 32; i++) { const mid = (lo + hi) / 2; if (fits(mid)) lo = mid; else hi = mid; }
+      return { zoom: lo, ...extent(lo, box) };
+    };
+    let fit = solve(null)!;
+    let arrangement: CardsArrangement = "row";
+    if (anchor) {
+      // side by side, unless stacking them leaves the board clearly more room
+      const row = solve(cardsBox("row")), column = solve(cardsBox("column"));
+      if (row && (!column || row.zoom >= column.zoom * 0.92)) fit = row;
+      else if (column) { fit = column; arrangement = "column"; }
+    }
+    const zoom = fit.zoom;
+    const cx = (fit.l + fit.r) / 2, cy = (fit.bt + fit.t) / 2;
     const ax = (ins.left - ins.right) / 2, ay = (ins.bottom - ins.top) / 2;
     const target = RIGHT.clone().multiplyScalar((cx - ax) / zoom).add(UP.clone().multiplyScalar((cy - ay) / zoom));
     fitZoom.current = zoom;
+    cardsFrame.fitZoom = zoom;
+    cardsFrame.arrangement = arrangement;
     const ctl = controls as unknown as Controls | null;
     if (ctl) {
       ctl.minZoom = zoom * 0.25;
@@ -198,7 +237,7 @@ export function Scene({ insets }: { insets: Insets }) {
             <Liquid layout={layout} fadeR={groundR} />
             <Keys layout={layout} />
             <LabelProjector layout={layout} rotation={rotation} revealKey={revealKey} />
-            {layout.mode === "funnel" && <OutputCards result={result} slots={layout.outputs} revealKey={revealKey} />}
+            {layout.mode === "funnel" && <ResultCardsPin layout={layout} />}
           </group>
         )}
         {result && domain && <Hub domain={domain} revealKey={revealKey} />}

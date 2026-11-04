@@ -2,7 +2,7 @@
 
 See where your SEO juice comes from. Enter a website and every site that links to it becomes a physical key-cap. Each one pours a stream of link equity into your site. The stronger, cleaner and less crowded the link, the wider the stream.
 
-Live: https://juiceflow.donatizehelp.workers.dev
+Live: https://seojuice.xyz (also https://juiceflow.donatizehelp.workers.dev)
 
 ## The juice model
 
@@ -40,7 +40,7 @@ Opening a source and clicking **Show every link from …** calls `/api/links`. T
 Results are cached in KV for 7 days. Cached and demo analyses cost nothing. Three guards protect the balance, all set in `wrangler.jsonc`:
 
 - a global daily spend cap (`DAILY_BUDGET_USD`, default $3)
-- fresh analyses per IP per day (`PER_IP_DAILY`, default 10)
+- fresh analyses per IP per day (`PER_IP_DAILY`, default 3; cached sites and demos are free)
 - link lookups per IP per day (`PER_IP_LINKS_DAILY`, default 60)
 
 The landing page shows only the form and runs nothing until you ask. Demo sites (`public/demo/*.json`) are pre-fetched snapshots, so trying them never spends credits.
@@ -50,7 +50,7 @@ The landing page shows only the form and runs nothing until you ask. Demo sites 
 Three.js through react-three-fiber. The camera is a fixed top-down "flat lay" (orthographic, tilted ~10° so key-caps show their thickness). You drag to pan and scroll, pinch, or use the −/+ buttons to zoom, like a whiteboard. Nothing rotates. Keyboard: `+` / `−` zoom, `0` fits the view, `Esc` closes.
 
 - `scene/layout.ts` places the sources on two rings. Every outer river flows through a reserved corridor between two inner keys, so no river ever passes under another site. Corridors are sized from the actual river widths (a 1-D packing along the arc). `layout.test.ts` checks this on every demo site.
-  - **Stream** mode fans the sources around the left of your site, with result cards on the right.
+  - **Stream** mode fans the sources around the left of your site, with the result cards on the right.
   - **Vortex** mode puts them all around and swirls the rivers in.
   - The long tail of small sites shares one creek.
 - River width = `0.08 + 1.52 × (share / top share)^0.6` world units: a tiny spring for a 0.1% source, a wide fast river for the top one. Flow speed grows with strength too.
@@ -59,9 +59,10 @@ Three.js through react-three-fiber. The camera is a fixed top-down "flat lay" (o
   2. **Surface pass**. Inside the shore there is juice: flat on top, curving down in a narrow meniscus at the edge, which reads as a slightly deeper line rather than a bright one. The shader adds ripples carried along by the current (a two-phase flow map, faster in big rivers), refracts the board seen through the shallows, lights the bed with caustics, and reflects a soft studio light with Fresnel, plus sun sparkles on open water. Froth appears where the juice first pours in and on fast water, and a soft tinted shadow falls away from the light.
   - The ripple, caustic and bubble textures are generated once on the GPU (`liquid/textures.ts` holds the wave tables). The ripples are a sum of "exponential sine" waves. The caustics come from the same surface, where its curvature focuses light.
   - Every stream uses the same juice; only its width (share of juice) and speed differ. Spam, nofollow and broken targets are explained in the hover card and side panel, not with different-looking streams.
-- `juices.ts`: the juice flavors (green, orange, beet, berry, blue spirulina). Pick one in the legend. It recolors the liquid, the result cards, the UI accents (CSS variables), the logo and the browser-tab icon, and it's remembered in `localStorage`.
-- `scene/Hub.tsx`: your site, a plain white circle with its favicon, sitting in the lake.
-- `scene/Keys.tsx`: instanced key-caps that press on hover. Favicons come from a single atlas texture.
+- `juices.ts`: the juice flavors (green, orange, beet, berry, blue spirulina). Pick one in the bottom-left corner. It recolors the liquid, the result cards, the UI accents (CSS variables), the logo and the browser-tab icon, and it's remembered in `localStorage`.
+- `scene/Hub.tsx`: your site, a plain white circle with its favicon, sitting in the lake. Its icon is the sharpest one the site has (`/api/favicon?hd=1` reads the home page: an SVG icon if there is one, else the biggest PNG from its icon links, apple-touch-icon or web manifest, else Google's 256px one), drawn at 1024px so it stays crisp when you zoom right in.
+- `scene/Keys.tsx`: instanced key-caps that press on hover. Favicons (128px, from Google's favicon service) share one atlas texture.
+- `scene/ResultCards.tsx`: the **Juice score** and **Juice you could reclaim** cards. They're plain HTML pinned beside the lake, so their text is as crisp as the name tags. They follow the board as you pan and grow or shrink with the zoom (within limits, so they stay readable). When the camera frames the board it makes room for them on screen, side by side, or stacked in narrower windows.
 - `scene/KeyLabels.tsx`: screen-space name tags. They sit on the outer side of their key and avoid keys, rivers and each other. Hovering shows a card with the site's name and its share of your juice. Clicking opens the source's details: the linking page, every link from the site, and the full recipe.
 
 ## Develop

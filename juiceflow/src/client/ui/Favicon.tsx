@@ -21,5 +21,5 @@ export function Favicon({ domain, size = 20 }: { domain: string; size?: number }
       </span>
     );
   }
-  return <img className="favicon" src={faviconUrl(key)} width={size} height={size} alt="" loading="lazy" onError={() => setFailed(true)} />;
+  return <img className="favicon" src={faviconUrl(key, size > 30 ? 128 : 64)} width={size} height={size} alt="" loading="lazy" onError={() => setFailed(true)} />;
 }

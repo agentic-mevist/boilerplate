@@ -17,6 +17,9 @@ export const SAMPLES = 64;
 export const HUB_RADIUS = 2.6;
 export const LAKE_RADIUS = 3.7;
 
+/** Gap between the lake and the result cards, in world units. */
+export const CARDS_GAP = 1.6;
+
 /** River width (world units) for a share of the juice: tiny springs to wide rivers. */
 export const W_MIN = 0.08;
 export const W_MAX = 1.6;
@@ -73,8 +76,9 @@ export interface Layout {
   mode: LayoutMode;
   keys: KeyNode[];
   paths: StreamPath[];
+  /** Where the result cards are pinned (their left edge, vertically centered). The cards are HTML
+   *  at a fixed size, so they aren't part of `bounds`: the camera makes room for them on screen. */
   outputs: OutputSlot[];
-  outputLine: Float32Array | null;
   tail: TailInfo | null;
   /** Radius inside which rivers converge (no keys there). */
   packRadius: number;
@@ -298,23 +302,15 @@ export function computeLayout(result: JuiceResult, mode: LayoutMode, showLost: b
     });
   }
 
-  let outputs: OutputSlot[] = [];
-  let outputLine: Float32Array | null = null;
-  if (!vortex) {
-    const x0 = LAKE_RADIUS + 3.8;
-    outputs = [{ x: x0, z: 0 }, { x: x0 + 5.5, z: 0 }, { x: x0 + 11, z: 0 }];
-    const line: [number, number][] = [];
-    const end = x0 + 14;
-    for (let i = 0; i <= 40; i++) line.push([LAKE_RADIUS + (end - LAKE_RADIUS) * (i / 40), 0]);
-    outputLine = resample(line).points;
-  }
+  // In stream mode the result cards sit to the right of your site (HTML on top of the board).
+  const outputs: OutputSlot[] = vortex ? [] : [{ x: LAKE_RADIUS + CARDS_GAP, z: 0 }];
 
   const xs = keys.map((k) => k.x), zs = keys.map((k) => k.z);
   const bounds = {
     minX: Math.min(-LAKE_RADIUS, ...xs) - 0.8,
-    maxX: Math.max(LAKE_RADIUS, ...xs, ...(outputs.length ? [outputs[outputs.length - 1]!.x + 2.7] : [])) + 0.8,
+    maxX: Math.max(LAKE_RADIUS, ...xs) + 0.8,
     minZ: Math.min(-LAKE_RADIUS, ...zs) - 0.8,
     maxZ: Math.max(LAKE_RADIUS, ...zs) + 0.8,
   };
-  return { mode, keys, paths, outputs, outputLine, tail, packRadius: R, bounds };
+  return { mode, keys, paths, outputs, tail, packRadius: R, bounds };
 }

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { normalizeDomain } from "../shared/domain";
 import { analyze, AnalyzeError } from "./api";
 import { ScreenLabels } from "./scene/KeyLabels";
+import { ResultCards } from "./scene/ResultCards";
 import { Scene, type Insets } from "./scene/Scene";
 import { useStore } from "./store";
 import { HowItWorks } from "./ui/HowItWorks";
@@ -91,6 +92,7 @@ export function App() {
     <div className={`app ${landing ? "is-landing" : ""} ${mobile ? "is-mobile" : ""}`}>
       <Scene insets={insets} />
       <ScreenLabels />
+      <ResultCards />
 
       <header className="topbar">
         <Logo />
