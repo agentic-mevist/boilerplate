@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; }
+  .og { position: relative; width: 1200px; height: 630px; overflow: hidden; background: #f4f2ee; font-family: Geist, system-ui, sans-serif; color: #1d1c1a; }
+  .dots { position: absolute; inset: 0; background-image: radial-gradient(#d9d3c9 1.3px, transparent 1.6px); background-size: 28px 28px; background-position: 6px 10px; }
+  .viz { position: absolute; width: 1360px; height: 935px; left: calc(905px - 992px * 0.85); top: calc(318px - 568px * 0.85);
+          -webkit-mask-image: radial-gradient(circle at 843px 483px, #000 0 285px, transparent 378px);
+          mask-image: radial-gradient(circle at 843px 483px, #000 0 285px, transparent 378px); }
+  .text { position: absolute; left: 64px; top: 58px; bottom: 58px; width: 560px; display: flex; flex-direction: column; }
+  .logo { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 34px; letter-spacing: -0.02em; }
+  .logo b { font-weight: 600; }
+  .logo span { color: #6f6a62; font-weight: 500; }
+  .eyebrow { margin-top: auto; font-size: 17px; letter-spacing: 0.1em; text-transform: uppercase; color: #6f6a62; font-weight: 500; }
+  h1 { margin: 12px 0 34px; font-size: 66px; line-height: 1.03; letter-spacing: -0.04em; font-weight: 600; }
+  .pill { display: flex; align-items: center; gap: 10px; width: 470px; padding: 8px 8px 8px 20px; background: #fff; border: 1px solid #e9e4dc; border-radius: 18px;
+          box-shadow: 0 1px 0 rgba(255,255,255,.8) inset, 0 2px 4px rgba(58,44,28,.06), 0 12px 30px rgba(58,44,28,.09); }
+  .pill .pre { font-family: "Geist Mono", monospace; font-size: 16px; color: #b2aca2; }
+  .pill .site { flex: 1; font-size: 21px; font-weight: 500; color: #8a847b; }
+  .pill .btn { padding: 13px 20px; border-radius: 12px; color: #fff; font-weight: 600; font-size: 19px; background: linear-gradient(#5cb94c, #43a43a);
+          box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 3px 0 #368530, 0 8px 18px rgba(67,164,58,.28); text-shadow: 0 1px 0 rgba(0,0,0,.12); }
+</style></head>
+<body><div class="og">
+  <div class="dots"></div>
+  <img class="viz" src="board.png">
+  <div class="text">
+    <div class="logo"><svg width="46" height="46" viewBox="0 0 32 32"><defs><clipPath id='jf-glass'><path d='M7.4 9.2C5.85 9.97 5.85 12.73 7.4 13.5C5.85 14.27 5.85 17.03 7.4 17.8C5.85 18.57 5.85 21.33 7.4 22.1C5.85 22.87 5.85 25.63 7.4 26.4C7.4 28.8 9.32 29.6 11.24 29.6H18.76C20.68 29.6 22.6 28.8 22.6 26.4C24.15 25.63 24.15 22.87 22.6 22.1C24.15 21.33 24.15 18.57 22.6 17.8C24.15 17.03 24.15 14.27 22.6 13.5C24.15 12.73 24.15 9.97 22.6 9.2Z'/></clipPath></defs><path d='M17.2 22.5 24.6 2.8' stroke='#1d1c1a' stroke-width='4.2' stroke-linecap='round'/><path d='M17.2 22.5 24.6 2.8' stroke='#ffffff' stroke-width='1.9' stroke-linecap='round'/><path d='M7.4 9.2C5.85 9.97 5.85 12.73 7.4 13.5C5.85 14.27 5.85 17.03 7.4 17.8C5.85 18.57 5.85 21.33 7.4 22.1C5.85 22.87 5.85 25.63 7.4 26.4C7.4 28.8 9.32 29.6 11.24 29.6H18.76C20.68 29.6 22.6 28.8 22.6 26.4C24.15 25.63 24.15 22.87 22.6 22.1C24.15 21.33 24.15 18.57 22.6 17.8C24.15 17.03 24.15 14.27 22.6 13.5C24.15 12.73 24.15 9.97 22.6 9.2Z' fill='#ffffff'/><g clip-path='url(#jf-glass)'><rect y='13.2' width='32' height='20' fill='#5fae3c'/><rect y='13.2' width='32' height='2.4' fill='#8cc65e'/><path d='M17.7 21.2 19.6 16.1' stroke='#46902b' stroke-width='1.9' stroke-linecap='round' opacity='.55'/><circle cx='12.4' cy='24.2' r='1.05' fill='#ffffff' opacity='.7'/><circle cx='14.6' cy='20.6' r='.7' fill='#ffffff' opacity='.6'/></g><path d='M7.4 9.2C5.85 9.97 5.85 12.73 7.4 13.5C5.85 14.27 5.85 17.03 7.4 17.8C5.85 18.57 5.85 21.33 7.4 22.1C5.85 22.87 5.85 25.63 7.4 26.4C7.4 28.8 9.32 29.6 11.24 29.6H18.76C20.68 29.6 22.6 28.8 22.6 26.4C24.15 25.63 24.15 22.87 22.6 22.1C24.15 21.33 24.15 18.57 22.6 17.8C24.15 17.03 24.15 14.27 22.6 13.5C24.15 12.73 24.15 9.97 22.6 9.2Z' fill='none' stroke='#1d1c1a' stroke-width='2.1' stroke-linejoin='round'/><path d='M10.1 16.8c-.5 1.6-.4 3.4.2 5' stroke='#ffffff' stroke-width='1.5' stroke-linecap='round' opacity='.9'/></svg><b>seojuice<span>.xyz</span></b></div>
+    <div class="eyebrow">Link juice, visualized</div>
+    <h1>See where your<br>SEO juice<br>comes from.</h1>
+    <div class="pill"><span class="pre">https://</span><span class="site">yourwebsite.com</span><span class="btn">Follow the juice</span></div>
+  </div>
+</div></body></html>
