@@ -7,7 +7,7 @@
 
 import { normalizeDomain } from "../shared/domain";
 
-const UA = "Mozilla/5.0 (compatible; SEOJuice/1.0; +https://seojuice.xyz)";
+const UA = "Mozilla/5.0 (compatible; seojuice.xyz/1.0; +https://seojuice.xyz)";
 const WEEK = 60 * 60 * 24 * 7;
 const SIZES = [32, 64, 128, 256];
 const MAX_ICON_BYTES = 600_000;

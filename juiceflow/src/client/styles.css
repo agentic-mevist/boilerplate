@@ -63,6 +63,7 @@ a { color: inherit; }
 .topbar__nav { justify-self: end; display: flex; align-items: center; gap: 8px; }
 .logo { justify-self: start; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: 19px; letter-spacing: -0.02em; }
 .logo svg { flex: none; margin-top: -2px; }
+.logo__tld { color: var(--ink-soft); font-weight: 500; }
 
 .link-btn { background: none; border: 0; padding: 6px 8px; color: var(--ink-2); font-weight: 500; border-radius: 8px; }
 .link-btn:hover { color: var(--ink); background: rgba(0, 0, 0, 0.04); }

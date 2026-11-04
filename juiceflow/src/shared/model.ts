@@ -1,5 +1,5 @@
 /**
- * The Juiceflow link-equity model.
+ * The SEO Juice link-equity model.
  *
  * It follows the same ideas behind Google's PageRank and Ahrefs' Domain Rating:
  *

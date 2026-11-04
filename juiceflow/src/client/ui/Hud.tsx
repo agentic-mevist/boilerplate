@@ -13,9 +13,11 @@ export function GlassMark({ size = 28 }: { size?: number }) {
 
 export function Logo() {
   return (
-    <a className="logo" href="/" aria-label="Juiceflow home">
+    <a className="logo" href="/" aria-label="SEO Juice home">
       <GlassMark />
-      <span>juiceflow</span>
+      <span>
+        seojuice<span className="logo__tld">.xyz</span>
+      </span>
     </a>
   );
 }

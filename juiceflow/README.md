@@ -1,8 +1,8 @@
-# Juiceflow
+# SEO Juice
 
 See where your SEO juice comes from. Enter a website and every site that links to it becomes a physical key-cap. Each one pours a stream of link equity into your site. The stronger, cleaner and less crowded the link, the wider the stream.
 
-Live: https://seojuice.xyz (also https://juiceflow.donatizehelp.workers.dev)
+Live: https://seojuice.xyz (the Worker is still called `juiceflow`, so https://juiceflow.donatizehelp.workers.dev works too)
 
 ## The juice model
 
