@@ -2,7 +2,7 @@ import { normalizeDomain } from "../shared/domain";
 import type { AnalyzeResponse, ApiError, RawLink } from "../shared/types";
 
 /** Pre-computed analyses shipped with the app, so the demo costs nothing. */
-export const DEMOS = ["figma.com", "plausible.io", "thulite.io", "gethyas.com", "irishroots.ie"];
+export const DEMOS = ["figma.com", "plausible.io", "handlepilot.com", "gcore.com"];
 
 export class AnalyzeError extends Error {
   constructor(

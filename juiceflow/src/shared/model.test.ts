@@ -158,9 +158,12 @@ describe("categories & mirrors", () => {
 });
 
 describe("runModel on real data", () => {
-  for (const d of ["figma.com", "plausible.io", "thulite.io", "gethyas.com", "irishroots.ie"]) {
-    test(d, () => {
-      const payload = JSON.parse(readFileSync(`public/demo/${d}.json`, "utf8")) as AnalysisPayload;
+  // the demo sites, plus older snapshots kept as test fixtures
+  const files = ["figma.com", "plausible.io", "handlepilot.com", "gcore.com"].map((d) => `public/demo/${d}.json`);
+  files.push(...["thulite.io", "gethyas.com", "irishroots.ie"].map((d) => `fixtures/${d}.json`));
+  for (const file of files) {
+    test(file, () => {
+      const payload = JSON.parse(readFileSync(file, "utf8")) as AnalysisPayload;
       const r = runModel(payload);
       expect(r.sources.length).toBeGreaterThan(0);
       const sum = r.sources.reduce((a, s) => a + s.share, 0);

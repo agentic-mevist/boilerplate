@@ -216,13 +216,22 @@ export function ScreenLabels() {
             <div className="key-card__top">
               <Favicon domain={k.source.link.domain} size={18} />
               <span className="key-card__name">{k.source.root}</span>
-              <span className="key-card__share">{k.kind === "lost" ? "lost" : pct(k.source.share)}</span>
+            </div>
+            <div className="key-card__share">
+              {k.kind === "lost" ? (
+                <>
+                  <b>Lost link</b> could add {pct(k.source.potential / Math.max(1e-9, useStore.getState().result?.total ?? 1))}
+                </>
+              ) : (
+                <>
+                  <b>{pct(k.source.share)}</b> of your juice
+                </>
+              )}
             </div>
             <div className="key-card__meta">
               {k.kind === "lost"
-                ? `was DR ${Math.round(f.dr)} · could add ${pct(k.source.potential / Math.max(1e-9, useStore.getState().result?.total ?? 1))}`
+                ? `was DR ${Math.round(f.dr)}`
                 : [
-                    "of your juice",
                     `DR ${Math.round(f.dr)}`,
                     f.follow < 1 ? "nofollow" : "dofollow",
                     f.spamScore >= 60 ? `spam ${Math.round(f.spamScore)} · mostly ignored` : f.spamScore > 30 ? `spam ${Math.round(f.spamScore)}` : null,

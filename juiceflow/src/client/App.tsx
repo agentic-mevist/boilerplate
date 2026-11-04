@@ -111,7 +111,6 @@ export function App() {
         <section className="hero">
           <div className="eyebrow">Link juice, visualized</div>
           <h1>See where your SEO juice comes from.</h1>
-          <p>Every site that links to you is a spring. The stronger, cleaner and less crowded the link, the wider the stream it pours into your site.</p>
           <SearchBar onSubmit={(d) => run(d)} big />
           <DemoChips onPick={(d) => run(d)} />
         </section>

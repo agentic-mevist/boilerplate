@@ -80,8 +80,7 @@ a { color: inherit; }
 .hero > :last-child { margin-bottom: auto; }
 .hero .search { width: 100%; }
 .eyebrow { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
-.hero h1 { font-size: clamp(30px, 3.9vw, 50px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; margin: 10px 0 10px; }
-.hero p { color: var(--ink-soft); font-size: 16px; max-width: 620px; margin: 0 auto 18px; }
+.hero h1 { font-size: clamp(30px, 3.9vw, 50px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; margin: 10px 0 26px; }
 .hero .search { margin: 0 auto; }
 
 /* ---------- search ---------- */
@@ -133,6 +132,9 @@ a { color: inherit; }
 .demos { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center; margin-top: 14px; color: var(--ink-soft); font-size: 13px; }
 .demo-note { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 8px; max-width: 100%; color: var(--ink-soft); font-size: 12px; }
 .demo-note .demos { margin-top: 0; gap: 6px; }
+/* under the search bar the label says it all: no "Try", smaller chips, one line */
+.demo-note .demos > span { display: none; }
+.demo-note .chip { padding: 3px 9px; font-size: 12px; gap: 5px; }
 .demo-note > span { text-transform: uppercase; letter-spacing: 0.06em; font-size: 11px; }
 
 .favicon { display: inline-block; border-radius: 4px; flex: none; object-fit: contain; }
@@ -216,9 +218,10 @@ a { color: inherit; }
 }
 .key-card__top { display: flex; align-items: center; gap: 7px; }
 .key-card__name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.key-card__share { margin-left: auto; padding-left: 10px; font-family: var(--mono); font-weight: 600; font-size: 16px; color: var(--juice-ink); }
-.key-card.is-lost .key-card__share { color: var(--ink-soft); font-size: 13px; }
-.key-card__meta { margin-top: 3px; font-size: 11.5px; color: var(--ink-soft); white-space: nowrap; }
+.key-card__share { margin-top: 5px; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+.key-card__share b { margin-right: 2px; font-size: 18px; font-weight: 600; letter-spacing: -0.02em; color: var(--juice-ink); font-variant-numeric: tabular-nums; }
+.key-card.is-lost .key-card__share b { font-size: 13px; color: var(--ink-soft); }
+.key-card__meta { margin-top: 2px; font-size: 11.5px; color: var(--ink-soft); white-space: nowrap; }
 .key-card__hint { margin-top: 4px; font-size: 10.5px; color: #a39d93; }
 .key-label__share { font-family: var(--mono); font-size: 11px; color: var(--juice-ink); }
 
@@ -423,7 +426,7 @@ a { color: inherit; }
 
 /* ---------- narrower windows (or zoomed-in browsers) ---------- */
 @media (max-width: 900px) {
-  .demo-note .demos > span, .demo-note .chip:nth-of-type(4) { display: none; }
+  .demo-note .chip:nth-of-type(4) { display: none; }
 }
 
 /* ---------- mobile ---------- */
@@ -431,10 +434,9 @@ a { color: inherit; }
   .topbar { padding: 12px 14px; gap: 10px; grid-template-columns: 1fr auto; }
   .topbar > .logo, .topbar__nav { height: 40px; }
   .topbar__center { grid-column: 1 / -1; grid-row: 2; }
-  .topbar .search .search__prefix { display: none; }
+  .search .search__prefix { display: none; }
   .hero { inset: 64px 14px 4vh; }
   .hero h1 { font-size: 28px; }
-  .hero p { display: none; }
   .hero h1 { margin-bottom: 14px; }
   .search .keycap--juice { padding: 9px 12px; }
   .summary { top: auto; bottom: 86px; left: 12px; right: 12px; width: auto; flex-direction: row; align-items: center; padding: 10px 12px; gap: 10px; }

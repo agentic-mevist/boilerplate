@@ -43,7 +43,7 @@ Results are cached in KV for 7 days. Cached and demo analyses cost nothing. Thre
 - fresh analyses per IP per day (`PER_IP_DAILY`, default 3; cached sites and demos are free)
 - link lookups per IP per day (`PER_IP_LINKS_DAILY`, default 60)
 
-The landing page shows only the form and runs nothing until you ask. Demo sites (`public/demo/*.json`) are pre-fetched snapshots, so trying them never spends credits.
+The landing page shows only the form and runs nothing until you ask. Demo sites (`public/demo/*.json`: figma.com, plausible.io, handlepilot.com, gcore.com) are pre-fetched snapshots, so trying them never spends credits. A few older snapshots in `fixtures/` give the tests some smaller sites too.
 
 ## The scene
 

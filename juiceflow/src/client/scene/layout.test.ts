@@ -2,9 +2,11 @@ import { readFileSync } from "node:fs";
 import { describe, expect, test } from "vitest";
 import { runModel } from "../../shared/model";
 import type { AnalysisPayload } from "../../shared/types";
+import { DEMOS } from "../api";
 import { computeLayout, LAKE_RADIUS, riverWidth, SAMPLES, W_MAX, W_MIN, type LayoutMode } from "./layout";
 
-const DEMOS = ["figma.com", "plausible.io", "thulite.io", "gethyas.com", "irishroots.ie"];
+// the demo sites, plus older snapshots kept as test fixtures (small and mid-size sites)
+const SITES = [...DEMOS.map((d) => `public/demo/${d}.json`), ...["thulite.io", "gethyas.com", "irishroots.ie"].map((d) => `fixtures/${d}.json`)];
 
 describe("river widths", () => {
   test("monotonic, from a tiny spring to a wide river", () => {
@@ -15,10 +17,11 @@ describe("river widths", () => {
   });
 });
 
-for (const domain of DEMOS) {
+for (const file of SITES) {
+  const domain = file.split("/").pop()!.replace(/\.json$/, "");
   for (const mode of ["funnel", "vortex"] as LayoutMode[]) {
     describe(`${domain} / ${mode}`, () => {
-      const payload = JSON.parse(readFileSync(`public/demo/${domain}.json`, "utf8")) as AnalysisPayload;
+      const payload = JSON.parse(readFileSync(file, "utf8")) as AnalysisPayload;
       const result = runModel(payload);
       const layout = computeLayout(result, mode, true);
 
