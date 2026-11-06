@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "^4.158.0"
+  },
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "test": "node tools/test.mjs",
+    "gen-ranking": "node tools/gen-ranking.mjs 120000",
+    "preview": "wrangler dev"
+  }
+}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speed Racer PKO Trainer: 10bb bounty push/fold with ICM</title>
+<meta name="description" content="Train push/fold decisions for 6-max 10bb progressive-knockout (Speed Racer) tournaments with ICM and bounty math.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏁</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="brand">🏁 <b>Speed Racer</b> PKO Trainer</div>
+  <nav>
+    <button data-tab="train" class="active">Train</button>
+    <button data-tab="calc">Spot calculator</button>
+    <button data-tab="learn">Learn</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+</header>
+
+<main>
+<!-- ================= TRAIN ================= -->
+<section id="tab-train" class="tab active">
+  <div class="train-layout">
+    <div class="col-main">
+      <div id="tourney-bar" class="tourney-bar"></div>
+      <div id="table" class="table-wrap"></div>
+      <div id="decision" class="decision">
+        <div id="hero-hand" class="hero-hand"></div>
+        <div class="buttons">
+          <button id="btn-fold" class="act fold">Fold</button>
+          <button id="btn-go" class="act go">Call</button>
+        </div>
+        <button id="btn-next" class="next hidden">Next hand →</button>
+      </div>
+      <div id="result" class="result hidden"></div>
+    </div>
+    <aside class="col-side">
+      <div class="panel">
+        <h3>Session</h3>
+        <div id="stats"></div>
+        <button id="btn-reset-stats" class="link">reset stats</button>
+      </div>
+      <div class="panel">
+        <h3>Drill</h3>
+        <div class="checks" id="stage-checks"></div>
+        <div class="checks" id="type-checks"></div>
+        <label class="row"><input type="checkbox" id="opt-borderline" checked> Favor close decisions</label>
+        <label class="row"><input type="checkbox" id="opt-autochart" checked> Auto-build range chart</label>
+      </div>
+      <div class="panel">
+        <h3>Recent mistakes</h3>
+        <div id="mistakes" class="mistakes"><i class="muted">None yet.</i></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= CALCULATOR ================= -->
+<section id="tab-calc" class="tab">
+  <div class="panel">
+    <h2>Spot calculator</h2>
+    <p class="muted">Rebuild a hand you played and see the correct decision and the full calling/shoving chart. Stacks are in big blinds, bounties in dollars (the full head shown on the player; a KO pays half of it in cash).
+      The tournament settings (buy-in split, field size, payout %) come from the <a href="#" data-goto="settings">Settings</a> tab.</p>
+    <div class="presets">Presets:
+      <button data-preset="l1bb">Level 1: BB vs BTN shove</button>
+      <button data-preset="l1sb">Level 1: SB open-shove</button>
+      <button data-preset="bubble">Bubble: BB vs CO shove</button>
+      <button data-preset="ft">Final table: BB vs SB</button>
+      <button data-preset="multi">Shove + call in front</button>
+    </div>
+    <div class="calc-grid">
+      <label>Players left <input type="number" id="c-left" value="380" min="2"></label>
+      <label>Avg stack (bb) <input type="number" id="c-avg" value="10" min="1" step="0.5"></label>
+      <label>Avg bounty, other tables ($) <input type="number" id="c-avghead" value="1" min="0" step="0.05"></label>
+      <label>Hero hand <input type="text" id="c-hand" value="KTo" placeholder="AJo, 77, Ah5h"></label>
+    </div>
+    <table class="seat-form">
+      <thead><tr><th>Pos</th><th>Stack (bb)</th><th>Bounty ($)</th><th>Role</th><th>Player type</th><th>Range %</th></tr></thead>
+      <tbody id="c-seats"></tbody>
+    </table>
+    <div class="row">
+      <label>Table size <select id="c-size"><option>6</option><option>5</option><option>4</option><option>3</option><option>2</option></select></label>
+      <button id="c-solve" class="primary">Solve spot</button>
+      <span id="c-msg" class="muted"></span>
+    </div>
+    <p class="muted small">Role: exactly one <b>Hero</b>. Players before the hero fold, shove (first aggressor) or call. Players after the hero are <b>Behind</b>: they call the all-in with the % you set (leave blank to use the player-type default).</p>
+  </div>
+  <div id="calc-result" class="result hidden"></div>
+</section>
+
+<!-- ================= LEARN ================= -->
+<section id="tab-learn" class="tab learn">
+  <div class="panel prose">
+    <h2>How to win Speed Racer bounty tournaments</h2>
+    <p class="muted">A playbook for GGPoker <b>Speed Racer</b> progressive-knockout (PKO) tournaments: 6-max, everyone starts with <b>10 big blinds</b>, and after the first level the blinds go up every <b>2 minutes</b>. Almost every decision is <b>shove, call all-in, or fold</b>. The trainer computes these exactly; this page explains the reasoning.</p>
+
+    <h3>1. How the money works</h3>
+    <ul>
+      <li><b>Your buy-in is split three ways:</b> regular prize pool, bounty pool, and fee. Example used by default: $2.50 = $1.30 prize pool + $1.00 bounty + $0.20 fee. Check the lobby's <i>Bounty</i> line for your event and set it in <b>Settings</b>.</li>
+      <li><b>Progressive bounty:</b> when you bust someone, <b>50% of their current bounty is paid to you in cash immediately</b>, and the other <b>50% is added to your own bounty</b>. Your head grows every time you knock someone out, so chip leaders become very valuable targets.</li>
+      <li><b>You only win a bounty if you bust the player</b>, which means you must <b>cover</b> them (have at least as many chips). If they cover you and you win, they're still alive: you get chips, no bounty.</li>
+      <li>With several players all-in, the bounty for each busted player goes to whoever wins the pot that player was in (side pots!). Split pots split the bounty.</li>
+      <li>The winner of the tournament also collects their own final bounty.</li>
+    </ul>
+
+    <h3>2. The core formula: add the bounty to the pot</h3>
+    <p>Chip-EV calling requirement: <code>need = risk ÷ (risk + pot you win)</code>. In a PKO, when you cover the shover, the cash bounty is extra pot:</p>
+    <p class="formula">need = risk ÷ (risk + pot + <b>bounty in chips</b>)</p>
+    <p>To convert dollars to chips, use what one chip is worth: <code>$ per bb ≈ (prize pool left + bounty money left) ÷ chips in play</code>. At level 1 a 10bb stack is worth about $1.30 + $1.00 = $2.30, so <b>1bb ≈ $0.23</b>, and a $0.50 cash KO is worth about <b>2.2bb</b>.</p>
+    <div class="example">
+      <b>Example (level 1, checked against the trainer's engine):</b> BTN shoves 9bb, you're in the BB with 10bb (1bb blind + 1bb ante posted).
+      You risk 8bb more to win 9 + 0.5 + 1 + 1 = 11.5bb → chips need 8 ÷ 19.5 = <b>41%</b>.
+      Add the ≈2.1bb cash bounty → 8 ÷ 21.6 = <b>37%</b>. Against a 30% BTN range, that's the difference between folding and calling hands like <b>K8o, K5s, QTo, J9s, T8s, 76s</b> (all 37-40% equity).
+    </div>
+    <p>The trainer actually uses a slightly richer model, the <b>proportional bounty model</b>: your future share of all bounty money still in play is roughly your share of the chips, plus any cash you collect right now. This also captures the value of your own head growing.</p>
+
+    <h3>3. Covering is everything</h3>
+    <ul>
+      <li><b>You cover them:</b> call wider. You get a bounty discount, and you're not risking your tournament.</li>
+      <li><b>They cover you:</b> call <i>tighter</i> than chip EV. You get no bounty, and if you lose they take your head. This is the most common mistake in PKOs: calling a big stack's shove "because of the bounty" when there is no bounty for you.</li>
+      <li><b>Shoving into players who cover you:</b> expect them to call wider (your head is their discount). Shove fewer bluffs and more value. Shoving into short stacks you cover is better: they have to call tighter, and when they call and lose you get paid.</li>
+      <li><b>The BB-ante trap:</b> in the big blind your ante is dead money. With 10bb vs a 10bb shove you can only call 9bb, so they <b>survive</b> even if you win: no bounty! In the BB you need at least 1bb more than the shover to cover them. The trainer's "you cover / covers you" tags already account for this.</li>
+      <li><b>Barely covered by 0.1bb?</b> It still matters. Count chips precisely.</li>
+    </ul>
+
+    <h3>4. ICM: why chips lost ≠ chips won</h3>
+    <ul>
+      <li>Prize-pool equity is not linear in chips. Doubling your stack does <b>not</b> double your $ equity, but busting takes it to zero (or to the current min-cash once in the money).</li>
+      <li>The <b>risk premium</b> is how much extra equity ICM demands on top of chip EV. Far from the money it's near 0; on the <b>bubble</b> and at the <b>final table</b> it can be +5 to +15 points for medium stacks.</li>
+      <li><b>Bounties fight ICM.</b> In PKOs a big chunk of the money is paid as bounties, which are much more linear in chips. So the risk premium is smaller than in a regular tournament. Big heads at a final table can even make calls profitable that would be clear folds in a normal MTT.</li>
+      <li>The <b>shortest stack</b> on the bubble has the least ICM pressure (they're dead soon anyway); <b>medium stacks</b> facing the chip leader have the most.</li>
+      <li>When <b>two other players are already all-in</b>, folding is often worth a lot: if one of them busts, you move up for free.</li>
+    </ul>
+
+    <h3>5. Stage by stage in Speed Racer</h3>
+    <ul>
+      <li><b>Early (10bb, level 1):</b> Everyone covers or is covered by tiny margins. Bounties are worth 2-3bb relative to the stacks, which is the most they'll ever be. Call shoves wider when you cover. Open-shove ranges from late position are wide, since there's no ICM to speak of.</li>
+      <li><b>2-minute levels:</b> The blinds rise so fast that waiting costs a lot. A 10bb stack becomes 5bb in a few orbits. Folding marginal +EV spots in the hope of a better one is usually wrong.</li>
+      <li><b>Pre-bubble:</b> Heads have grown. Target the players you cover who have big heads. Avoid marginal calls against players who cover you.</li>
+      <li><b>Bubble:</b> ICM spikes. Medium stacks should tighten their calls; the big stack can shove relentlessly. But still count the bounty: a <i>big</i> head on a short stack can justify a call.</li>
+      <li><b>In the money / final table:</b> Pay jumps are steep and heads are huge. The full model often says "call" where pure ICM says "fold". Use the trainer's model toggle to see exactly how much the bounty moves the range.</li>
+    </ul>
+
+    <h3>6. Reading opponents from the HUD</h3>
+    <ul>
+      <li>GG shows VPIP/PFR-style stats, but in a Speed Racer you'll often have only a handful of hands on someone. <b>Small samples are noise</b>: 3 shoves in 5 hands doesn't make a maniac. Lean on population tendencies until the sample grows.</li>
+      <li>Typical micro-stakes population: <b>calls too wide</b> (especially when covering you), <b>shoves too tight from early position</b>, and over-folds the big blind when they don't cover you.</li>
+      <li>Against <b>calling stations</b>, shove tighter (less fold equity) but call their shoves wider. Against <b>nits</b>, steal more and call their shoves tighter.</li>
+      <li>The trainer shows each villain's assumed range %. Set a player type in the calculator to see how a read changes the answer.</li>
+    </ul>
+
+    <h3>7. Multiway all-ins</h3>
+    <ul>
+      <li>Two players all-in in front of you: even AK only has ~35-40% three-way. You need a much stronger range to overcall.</li>
+      <li>But you can win <b>two</b> bounties, and side pots mean the short stack can only win the main pot. When you cover both, overcalls with big pairs and AK/AQ get very juicy.</li>
+      <li>If you're the shortest stack you can only win the main pot, which is often still big (three times your stack).</li>
+    </ul>
+
+    <h3>8. Rules of thumb to memorize</h3>
+    <ol>
+      <li>First question every hand: <b>who covers whom?</b></li>
+      <li>Covering + early stage: call ~5-10% wider than chip EV.</li>
+      <li>Covered by the shover: no bounty discount. Fold your marginal hands, especially near the money.</li>
+      <li>Big bounty on a short stack that you cover: call very wide; you're getting a huge price.</li>
+      <li>From the SB with ≤10bb, open-shoving is the default. From UTG, keep it tight (5 players to get through).</li>
+      <li>On the bubble with a medium stack, respect shoves from the chip leader.</li>
+      <li>Don't limp or min-raise junk at 10bb; push/fold beats it at these stack sizes.</li>
+    </ol>
+
+    <h3>9. What the model assumes</h3>
+    <ul class="muted">
+      <li>ICM uses the Malmuth-Harville model: exact for ≤ 9 players, Monte Carlo with common random numbers for larger fields. Players at other tables get randomized stacks around the average.</li>
+      <li>Bounty equity = (your chips ÷ all chips) × (all bounty money still in play) + cash collected this hand.</li>
+      <li>Villain ranges are "top X%" by all-in equity; player types set X, adjusted for stack depth, position, whether they cover, and bubble pressure.</li>
+      <li>All-ins are resolved with exact side pots, split pots, bust order and bounty splits. Future hands and postflop play are not modeled.</li>
+      <li>Payouts are a smooth curve paying ~15% of the field. Real GG payout tables differ slightly.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= SETTINGS ================= -->
+<section id="tab-settings" class="tab">
+  <div class="panel">
+    <h2>Tournament settings</h2>
+    <p class="muted">Match these to the lobby of the tournament you play. They apply to new training hands and to the calculator.</p>
+    <div class="calc-grid" id="cfg-form">
+      <label>Buy-in total ($) <input type="number" step="0.01" data-cfg="buyIn"></label>
+      <label>→ to prize pool per entry ($) <input type="number" step="0.01" data-cfg="prizePerEntry"></label>
+      <label>→ starting bounty / head ($) <input type="number" step="0.01" data-cfg="startBounty"></label>
+      <label>KO cash share (0.5 = progressive 50/50) <input type="number" step="0.05" min="0" max="1" data-cfg="koShare"></label>
+      <label>Entries <input type="number" step="1" min="10" data-cfg="entries"></label>
+      <label>Paid fraction of field <input type="number" step="0.01" min="0.05" max="0.5" data-cfg="paidPct"></label>
+      <label>Big-blind ante (in bb) <input type="number" step="0.125" min="0" data-cfg="ante"></label>
+    </div>
+    <div class="row"><button id="cfg-save" class="primary">Save</button><button id="cfg-reset">Reset to defaults</button><span id="cfg-msg" class="muted"></span></div>
+    <h3>Payout preview</h3>
+    <div id="payout-preview" class="payouts"></div>
+  </div>
+</section>
+</main>
+
+<footer class="muted small">A training tool. The math is a model, not a guarantee. Bounty and ICM equities are approximations. Play responsibly.</footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
