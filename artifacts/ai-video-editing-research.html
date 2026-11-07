@@ -95,6 +95,8 @@ td a{word-break:break-word}
 .grade{display:inline-block; min-width:2.4em; text-align:center; font-family:var(--mono); font-size:13px; padding:2px 7px; border-radius:6px}
 .ts{font-family:var(--mono); font-size:13px; white-space:nowrap}
 code{font-family:var(--mono); font-size:.86em; background:var(--surface); border:1px solid var(--line); padding:1px 5px; border-radius:4px}
+pre{overflow-x:auto; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin:18px 0 24px; font-family:var(--mono); font-size:12.5px; line-height:1.55; max-width:none}
+pre code{background:none; border:0; padding:0; font-size:inherit}
 blockquote{margin:16px 0; padding:4px 0 4px 18px; border-left:3px solid var(--rec); color:var(--muted)}
 
 details.toc-mobile{display:none}
@@ -153,7 +155,7 @@ footer{margin-top:64px; padding-top:18px; border-top:1px solid var(--line); font
 <li><a href="#next-steps">Next steps</a></li>
 <li><a href="#conclusion">Conclusion</a></li></ol></details>
     </header>
-    <div class="part" id="part-research"><span>Part 1</span> The research</div>
+    <div class="part" id="part-1"><span>Part 1</span> The research</div>
 <section class="sec"><h2 id="thesis-scorecard">Thesis scorecard</h2>
 <p>Verdict key: <strong>Supported</strong> = strong, current data. <strong>Partly</strong> = true with an important caveat. <strong>Weak</strong> = thin or old evidence. <strong>Contradicted</strong> = data says otherwise.</p>
 <div class="table-wrap"><table>
@@ -575,7 +577,7 @@ footer{margin-top:64px; padding-top:18px; border-top:1px solid var(--line); font
 </table></div>
 <p>The demo workflow worth teaching goes like this. First, transcribe with word timestamps. Second, have Claude propose a keep-list or cut list that <strong>you approve</strong> (video-use's rule is "never touch the cut without strategy approval"). Third, render with padding, <strong>30 ms audio fades</strong> at each cut and frame-accurate re-encoding, not stream copy. Fourth, run an audio chain: high-pass, presence EQ, 3:1 compression, loudness normalization. Fifth, burn chunked captions. Sixth, add Remotion or HyperFrames overlays <em>with a written design direction</em>. Seventh, re-transcribe the output to confirm no words were clipped, then export XML to an NLE for a taste pass. Every correction goes into CLAUDE.md so the next video starts smarter (<a href="https://github.com/browser-use/video-use" target="_blank" rel="noopener">video-use</a>, <a href="https://github.com/chrislema/videoeditor" target="_blank" rel="noopener">chrislema/videoeditor</a>, <a href="https://github.com/appariciojunior/video-editor-skills" target="_blank" rel="noopener">video-editor-skills</a>, <a href="https://github.com/barefootford/buttercut" target="_blank" rel="noopener">ButterCut</a>). The bugs worth showing on camera are the real ones people hit: clipped words from timestamp drift, pops at cuts, keyframe drift, ffmpeg builds missing <code>drawtext</code>/<code>subtitles</code>, and Claude estimating durations instead of computing them.</p>
 
-</section><div class="part" id="part-toolkit"><span>Part 2</span> For your video</div>
+</section><div class="part" id="part-2"><span>Part 2</span> For your video</div>
 <section class="sec"><h2 id="stats-you-can-say-on-camera">Stats you can say on camera</h2>
 <p>These are the strongest, safest numbers, each with a current primary or near-primary source. Say the year out loud. Two need a quick re-check before recording (see notes).</p>
 <div class="table-wrap"><table>
