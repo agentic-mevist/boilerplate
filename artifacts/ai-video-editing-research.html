@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Video Editing Research Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: an editor's timeline. A reading playhead runs across the top, a sticky chapter list sits left like a bin, the report reads in one calm column. */
+:root{
+  --paper:#f3f4f6; --surface:#ffffff; --ink:#16181d; --muted:#5a6070; --line:#dcdfe5; --rec:#e1372c;
+  --sup:#1d7d55; --sup-bg:#e3f3ea; --part:#9a6510; --part-bg:#fbf0d9; --weak:#56627a; --weak-bg:#e8ebf1; --con:#a3123f; --con-bg:#fbe4ea;
+  --display:"Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --ui:"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111317; --surface:#1a1d23; --ink:#e9ebef; --muted:#9aa1b0; --line:#2c3039; --rec:#ff5a4e;
+    --sup:#5fd09b; --sup-bg:#16322a; --part:#f0bd5e; --part-bg:#352a14; --weak:#a9b4c8; --weak-bg:#262b35; --con:#ff7a9c; --con-bg:#3a1824;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111317; --surface:#1a1d23; --ink:#e9ebef; --muted:#9aa1b0; --line:#2c3039; --rec:#ff5a4e;
+  --sup:#5fd09b; --sup-bg:#16322a; --part:#f0bd5e; --part-bg:#352a14; --weak:#a9b4c8; --weak-bg:#262b35; --con:#ff7a9c; --con-bg:#3a1824;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:56px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:18px; line-height:1.62}
+a{color:inherit; text-decoration-color:var(--rec); text-decoration-thickness:1.5px; text-underline-offset:3px}
+a:hover{color:var(--rec)}
+a:focus-visible, summary:focus-visible{outline:2px solid var(--rec); outline-offset:2px; border-radius:3px}
+
+/* timeline playhead */
+.timeline{position:sticky; top:0; z-index:20; height:34px; background:var(--surface); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:12px; padding:0 16px; font-family:var(--mono); font-size:12px; color:var(--muted)}
+.rec{display:inline-flex; align-items:center; gap:6px; color:var(--ink); white-space:nowrap}
+.rec::before{content:""; width:9px; height:9px; border-radius:50%; background:var(--rec)}
+.track{position:relative; flex:1; height:14px; background:repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 10%), repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 2%); background-size:100% 100%, 100% 40%; background-repeat:no-repeat; background-position:0 0, 0 100%}
+.track .fill{position:absolute; inset:0 auto 0 0; width:0; background:color-mix(in srgb, var(--rec) 14%, transparent)}
+.track .head{position:absolute; top:-6px; bottom:-6px; width:2px; left:0; background:var(--rec)}
+.track .head::before{content:""; position:absolute; top:0; left:-5px; border:6px solid transparent; border-top:7px solid var(--rec); border-bottom:0}
+.tc{min-width:4.5em; text-align:right; font-variant-numeric:tabular-nums}
+
+.shell{display:grid; grid-template-columns:260px minmax(0,1fr); gap:48px; max-width:1240px; margin:0 auto; padding:0 24px}
+nav.toc{position:sticky; top:58px; align-self:start; max-height:calc(100vh - 70px); overflow:auto; padding:28px 0 24px; font-family:var(--ui); font-size:14px; line-height:1.35}
+.toc-part{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:18px 0 6px}
+.toc-part:first-child{margin-top:0}
+nav.toc ol{margin:0; padding:0 0 0 2.1em; display:grid; gap:2px}
+nav.toc li::marker{font-family:var(--mono); font-size:11px; color:var(--muted)}
+nav.toc a{display:block; padding:4px 8px; border-radius:6px; text-decoration:none; color:var(--muted)}
+nav.toc a:hover{background:var(--surface); color:var(--ink)}
+nav.toc a.active{background:var(--surface); color:var(--ink); box-shadow:inset 2px 0 0 var(--rec)}
+
+main{min-width:0; max-width:880px; padding:40px 0 96px}
+header.hero{padding:8px 0 28px; border-bottom:1px solid var(--line); margin-bottom:8px}
+.kicker{font-family:var(--mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); display:flex; flex-wrap:wrap; gap:6px 16px}
+h1{font-family:var(--display); font-weight:800; font-size:clamp(34px,5.2vw,54px); line-height:1.04; letter-spacing:-.02em; margin:14px 0 22px; text-wrap:balance}
+.lead p{font-size:19px; margin:0; max-width:68ch}
+.quick{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
+.chip{font-family:var(--ui); font-size:14px; font-weight:500; text-decoration:none; padding:7px 12px; border:1px solid var(--line); border-radius:999px; background:var(--surface)}
+.chip:hover{border-color:var(--rec); color:var(--ink)}
+
+.part{font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:56px 0 0; padding-top:14px; border-top:3px solid var(--ink); display:flex; gap:10px}
+.part span{color:var(--rec)}
+.sec{padding-top:8px}
+h2{font-family:var(--display); font-weight:700; font-size:clamp(26px,3.2vw,32px); line-height:1.15; letter-spacing:-.01em; margin:40px 0 14px; text-wrap:balance}
+h3{font-family:var(--display); font-weight:700; font-size:21px; margin:32px 0 10px; text-wrap:balance}
+p, ul, ol{max-width:68ch}
+.sec p{margin:0 0 16px}
+.sec li{margin-bottom:8px}
+strong{font-weight:600}
+
+.table-wrap{overflow-x:auto; margin:18px 0 26px; background:var(--surface); border:1px solid var(--line); border-radius:10px; max-width:none}
+/* tables fill the reading column */
+
+table{border-collapse:collapse; width:100%; font-family:var(--ui); font-size:14px; line-height:1.45; font-variant-numeric:tabular-nums}
+th{position:sticky; top:0; text-align:left; font-weight:600; font-size:12px; letter-spacing:.03em; text-transform:uppercase; color:var(--muted); background:var(--surface); padding:10px 12px; border-bottom:1px solid var(--line); white-space:nowrap}
+td{padding:10px 12px; border-top:1px solid var(--line); vertical-align:top; min-width:7em}
+tr:first-child td{border-top:0}
+tbody tr:hover td{background:color-mix(in srgb, var(--paper) 60%, transparent)}
+td a{word-break:break-word}
+
+.verdict{display:inline-block; font-family:var(--ui); font-size:12.5px; font-weight:600; padding:3px 9px; border-radius:10px; line-height:1.3}
+.v-sup{color:var(--sup); background:var(--sup-bg)}
+.v-part{color:var(--part); background:var(--part-bg)}
+.v-weak{color:var(--weak); background:var(--weak-bg)}
+.v-con{color:var(--con); background:var(--con-bg)}
+.grade{display:inline-block; min-width:2.4em; text-align:center; font-family:var(--mono); font-size:13px; padding:2px 7px; border-radius:6px}
+.ts{font-family:var(--mono); font-size:13px; white-space:nowrap}
+code{font-family:var(--mono); font-size:.86em; background:var(--surface); border:1px solid var(--line); padding:1px 5px; border-radius:4px}
+blockquote{margin:16px 0; padding:4px 0 4px 18px; border-left:3px solid var(--rec); color:var(--muted)}
+
+details.toc-mobile{display:none}
+footer{margin-top:64px; padding-top:18px; border-top:1px solid var(--line); font-family:var(--ui); font-size:13px; color:var(--muted)}
+
+@media (max-width: 900px){
+  .shell{grid-template-columns:1fr; gap:0; padding:0 18px}
+  nav.toc{display:none}
+  details.toc-mobile{display:block; margin:18px 0 0; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 14px; font-family:var(--ui); font-size:15px}
+  details.toc-mobile summary{cursor:pointer; font-weight:600}
+  details.toc-mobile ol{padding-left:1.6em}
+  main{padding-top:20px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="timeline" aria-hidden="true">
+  <span class="rec">REC</span>
+  <div class="track"><div class="fill"></div><div class="head"></div></div>
+  <span class="tc" id="tc">00:00</span>
+</div>
+<div class="shell">
+  <nav class="toc" aria-label="Chapters"><p class="toc-part">Part 1 · The research</p><ol><li><a href="#thesis-scorecard">Thesis scorecard</a></li>
+<li><a href="#cheap-production-floods-supply-while-attention-stays-flat">Cheap production floods supply while attention stays flat</a></li>
+<li><a href="#claude-editing-is-real-but-its-a-developer-shaped-niche">Claude editing is real, but it's a developer-shaped niche</a></li>
+<li><a href="#faceless-arbitrage-pays-a-few-then-gets-policed">Faceless arbitrage pays a few, then gets policed</a></li>
+<li><a href="#packaging-and-audio-decide-performance-ai-handles-the-mechanical-middle">Packaging and audio decide performance; AI handles the mechanical middle</a></li>
+<li><a href="#edit-footage-locally-use-the-cloud-for-code">Edit footage locally; use the cloud for code</a></li></ol>
+<p class="toc-part">Part 2 · For your video</p><ol start="7"><li><a href="#stats-you-can-say-on-camera">Stats you can say on camera</a></li>
+<li><a href="#supercut-shortlist">Supercut shortlist</a></li>
+<li><a href="#competitive-gap-positioning">Competitive gap &amp; positioning</a></li>
+<li><a href="#suggested-structure">Suggested structure</a></li>
+<li><a href="#where-your-understanding-is-incomplete">Where your understanding is incomplete</a></li>
+<li><a href="#questions-for-the-creator">Questions for the creator</a></li>
+<li><a href="#next-steps">Next steps</a></li>
+<li><a href="#conclusion">Conclusion</a></li></ol></nav>
+  <main>
+    <header class="hero">
+      <div class="kicker"><span>Research brief</span><span>AI video editing with Claude</span><span>Compiled Nov 7, 2026</span></div>
+      <h1>Claude didn&#x27;t kill editors. It killed scarcity.</h1>
+      <div class="lead"><p>Most of your thesis holds up, and the data makes it sharper. AI really has made production cheap enough to flood every channel. New App Store submissions rose 24% in 2025 and roughly doubled in the first half of 2026 (<a href="https://appfigures.com/resources/insights/20251205?f=2" target="_blank" rel="noopener">Appfigures</a>, <a href="https://www.theatlantic.com/technology/2026/10/vibe-coders-are-clogging-app-store-slop/689150/" target="_blank" rel="noopener">The Atlantic</a>). About half of new web articles are now AI-written (<a href="https://graphite.io/research/ai-now-writes-as-many-online-articles-as-humans-do" target="_blank" rel="noopener">Graphite</a>). Total attention, meanwhile, is close to flat: US adults gain only 1–2 media minutes a day per year (<a href="https://www.emarketer.com/content/us-time-spent-with-media-2025" target="_blank" rel="noopener">eMarketer</a>). So distribution and trust do become the bottleneck. "Editing with Claude" is a real trend, but it's a developer-shaped niche. Remotion's npm downloads went from about 0.57M a month in Dec 2025 to 10.0M in Oct 2026 (<a href="https://api.npmjs.org/downloads/range/2025-05-01:2026-11-06/remotion" target="_blank" rel="noopener">npm</a>). Yet Claude-specific Google searches are still below Google's reporting threshold, while "capcut" gets about 1M a month. Anthropic has published <strong>no</strong> usage statistic on video editing. Claude also doesn't natively watch video: it reads transcripts and conducts ffmpeg. That's why it's strong at mechanical cuts and code-built motion graphics and weak at taste, which is exactly where human editors keep their value. Freelance demand backs this up: Fiverr reports human video editing up 36% alongside the AI boom (<a href="https://www.fiverr.com/news/business-trends-index-ai-2026" target="_blank" rel="noopener">Fiverr</a>). Two parts of your thesis need fixing. The faceless "pyramid scheme" claim is overstated: there are real earners, but the payout curve is brutal and the platforms are now policing it. And your plan is missing the biggest lever of all, packaging and retention. The opportunity for you is that dozens of creators made the "Claude killed video editors" tutorial, and almost nobody with reach made the honest, analytical version.</p></div>
+      <div class="quick" aria-label="Jump to"><a class="chip" href="#thesis-scorecard">Thesis scorecard</a><a class="chip" href="#stats-you-can-say-on-camera">Stats to say on camera</a><a class="chip" href="#supercut-shortlist">Supercut shortlist</a><a class="chip" href="#suggested-structure">Suggested structure</a><a class="chip" href="#questions-for-the-creator">Questions for you</a></div>
+      <details class="toc-mobile"><summary>All chapters</summary><p class="toc-part">Part 1 · The research</p><ol><li><a href="#thesis-scorecard">Thesis scorecard</a></li>
+<li><a href="#cheap-production-floods-supply-while-attention-stays-flat">Cheap production floods supply while attention stays flat</a></li>
+<li><a href="#claude-editing-is-real-but-its-a-developer-shaped-niche">Claude editing is real, but it's a developer-shaped niche</a></li>
+<li><a href="#faceless-arbitrage-pays-a-few-then-gets-policed">Faceless arbitrage pays a few, then gets policed</a></li>
+<li><a href="#packaging-and-audio-decide-performance-ai-handles-the-mechanical-middle">Packaging and audio decide performance; AI handles the mechanical middle</a></li>
+<li><a href="#edit-footage-locally-use-the-cloud-for-code">Edit footage locally; use the cloud for code</a></li></ol>
+<p class="toc-part">Part 2 · For your video</p><ol start="7"><li><a href="#stats-you-can-say-on-camera">Stats you can say on camera</a></li>
+<li><a href="#supercut-shortlist">Supercut shortlist</a></li>
+<li><a href="#competitive-gap-positioning">Competitive gap &amp; positioning</a></li>
+<li><a href="#suggested-structure">Suggested structure</a></li>
+<li><a href="#where-your-understanding-is-incomplete">Where your understanding is incomplete</a></li>
+<li><a href="#questions-for-the-creator">Questions for the creator</a></li>
+<li><a href="#next-steps">Next steps</a></li>
+<li><a href="#conclusion">Conclusion</a></li></ol></details>
+    </header>
+    <div class="part" id="part-research"><span>Part 1</span> The research</div>
+<section class="sec"><h2 id="thesis-scorecard">Thesis scorecard</h2>
+<p>Verdict key: <strong>Supported</strong> = strong, current data. <strong>Partly</strong> = true with an important caveat. <strong>Weak</strong> = thin or old evidence. <strong>Contradicted</strong> = data says otherwise.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Your claim</th>
+<th>Verdict</th>
+<th>Key number</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1a</td>
+<td>AI makes producing software/content cheaper, so supply explodes</td>
+<td><strong>Supported</strong></td>
+<td>App Store submissions +24% in 2025 (first big rise since 2016); ~1.3M new iOS + Google Play apps in H1 2026, "double" 2025; 121M new GitHub repos in 2025</td>
+<td><a href="https://appfigures.com/resources/insights/20251205?f=2" target="_blank" rel="noopener">Appfigures</a>, <a href="https://www.theatlantic.com/technology/2026/10/vibe-coders-are-clogging-app-store-slop/689150/" target="_blank" rel="noopener">The Atlantic</a> (snippet only), <a href="https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/" target="_blank" rel="noopener">GitHub Octoverse</a></td>
+</tr>
+<tr>
+<td>1b</td>
+<td>…so marketing/distribution matters more</td>
+<td><strong>Partly</strong></td>
+<td>AI writes ~50% of new articles but only ~14% of Google results; marketers reporting good video ROI fell 93% → 82% in one year. But no hard data shows budgets shifting to marketing, and CAC data is mixed</td>
+<td><a href="https://graphite.io/research/ai-content-in-search-and-llms" target="_blank" rel="noopener">Graphite</a>, <a href="https://www.digitalapplied.com/blog/video-marketing-statistics-2026-data-points" target="_blank" rel="noopener">Wyzowl via Digital Applied</a>, <a href="https://www.businessofapps.com/marketplace/user-acquisition/research/user-acquisition-costs/" target="_blank" rel="noopener">Business of Apps</a></td>
+</tr>
+<tr>
+<td>1c</td>
+<td>…and competition rises</td>
+<td><strong>Supported (structurally)</strong></td>
+<td>US total media time +2 min/day in 2025, +1 min in 2026; TikTok time per user −6.9%</td>
+<td><a href="https://www.emarketer.com/content/us-time-spent-with-media-2025" target="_blank" rel="noopener">eMarketer</a>, <a href="https://www.emarketer.com/content/us-tiktok-usage-time-spent-2025" target="_blank" rel="noopener">eMarketer TikTok</a></td>
+</tr>
+<tr>
+<td>2a</td>
+<td>More people are creating video</td>
+<td><strong>Supported directionally / weak as a precise count</strong></td>
+<td>20M+ YouTube uploads/day; creator-count headlines (50M / 200M / 303M) are all 2022–23 estimates using different definitions</td>
+<td><a href="https://blog.youtube/press/" target="_blank" rel="noopener">YouTube Press</a>, <a href="https://www.goldmansachs.com/insights/articles/the-creator-economy-could-approach-half-a-trillion-dollars-by-2027" target="_blank" rel="noopener">Goldman Sachs</a></td>
+</tr>
+<tr>
+<td>2b</td>
+<td>People are watching more video</td>
+<td><strong>Partly</strong></td>
+<td>Video's <em>share</em> is rising (YouTube = 15.8% of all US TV viewing, Aug 2026 record). <em>Total</em> attention is flat, so video is taking time from linear TV</td>
+<td><a href="https://www.nielsen.com/news-center/2026/tv-viewing-cools-off-in-nielsens-august-gauge-reports-as-sports-take-a-breather-and-school-resumes/" target="_blank" rel="noopener">Nielsen</a></td>
+</tr>
+<tr>
+<td>2c</td>
+<td>Video is still growing</td>
+<td><strong>Partly</strong></td>
+<td>Shorts: 70B → 200B daily views (Mar 2024 → Jun 2025); UK video-sharing time 43 → 51 min/day (2022 → 2025). But total time is plateauing</td>
+<td><a href="https://www.thewrap.com/youtube-shorts-200-billion-daily-views/" target="_blank" rel="noopener">TheWrap</a>, <a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/multi-sector/media-nations/2026/media-nations-2026-uk-report.pdf?v=423157" target="_blank" rel="noopener">Ofcom</a></td>
+</tr>
+<tr>
+<td>3a</td>
+<td>"Editing with Claude" is a real trend (not just my bubble)</td>
+<td><strong>Supported, but it <em>is</em> partly a bubble</strong></td>
+<td>Remotion npm ~17x in 10 months. YouTube searches for "claude video editing" reached 26 vs 84 for "ai video editing" (week of Oct 25, 2026). On Google, Claude-editing terms are below the reporting threshold vs ~1M/mo for CapCut</td>
+<td><a href="https://api.npmjs.org/downloads/range/2025-05-01:2026-11-06/remotion" target="_blank" rel="noopener">npm</a>; DataForSEO/Google Trends pulls in the research notes</td>
+</tr>
+<tr>
+<td>3b</td>
+<td>Anthropic has published usage stats on this</td>
+<td><strong>Contradicted</strong></td>
+<td>No Anthropic stat on video editing exists. The only video mention in Anthropic's research is "short-form video scripts" as creative writing</td>
+<td><a href="https://www.anthropic.com/research/economic-index-june-2026-report" target="_blank" rel="noopener">Anthropic Economic Index, Jun 2026</a></td>
+</tr>
+<tr>
+<td>3c</td>
+<td>There's a "Pencil.dev for video"</td>
+<td><strong>Partly</strong></td>
+<td>Several contenders ("The VS Code of video editing, built for agents", HyperFrames, ChatCut), but no winner yet. Incumbents (Adobe, Resolve) are plugging Claude in, much as Figma did against Pencil</td>
+<td><a href="https://www.anthropic.com/news/claude-for-creative-work" target="_blank" rel="noopener">Anthropic Creative Work</a>, <a href="https://www.figma.com/blog/the-figma-agent-is-here/" target="_blank" rel="noopener">Figma</a></td>
+</tr>
+<tr>
+<td>3d</td>
+<td>Editors aren't killed, they're transformed</td>
+<td><strong>Supported</strong></td>
+<td>Fiverr H1 2026: video editing +36%, short-form editing +27%, AI video ads +63%. Upwork: AI video generation/editing +329%</td>
+<td><a href="https://www.fiverr.com/news/business-trends-index-ai-2026" target="_blank" rel="noopener">Fiverr</a>, <a href="https://investors.upwork.com/news-releases/news-release-details/upworks-demand-skills-2026-demand-top-ai-skills-more-doubles-ai" target="_blank" rel="noopener">Upwork</a> (both from snippets)</td>
+</tr>
+<tr>
+<td>4a</td>
+<td>Faceless/AI channels are a pyramid scheme where course sellers profit</td>
+<td><strong>Partly / overstated</strong></td>
+<td>Real earners exist (Fortune verified ~$700K/yr gross for one operator), but he <em>also</em> sells a course; Kapwing's honest test channel got 1.1M views and earned <strong>$0</strong></td>
+<td><a href="https://fortune.com/2025/12/30/ai-slop-faceless-youtube-accounts-adavia-davis-user-generated-content/" target="_blank" rel="noopener">Fortune</a>, <a href="https://www.kapwing.com/resources/we-grew-a-faceless-youtube-channel-to-1000-subscribers/" target="_blank" rel="noopener">Kapwing</a></td>
+</tr>
+<tr>
+<td>4b</td>
+<td>Sponsorships require trust / a face</td>
+<td><strong>Partly</strong></td>
+<td>Brand deals ≈70% of creator revenue (2023); 60% trust a creator over a brand. But faceless channels do sell CPM-priced sponsorships (VPNs, SaaS), and the "face premium" figures come only from vendor blogs</td>
+<td><a href="https://www.goldmansachs.com/insights/articles/the-creator-economy-could-approach-half-a-trillion-dollars-by-2027" target="_blank" rel="noopener">Goldman Sachs</a>, <a href="https://www.edelman.com/insights/brands-culture-2025" target="_blank" rel="noopener">Edelman</a></td>
+</tr>
+<tr>
+<td>4c</td>
+<td>AI explainers all look the same</td>
+<td><strong>Supported (circumstantial)</strong></td>
+<td>Identical captions reposted 3x in 2 days; creators inside the niche call it "generic AI slop"; Google's spam system clusters channels by templated-narrative similarity. No quantitative study exists</td>
+<td><a href="https://www.tiktok.com/@laeshaai_/video/7704773840911486238" target="_blank" rel="noopener">@laeshaai_ TikTok</a>, <a href="https://respawn.outlookindia.com/gaming/gaming-news/google-ai-spam-system-terminated-130k-channels-in-six-months" target="_blank" rel="noopener">Outlook Respawn</a></td>
+</tr>
+<tr>
+<td>4d</td>
+<td>The moat is a person / trust</td>
+<td><strong>Supported</strong></td>
+<td>Preference for AI creator content fell 60% → 26% (2023 → 2025); content suspected of being AI loses 48% of its trust</td>
+<td><a href="https://www.billiondollarboy.com/news/new-research-real-impact-ai-creator-economy" target="_blank" rel="noopener">Billion Dollar Boy</a>, <a href="https://raptive.com/blog/the-ai-stink-is-real-and-its-costing-brands/" target="_blank" rel="noopener">Raptive</a></td>
+</tr>
+<tr>
+<td>5a</td>
+<td>Good audio matters</td>
+<td><strong>Supported (peer-reviewed)</strong></td>
+<td>Poor audio made viewers rate speakers as less intelligent and their research as less important</td>
+<td><a href="https://journals.sagepub.com/doi/abs/10.1177/1075547018759345" target="_blank" rel="noopener">Newman &amp; Schwarz 2018</a></td>
+</tr>
+<tr>
+<td>5b</td>
+<td>Hooks / re-hooks matter</td>
+<td><strong>Supported, but the popular stats are ad data</strong></td>
+<td>YouTube's own "Intro" metric is the % still watching at 30 s. The "47% of value in 3 s" figure is 2016 Facebook <em>ad</em> data</td>
+<td><a href="https://support.google.com/youtube/answer/9314415?hl=en" target="_blank" rel="noopener">YouTube Help</a>, <a href="https://www.facebook.com/business/news/value-of-video" target="_blank" rel="noopener">Meta</a></td>
+</tr>
+<tr>
+<td>5c</td>
+<td>B-roll / motion graphics / sound design drive performance</td>
+<td><strong>Weak</strong></td>
+<td>No rigorous data on B-roll frequency or SFX impact; "change the visual every 3–5 s" is folklore</td>
+<td>(gap in the literature)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Creators everywhere say "Claude killed video editors"</td>
+<td><strong>Supported</strong></td>
+<td>25+ instances found; top one has 1.75M plays; some are paid #higgsfieldpartner posts</td>
+<td><a href="https://www.tiktok.com/@maverickgpt/video/7626037474292337951" target="_blank" rel="noopener">TikTok @maverickgpt</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Local vs cloud matters for editing</td>
+<td><strong>Supported</strong></td>
+<td>Cloud sessions: ~4 vCPU / 16 GB RAM / 30 GB disk, no GPU, no ffmpeg preinstalled, repo bundles under 100 MB</td>
+<td><a href="https://code.claude.com/docs/en/cloud-environments" target="_blank" rel="noopener">Claude Code cloud docs</a></td>
+</tr>
+</tbody>
+</table></div>
+
+</section><section class="sec"><h2 id="cheap-production-floods-supply-while-attention-stays-flat">Cheap production floods supply while attention stays flat</h2>
+<p>The cleanest proof of your core thesis comes from software, not video, and that's useful on camera because it's an analogy viewers already feel. Apple's App Store received <strong>557,000 new app submissions in 2025, up 24%</strong>. That reversed a seven-year decline, and Appfigures names vibe coding as a driver (<a href="https://appfigures.com/resources/insights/20251205?f=2" target="_blank" rel="noopener">Appfigures</a>). In Q1 2026 new iOS apps were up <strong>84%</strong> year over year (<a href="https://appleinsider.com/articles/26/04/05/vibe-coding-significantly-boosted-app-store-review-submissions-in-2025" target="_blank" rel="noopener">AppleInsider</a>). The Atlantic reports nearly <strong>1.3 million new iOS and Google Play apps in H1 2026</strong>, double 2025, with Tim Cook citing "more than 1,000 submissions an hour." Its companion segment was titled "Vibe-coded apps flood app stores, but no one uses them" (<a href="https://www.theatlantic.com/technology/2026/10/vibe-coders-are-clogging-app-store-slop/689150/" target="_blank" rel="noopener">The Atlantic</a>, seen in snippets only because the article was paywalled). GitHub shows the same curve: a record 121M new repos in 2025 (<a href="https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/" target="_blank" rel="noopener">Octoverse 2025</a>), then 17.9B pushes in 12 months, "more than 2024 and 2025 combined" (<a href="https://github.blog/news-insights/octoverse/octoverse-commits-pushes-reach-new-highs-in-2026-as-developers-build-with-agents/" target="_blank" rel="noopener">Octoverse 2026</a>).</p>
+<p>Content follows the same pattern. YouTube now reports <strong>over 20 million videos uploaded daily</strong> (<a href="https://blog.youtube/press/" target="_blank" rel="noopener">YouTube Press</a>). AI-written articles overtook human ones in November 2024 and have held at roughly <strong>50/50</strong> since (<a href="https://graphite.io/research/ai-now-writes-as-many-online-articles-as-humans-do" target="_blank" rel="noopener">Graphite 2026</a>). The most useful single fact for your argument is that those AI articles make up only <strong>12–14% of Google Search results</strong> (<a href="https://graphite.io/research/ai-content-in-search-and-llms" target="_blank" rel="noopener">Graphite</a>). Being produced is not the same as being seen. That gap is "distribution matters more" in one number.</p>
+<p>Demand has not kept pace. eMarketer projects US adults' total daily media time to grow by <strong>just 2 minutes in 2025 and 1 minute in 2026</strong> (<a href="https://www.emarketer.com/content/us-time-spent-with-media-2025" target="_blank" rel="noopener">eMarketer</a>). Even TikTok's per-user time fell 6.9% in 2025 (<a href="https://www.emarketer.com/content/us-tiktok-usage-time-spent-2025" target="_blank" rel="noopener">eMarketer</a>). So "people watch more video" is true as a <em>share shift</em>, not as growth in total attention. YouTube hit a record <strong>15.8% of all US TV viewing</strong> in August 2026, rising 6% in a month when total TV usage <em>fell</em> 4.4% (<a href="https://www.nielsen.com/news-center/2026/tv-viewing-cools-off-in-nielsens-august-gauge-reports-as-sports-take-a-breather-and-school-resumes/" target="_blank" rel="noopener">Nielsen</a>). In the UK, video-sharing platforms grew from 43 to 51 minutes per person per day between 2022 and 2025, while linear TV lost 14 minutes in a single year (<a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/multi-sector/media-nations/2026/media-nations-2026-uk-report.pdf?v=423157" target="_blank" rel="noopener">Ofcom</a>). Shorts views nearly tripled to <strong>200 billion a day</strong> (<a href="https://www.thewrap.com/youtube-shorts-200-billion-daily-views/" target="_blank" rel="noopener">TheWrap</a>) without total minutes moving. Short-form multiplies the number of slots competing for the same attention.</p>
+<p>On what video is used for: business adoption has saturated at about <strong>91%</strong> of companies using it for marketing. That edition of Wyzowl's survey also shows AI-tool use jumping from 51% to <strong>63%</strong> while the share reporting good ROI dropped from <strong>93% to 82%</strong> (<a href="https://www.digitalapplied.com/blog/video-marketing-statistics-2026-data-points" target="_blank" rel="noopener">Wyzowl via Digital Applied</a>; primary: <a href="https://wyzowl.com/video-marketing-statistics/" target="_blank" rel="noopener">wyzowl.com</a>, which blocked automated fetches). The sample is only 266 respondents, so call it a signal, not proof. Still, "more AI, lower returns per video" in one year is an excellent on-camera beat. Education is the highest-value use for creators: a 300-channel dataset puts median Education &amp; Science RPM at <strong>$10.22</strong>, versus $2.30 across all niches and $0.33 for kids content (<a href="https://air.io/en/air-data-findings/which-youtube-niche-makes-the-most-money-in-2026-ranked-by-real-rpm-and-cpm" target="_blank" rel="noopener">AIR Media-Tech</a>). That's relevant because your course video sits in the high-RPM bucket.</p>
+<p>Here's where to steelman the other side. Jevons paradox cuts both ways: cheaper editing also <em>expands</em> demand for editing (<a href="https://www.npr.org/sections/planet-money/2025/02/04/g-s1-46018/ai-deepseek-economics-jevons-paradox" target="_blank" rel="noopener">NPR Planet Money</a>). The strongest form of your thesis is not "spend more on marketing," because there's no hard data on budget shifts and mobile cost-per-install is roughly flat (<a href="https://www.businessofapps.com/marketplace/user-acquisition/research/user-acquisition-costs/" target="_blank" rel="noopener">Business of Apps</a>). It's Ben Thompson's Aggregation Theory: when supply is abundant, value moves to whoever owns demand (<a href="https://stratechery.com/2015/aggregation-theory/" target="_blank" rel="noopener">Stratechery</a>). For a creator, that means owning an audience and its trust. Herbert Simon said it in 1971: "a wealth of information creates a poverty of attention" (<a href="https://www.oxfordreference.com/display/10.1093/acref/9780191843730.001.0001/q-oro-ed5-00019845" target="_blank" rel="noopener">Oxford Reference</a>).</p>
+</section><section class="sec"><h2 id="claude-editing-is-real-but-its-a-developer-shaped-niche">Claude editing is real, but it's a developer-shaped niche</h2>
+<p><strong>Anthropic has not published any statistic on video editing.</strong> The Economic Index reports cover coding, writing and occupations. The only explicit video mention is that work-related creative writing is "mostly short-form video scripts, screenwriting, and speeches" (<a href="https://www.anthropic.com/research/economic-index-june-2026-report" target="_blank" rel="noopener">Anthropic, Jun 2026</a>). Anthropic's signal is strategic rather than statistical. On Apr 28, 2026 it launched <strong>Claude for Creative Work</strong>, with connectors for Adobe (50+ tools, including Premiere) and Blender, plus the line "Claude can't replace taste or imagination, but it can open up new ways of working" (<a href="https://www.anthropic.com/news/claude-for-creative-work" target="_blank" rel="noopener">Anthropic</a>). One critic argued that at launch the Adobe connector worked "at Adobe Express level, not Photoshop or Premiere" (<a href="https://www.mindstudio.ai/blog/claude-mcp-adobe-vs-photoshop-premiere-what-it-does" target="_blank" rel="noopener">MindStudio</a>). What Anthropic <em>has</em> disclosed is Claude Code's scale: <strong>over $2.5B run-rate revenue</strong> by Feb 2026 (<a href="https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation" target="_blank" rel="noopener">Anthropic</a>).</p>
+<p>The best evidence the trend is real is the package-download curve. After Remotion launched Agent Skills on Jan 20, 2026 ("make videos just with Claude Code!" — <a href="https://x.com/Remotion/status/2013626968386765291" target="_blank" rel="noopener">Remotion on X</a>), monthly downloads of the <code>remotion</code> package went from <strong>569K (Dec 2025) to 10.0M (Oct 2026)</strong>. HeyGen's agent-first <code>hyperframes</code> went from zero to <strong>3.85M</strong> a month (<a href="https://api.npmjs.org/downloads/range/2025-05-01:2026-11-06/remotion" target="_blank" rel="noopener">npm API</a>; counts include automated installs). The Remotion skill shows <strong>765K installs</strong> on skills.sh (<a href="https://www.skills.sh/remotion-dev/skills/remotion-best-practices" target="_blank" rel="noopener">skills.sh</a>). Agent-native video repos created in 2026 already have huge star counts: HyperFrames 80K, OpenMontage 78K, browser-use's video-use 31K (GitHub API, Nov 7, 2026).</p>
+<p>Your "is this my bubble?" instinct is also right, though. On Google web search in the US, "claude video editing," "claude code video editing" and "remotion claude" all fall <strong>below Google Ads' reporting threshold</strong>. "ai video editing" sits at a flat ~3K a month, while "capcut" draws 823K–1.22M and "descript" 74K–90K (DataForSEO pulls, Sep 2026). YouTube search tells a different story: "claude video editing" was near zero before 2026, then spiked to <strong>26 vs 84 for "ai video editing"</strong> in the week of Oct 25, 2026 (Google Trends via DataForSEO). The fair summary for camera: <strong>creator content about Claude editing is growing faster than mainstream demand for it</strong>, and that is exactly how a bubble looks from the inside. It's also an opening, because YouTube search demand is rising right now.</p>
+<p>Most of what YouTube calls "editing with Claude" is really two things. The first is <strong>video-as-code generation</strong>: Remotion, HyperFrames or Manim building motion graphics, title cards and explainers. The second is <strong>mechanical rough cuts</strong>: filler and silence removal via ffmpeg. Narrative editing of real footage is barely touched. The tools fall into four layers:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Examples</th>
+<th>What it's good for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code/agent-native "video as code"</td>
+<td>Remotion, HyperFrames, video-use, OpenMontage, ffmpeg skills, Manim</td>
+<td>Motion graphics, captions, templated explainers, talking-head rough cuts</td>
+</tr>
+<tr>
+<td>AI-native editors with agents</td>
+<td>Descript Underlord, CapCut AI, Opus Clip, ChatCut</td>
+<td>Text-based editing, clipping, mass-market users</td>
+</tr>
+<tr>
+<td>Incumbents opening to Claude</td>
+<td>Adobe AI Assistant in Premiere/After Effects + Claude connector; DaVinci Resolve 21.1 assistant integration; community Resolve/Premiere MCPs</td>
+<td>Timeline editing of real footage, with AI as a helper</td>
+</tr>
+<tr>
+<td>Generative video models</td>
+<td>Veo 3.1, Kling, Runway, Seedance, Luma; <strong>Sora was discontinued</strong> (app Apr 26, API Sep 24, 2026)</td>
+<td>Making new footage, not editing yours</td>
+</tr>
+</tbody>
+</table></div>
+<p>Sources: <a href="https://www.remotion.dev/docs/ai/coding-agents" target="_blank" rel="noopener">Remotion docs</a>, <a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener">HyperFrames</a>, <a href="https://github.com/browser-use/video-use" target="_blank" rel="noopener">video-use</a>, <a href="https://www.descript.com/underlord" target="_blank" rel="noopener">Descript</a>, <a href="https://blog.adobe.com/en/publish/2026/09/08/generate-create-directly-in-your-timeline-with-new-ai-powered-innovations-in-premiere-after-effects" target="_blank" rel="noopener">Adobe IBC 2026</a>, <a href="https://www.blackmagicdesign.com/products/davinciresolve/whatsnew" target="_blank" rel="noopener">Blackmagic</a> (exact scope of the 21.1 integration unverified), <a href="https://help.openai.com/en/articles/20001152-what-to-know-about-the-sora-discontinuation" target="_blank" rel="noopener">OpenAI Help on Sora</a>.</p>
+<p><strong>Is there a "Pencil.dev for video"?</strong> Not yet. In design, Pencil.dev (now pen.dev) is "an agentic canvas" you drive with Claude (<a href="https://pen.dev/" target="_blank" rel="noopener">pen.dev</a>). Figma responded with its own Design Agent on May 20, 2026 (<a href="https://www.figma.com/blog/the-figma-agent-is-here/" target="_blank" rel="noopener">Figma</a>). Video is following the same script. Challengers explicitly use the framing: diffusionstudio's editor calls itself "The VS Code of video editing, built for agents," and HyperFrames says it is "Built for agents." Meanwhile Adobe and Blackmagic are wiring assistants and Claude into their timelines. Our read is that agent-native challengers have won the <em>motion-graphics</em> niche, while incumbents still own <em>footage editing</em>. Your video can frame this as an open race.</p>
+<p><strong>What happens to editors?</strong> Every demand signal points to transformation, not death. In H1 2026, Fiverr saw AI video ads up 63%, "matched with parallel demand for human editing talent, including video editing (+36%) and short-form video editing (+27%)." The same report has Claude Code specialists up <strong>938%</strong> (<a href="https://www.fiverr.com/news/business-trends-index-ai-2026" target="_blank" rel="noopener">Fiverr</a>). Upwork saw AI video generation and editing demand up <strong>329%</strong> (<a href="https://investors.upwork.com/news-releases/news-release-details/upworks-demand-skills-2026-demand-top-ai-skills-more-doubles-ai" target="_blank" rel="noopener">Upwork</a>). Both came from press-release snippets because the pages blocked fetching. Ben Affleck's arc is the best story beat you have. On Joe Rogan in January 2026 he said AI writing "goes to the mean, to the average" and would be "a tool just like sort of visual effects" (<a href="https://www.youtube.com/watch?v=O-2OsvVJC0s" target="_blank" rel="noopener">JRE Clips, 1:00–1:52</a>). Two months later Netflix bought his AI post-production startup InterPositive (<a href="https://about.netflix.com/news/why-interpositive-is-joining-netflix" target="_blank" rel="noopener">Netflix</a>) for <strong>$587M cash</strong> (<a href="https://variety.com/2026/film/news/netflix-paid-587-million-ben-affleck-ai-interpositive-1236815111/" target="_blank" rel="noopener">Variety</a>). He has since said he used AI "for lots of things" in his Netflix film <em>Animals</em> (<a href="https://deadline.com/2026/10/ben-affleck-used-ai-lots-of-things-animals-1237145166/" target="_blank" rel="noopener">Deadline</a>). The skeptic became the seller, and both positions fit "AI is a tool, not a replacement."</p>
+<p>Ali Abdaal is your other anchor, with one correction: he isn't a novice editor. He edited his own videos for about three years as a doctor. What was new to him was <em>AI</em> editing. His verdict after six hours: "about 97%, especially on the motion graphics front… didn't cost anything on top of my Claude subscription." It was "about 20 shotted," and "human plus AI is… the sweet spot right now" (<a href="https://www.youtube.com/watch?v=C0jOKDJtK9s" target="_blank" rel="noopener">YouTube, 45:02–45:54</a>).</p>
+</section><section class="sec"><h2 id="faceless-arbitrage-pays-a-few-then-gets-policed">Faceless arbitrage pays a few, then gets policed</h2>
+<p>The "pyramid scheme" framing overstates it. Real ad-revenue earners exist. Fortune reviewed AdSense records for 22-year-old Adavia Davis, whose five faceless channels gross an estimated <strong>~$700K a year</strong> at 85–89% margins. He uses <strong>Claude for scripts and visuals and ElevenLabs for narration</strong>. He also <strong>sells a course</strong>, and he expects the window to close around 2027 as big media companies copy the pipeline (<a href="https://fortune.com/2025/12/30/ai-slop-faceless-youtube-accounts-adavia-davis-user-generated-content/" target="_blank" rel="noopener">Fortune</a>). At the other end, Kapwing built an honest faceless channel with an AI script and the stock ElevenLabs "Adam" voice. It reached <strong>1.1M views, 37 watch hours in 90 days and $0 revenue</strong>, and YouTube briefly removed it as spam (<a href="https://www.kapwing.com/resources/we-grew-a-faceless-youtube-channel-to-1000-subscribers/" target="_blank" rel="noopener">Kapwing</a>). The accurate framing is a <strong>power-law plus an arbitrage window</strong>. Selling the dream (courses, pipelines, SaaS) is more stable than running the channels. It isn't the <em>only</em> way money gets made.</p>
+<p>Be careful with the earnings figures you'll see quoted. Social Blade estimates apply a flat <strong>$0.25–$4.00 RPM</strong>, a 16x spread (<a href="https://socialblade.com/help/how-are-estimated-earnings-calculated" target="_blank" rel="noopener">Social Blade</a>). The Infographics Show's yearly revenue is estimated anywhere from $104K to "$5M+" depending on who you ask. Every "this slop channel makes $4M a year" headline is a Social Blade midpoint (<a href="https://www.kapwing.com/blog/ai-slop-report-the-global-rise-of-low-quality-ai-videos/" target="_blank" rel="noopener">Kapwing</a>).</p>
+<p>The platforms are closing the window. YouTube's July 15, 2025 update made "repetitive or mass-produced" content explicitly non-monetizable (<a href="https://support.google.com/youtube/answer/1311392?hl=en" target="_blank" rel="noopener">YouTube Help</a>). In January 2026 Neal Mohan named "AI slop" a 2026 priority (<a href="https://blog.youtube/inside-youtube/the-future-of-youtube-2026/" target="_blank" rel="noopener">YouTube</a>). Sixteen of the 100 biggest slop channels were deleted or wiped that month (<a href="https://www.theverge.com/news/869684/youtube-top-ai-channels-removed-kapwing" target="_blank" rel="noopener">The Verge</a>). A Google research system terminated 130,000 channels in 50,000 clusters by keying on "templated narratives" and shared automation. Commentators identify the platform as YouTube, but <strong>that is not officially confirmed</strong> (<a href="https://fstoppers.com/artificial-intelligence/how-google-machine-terminated-130000-ai-slop-youtube-channels-six-months-903645" target="_blank" rel="noopener">Fstoppers</a>). The collateral damage is relevant to your own history. Human-made faceless channels report demonetization, and Kurzgesagt says YouTube's detector wrongly flagged its work as AI slop (<a href="https://thenextweb.com/news/youtube-ai-slop-crackdown-faceless-creators-collateral-damage" target="_blank" rel="noopener">TNW</a>, <a href="https://x.com/Kurz_Gesagt/status/2083191397981561232" target="_blank" rel="noopener">Kurzgesagt on X</a>). Data-race charts and templated chat formats like Grafels and Sync the Chat sit squarely in the "repetitive" category the policy targets.</p>
+<p>Your sponsorship instinct is right at the aggregate level. Brand deals are about <strong>70%</strong> of creator revenue (<a href="https://www.goldmansachs.com/insights/articles/the-creator-economy-could-approach-half-a-trillion-dollars-by-2027" target="_blank" rel="noopener">Goldman Sachs, 2023</a>), US creator ad spend reached <strong>$37B in 2025, up 26%</strong> (<a href="https://www.iab.com/news/creator-economy-ad-spend-to-reach-37-billion-in-2025-growing-4x-faster-than-total-media-industry-according-to-iab/" target="_blank" rel="noopener">IAB</a>), and MrBeast earns more from chocolate than from YouTube (<a href="https://www.bloomberg.com/news/articles/2025-03-10/mrbeast-makes-more-money-from-feastables-chocolate-than-youtube" target="_blank" rel="noopener">Bloomberg</a>). The nuance: faceless channels <em>do</em> get CPM-priced direct-response sponsors (VPNs, apps). The big, long-term brand partnerships Samir Chaudry describes, worth "$500K, $1M, or $3M," go to personalities (<a href="https://www.linkedin.com/pulse/who-actually-gets-paid-youtube-samir-chaudry--muerc" target="_blank" rel="noopener">LinkedIn</a>). Treat any "face-on-camera creators earn 20–30% more" claim as vendor marketing.</p>
+<p>On "it all looks the same," trust data is your strongest evidence. Consumer preference for AI-generated creator content fell from <strong>60% in 2023 to 26% in 2025</strong> (<a href="https://www.billiondollarboy.com/news/new-research-real-impact-ai-creator-economy" target="_blank" rel="noopener">Billion Dollar Boy</a>). Content merely <em>suspected</em> of being AI loses <strong>48% of trust and 60% of emotional connection</strong> (<a href="https://raptive.com/blog/the-ai-stink-is-real-and-its-costing-brands/" target="_blank" rel="noopener">Raptive</a>). An identical post labeled "AI-generated" gets up to <strong>46 points less</strong> emotional engagement (<a href="https://www.cbs.dk/en/latest/ai-labels-reduce-social-media-engagement" target="_blank" rel="noopener">Copenhagen Business School</a>). The penalty is triggered by perception. Anything that <em>reads</em> as AI pays the tax: a stock TTS voice, default Remotion motion, generic script cadence. Sameness is also literally the signal Google's spam system clusters on. So the moat is whatever is expensive to copy: a recognizable person and voice, a point of view, original data or testing, community, and owned products. Instagram's Adam Mosseri put it this way: "authenticity is becoming infinitely reproducible," so raw human signals gain value for now (<a href="https://om.co/2026/01/01/what-is-instagrams-adam-mosseri-really-saying-in-his-year-end-memo/" target="_blank" rel="noopener">Om Malik</a>).</p>
+</section><section class="sec"><h2 id="packaging-and-audio-decide-performance-ai-handles-the-mechanical-middle">Packaging and audio decide performance; AI handles the mechanical middle</h2>
+<p>Your list of what makes social video good (hook, re-hooks, visuals, sound, value, B-roll, sound design) is missing the first item, <strong>packaging</strong>. MrBeast's production guide makes the point: "I Spent 50 Hours In Ketchup" versus "…In My Front Yard" is the same effort, but one is "easily 100x more viral." Its rule is "you must know the title and thumbnails of the videos you are making" before you make them (<a href="https://cdn.prod.website-files.com/6623bf84e83241ec49b548e4/66edaa19db6e9359bb92931f_How-To-Succeed-At-MrBeast-Production%20(2).pdf" target="_blank" rel="noopener">MrBeast guide</a>, <a href="https://simonwillison.net/2024/Sep/15/how-to-succeed-in-mrbeast-production/" target="_blank" rel="noopener">Simon Willison summary</a>). Colin &amp; Samir decide the idea, title and thumbnail before writing the three-act story (<a href="https://www.musicbed.com/articles/filmmaking/youtube/the-biggest-mistake-filmmakers-make-with-colin-and-samir/" target="_blank" rel="noopener">Musicbed</a>).</p>
+<p>Retention is measurable and specific. YouTube's "Intro" metric is the share of viewers still watching at <strong>30 seconds</strong>. YouTube explicitly ties it to whether the opening "matched the viewer's expectation of the video's thumbnail and title" (<a href="https://support.google.com/youtube/answer/9314415?hl=en" target="_blank" rel="noopener">YouTube Help</a>). MrBeast's team lost 21M of 60M viewers in minute one and considered that above average. They plan re-engagements around minutes <strong>3 and 6</strong>. YouTube's thumbnail A/B test picks winners by <strong>watch-time share, not CTR</strong> (<a href="https://support.google.com/youtube/answer/16391400?hl=en" target="_blank" rel="noopener">YouTube Help</a>), so clickbait that doesn't deliver loses the test.</p>
+<p>Audio has the best science behind it. In two experiments, degraded audio made viewers rate the talk as worse, the speaker as "less intelligent and less likeable," and the research as less important (<a href="https://journals.sagepub.com/doi/abs/10.1177/1075547018759345" target="_blank" rel="noopener">Newman &amp; Schwarz 2018</a>; <a href="https://dornsife.usc.edu/news/stories/norbert-schwarz-research-links-sound-quality-belief/" target="_blank" rel="noopener">USC summary</a>). No comparable evidence exists that 4K beats 1080p. Captions matter because people often watch muted in public: 69% in public versus 25% in private (<a href="https://www.forbes.com/sites/tjmccue/2019/07/31/verizon-media-says-69-percent-of-consumers-watching-video-with-sound-off/" target="_blank" rel="noopener">Forbes on Verizon/Publicis 2019</a>). The B-roll-frequency and sound-design claims you planned to make are folklore. No rigorous public study isolates them, so present them as craft opinion, not data. Shot lengths in films did fall from about 12 s (1930) to about 2.5 s (2014) (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3485803/" target="_blank" rel="noopener">Cutting et al.</a>). Pacing should follow story, though, not just get faster.</p>
+<p>Claude's strengths line up with the mechanical middle of this pipeline because of how it works. It <strong>does not watch video or hear audio</strong>. Claude accepts images, not video files. Every "Claude edited my video" setup is a pipeline: speech-to-text produces word timestamps, Claude reads the text and writes a cut list, and ffmpeg renders it. Pipelines like video-use add on-demand filmstrip and waveform images at decision points ("The LLM never watches the video. It reads it." — <a href="https://github.com/browser-use/video-use" target="_blank" rel="noopener">video-use</a>; <a href="https://blog.laozhang.ai/en/posts/claude-code-video-editing" target="_blank" rel="noopener">LaoZhang AI</a>). Looking at frames is expensive. One 1080p frame costs about 2,700 tokens, so a 10-minute video at one frame per second is about 1.6M tokens, versus roughly 7.5–21K for its transcript (<a href="https://blog.laozhang.ai/en/posts/claude-code-video-editing" target="_blank" rel="noopener">LaoZhang AI</a>). Failures cluster where judgment lives. In one vendor test, Claude reported a 299-second highlight reel whose cuts actually summed to <strong>578 seconds</strong>, and all 11 cuts broke mid-sentence (<a href="https://cutback.video/blog/claude-for-video-editing-in-2026-what-works-what-breaks-and-the-real-pipeline" target="_blank" rel="noopener">cutback.video</a>; the vendor sells a competing product). A 16-skill bake-off found Remotion output looks "close to the default" without a design direction (<a href="https://github.com/zhuyansen/awesome-claude-video-skills" target="_blank" rel="noopener">awesome-claude-video-skills</a>). That default look is the technical root of the sameness problem.</p>
+<h3 id="ai-scorecard-per-editing-step">AI scorecard per editing step</h3>
+<p>Grades are our synthesis of READMEs, vendor tests and practitioner reports. No independent controlled benchmark exists. Pre-production and production rows are inferred from the same evidence and are less certain.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Step</th>
+<th>Grade</th>
+<th>Why</th>
+<th>Key source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre</td>
+<td>Idea research / outlier analysis</td>
+<td>B</td>
+<td>Good at synthesizing; can't see your analytics unless you export them</td>
+<td>inference</td>
+</tr>
+<tr>
+<td>Pre</td>
+<td>Title / description / chapters copy</td>
+<td>B+</td>
+<td>Strong from a transcript; you still pick</td>
+<td><a href="https://cutback.video/blog/claude-for-video-editing-in-2026-what-works-what-breaks-and-the-real-pipeline" target="_blank" rel="noopener">cutback.video</a></td>
+</tr>
+<tr>
+<td>Pre</td>
+<td>Script &amp; hook drafting</td>
+<td>B</td>
+<td>Fast drafts; trends toward "the mean," as Affleck says. Your voice is the moat</td>
+<td><a href="https://www.youtube.com/watch?v=O-2OsvVJC0s" target="_blank" rel="noopener">JRE clip</a></td>
+</tr>
+<tr>
+<td>Pre</td>
+<td>Thumbnail</td>
+<td>Not assessed</td>
+<td>Claude makes no images natively; packaging judgment is human</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Prod</td>
+<td>Filming, performance, audio capture</td>
+<td>F (not applicable)</td>
+<td>AI can't hold your mic; audio quality is decided here</td>
+<td><a href="https://journals.sagepub.com/doi/abs/10.1177/1075547018759345" target="_blank" rel="noopener">Newman &amp; Schwarz</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Transcription</td>
+<td>A−</td>
+<td>Mature, but word edges drift ~100–500 ms, so pad cuts</td>
+<td><a href="https://blog.laozhang.ai/en/posts/claude-code-video-editing" target="_blank" rel="noopener">LaoZhang AI</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Silence / filler removal</td>
+<td>A</td>
+<td>Deterministic (auto-editor, silencedetect)</td>
+<td><a href="https://github.com/WyattBlue/auto-editor" target="_blank" rel="noopener">auto-editor</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Retake / blooper selection</td>
+<td>B+</td>
+<td>Repeats are obvious in text; can keep the wrong take</td>
+<td><a href="https://blog.laozhang.ai/en/posts/claude-code-video-editing" target="_blank" rel="noopener">LaoZhang AI</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Story / highlight selection</td>
+<td>C</td>
+<td>Mid-sentence cuts, wrong totals; needs an approval loop</td>
+<td><a href="https://cutback.video/blog/claude-for-video-editing-in-2026-what-works-what-breaks-and-the-real-pipeline" target="_blank" rel="noopener">cutback.video</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Jump cuts / punch-in zooms</td>
+<td>B</td>
+<td>Face detection + crops automate well</td>
+<td><a href="https://github.com/chrislema/videoeditor" target="_blank" rel="noopener">chrislema/videoeditor</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Captions</td>
+<td>A</td>
+<td>Solved; burn-in for social, upload .srt separately</td>
+<td><a href="https://github.com/browser-use/video-use" target="_blank" rel="noopener">video-use</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Audio cleanup &amp; loudness</td>
+<td>A− (noise repair B)</td>
+<td>ffmpeg EQ, compression, loudnorm; Adobe Podcast has no API</td>
+<td><a href="https://github.com/chrislema/videoeditor" target="_blank" rel="noopener">chrislema</a>, <a href="https://cleanvoice.ai/adobe-podcast-api-alternative/" target="_blank" rel="noopener">Cleanvoice</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Color</td>
+<td>B− presets / D shot-matching</td>
+<td>Preset grades fine; color-critical work stays in the NLE</td>
+<td><a href="https://blog.laozhang.ai/en/posts/claude-code-video-editing" target="_blank" rel="noopener">LaoZhang AI</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>B-roll</td>
+<td>B search / D choosing by look</td>
+<td>Pexels API search works; visual taste doesn't</td>
+<td><a href="https://www.pexels.com/api/documentation/" target="_blank" rel="noopener">Pexels API</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Motion graphics</td>
+<td>B+</td>
+<td>Remotion/HyperFrames strong; generic without design direction</td>
+<td><a href="https://github.com/zhuyansen/awesome-claude-video-skills" target="_blank" rel="noopener">awesome list</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Music / SFX placement</td>
+<td>C+</td>
+<td>Can script ducking and SFX; taste is weak</td>
+<td><a href="https://github.com/appariciojunior/video-editor-skills" target="_blank" rel="noopener">video-editor-skills</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Multicam / action selection</td>
+<td>D</td>
+<td>Switches too fast; misses action</td>
+<td><a href="https://cutback.video/blog/claude-for-video-editing-in-2026-what-works-what-breaks-and-the-real-pipeline" target="_blank" rel="noopener">cutback.video</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>NLE assembly via MCP</td>
+<td>B−</td>
+<td>"First-pass assembly," not judgment</td>
+<td><a href="https://github.com/samuelgursky/davinci-resolve-mcp" target="_blank" rel="noopener">davinci-resolve-mcp</a></td>
+</tr>
+<tr>
+<td>Post</td>
+<td>Final taste / polish</td>
+<td>D</td>
+<td>"Claude can't replace taste" (Anthropic's own words)</td>
+<td><a href="https://www.anthropic.com/news/claude-for-creative-work" target="_blank" rel="noopener">Anthropic</a></td>
+</tr>
+<tr>
+<td>Publish</td>
+<td>SRT, 9:16 versions, export</td>
+<td>A</td>
+<td>Mechanical</td>
+<td><a href="https://blog.laozhang.ai/en/posts/claude-code-video-editing" target="_blank" rel="noopener">LaoZhang AI</a></td>
+</tr>
+<tr>
+<td>Analyze</td>
+<td>Reading retention graphs</td>
+<td>B (if you export data)</td>
+<td>Can interpret exported analytics; can't access Studio itself</td>
+<td>inference</td>
+</tr>
+</tbody>
+</table></div>
+<p>By format, Claude Code fits <strong>speech-driven</strong> content best: talking heads, narrated tutorials, podcast clips. It's weakest where the edit is driven by visuals: vlogs, multicam, action, B-roll chosen by look (<a href="https://blog.laozhang.ai/en/posts/claude-code-video-editing" target="_blank" rel="noopener">LaoZhang AI</a>). For "what happens visually," people route clips to Gemini, which accepts video at roughly 100–300 tokens per second (<a href="https://ai.google.dev/gemini-api/docs/video-understanding" target="_blank" rel="noopener">Gemini docs</a>), via an MCP bridge (<a href="https://github.com/ugarchance/mcp-gemini-video-understanding" target="_blank" rel="noopener">mcp-gemini-video-understanding</a>).</p>
+</section><section class="sec"><h2 id="edit-footage-locally-use-the-cloud-for-code">Edit footage locally; use the cloud for code</h2>
+<p>Footage belongs on your machine. Claude Code cloud sessions run on roughly <strong>4 vCPUs, 16 GB RAM and 30 GB disk</strong> with no GPU listed. <strong>ffmpeg isn't preinstalled</strong>, foreground commands time out after 2 minutes by default (10 max), and Anthropic itself says to use Remote Control on your own hardware "for workloads beyond these limits" (<a href="https://code.claude.com/docs/en/cloud-environments" target="_blank" rel="noopener">Cloud environments</a>). Code reaches the VM by cloning from GitHub. Non-GitHub bundles must be <strong>under 100 MB</strong>, and untracked files are excluded (<a href="https://code.claude.com/docs/en/claude-code-on-the-web" target="_blank" rel="noopener">Claude Code on the web</a>). Multi-gigabyte raw footage doesn't fit that model.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Local (terminal / Desktop)</th>
+<th>Remote Control (local, steered from phone)</th>
+<th>Cloud session</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ingest, transcribe (whisper.cpp on Apple Silicon)</td>
+<td><strong>Best</strong></td>
+<td>Good</td>
+<td>Poor (CPU-only, disk)</td>
+</tr>
+<tr>
+<td>ffmpeg cuts &amp; renders of real footage</td>
+<td><strong>Best</strong></td>
+<td><strong>Best</strong> for walk-away renders</td>
+<td>Poor (timeouts, 30 GB)</td>
+</tr>
+<tr>
+<td>Resolve / Premiere MCP control</td>
+<td><strong>Required</strong> (app must be running)</td>
+<td>Works</td>
+<td>Not possible</td>
+</tr>
+<tr>
+<td>Remotion / HyperFrames graphics code</td>
+<td>Good</td>
+<td>Good</td>
+<td><strong>Good</strong> (small, git-friendly)</td>
+</tr>
+<tr>
+<td>Writing skills / CLAUDE.md style guides</td>
+<td>Good</td>
+<td>Good</td>
+<td><strong>Good</strong></td>
+</tr>
+<tr>
+<td>Calling Pexels / ElevenLabs / Gemini APIs</td>
+<td>Easy</td>
+<td>Easy</td>
+<td>Needs custom network allowlist + secrets</td>
+</tr>
+</tbody>
+</table></div>
+<p>The demo workflow worth teaching goes like this. First, transcribe with word timestamps. Second, have Claude propose a keep-list or cut list that <strong>you approve</strong> (video-use's rule is "never touch the cut without strategy approval"). Third, render with padding, <strong>30 ms audio fades</strong> at each cut and frame-accurate re-encoding, not stream copy. Fourth, run an audio chain: high-pass, presence EQ, 3:1 compression, loudness normalization. Fifth, burn chunked captions. Sixth, add Remotion or HyperFrames overlays <em>with a written design direction</em>. Seventh, re-transcribe the output to confirm no words were clipped, then export XML to an NLE for a taste pass. Every correction goes into CLAUDE.md so the next video starts smarter (<a href="https://github.com/browser-use/video-use" target="_blank" rel="noopener">video-use</a>, <a href="https://github.com/chrislema/videoeditor" target="_blank" rel="noopener">chrislema/videoeditor</a>, <a href="https://github.com/appariciojunior/video-editor-skills" target="_blank" rel="noopener">video-editor-skills</a>, <a href="https://github.com/barefootford/buttercut" target="_blank" rel="noopener">ButterCut</a>). The bugs worth showing on camera are the real ones people hit: clipped words from timestamp drift, pops at cuts, keyframe drift, ffmpeg builds missing <code>drawtext</code>/<code>subtitles</code>, and Claude estimating durations instead of computing them.</p>
+
+</section><div class="part" id="part-toolkit"><span>Part 2</span> For your video</div>
+<section class="sec"><h2 id="stats-you-can-say-on-camera">Stats you can say on camera</h2>
+<p>These are the strongest, safest numbers, each with a current primary or near-primary source. Say the year out loud. Two need a quick re-check before recording (see notes).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Say this</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>"Over <strong>20 million videos</strong> are uploaded to YouTube every day."</td>
+<td><a href="https://blog.youtube/press/" target="_blank" rel="noopener">YouTube Press, 2025</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>"YouTube Shorts gets <strong>200 billion views a day</strong>, nearly triple 2024."</td>
+<td><a href="https://www.thewrap.com/youtube-shorts-200-billion-daily-views/" target="_blank" rel="noopener">TheWrap, Jun 2025</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>"YouTube is now <strong>15.8% of all TV watching in the US</strong>, more than Netflix's 7.7%."</td>
+<td><a href="https://www.nielsen.com/news-center/2026/tv-viewing-cools-off-in-nielsens-august-gauge-reports-as-sports-take-a-breather-and-school-resumes/" target="_blank" rel="noopener">Nielsen, Aug 2026 Gauge</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>"Americans' total media time is growing by <strong>one or two minutes a day per year</strong>. Attention is basically full."</td>
+<td><a href="https://www.emarketer.com/content/us-time-spent-with-media-2025" target="_blank" rel="noopener">eMarketer</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>"New App Store apps were up <strong>84%</strong> in Q1 2026, and Tim Cook says Apple gets <strong>over 1,000 submissions an hour</strong>."</td>
+<td><a href="https://appleinsider.com/articles/26/04/05/vibe-coding-significantly-boosted-app-store-review-submissions-in-2025" target="_blank" rel="noopener">AppleInsider</a>; Cook quote via <a href="https://www.theatlantic.com/technology/2026/10/vibe-coders-are-clogging-app-store-slop/689150/" target="_blank" rel="noopener">The Atlantic</a> (snippet; re-check)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"About <strong>half</strong> of new online articles are AI-written, but they're only about <strong>14%</strong> of Google results."</td>
+<td><a href="https://graphite.io/research/ai-now-writes-as-many-online-articles-as-humans-do" target="_blank" rel="noopener">Graphite</a>, <a href="https://graphite.io/research/ai-content-in-search-and-llms" target="_blank" rel="noopener">Graphite search</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>"On a brand-new YouTube account, <strong>1 in 5</strong> of the first 500 Shorts was AI slop."</td>
+<td><a href="https://www.kapwing.com/blog/ai-slop-report-the-global-rise-of-low-quality-ai-videos/" target="_blank" rel="noopener">Kapwing</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>"Marketers using AI for video went from 51% to <strong>63%</strong>, and the share happy with their video ROI fell from 93% to <strong>82%</strong>." (Say "one survey.")</td>
+<td><a href="https://www.digitalapplied.com/blog/video-marketing-statistics-2026-data-points" target="_blank" rel="noopener">Wyzowl via Digital Applied</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Remotion's downloads went from about half a million a month to <strong>10 million a month</strong> after Claude Code skills launched."</td>
+<td><a href="https://api.npmjs.org/downloads/range/2025-05-01:2026-11-06/remotion" target="_blank" rel="noopener">npm API</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td>"On Fiverr, demand for human <strong>video editing went up 36%</strong>, during the AI boom."</td>
+<td><a href="https://www.fiverr.com/news/business-trends-index-ai-2026" target="_blank" rel="noopener">Fiverr, Jun 2026</a> (snippet; re-check)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>"People who prefer AI-made creator content dropped from <strong>60% to 26%</strong> in two years."</td>
+<td><a href="https://www.billiondollarboy.com/news/new-research-real-impact-ai-creator-economy" target="_blank" rel="noopener">Billion Dollar Boy</a></td>
+</tr>
+<tr>
+<td>12</td>
+<td>"If viewers just <em>suspect</em> something is AI, trust drops <strong>48%</strong>."</td>
+<td><a href="https://raptive.com/blog/the-ai-stink-is-real-and-its-costing-brands/" target="_blank" rel="noopener">Raptive</a></td>
+</tr>
+<tr>
+<td>13</td>
+<td>"Bad audio makes people think you're <strong>less intelligent</strong>. That's a peer-reviewed study."</td>
+<td><a href="https://journals.sagepub.com/doi/abs/10.1177/1075547018759345" target="_blank" rel="noopener">Newman &amp; Schwarz 2018</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td>"Netflix paid <strong>$587 million</strong> for Ben Affleck's AI post-production company."</td>
+<td><a href="https://variety.com/2026/film/news/netflix-paid-587-million-ben-affleck-ai-interpositive-1236815111/" target="_blank" rel="noopener">Variety</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td>"Ali Abdaal got AI to <strong>about 97%</strong> of his editors' quality, in six hours and about twenty attempts."</td>
+<td><a href="https://www.youtube.com/watch?v=C0jOKDJtK9s" target="_blank" rel="noopener">YouTube, 45:02–45:54</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td>"Only about <strong>4%</strong> of creators earn over $100K a year." (Say "Goldman, 2023.")</td>
+<td><a href="https://www.goldmansachs.com/insights/articles/the-creator-economy-could-approach-half-a-trillion-dollars-by-2027" target="_blank" rel="noopener">Goldman Sachs</a></td>
+</tr>
+<tr>
+<td>17</td>
+<td>"Anthropic has <strong>never published</strong> a stat on how many people edit video with Claude."</td>
+<td><a href="https://www.anthropic.com/research/economic-index-june-2026-report" target="_blank" rel="noopener">Economic Index reports</a></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="myths-to-bust-stats-not-to-use">Myths to bust / stats NOT to use</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Don't say</th>
+<th>Why</th>
+<th>Say instead</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"90% of online content will be AI-generated by 2026 (Europol)"</td>
+<td>Europol was quoting unnamed "experts" in 2022, not forecasting. Measured reality: ~50% of articles, ~21% of a new Shorts feed (<a href="https://www.europol.europa.eu/cms/sites/default/files/documents/Europol_Innovation_Lab_Facing_Reality_Law_Enforcement_And_The_Challenge_Of_Deepfakes.pdf" target="_blank" rel="noopener">Europol PDF</a>, <a href="https://zine.kleinkleinklein.com/p/ai-synthetic-content" target="_blank" rel="noopener">Klein</a>)</td>
+<td>Graphite's ~50% / Kapwing's 21%. Great myth-bust moment</td>
+</tr>
+<tr>
+<td>"82% of internet traffic is video"</td>
+<td>2018 Cisco <em>forecast</em> for 2022; Cisco discontinued the series</td>
+<td>"Video is about 75% of mobile data" (Ericsson, via <a href="https://www.digitalapplied.com/blog/video-marketing-statistics-2026-data-points" target="_blank" rel="noopener">Digital Applied</a>)</td>
+</tr>
+<tr>
+<td>"500 hours uploaded to YouTube every minute"</td>
+<td>2019–2022 figure; YouTube no longer publishes it</td>
+<td>"20 million videos a day"</td>
+</tr>
+<tr>
+<td>"85% of videos are watched on mute"</td>
+<td>2016 Facebook <em>publisher</em> data from the autoplay-muted era (<a href="https://digiday.com/media/silent-world-facebook-video/" target="_blank" rel="noopener">Digiday</a>)</td>
+<td>"69% watch muted in public, 25% in private" (2019 survey)</td>
+</tr>
+<tr>
+<td>"YouTube has 20 trillion videos"</td>
+<td>Arithmetic doesn't work (≈146 billion at 20M/day for 20 years)</td>
+<td>Skip it</td>
+</tr>
+<tr>
+<td>"Anthropic says X% of users edit video with Claude"</td>
+<td>No such statistic exists. The "14.5% Arts/Design/Media" share is unverified and isn't video</td>
+<td>"Anthropic hasn't published this. The proxy is Remotion's npm curve"</td>
+</tr>
+<tr>
+<td>"This faceless channel makes $4M a year"</td>
+<td>Social Blade estimate with a 16x spread</td>
+<td>"estimated by Social Blade," or skip</td>
+</tr>
+<tr>
+<td>"The average YouTube video gets 41 views"</td>
+<td>Reddit summary of an unverified paper</td>
+<td>Skip, or say "most videos get very few views"</td>
+</tr>
+<tr>
+<td>"47% of a video's value is in the first 3 seconds"</td>
+<td>2016 Facebook <em>ad</em> brand-lift data</td>
+<td>YouTube's Intro metric (% still watching at 30 s)</td>
+</tr>
+<tr>
+<td>"Remotion skills got 6M views in 48 hours"</td>
+<td>Unverified, internally inconsistent vendor blog</td>
+<td>"765K installs" (skills.sh)</td>
+</tr>
+<tr>
+<td>"Claude Code has 2M weekly users"</td>
+<td>Unverified third party</td>
+<td>"$2.5B+ run-rate, Feb 2026" (Anthropic)</td>
+</tr>
+<tr>
+<td>"Customer acquisition cost is up 60%"</td>
+<td>Untraceable vendor stat</td>
+<td>Skip; CAC data is mixed</td>
+</tr>
+<tr>
+<td>"YouTube's algorithm now favors faces"</td>
+<td>Creator reports, not a YouTube statement</td>
+<td>"Faceless creators <em>report</em> being hit"</td>
+</tr>
+<tr>
+<td>"AI won't replace you; someone using AI will"</td>
+<td>Unattributed cliché</td>
+<td>Use it as a cliché <em>you're</em> mocking, or skip</td>
+</tr>
+<tr>
+<td>"Claude watched my video"</td>
+<td>It reads a transcript plus sampled frames</td>
+<td>"Claude read my video"</td>
+</tr>
+<tr>
+<td>"Faster cuts = better retention"</td>
+<td>No evidence; MrBeast pairs pace with <em>story</em></td>
+<td>"Pacing serves the story"</td>
+</tr>
+</tbody>
+</table></div>
+
+</section><section class="sec"><h2 id="supercut-shortlist">Supercut shortlist</h2>
+<p>All metrics are snapshots from 2026-11-07. YouTube timestamps come from auto-captions. TikTok, Instagram and X items have <strong>no transcripts</strong>, so the "phrase" is the caption or post text. Check the spoken words before you lock the edit. Keep clips short and add commentary. Fair-use and clip-licensing questions were <strong>not researched</strong>, so get advice if you're unsure.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Creator / platform</th>
+<th>Views</th>
+<th>Exact phrase</th>
+<th>Timestamp</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>@maverickgpt, TikTok (Apr 7, 2026)</td>
+<td>1,745,268</td>
+<td>"Claude just killed video editors."</td>
+<td>0:00 (YouTube Short repost transcript)</td>
+<td><a href="https://www.tiktok.com/@maverickgpt/video/7626037474292337951" target="_blank" rel="noopener">TikTok</a> / <a href="https://www.youtube.com/watch?v=XdeDp1N21q0" target="_blank" rel="noopener">YT Short</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>@<strong>Talley</strong>, X (Jan 21, 2026)</td>
+<td>1,207,634</td>
+<td>"Okay… video editors are cooked."</td>
+<td>text post (screenshot)</td>
+<td><a href="https://x.com/__Talley__/status/2014033357630263518" target="_blank" rel="noopener">X</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>@povssam, X (Jan 21, 2026)</td>
+<td>669,928</td>
+<td>"Video editors and motion designers are cooked."</td>
+<td>text post</td>
+<td><a href="https://x.com/povssam/status/2014055213234086274" target="_blank" rel="noopener">X</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Ali Abdaal, YouTube (Oct 26, 2026)</td>
+<td>451,846</td>
+<td>"Oh no. Oh no. I'm worried for video editors." / "Video editors are cooked." … "Except our guys of course."</td>
+<td>0:15 / 45:23</td>
+<td><a href="https://www.youtube.com/watch?v=C0jOKDJtK9s" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Nate Herk, YouTube, "Claude Just Destroyed Every Video Editing Tool"</td>
+<td>396,699</td>
+<td>"So Claude is now a video editing team." (the "destroyed" is title-only, so use the title card)</td>
+<td>0:40</td>
+<td><a href="https://www.youtube.com/watch?v=ZNbgOhxhzXg" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Nate Herk, YouTube Short (Oct 14, 2026)</td>
+<td>263,207</td>
+<td>"Claude edited this entire video."</td>
+<td>0:00</td>
+<td><a href="https://www.youtube.com/watch?v=CV-k6rPJvJY" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Chronixel, "Claude + Remotion Just RETIRED video editors…"</td>
+<td>259,025</td>
+<td>"now I can say I have retired from that part of my workflow"</td>
+<td>0:28</td>
+<td><a href="https://www.youtube.com/watch?v=oWkUwno6b0E" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>@mr.paidsocial, TikTok (Oct 30, 2026)</td>
+<td>198,170</td>
+<td>"are video editors cooked?"</td>
+<td>caption</td>
+<td><a href="https://www.tiktok.com/@mr.paidsocial/video/7702578674981276942" target="_blank" rel="noopener">TikTok</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Liam Ottley, "Did Claude Just Replace Video Editors?"</td>
+<td>89,105</td>
+<td>"we now have Vibe editing."</td>
+<td>0:00</td>
+<td><a href="https://www.youtube.com/watch?v=Tt-hpp87pd0" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td>@dkjamps, TikTok</td>
+<td>91,495</td>
+<td>"100% Edited by claude We're so cookeddd"</td>
+<td>caption</td>
+<td><a href="https://www.tiktok.com/@dkjamps/video/7691903765405830420" target="_blank" rel="noopener">TikTok</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td>@FxChaos, X (Sep 24, 2026)</td>
+<td>44,754</td>
+<td>"Video editors are cooked. Opus 5.5 just one-shotted this 🤯"</td>
+<td>text post</td>
+<td><a href="https://x.com/FxChaos/status/2102990431940415738" target="_blank" rel="noopener">X</a></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Chase AI, "Claude Code is Taking Video Editor Jobs Now"</td>
+<td>31,596</td>
+<td>"Claude Code can now create videos, and they're actually pretty good."</td>
+<td>0:00</td>
+<td><a href="https://www.youtube.com/watch?v=4N_TfYVNM7k" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>13</td>
+<td>@joshfpocock, TikTok</td>
+<td>878 / 815</td>
+<td>"Claude just murdered Adobe." / "Claude Code just murdered After Effects."</td>
+<td>caption</td>
+<td><a href="https://www.tiktok.com/@joshfpocock/video/7694738850832289044" target="_blank" rel="noopener">TikTok 1</a>, <a href="https://www.tiktok.com/@joshfpocock/video/7696659172229647622" target="_blank" rel="noopener">TikTok 2</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Title wall (rapid montage)</td>
+<td>various</td>
+<td>"RETIRED video editors" ×3 copies (Chronixel, Matt Penny, AIMadeSimple_R); "Killed Video Editing (For Real This Time)"; "Just MOGGED Motion Design"; "Claude Just Kiled Video Editing" (sic)</td>
+<td>titles</td>
+<td><a href="https://www.youtube.com/watch?v=-Ut8Jm0O_oA" target="_blank" rel="noopener">Penny</a>, <a href="https://www.youtube.com/watch?v=IGPKrd5gV8A" target="_blank" rel="noopener">AIMadeSimple</a>, <a href="https://www.youtube.com/watch?v=EIgXfrdsaew" target="_blank" rel="noopener">g russ</a>, <a href="https://www.youtube.com/watch?v=RAf6CKpVuRo" target="_blank" rel="noopener">8swick</a>, <a href="https://www.tiktok.com/@dubibubiii/video/7704930770909105428" target="_blank" rel="noopener">dubibubiii</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>#higgsfieldpartner "cooked" posts</strong> (the sponsored-hype reveal)</td>
+<td>291–6,707</td>
+<td>"Editors, are we cooked? 👀" / "rip video editors😭" / "Video editors are cooked 😭🥀 #higgsfieldpartner"</td>
+<td>captions</td>
+<td><a href="https://www.instagram.com/reel/DedV0S0Nc2k/" target="_blank" rel="noopener">@jrt.visuals IG</a>, <a href="https://www.tiktok.com/@life.withsofi/video/7701815245395758350" target="_blank" rel="noopener">@life.withsofi</a>, <a href="https://www.tiktok.com/@contentwith.eli/video/7701564673329614100" target="_blank" rel="noopener">@contentwith.eli</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Closers and subversions (end the gag on one of these):</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Clip</th>
+<th>Phrase</th>
+<th>Timestamp</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aasil Khan, YT Short (51,916 views)</td>
+<td>"AI just killed video editors. Claude Code just killed video editors. Claude Code just destroyed video editors. <strong>No, it did not.</strong>"</td>
+<td>0:00–0:07</td>
+<td><a href="https://www.youtube.com/watch?v=kRDLlvzMJNo" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>g russ (42,089 views)</td>
+<td>"the only thing that came back was straight up slop"</td>
+<td>0:35</td>
+<td><a href="https://www.youtube.com/watch?v=EIgXfrdsaew" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>Luuk Alleman (130,812 views)</td>
+<td>"when I looked at the results, I still didn't really like it"</td>
+<td>0:18</td>
+<td><a href="https://www.youtube.com/watch?v=9RMfod4tatw" target="_blank" rel="noopener">YouTube</a></td>
+</tr>
+<tr>
+<td>@watch.gabe, IG</td>
+<td>"Claude didn't kill video editors, it made everybody a video editor (now most of them just aren't great)"</td>
+<td>caption</td>
+<td><a href="https://www.instagram.com/reel/De2xUAruh2x/" target="_blank" rel="noopener">IG</a></td>
+</tr>
+<tr>
+<td>@rourke.heath, TikTok (counter-take)</td>
+<td>"People's jobs and livelihoods are being talked about like clickbait."</td>
+<td>caption</td>
+<td><a href="https://www.tiktok.com/@rourke.heath/video/7640808921422220566" target="_blank" rel="noopener">TikTok</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Suggested punchline closer.</strong> Run 8–10 "killed/cooked" clips back to back, ending on the g russ title card "Killed Video Editing <strong>(For Real This Time)</strong>." Smash-cut to you, deadpan: "Video editors have now been killed [count your final clip number] times this year. For a dead profession, they're doing great: Fiverr says demand for human editors is up 36%." Then cut to Ali: "Except our guys, of course." Fallback: end on Aasil Khan's "No, it did not," then a title card listing the hours you spent fixing Claude's cuts.</p>
+
+</section><section class="sec"><h2 id="competitive-gap-positioning">Competitive gap &amp; positioning</h2>
+<p><strong>What's working for competitors.</strong> Of the ~28 top Claude/AI-editing videos we analyzed (YouTube data pulled Nov 7, 2026), the winners share four traits. First, a <strong>first-person proof title</strong>: "Claude Edited My Entire CapCut Video (I Didn't Touch the Timeline)" leads the category at <strong>940,689 views</strong> (<a href="https://www.youtube.com/watch?v=5N1moUCsVhI" target="_blank" rel="noopener">Matt Loui</a>). Second, <strong>pairing Claude with a familiar tool</strong> (CapCut, After Effects, DaVinci). Third, a <strong>free skill or repo giveaway</strong>. Fourth, a length of <strong>8–23 minutes</strong>. The breakout outliers are <em>small</em> channels. Mr omi's "How to Make Viral Animated Shorts Using Claude" hit <strong>682K views on a 12.2K-sub channel (55.9x)</strong> (<a href="https://www.youtube.com/watch?v=OtbLL6OBNE4" target="_blank" rel="noopener">YouTube</a>), Chronixel did 25.1x, and RandomAI 22.7x. Big AI channels underperformed their size: vidIQ 0.03x, Matt Wolfe and Ali Abdaal 0.07x, Liam Ottley 0.10x. The topic rewards new voices, and the big channels' audiences look saturated on it.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Evidence it's open</th>
+<th>How you own it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Analytical / industry take with reach</strong></td>
+<td>Skeptical takes top out under ~30K views (<a href="https://www.youtube.com/watch?v=qqWh6U-_dck" target="_blank" rel="noopener">ColleenEdits</a>, 26.9K); Ali's 46-min piece is a personal experiment, not analysis</td>
+<td>Video A: the economics (supply flood, flat attention, trust tax) told through the editing story</td>
+</tr>
+<tr>
+<td><strong>"Why does every Claude edit look the same?"</strong></td>
+<td>Only short-form creators raise it (<a href="https://www.tiktok.com/@laeshaai_/video/7704773840911486238" target="_blank" rel="noopener">@laeshaai_</a>, <a href="https://www.instagram.com/reel/De1xXtICvqs/" target="_blank" rel="noopener">@softgirlnocode</a>)</td>
+<td>Explain the root cause (default Remotion look, stock TTS, shared presets) and show the fix (design direction in CLAUDE.md)</td>
+</tr>
+<tr>
+<td><strong>The hype is partly paid</strong></td>
+<td>#higgsfieldpartner / #ad on several "cooked" posts</td>
+<td>A short, fair "follow the money" segment. Punch at the system, not at tiny creators</td>
+</tr>
+<tr>
+<td><strong>Honest receipts</strong></td>
+<td>Everyone claims "didn't touch a single cut"; only Ali admits "about 20 shotted"</td>
+<td>Label every Claude cut vs. human fix on screen; show hours, tokens, $</td>
+</tr>
+<tr>
+<td><strong>Long-form English masterclass</strong></td>
+<td>Only a 1:18 Arabic course (117K) and a 57-min masterclass (29.7K) exist</td>
+<td>Video B: a chaptered 30–45 min course, search-optimized</td>
+</tr>
+<tr>
+<td><strong>The insider faceless angle</strong></td>
+<td>Nobody in the niche has run faceless channels <em>and</em> criticizes the course economy</td>
+<td>Your Grafels / Sync the Chat history is a credibility asset. Use it</td>
+</tr>
+<tr>
+<td><strong>Hype-cycle storytelling</strong></td>
+<td>Nobody connects spaghetti → Remotion skills → "cooked" posts → slop purge</td>
+<td>Use it as the spine of Video A</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Positioning line:</strong> <em>"The guy who actually tried it, counted the receipts, and tells you what it means."</em> You're not anti-AI, and you aren't hyping it either. That's the empty seat in the category.</p>
+
+</section><section class="sec"><h2 id="suggested-structure">Suggested structure</h2>
+<p><strong>Recommendation: two videos, not one.</strong> Publish Video A first, then Video B within 7–14 days. Each links to the other.</p>
+<p>The data supports splitting. The tutorial niche is crowded, but it has proven search demand that's rising right now (YouTube search interest ~3x between late Sep and late Oct 2026). Tutorials win at 8–23 minutes with first-person proof titles and a giveaway. The analytical take is the open gap, but it's browse-driven, so it lives or dies on packaging. One video can't carry both promises in a single title and thumbnail. Viewers who came for the industry argument will drop when a 15-minute terminal walkthrough starts, and that will show up as a cliff in your retention graph. Ship A first because the gag and the hype-cycle story are perishable, while the tutorial stays evergreen. <strong>Hybridize A's packaging, though.</strong> Pure "what this means for the industry" titles have no proof of demand, while first-person experiment titles do. So Video A should <em>look</em> like an experiment and <em>deliver</em> the analysis.</p>
+<h3 id="video-a-the-analytical-one-target-2030-min">Video A, the analytical one (target 20–30 min)</h3>
+<p>Title options: "Claude 'Killed' Video Editors. So I Tried It." / "Everyone Says Claude Killed Video Editors. The Data Disagrees." / "AI Made Video Free. Here's What Got Expensive."</p>
+<p>Thumbnail concepts: (1) The 2023 glitchy spaghetti frame next to a clean editing timeline, labelled "2023: AI can't eat" / "2026: AI can't <em>edit</em>?" (2) A fork twirling a film strip like spaghetti. (3) Your face, skeptical, next to a wall of "COOKED" titles. A likeness caution: putting Will Smith's actual face on a thumbnail carries right-of-publicity risk (not researched). Concept 2 references the meme without using his face.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Chapter</th>
+<th>Content</th>
+<th>Gag / re-hook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00–0:30</td>
+<td><strong>Cold open</strong></td>
+<td>Hook option A: rapid supercut (6–8 clips, ~15 s) → Aasil "No, it did not." Hook option B: spaghetti 2023 vs 2026 (the <a href="https://www.youtube.com/watch?v=g_31_Kj0-NE" target="_blank" rel="noopener">2026 comparison</a> has 1.16M views): "AI learned to <em>make</em> video. Everyone says it learned to <em>edit</em>. I spent [X] hours finding out." The first 30 s must deliver the thumbnail's promise</td>
+<td><strong>Gag #1</strong></td>
+</tr>
+<tr>
+<td>0:30–1:30</td>
+<td>Who I am / stakes</td>
+<td>Your faceless channels, why you care, what the viewer gets</td>
+<td>—</td>
+</tr>
+<tr>
+<td>1:30–5:00</td>
+<td>Everything got cheap</td>
+<td>Apps 1,000/hour; 20M uploads/day; AI writes half the articles but gets 14% of search. "Made ≠ seen"</td>
+<td><strong>Gag #2, ~3:00 re-hook:</strong> Ali "video editors are cooked" → "is that true?"</td>
+</tr>
+<tr>
+<td>5:00–8:00</td>
+<td>Attention is full</td>
+<td>eMarketer +1 min; YouTube eats TV (15.8%); Shorts 200B; Wyzowl ROI 93→82</td>
+<td><strong>Gag #3, ~6:00 re-hook:</strong> title wall ("RETIRED," "MOGGED," "For Real This Time") → tease the #ad reveal</td>
+</tr>
+<tr>
+<td>8:00–11:00</td>
+<td>Real trend or my bubble?</td>
+<td>npm chart 0.57M→10M; Google search vs CapCut; YouTube search spike; Anthropic has no stat; who's paying for the doom hooks (#higgsfieldpartner)</td>
+<td>The #ad reveal pays off Gag #3</td>
+</tr>
+<tr>
+<td>11:00–15:00</td>
+<td>What Claude actually does</td>
+<td>"It reads your video, it doesn't watch it": transcript → cut list → ffmpeg. 60-second demo teaser + scorecard graphic</td>
+<td>Show your <em>own</em> Claude-edited clip with "Claude cut / I fixed" labels</td>
+</tr>
+<tr>
+<td>15:00–19:00</td>
+<td>So, are editors dead?</td>
+<td>Fiverr +36%; Upwork +329%; Affleck: Rogan clip → $587M Netflix sale → "lots of things"; Ali's 97% / 20 shots</td>
+<td><strong>Gag #4</strong> (mid-video callback, e.g. @dkjamps "We're so cookeddd" over the Fiverr +36% stat)</td>
+</tr>
+<tr>
+<td>19:00–24:00</td>
+<td>Faceless, slop &amp; the course economy</td>
+<td>Kapwing $0; Davis $700K <em>and</em> a course; YouTube purge; trust 60→26; the sameness wall (jesserurka triple-post, mrbombastic series)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>24:00–27:00</td>
+<td>The moat</td>
+<td>Person, taste, receipts, community, product. What you're doing about it</td>
+<td>—</td>
+</tr>
+<tr>
+<td>27:00–end</td>
+<td>Close</td>
+<td>Supercut finale (see punchline closer above) → "If you want to actually do this, here's the course" (end screen to Video B)</td>
+<td><strong>Gag finale</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="video-b-the-practical-course-target-3045-min-heavily-chaptered">Video B, the practical course (target 30–45 min, heavily chaptered)</h3>
+<p>Title options: "How to Edit Videos with Claude Code (Honest Full Course + Free Skill)" / "I Edited a Real Video with Claude Code: Every Step, Every Fix."</p>
+<p>Chapters: (1) What Claude can and can't do: it reads, it doesn't watch (2 min). (2) Setup locally: Claude Code, ffmpeg (full build), whisper.cpp or faster-whisper, plus why not the cloud. (3) CLAUDE.md style guide: caption style, safe zones, LUFS target, pause length, "never cut mid-sentence," padding. (4) Transcribe with word timestamps. (5) Claude proposes a cut list → you approve it (show a TSV review). (6) Render with padding, 30 ms fades and re-encoding. Show the clipped-word bug and its fix. (7) Audio chain and loudness. (8) Captions plus a 9:16 version. (9) Motion graphics with Remotion or HyperFrames, default look vs. <em>your</em> design direction (this fixes the sameness problem on screen). (10) Optional: Gemini for visual questions; Resolve/Premiere hand-off via XML or MCP. (11) Verify by re-transcribing the output. (12) Titles, descriptions and chapters from the transcript. (13) Cost and time receipts. (14) Cloud vs local recap. <strong>Giveaway:</strong> your CLAUDE.md plus skill. <strong>Reuse Video A's actual project files</strong>, so the course is literally "how I made the last video."</p>
+<p><strong>If you insist on one long video:</strong> put the analysis first (to ~20 min), add an explicit chapter marker "Part 2: the course," keep the supercut recurring as an interstitial between tutorial chapters to hold retention, and package it as an experiment ("I Let Claude Edit My Video. Here's the Truth + Full Tutorial"). Expect a visible retention drop at the handoff.</p>
+
+</section><section class="sec"><h2 id="where-your-understanding-is-incomplete">Where your understanding is incomplete</h2>
+<p>You've clearly done the thinking, and your instincts on trust and the course economy are good. These are the gaps that will cost you views or credibility if you don't close them.</p>
+<p><strong>1. Packaging comes first, not last.</strong> Your list (hook, re-hooks, visuals, sound, value) starts <em>after</em> the click. On YouTube the title and thumbnail decide whether anyone sees the hook. MrBeast and Colin &amp; Samir lock the title and thumbnail <em>before</em> scripting (<a href="https://www.musicbed.com/articles/filmmaking/youtube/the-biggest-mistake-filmmakers-make-with-colin-and-samir/" target="_blank" rel="noopener">Musicbed</a>). Write three title and thumbnail pairs per video before you film anything.</p>
+<p><strong>2. Retention graphs are your real editor.</strong> YouTube tells you exactly where people leave: Intro % at 30 seconds, dips, spikes and top moments (<a href="https://support.google.com/youtube/answer/9314415?hl=en" target="_blank" rel="noopener">YouTube Help</a>). Thumbnail tests pick winners by watch-time share, not CTR (<a href="https://support.google.com/youtube/answer/16391400?hl=en" target="_blank" rel="noopener">YouTube Help</a>). Plan to read your graph 48 hours after publishing and edit the next video around it.</p>
+<p><strong>3. Claude doesn't natively watch video or hear audio.</strong> It reads transcripts and sampled frames. If you say "Claude watched my footage," commenters who've tried it will call it out. The accurate line ("it reads your video") is also the better line. Re-check right before recording, because this area changes fast.</p>
+<p><strong>4. Generation and editing are different problems.</strong> The spaghetti meme tracks <em>generative</em> video. Claude is not a video model, and Anthropic has none. Also, <strong>Sora is gone</strong>: the app shut down Apr 26, 2026 and the API on Sep 24, 2026 (<a href="https://help.openai.com/en/articles/20001152-what-to-know-about-the-sora-discontinuation" target="_blank" rel="noopener">OpenAI</a>). Don't list it as a current tool.</p>
+<p><strong>5. "Editing with Claude" mostly means motion graphics plus rough cuts.</strong> Even Ali's 97% was "especially on the motion graphics front." Most viral demos are code-generated animations, not edits of real footage. Make this distinction explicitly. It's one of your sharpest insights.</p>
+<p><strong>6. "More video watched" is a share shift, not growth.</strong> Total attention is roughly flat. Video wins by eating TV. That actually <em>strengthens</em> your competition argument, so use it.</p>
+<p><strong>7. The pyramid framing will get pushback.</strong> Fortune verified a real AdSense earner. Say "power-law plus arbitrage window, and the most reliable money is selling the dream." That's harder to dunk on. And if you ever sell a course yourself, address it head-on, because viewers will.</p>
+<p><strong>8. Your old formats are what the platforms are now policing.</strong> Templated data races and chat formats fall under YouTube's July 2025 "repetitive / mass-produced" policy. Even human-made faceless channels are getting hit. That's a strong personal story, not an embarrassment.</p>
+<p><strong>9. Don't quote guru earnings or Social Blade numbers as facts.</strong> The spread is 16x.</p>
+<p><strong>10. Audio beats resolution.</strong> If your budget allows one upgrade, make it the microphone and the room. There's peer-reviewed evidence for audio and none for 4K.</p>
+<p><strong>11. "AI" labels have a measurable engagement cost.</strong> Labeling content "AI-generated" cut emotional engagement by up to 46 points, versus about 24 for "AI-enhanced" (<a href="https://www.cbs.dk/en/latest/ai-labels-reduce-social-media-engagement" target="_blank" rel="noopener">CBS</a>). How you frame your own Claude-edited video matters. "I edited this <em>with</em> Claude, and here's what I fixed" is both more honest and more trusted.</p>
+<p><strong>12. Cloud Claude Code isn't built for footage.</strong> It has no ffmpeg by default, a 30 GB disk, command timeouts and GitHub-based file transfer. Edit locally, and use Remote Control if you want to walk away while it renders.</p>
+
+</section><section class="sec"><h2 id="questions-for-the-creator">Questions for the creator</h2>
+<ol>
+<li><strong>What are the exact URLs for your channels, including Grafels and Sync the Chat?</strong> We couldn't find them: handle lookups returned 404 and searches turned up only unrelated channels. Their real numbers (views, revenue, what got demonetized) could become the most credible minutes in Video A.</li>
+<li><strong>Who is the viewer: worried editors, time-starved creators, or AI/dev enthusiasts?</strong> Each needs a different title, hook and depth of terminal content. This decides more than anything else.</li>
+<li><strong>Will you edit Video A with Claude and show receipts (hours, tokens or $, % of cuts you overrode)?</strong> If yes, that becomes your differentiator and your Video B footage.</li>
+<li><strong>How hard do you want to go on the sponsored hype (#higgsfieldpartner posts)?</strong> Naming small creators can read as punching down. Framing it as "the system pays for doom hooks" is safer and still lands.</li>
+<li><strong>Two videos or one, and what's your realistic length and publishing cadence?</strong> If you can't ship Video B within about two weeks, the one-video fallback may be better.</li>
+<li><strong>What's your setup: Mac or PC, Apple Silicon or not, which NLE (Resolve Studio, Premiere, CapCut)?</strong> The demo stack depends on it, for example Resolve MCP needs Studio, and ButterCut targets Apple Silicon.</li>
+<li><strong>Do you plan to sell anything (course, template, skill)?</strong> Given your pyramid-scheme critique, decide now how you'll handle it transparently.</li>
+<li><strong>What's your current subscriber count and average views?</strong> The outlier math (small channels hitting 10–55x) makes this topic attractive for you, but it changes how hard to lean on search vs. browse packaging.</li>
+</ol>
+
+</section><section class="sec"><h2 id="next-steps">Next steps</h2>
+<ol>
+<li><strong>Send your channel URLs and baseline stats</strong> so the positioning and personal-story segments can be grounded in real numbers.</li>
+<li><strong>Package first.</strong> Write 3 titles and 3 thumbnail sketches for each video. Pick using the "would I click this over Matt Loui's 940K video?" test. Plan a Test &amp; Compare A/B on day one.</li>
+<li><strong>Run your own experiment now.</strong> Edit one real talking-head clip with the local pipeline (transcribe → approve cut list → ffmpeg → captions → Remotion overlay → NLE polish). Log time, cost, and every fix. This is the spine of both videos.</li>
+<li><strong>Build the supercut.</strong> Collect the shortlisted clips, pull exact spoken wording for TikTok and IG items (captions only so far), and count your final clip number for the punchline. Get a quick read on fair use if you're unsure.</li>
+<li><strong>Re-verify the flagged items</strong> in the week you record: the Atlantic and Tim Cook quote, Fiverr and Upwork figures (snippets only), Wyzowl primary figures, the DaVinci Resolve 21.1 Claude integration scope, whether Claude Code has added native video input, and the source of any Affleck "craftsman" line (it's verified in the <a href="https://www.youtube.com/watch?v=ypURoMU3P3U" target="_blank" rel="noopener">2024 CNBC clip at 1:17</a>; BuzzFeed attributes a similar line to the 2026 Rogan episode).</li>
+<li><strong>Script the first 30 seconds three ways</strong> (supercut cold open, spaghetti, personal stakes) and film all three. Choose in the edit.</li>
+<li><strong>Fix audio before anything else</strong>: a mic close to your mouth and a treated room.</li>
+<li><strong>Prepare the giveaway</strong>: your CLAUDE.md style guide plus skill, cleaned up, in a public repo.</li>
+<li><strong>Dogfood the Shorts.</strong> Cut 3–5 vertical clips from Video A with the same pipeline (the supercut itself is a natural Short) and point them to the long video.</li>
+<li><strong>48 hours after publishing</strong>, read the Intro % and the retention dips, and write the lessons into your own CLAUDE.md for the next video.</li>
+</ol>
+
+</section><section class="sec"><h2 id="conclusion">Conclusion</h2>
+<p>The best version of your video isn't "AI is overhyped" or "AI changes everything." It's that <strong>AI turned production into a commodity, and the scarce things are now attention, trust and taste.</strong> The "Claude killed video editors" genre illustrates the thesis perfectly: dozens of creators used the same cheap tools to make the same hook, some of it paid for, while demand for human editors grew. Your content advantage comes from the same thing you're arguing for. A real person with receipts and a point of view is exactly what this flood can't reproduce.</p>
+<p>One more implication worth saying on camera: the winners of this shift may not be the people using AI best, but the people who own the relationship with the audience. That covers platforms under Aggregation Theory, personalities under the trust data, and, ironically, the course sellers. The question every creator, editor and indie developer now faces is who owns the demand, not whether they can make the thing. Answering that for yourself, on screen, is the moat.</p></section>
+    <footer>Metrics are snapshots pulled Nov 7, 2026. Items marked "snippet only", "vendor" or "unverified" should be re-checked before recording.</footer>
+  </main>
+</div>
+<script>
+(function(){
+  // Verdict chips in tables
+  var map=[["Supported","v-sup"],["Partly","v-part"],["Weak","v-weak"],["Contradicted","v-con"]];
+  document.querySelectorAll("td > strong:first-child").forEach(function(s){
+    var t=s.textContent.trim();
+    for(var i=0;i<map.length;i++){ if(t.indexOf(map[i][0])===0){ s.className="verdict "+map[i][1]; break; } }
+  });
+  // Grade chips: columns headed "Grade"
+  document.querySelectorAll("table").forEach(function(tb){
+    var idx=-1, tsIdx=-1;
+    tb.querySelectorAll("thead th").forEach(function(th,i){ var h=th.textContent.trim().toLowerCase(); if(h==="grade") idx=i; if(h==="timestamp"||h==="time") tsIdx=i; });
+    tb.querySelectorAll("tbody tr").forEach(function(tr){
+      var c=tr.children;
+      if(idx>-1 && c[idx]){
+        var g=c[idx].textContent.trim(), L=g.charAt(0), cls= L==="A"?"v-sup":L==="B"?"v-weak":L==="C"?"v-part":(L==="D"||L==="F")?"v-con":"";
+        if(cls && /^[ABCDF]([+\-−\s]|$)/.test(g)){ c[idx].innerHTML='<span class="grade '+cls+'">'+c[idx].innerHTML+'</span>'; }
+      }
+      if(tsIdx>-1 && c[tsIdx]) c[tsIdx].classList.add("ts");
+    });
+  });
+  // Reading playhead + active chapter
+  var fill=document.querySelector(".track .fill"), head=document.querySelector(".track .head"), tc=document.getElementById("tc");
+  var links=[].slice.call(document.querySelectorAll("nav.toc a"));
+  var heads=links.map(function(a){ return document.getElementById(a.getAttribute("href").slice(1)); });
+  var words=(document.querySelector("main").innerText||"").split(/\s+/).length, totalSec=Math.round(words/230*60);
+  function fmt(s){ var m=Math.floor(s/60), r=s%60; return (m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
+  function onScroll(){
+    var max=document.documentElement.scrollHeight-innerHeight, p=max>0?Math.min(1,scrollY/max):0;
+    fill.style.width=(p*100)+"%"; head.style.left="calc("+(p*100)+"% - 1px)";
+    tc.textContent=fmt(Math.round(p*totalSec))+" / "+fmt(totalSec);
+    var cur=0; heads.forEach(function(h,i){ if(h && h.getBoundingClientRect().top<120) cur=i; });
+    links.forEach(function(a,i){ a.classList.toggle("active", i===cur); });
+  }
+  addEventListener("scroll", onScroll, {passive:true}); addEventListener("resize", onScroll); onScroll();
+})();
+</script>
+</body>
+</html>
