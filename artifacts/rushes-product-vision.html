@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rushes Product Vision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a product spec read top to bottom; the three actors (you, agent, app) carry fixed colours through every diagram and mock-up. */
+:root{
+  --bg:#f5f5f2; --surface:#ffffff; --ink:#18191c; --muted:#5b5e66; --line:#e2e2dd;
+  --rec:#d93b40; --human:#b26f00; --agent:#2f5fe0; --app:#0a8574;
+  --human-soft:#fdf1dc; --agent-soft:#e6edff; --app-soft:#dcf5f0; --rec-soft:#fde4e4;
+  --display:"Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body:"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111214; --surface:#1a1b1e; --ink:#ececee; --muted:#9b9ea6; --line:#2c2e33;
+    --rec:#ff6a6f; --human:#f5a524; --agent:#7d9dff; --app:#33c7b1;
+    --human-soft:#3a2c12; --agent-soft:#1c2647; --app-soft:#123a35; --rec-soft:#3d1b1d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111214; --surface:#1a1b1e; --ink:#ececee; --muted:#9b9ea6; --line:#2c2e33;
+  --rec:#ff6a6f; --human:#f5a524; --agent:#7d9dff; --app:#33c7b1;
+  --human-soft:#3a2c12; --agent-soft:#1c2647; --app-soft:#123a35; --rec-soft:#3d1b1d;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+a{color:var(--agent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--agent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.prose{max-width:68ch}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(34px,5vw,54px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:clamp(26px,3.2vw,34px);font-weight:700;letter-spacing:-.01em}
+h3{font-size:20px;font-weight:700}
+p{margin:0}
+.stack{display:flex;flex-direction:column;gap:14px}
+section{padding:56px 0;border-top:1px solid var(--line)}
+.kicker{font:500 13px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:flex;gap:10px;align-items:center}
+.kicker b{color:var(--rec);font-weight:500}
+.lede{font-size:19px;color:var(--muted);max-width:62ch}
+.mono{font-family:var(--mono)}
+.tag{display:inline-flex;align-items:center;gap:6px;font:500 12px/1 var(--mono);padding:5px 8px;border-radius:999px;white-space:nowrap}
+.t-h{background:var(--human-soft);color:var(--human)}
+.t-a{background:var(--agent-soft);color:var(--agent)}
+.t-p{background:var(--app-soft);color:var(--app)}
+.t-r{background:var(--rec-soft);color:var(--rec)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* header */
+header{padding:56px 0 40px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:end}
+.recbar{display:flex;align-items:center;gap:10px;font:500 13px var(--mono);color:var(--muted);margin-bottom:22px}
+.recbar .dot{background:var(--rec);box-shadow:0 0 0 4px var(--rec-soft)}
+.pitch{border-left:3px solid var(--rec);padding:4px 0 4px 18px;font-size:17px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.toc a{font:500 13px var(--mono);color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:7px 11px;border-radius:8px}
+.toc a:hover{border-color:var(--ink)}
+
+/* actors */
+.actors{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.actor{background:var(--surface);border:1px solid var(--line);border-top:4px solid;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.actor.h{border-top-color:var(--human)} .actor.a{border-top-color:var(--agent)} .actor.p{border-top-color:var(--app)}
+.actor ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px}
+.actor .never{font-size:14px;border-top:1px dashed var(--line);padding-top:10px;color:var(--muted)}
+.actor .never b{color:var(--ink)}
+
+/* loop */
+.loop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:24px}
+.loop .step{display:flex;flex-direction:column;gap:2px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+.loop .step b{font:600 15px var(--body)}
+.loop .step span{font:12px var(--mono);color:var(--muted)}
+.loop .step.h{border-left:4px solid var(--human)} .loop .step.a{border-left:4px solid var(--agent)} .loop .step.p{border-left:4px solid var(--app)}
+.loop .arr{color:var(--muted);font-family:var(--mono)}
+.loop .back{flex-basis:100%;font:13px var(--mono);color:var(--muted);padding-left:4px}
+
+/* diagrams */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:24px;overflow-x:auto}
+.fig svg{display:block;min-width:900px;width:100%;height:auto}
+.fig figcaption{font-size:14px;color:var(--muted);margin-top:10px}
+svg text{font-family:var(--body);fill:var(--ink)}
+svg .mut{fill:var(--muted)}
+svg .mn{font-family:var(--mono)}
+
+/* swimlane */
+.swim{display:grid;grid-template-columns:78px repeat(8,minmax(104px,1fr));gap:6px;min-width:980px}
+.swim .ph{font:500 12px/1.3 var(--mono);color:var(--muted);padding:6px 4px;border-bottom:1px solid var(--line)}
+.swim .ph b{display:block;color:var(--ink);font-family:var(--body);font-size:13px}
+.swim .lane{font:600 14px var(--body);display:flex;align-items:center;gap:8px;padding:8px 4px}
+.swim .c{font-size:13px;line-height:1.4;padding:9px 10px;border-radius:8px;min-height:72px}
+.swim .c.h{background:var(--human-soft);border-left:3px solid var(--human)}
+.swim .c.a{background:var(--agent-soft);border-left:3px solid var(--agent)}
+.swim .c.p{background:var(--app-soft);border-left:3px solid var(--app)}
+.swim .c.e{border:1px dashed var(--line);color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--bg)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.c{text-align:center;font-size:16px}
+.tbl code{font:13px var(--mono);color:var(--ink);background:var(--bg);padding:1px 5px;border-radius:4px;white-space:nowrap}
+.tblwrap{overflow-x:auto;margin-top:22px}
+.own-h{color:var(--human)} .own-a{color:var(--agent)} .own-p{color:var(--app)}
+
+/* screens */
+.screen{margin-top:48px;display:flex;flex-direction:column;gap:14px}
+.screen .head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.screen .num{font:500 13px var(--mono);color:var(--rec)}
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.note{font-size:14px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.note b{color:var(--ink);display:block;font-size:14px;margin-bottom:2px}
+.note .k{font:600 12px var(--mono);color:var(--rec);margin-right:4px}
+.scroller{overflow-x:auto;padding-bottom:6px}
+
+/* ---- mock-up app: one fixed dark visual world ---- */
+.win{--m-bg:#141518;--m-p:#1c1d21;--m-p2:#24262b;--m-ln:#30333a;--m-tx:#e9eaee;--m-mu:#8d919b;--m-ag:#6d91ff;--m-hu:#f5a524;--m-ap:#33c7b1;--m-cut:#ff5f5f;--m-ok:#3ccf8e;
+  min-width:980px;background:var(--m-bg);color:var(--m-tx);border-radius:12px;border:1px solid #000;box-shadow:0 20px 50px -20px rgba(0,0,0,.45);overflow:hidden;font:13px/1.45 var(--body);color-scheme:dark}
+.win .bar{height:38px;display:flex;align-items:center;gap:14px;padding:0 14px;background:#1b1c20;border-bottom:1px solid var(--m-ln)}
+.win .lights{display:flex;gap:7px}.win .lights i{width:12px;height:12px;border-radius:50%;display:block;background:#ff5f57}.win .lights i:nth-child(2){background:#febc2e}.win .lights i:nth-child(3){background:#28c840}
+.win .ttl{font:500 13px var(--body);color:var(--m-mu)}.win .ttl b{color:var(--m-tx)}
+.win .bar .sp{flex:1}
+.win .pill{display:inline-flex;align-items:center;gap:6px;font:500 12px var(--mono);padding:4px 9px;border-radius:999px;background:var(--m-p2);color:var(--m-mu);white-space:nowrap}
+.win .pill.ag{background:rgba(109,145,255,.16);color:var(--m-ag)}
+.win .pill.hu{background:rgba(245,165,36,.16);color:var(--m-hu)}
+.win .pill.ok{background:rgba(60,207,142,.14);color:var(--m-ok)}
+.win .pill.cut{background:rgba(255,95,95,.14);color:var(--m-cut)}
+.win .btn{font:600 13px var(--body);padding:8px 14px;border-radius:8px;border:1px solid var(--m-ln);background:var(--m-p2);color:var(--m-tx);white-space:nowrap}
+.win .btn.pri{background:var(--m-tx);color:#111;border-color:var(--m-tx)}
+.win .btn.ag{background:var(--m-ag);border-color:var(--m-ag);color:#0b1230}
+.win .mu{color:var(--m-mu)}
+.win .mono{font-family:var(--mono)}
+.win .lbl{font:600 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--m-mu)}
+.win .panel{background:var(--m-p);border:1px solid var(--m-ln);border-radius:10px}
+.win .row{display:flex;gap:10px;align-items:center}
+.win .grow{flex:1;min-width:0}
+.win .bd{display:grid;gap:12px;padding:14px}
+.win .side{background:#17181b;border-right:1px solid var(--m-ln);padding:14px 10px;display:flex;flex-direction:column;gap:4px}
+.win .side .it{padding:7px 10px;border-radius:7px;color:var(--m-mu);display:flex;gap:8px;align-items:center}
+.win .side .it.on{background:var(--m-p2);color:var(--m-tx)}
+.win .chk{display:grid;grid-template-columns:20px 1fr auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--m-ln)}
+.win .chk:last-child{border-bottom:0}
+.win .ok{color:var(--m-ok)} .win .run{color:var(--m-ag)} .win .wait{color:var(--m-mu)} .win .warn{color:var(--m-hu)} .win .bad{color:var(--m-cut)}
+.win .prog{height:4px;border-radius:2px;background:var(--m-p2);overflow:hidden}.win .prog i{display:block;height:100%;background:var(--m-ag)}
+/* frame */
+.frame{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:radial-gradient(120% 90% at 70% 20%,#3a4a5e 0%,#1f2732 55%,#12161c 100%)}
+.frame .shelf{position:absolute;left:6%;top:18%;width:26%;height:52%;border-radius:4px;background:linear-gradient(#2b3542,#222a35);box-shadow:inset 0 -2px 0 #394656}
+.frame .lamp{position:absolute;right:10%;top:12%;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,#ffcf8a 0,#ffb24d55 40%,transparent 70%)}
+.frame svg{position:absolute;left:50%;bottom:0;transform:translateX(-46%);height:86%}
+.frame .cap{position:absolute;left:50%;bottom:9%;transform:translateX(-50%);font:700 22px var(--display);background:rgba(0,0,0,.55);padding:3px 10px;border-radius:6px;white-space:nowrap}
+.frame .cap em{font-style:normal;color:#ffd84d}
+.frame .tc{position:absolute;left:10px;top:10px;font:500 11px var(--mono);background:rgba(0,0,0,.5);padding:2px 6px;border-radius:4px}
+.frame.b{background:radial-gradient(120% 90% at 30% 30%,#4b3d33 0%,#2a221d 55%,#141110 100%)}
+.frame.v{aspect-ratio:9/16}
+/* transcript */
+.tr{font-size:13.5px;line-height:1.75}
+.tr .ts{font:11px var(--mono);color:var(--m-mu);margin-right:6px}
+.tr s{color:var(--m-cut);text-decoration-thickness:1.5px;opacity:.85}
+.tr .p{font:10px var(--mono);color:var(--m-mu);background:var(--m-p2);padding:1px 4px;border-radius:3px}
+.tr .pc{font:10px var(--mono);color:var(--m-cut);background:rgba(255,95,95,.12);padding:1px 4px;border-radius:3px;text-decoration:line-through}
+.tr mark{background:rgba(109,145,255,.22);color:var(--m-tx);border-radius:3px;padding:0 2px;outline:1px dashed var(--m-ag)}
+.tr ins{text-decoration:none;background:rgba(60,207,142,.16);color:#bff3da;border-radius:3px;padding:0 2px}
+/* activity */
+.act{display:flex;flex-direction:column;gap:9px}
+.act .e{padding:9px 10px;border-radius:8px;background:var(--m-p2);border-left:3px solid var(--m-ag)}
+.act .e .w{font-weight:600}
+.act .e .why{color:var(--m-mu);font-size:12.5px}
+.act .e .meta{font:11px var(--mono);color:var(--m-mu);margin-top:4px;display:flex;gap:8px}
+.act .e.q{border-left-color:var(--m-hu);background:rgba(245,165,36,.09)}
+.act .e.c{border-left-color:var(--m-ap)}
+/* timeline */
+.tl{position:relative;padding:8px 12px 12px;background:#17181b;border-top:1px solid var(--m-ln)}
+.tl .ruler{display:flex;justify-content:space-between;font:10px var(--mono);color:var(--m-mu);padding:0 0 4px 64px}
+.tl .trk{display:grid;grid-template-columns:56px 1fr;gap:8px;align-items:center;margin-top:4px}
+.tl .trk .n{font:10px var(--mono);color:var(--m-mu)}
+.tl .lane{position:relative;height:24px;background:#1e2024;border-radius:4px}
+.tl .lane.wav{height:30px}
+.tl .clip{position:absolute;top:2px;bottom:2px;border-radius:3px;background:#3b4a63;border:1px solid #51648a}
+.tl .clip.b{background:#5a4a3b;border-color:#7b654f}
+.tl .clip.cap{background:#2f3d3a;border-color:#3e5b55}
+.tl .clip.gfx{background:#4a3a5c;border-color:#6a5487}
+.tl .clip.ghost{background:repeating-linear-gradient(135deg,rgba(109,145,255,.25) 0 6px,rgba(109,145,255,.08) 6px 12px);border:1px dashed var(--m-ag)}
+.tl .gap{position:absolute;top:0;bottom:0;width:2px;background:var(--m-cut)}
+.tl .wave{position:absolute;inset:3px 0;background:repeating-linear-gradient(90deg,#3c8f80 0 2px,transparent 2px 4px);-webkit-mask:linear-gradient(transparent 0,#000 30%,#000 70%,transparent 100%);mask:linear-gradient(transparent 0,#000 30%,#000 70%,transparent 100%);opacity:.7}
+.tl .cursor{position:absolute;top:18px;bottom:6px;width:2px;background:var(--m-ag);box-shadow:0 0 0 1px rgba(109,145,255,.3)}
+.tl .cursor span{position:absolute;top:-2px;left:4px;font:600 10px var(--mono);background:var(--m-ag);color:#0b1230;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.tl .ph{position:absolute;top:18px;bottom:6px;width:2px;background:#fff}
+.tl .pin{position:absolute;top:-1px;width:10px;height:10px;border-radius:50% 50% 50% 0;transform:rotate(-45deg)}
+/* review markers */
+.scrub{position:relative;height:30px;background:var(--m-p2);border-radius:6px}
+.scrub .done{position:absolute;left:0;top:0;bottom:0;background:rgba(255,255,255,.07);border-radius:6px}
+.scrub .mk{position:absolute;top:5px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 10px var(--mono);color:#111;transform:translateX(-50%)}
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.qa .o{border:1px solid var(--m-ln);border-radius:8px;padding:8px;background:var(--m-p)}
+.qa .o.sel{border-color:var(--m-hu);background:rgba(245,165,36,.08)}
+.cm{padding:10px;border-radius:8px;background:var(--m-p2);display:flex;flex-direction:column;gap:6px}
+.cm .who{display:flex;gap:8px;align-items:center;font-weight:600}
+.cm .av{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font:700 10px var(--mono);color:#111}
+.cm .rep{margin-left:14px;padding-left:10px;border-left:2px solid var(--m-ag);color:var(--m-mu)}
+/* shorts */
+.shorts{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.sh{display:flex;flex-direction:column;gap:8px}
+.sh .frame .hook{position:absolute;left:8%;right:8%;top:10%;font:700 15px/1.2 var(--display);text-align:center;background:rgba(0,0,0,.55);padding:6px;border-radius:6px}
+.sh .frame svg{height:62%}
+.sh .frame .cap{font-size:13px;bottom:14%}
+.sh .sc{display:flex;justify-content:space-between;font:11px var(--mono);color:var(--m-mu)}
+.sh .bt{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sh .bt span{text-align:center;padding:6px;border-radius:7px;font:600 12px var(--body);background:var(--m-p2);border:1px solid var(--m-ln)}
+.sh.kept .frame{outline:2px solid var(--m-ok);outline-offset:2px}
+.sh.kept .bt span:first-child{background:rgba(60,207,142,.16);color:var(--m-ok);border-color:rgba(60,207,142,.4)}
+.sh.skip{opacity:.45}
+/* composer */
+.composer{border:1px solid var(--m-ln);background:var(--m-p);border-radius:12px;padding:16px;font-size:16px;line-height:1.55;min-height:120px}
+.composer .caret{display:inline-block;width:2px;height:18px;background:var(--m-tx);vertical-align:-3px;margin-left:1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;gap:6px;align-items:center;padding:7px 11px;border-radius:8px;background:var(--m-p2);border:1px solid var(--m-ln);font-size:13px}
+.chip .mu{font-size:12px}
+.agentpick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.agentpick .o{border:1px solid var(--m-ln);border-radius:9px;padding:10px;background:var(--m-p)}
+.agentpick .o.sel{border-color:var(--m-ag);background:rgba(109,145,255,.1)}
+
+/* code */
+pre.log{font:13px/1.65 var(--mono);background:#141518;color:#d9dbe0;border-radius:12px;padding:16px 18px;overflow-x:auto;margin:22px 0 0;border:1px solid #000}
+pre.log .c{color:#7d8290} pre.log .a{color:#8fb0ff} pre.log .r{color:#7fe0b5} pre.log .w{color:#ffc061}
+
+/* lists */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.card p,.card li{color:var(--muted);font-size:15px}
+.card ul,.card ol{margin:0;padding-left:18px}
+.card .who{display:flex;flex-wrap:wrap;gap:6px}
+.rule{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.rule:last-child{border-bottom:0}
+.rule .n{font:700 28px/1 var(--display);color:var(--rec)}
+.rule p{color:var(--muted)}
+.rule h3{font-size:18px;margin-bottom:4px}
+.phase{border-left:4px solid var(--line);padding-left:16px}
+.phase.v0{border-left-color:var(--rec)}
+.risk{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.risk:last-child{border-bottom:0}
+.risk b{font-family:var(--display);font-size:17px}
+.risk p{color:var(--muted)}
+footer{padding:40px 0 70px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+
+@media (max-width:860px){
+  .hero,.actors,.grid2,.grid3,.notes{grid-template-columns:1fr}
+  .risk{grid-template-columns:1fr;gap:4px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="wrap">
+  <div class="recbar"><span class="dot"></span> PRODUCT VISION · WORKING NAME “RUSHES” · NOVEMBER 2026</div>
+  <div class="hero">
+    <div class="stack">
+      <h1>Rushes: you direct, the agent edits, the app keeps both honest</h1>
+      <p class="lede">A native Mac app that gives Claude Code, Codex or any other agent the eyes, hands and screen it needs to edit video, and gives you a calm place to watch, comment and approve.</p>
+    </div>
+    <div class="pitch">
+      <p><b>The whole idea in three lines.</b> The agent does almost all of the editing. You only do the parts that need taste: the brief, the review, the yes. The app does the parts that should never be left to luck: seeing the footage, enforcing the rules, showing the edit instantly and rendering it once.</p>
+    </div>
+  </div>
+  <nav class="toc" aria-label="Sections">
+    <a href="#who">1 · Who does what</a><a href="#system">2 · How it fits together</a><a href="#journey">3 · The journey</a><a href="#screens">4 · Screens</a><a href="#scenarios">5 · Scenarios</a><a href="#mcp">6 · The agent’s toolbox</a><a href="#simple">7 · Why it feels simple</a><a href="#beyond">8 · More than MCP</a><a href="#build">9 · What to build first</a><a href="#risks">10 · Risks</a>
+  </nav>
+</div>
+</header>
+
+<!-- 1 WHO -->
+<section id="who">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>01</b> Who does what</div>
+    <h2>Three players, each doing only what it is best at</h2>
+    <p>Most AI editors today blur these roles. The agent is asked to perceive, decide, police itself and render, and you are asked to babysit a terminal. Rushes splits the job cleanly. Every diagram below uses the same three colours.</p>
+  </div>
+  <div class="actors">
+    <div class="actor h">
+      <span class="tag t-h"><span class="dot" style="background:var(--human)"></span>YOU · the director</span>
+      <h3>Taste and decisions</h3>
+      <ul><li>Drop footage and write a one-paragraph brief</li><li>Answer the few questions only you can answer</li><li>Watch the draft, leave comments by pointing at moments</li><li>Approve, or nudge a cut by hand when it’s faster</li></ul>
+      <p class="never"><b>Never has to:</b> scrub a timeline, hunt for retakes, fix mid-word cuts, wait for a render to see a change.</p>
+    </div>
+    <div class="actor a">
+      <span class="tag t-a"><span class="dot" style="background:var(--agent)"></span>AGENT · the editor</span>
+      <h3>Judgement at scale</h3>
+      <ul><li>Reads the footage “dossier” and picks the best takes</li><li>Writes the edit as small, explained steps</li><li>Asks instead of guessing when two options are close</li><li>Turns your comments into the next version</li></ul>
+      <p class="never"><b>Never has to:</b> touch pixels, run ffmpeg, remember your style, or claim it’s done without the checks passing.</p>
+    </div>
+    <div class="actor p">
+      <span class="tag t-p"><span class="dot" style="background:var(--app)"></span>APP · the edit suite</span>
+      <h3>Senses, rules and screen</h3>
+      <ul><li>Makes proxies and runs every sense on your Mac</li><li>Holds the timeline: the one source of truth</li><li>Validates every change and snaps it to safe edges</li><li>Plays the edit instantly, renders once at the end</li></ul>
+      <p class="never"><b>Never has to:</b> decide what’s funny, what’s boring, or what your audience wants.</p>
+    </div>
+  </div>
+
+  <div class="tblwrap">
+  <table class="tbl" aria-label="Responsibility matrix">
+    <thead><tr><th>Job</th><th>You</th><th>Agent</th><th>App</th><th>Why it sits there</th></tr></thead>
+    <tbody>
+      <tr><td>Say what the video is for</td><td class="c own-h">●</td><td class="c own-a">○</td><td class="c"></td><td>Only you know the audience. The agent can draft a brief from your last videos.</td></tr>
+      <tr><td>See and hear the footage</td><td class="c"></td><td class="c own-a">○</td><td class="c own-p">●</td><td>Cheap, local, deterministic tools beat a big model “watching” 4 GB of video.</td></tr>
+      <tr><td>Choose takes, pace, structure</td><td class="c own-h">○</td><td class="c own-a">●</td><td class="c"></td><td>This is real judgement, and where a strong model earns its cost.</td></tr>
+      <tr><td>Exact cut points</td><td class="c"></td><td class="c own-a">○</td><td class="c own-p">●</td><td>The agent says “cut after this word”, the app finds the exact frame and audio zero-crossing.</td></tr>
+      <tr><td>Catch mistakes</td><td class="c own-h">○</td><td class="c own-a">○</td><td class="c own-p">●</td><td>Rules as code: no cut inside a word, loudness on target, captions in the safe area.</td></tr>
+      <tr><td>Approve</td><td class="c own-h">●</td><td class="c"></td><td class="c"></td><td>Rendering and publishing are gated on your yes. Always.</td></tr>
+      <tr><td>Remember your style</td><td class="c own-h">○</td><td class="c own-a">○</td><td class="c own-p">●</td><td>Every manual tweak you make is stored as a lesson the next agent reads.</td></tr>
+      <tr><td>Render and export</td><td class="c"></td><td class="c"></td><td class="c own-p">●</td><td>Done once, from the originals, on the Mac’s media engine.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="margin-top:10px;font-size:14px;color:var(--muted)">● owns it · ○ helps</p>
+</div>
+</section>
+
+<!-- 2 SYSTEM -->
+<section id="system">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>02</b> How it fits together</div>
+    <h2>Your footage stays on the Mac. Only descriptions and decisions travel.</h2>
+    <p>Rushes is a normal Mac app with a small MCP server inside it. Claude Code or Codex connects to that server the way it connects to any other tool. The agent never receives the video file. It receives text, a handful of small frames, and a list of tools for changing the edit.</p>
+  </div>
+  <figure class="fig" style="margin-left:0;margin-right:0">
+  <svg viewBox="0 0 1060 470" role="img" aria-label="Architecture: you, the Rushes app with its modules, the local MCP server, the agent on your Mac, and the model in the cloud">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+    </defs>
+    <!-- mac boundary -->
+    <rect x="10" y="10" width="830" height="450" rx="18" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 6"/>
+    <text x="30" y="38" class="mn mut" font-size="13">YOUR MAC</text>
+    <!-- human -->
+    <rect x="30" y="170" width="120" height="120" rx="14" fill="var(--human-soft)" stroke="var(--human)" stroke-width="2"/>
+    <circle cx="90" cy="208" r="16" fill="var(--human)"/>
+    <path d="M60 262 q30 -36 60 0" fill="var(--human)"/>
+    <text x="90" y="284" text-anchor="middle" font-weight="600" font-size="15">You</text>
+    <!-- app -->
+    <rect x="190" y="56" width="400" height="388" rx="16" fill="var(--app-soft)" stroke="var(--app)" stroke-width="2"/>
+    <text x="210" y="86" font-weight="700" font-size="17">Rushes app</text>
+    <text x="210" y="106" class="mut" font-size="13">native SwiftUI · AVFoundation · Vision · VideoToolbox</text>
+    <g font-size="13.5">
+      <rect x="210" y="122" width="175" height="54" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="222" y="145" font-weight="600">Ingest &amp; proxies</text><text x="222" y="164" class="mut" font-size="12">normalise, 720p copies</text>
+      <rect x="395" y="122" width="175" height="54" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="407" y="145" font-weight="600">Senses</text><text x="407" y="164" class="mut" font-size="12">words, pauses, faces, shots…</text>
+      <rect x="210" y="188" width="360" height="62" rx="10" fill="var(--surface)" stroke="var(--app)" stroke-width="2"/><text x="222" y="213" font-weight="700">Timeline document</text><text x="222" y="234" class="mut" font-size="12">the recipe · versions · every change with its reason</text>
+      <rect x="210" y="262" width="175" height="54" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="222" y="285" font-weight="600">Live player</text><text x="222" y="304" class="mut" font-size="12">plays the recipe instantly</text>
+      <rect x="395" y="262" width="175" height="54" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="407" y="285" font-weight="600">Checks</text><text x="407" y="304" class="mut" font-size="12">rules as code, every change</text>
+      <rect x="210" y="328" width="175" height="54" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="222" y="351" font-weight="600">Taste memory</text><text x="222" y="370" class="mut" font-size="12">learns from your tweaks</text>
+      <rect x="395" y="328" width="175" height="54" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="407" y="351" font-weight="600">Renderer</text><text x="407" y="370" class="mut" font-size="12">originals, once, hardware</text>
+      <rect x="210" y="394" width="360" height="38" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="222" y="418" font-weight="600">Review &amp; questions inbox</text><text x="410" y="418" class="mut" font-size="12">comments pinned to time</text>
+    </g>
+    <!-- mcp -->
+    <rect x="620" y="170" width="190" height="120" rx="14" fill="var(--surface)" stroke="var(--app)" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="715" y="206" text-anchor="middle" font-weight="700" font-size="15">Local MCP server</text>
+    <text x="715" y="228" text-anchor="middle" class="mut" font-size="12">inside the app</text>
+    <text x="715" y="252" text-anchor="middle" class="mn" font-size="12">13 tools · 4 resources</text>
+    <text x="715" y="272" text-anchor="middle" class="mn" font-size="12">4 prompt recipes</text>
+    <!-- agent -->
+    <rect x="620" y="330" width="190" height="104" rx="14" fill="var(--agent-soft)" stroke="var(--agent)" stroke-width="2"/>
+    <text x="715" y="362" text-anchor="middle" font-weight="700" font-size="15">Agent harness</text>
+    <text x="715" y="384" text-anchor="middle" font-size="13">Claude Code · Codex</text>
+    <text x="715" y="404" text-anchor="middle" class="mut" font-size="12">your own subscription</text>
+    <text x="715" y="422" text-anchor="middle" class="mut" font-size="12">or any MCP client</text>
+    <!-- cloud -->
+    <rect x="880" y="300" width="160" height="134" rx="60" fill="var(--agent-soft)" stroke="var(--agent)" stroke-width="2" stroke-dasharray="4 4"/>
+    <text x="960" y="352" text-anchor="middle" font-weight="700" font-size="15">The model</text>
+    <text x="960" y="374" text-anchor="middle" class="mut" font-size="12">in the cloud</text>
+    <text x="960" y="394" text-anchor="middle" class="mut" font-size="12">reads text and</text>
+    <text x="960" y="410" text-anchor="middle" class="mut" font-size="12">small frames only</text>
+    <!-- arrows -->
+    <line x1="150" y1="210" x2="188" y2="210" stroke="var(--human)" stroke-width="2" marker-end="url(#ar)"/>
+    <line x1="188" y1="250" x2="152" y2="250" stroke="var(--human)" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="104" y="320" text-anchor="middle" class="mut" font-size="12">brief, comments,</text>
+    <text x="104" y="336" text-anchor="middle" class="mut" font-size="12">answers, approve</text>
+    <line x1="592" y1="230" x2="618" y2="230" stroke="var(--app)" stroke-width="2" marker-end="url(#ar)" marker-start="url(#ar)"/>
+    <line x1="715" y1="292" x2="715" y2="328" stroke="var(--agent)" stroke-width="2" marker-end="url(#ar)" marker-start="url(#ar)"/>
+    <text x="725" y="315" class="mut mn" font-size="11">tool calls</text>
+    <line x1="812" y1="382" x2="878" y2="370" stroke="var(--agent)" stroke-width="2" marker-end="url(#ar)" marker-start="url(#ar)"/>
+    <text x="900" y="150" class="mut" font-size="12">What leaves the Mac:</text>
+    <text x="900" y="170" font-size="12.5">· the dossier (text)</text>
+    <text x="900" y="188" font-size="12.5">· ~20 small frames</text>
+    <text x="900" y="206" font-size="12.5">· your brief, comments</text>
+    <text x="900" y="232" class="mut" font-size="12">What never does:</text>
+    <text x="900" y="252" font-size="12.5">· the video files</text>
+  </svg>
+  <figcaption>The app is the eyes, hands and screen. The agent is the brain you already pay for. MCP is the plug between them.</figcaption>
+  </figure>
+
+  <div class="stack prose" style="margin-top:36px">
+    <h3>The loop every edit goes through</h3>
+    <p>Two of the eight steps are yours. The arrow at the end is the important one: every round of review makes the next first draft better.</p>
+  </div>
+  <div class="loop">
+    <div class="step h"><b>Brief</b><span>you · 30 s</span></div><span class="arr">→</span>
+    <div class="step p"><b>Perceive</b><span>app · ~2 min</span></div><span class="arr">→</span>
+    <div class="step a"><b>Draft</b><span>agent · ~6 min</span></div><span class="arr">→</span>
+    <div class="step p"><b>Self-check</b><span>app + agent</span></div><span class="arr">→</span>
+    <div class="step h"><b>Review</b><span>you · watch at 1.5×</span></div><span class="arr">→</span>
+    <div class="step a"><b>Revise</b><span>agent · ~2 min</span></div><span class="arr">→</span>
+    <div class="step h"><b>Approve</b><span>you · one click</span></div><span class="arr">→</span>
+    <div class="step p"><b>Render</b><span>app · once</span></div>
+    <div class="back">↺ your tweaks and comments become taste memory, read at the next Brief</div>
+  </div>
+</div>
+</section>
+
+<!-- 3 JOURNEY -->
+<section id="journey">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>03</b> The journey</div>
+    <h2>One video, start to finish: who is busy at each moment</h2>
+    <p>A 42-minute talking-head recording becomes a 12-minute YouTube video. Timings are illustrative, to show the shape: you are busy for about fifteen minutes in total, almost all of it watching.</p>
+  </div>
+  <div class="fig" style="padding:14px">
+  <div class="swim" role="table" aria-label="Swimlane journey">
+    <div></div>
+    <div class="ph"><b>Drop</b>0:00</div>
+    <div class="ph"><b>Brief</b>0:30</div>
+    <div class="ph"><b>Perceive</b>1–3 min</div>
+    <div class="ph"><b>Draft</b>3–9 min</div>
+    <div class="ph"><b>Self-check</b>9 min</div>
+    <div class="ph"><b>Review</b>10–20 min</div>
+    <div class="ph"><b>Revise</b>21–24 min</div>
+    <div class="ph"><b>Approve</b>25 min</div>
+
+    <div class="lane"><span class="dot" style="background:var(--human)"></span>You</div>
+    <div class="c h">Drags 3 files onto the window</div>
+    <div class="c h">Types the brief, picks length and style</div>
+    <div class="c e">free: coffee</div>
+    <div class="c h">Can watch it build live, or ignore it. Answers a question from the phone</div>
+    <div class="c e">free</div>
+    <div class="c h">Watches v1 at 1.5×, leaves 6 comments, answers 2 questions, trims one cut by hand</div>
+    <div class="c e">free</div>
+    <div class="c h">Checks the diff, clicks Approve</div>
+
+    <div class="lane"><span class="dot" style="background:var(--agent)"></span>Agent</div>
+    <div class="c e">not started</div>
+    <div class="c a">Gets the brief, your style notes and the project overview</div>
+    <div class="c a">Reads the dossier: words, pauses, retakes, shots, faces</div>
+    <div class="c a">Sends edits in small batches, each with a reason. Asks 3 questions instead of guessing</div>
+    <div class="c a">Looks at frames around every cut, fixes 2 issues it finds</div>
+    <div class="c e">idle, or starts on shorts</div>
+    <div class="c a">Reads comments and your hand edit, makes v2, replies to each comment</div>
+    <div class="c a">Writes title, description and chapters</div>
+
+    <div class="lane"><span class="dot" style="background:var(--app)"></span>App</div>
+    <div class="c p">Normalises codecs, makes 720p proxies</div>
+    <div class="c p">Starts the agent with the Rushes tools plugged in</div>
+    <div class="c p">Runs senses on device: transcript, silence, fillers, faces, shots, visual notes</div>
+    <div class="c p">Validates each edit, snaps to word edges, updates the live preview</div>
+    <div class="c p">Runs checks: mid-word cuts, jump cuts, loudness, captions</div>
+    <div class="c p">Pins comments to timestamps, records your hand edit as a lesson</div>
+    <div class="c p">Shows the v1 → v2 diff and which comment each change answers</div>
+    <div class="c p">Renders the 4K originals once on the media engine; uploads as a YouTube draft</div>
+  </div>
+  </div>
+</div>
+</section>
+
+<!-- 4 SCREENS -->
+<section id="screens">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>04</b> Screens</div>
+    <h2>Seven screens, and you only need three of them</h2>
+    <p>The everyday path is Drop → Brief → Review. The live view, the diff, the shorts picker and export are there when you want them. There is a timeline, but it lives at the bottom of the window, and you never have to touch it.</p>
+  </div>
+
+  <!-- S1 -->
+  <div class="screen">
+    <div class="head"><span class="num">SCREEN 1</span><h3>Drop: the app gets the footage ready</h3></div>
+    <div class="scroller">
+    <div class="win">
+      <div class="bar"><div class="lights"><i></i><i></i><i></i></div><div class="ttl"><b>Rushes</b> · Ep 14 “I let Claude edit my channel”</div><div class="sp"></div><span class="pill ok">● Claude Code connected</span><span class="pill">○ Codex</span></div>
+      <div style="display:grid;grid-template-columns:200px 1fr 300px;min-height:400px">
+        <div class="side">
+          <div class="lbl" style="padding:4px 10px 8px">Projects</div>
+          <div class="it on">▣ Ep 14 · Claude edit</div>
+          <div class="it">▣ Grafels · GDP race</div>
+          <div class="it">▣ Shorts batch · Nov</div>
+          <div class="it">▣ Sync the Chat #3</div>
+          <div class="lbl" style="padding:16px 10px 8px">Library</div>
+          <div class="it">◎ B-roll · 214 clips</div>
+          <div class="it">♫ Music · 38 tracks</div>
+          <div class="it">✦ Brand kit</div>
+        </div>
+        <div class="bd" style="align-content:start">
+          <div class="lbl">Footage · 3 files · stays where it is, nothing copied</div>
+          <div class="panel" style="padding:4px 12px">
+            <div class="chk" style="grid-template-columns:1fr auto auto auto"><span><b>A-cam_take1.mov</b></span><span class="mu mono">42:18</span><span class="mu mono">4K · HEVC 10-bit HDR</span><span class="ok mono">synced</span></div>
+            <div class="chk" style="grid-template-columns:1fr auto auto auto"><span><b>B-cam_wide.mp4</b></span><span class="mu mono">41:57</span><span class="mu mono">1080p · VFR phone</span><span class="ok mono">+1.24 s by audio</span></div>
+            <div class="chk" style="grid-template-columns:1fr auto auto auto"><span><b>screen_rec.mov</b></span><span class="mu mono">18:03</span><span class="mu mono">2560×1600 · 60 fps</span><span class="ok mono">synced</span></div>
+          </div>
+          <div class="lbl" style="margin-top:6px">Getting ready · on this Mac</div>
+          <div class="panel" style="padding:4px 12px">
+            <div class="chk"><span class="ok">✓</span><span>Normalise <span class="mu">variable frame rate → 30 fps, HDR → SDR for preview</span></span><span class="mono mu">0:21</span></div>
+            <div class="chk"><span class="ok">✓</span><span>Proxies <span class="mu">720p copies for instant playback</span></span><span class="mono mu">0:48</span></div>
+            <div class="chk"><span class="ok">✓</span><span>Words <span class="mu">7,412 words with exact timings</span></span><span class="mono mu">1:10</span></div>
+            <div class="chk"><span class="ok">✓</span><span>Silence &amp; fillers <span class="mu">311 pauses, 132 “um / uh / like”</span></span><span class="mono mu">0:06</span></div>
+            <div class="chk"><span class="ok">✓</span><span>Retakes <span class="mu">17 repeated lines grouped as takes</span></span><span class="mono mu">0:04</span></div>
+            <div class="chk"><span class="ok">✓</span><span>Faces &amp; shots <span class="mu">1 speaker, 3 cameras</span></span><span class="mono mu">0:32</span></div>
+            <div class="chk"><span class="run">◐</span><span>Visual notes <span class="mu">what’s on screen, every 2 s</span><div class="prog" style="margin-top:5px"><i style="width:63%"></i></div></span><span class="mono run">63%</span></div>
+            <div class="chk"><span class="wait">○</span><span>Search index <span class="mu">find moments by meaning</span></span><span class="mono mu">queued</span></div>
+          </div>
+        </div>
+        <div class="bd" style="border-left:1px solid var(--m-ln);align-content:start;background:#17181b">
+          <div class="lbl">Ready for a brief</div>
+          <div class="panel" style="padding:12px;display:grid;gap:8px">
+            <div style="font-size:15px;font-weight:600">You can write the brief now.</div>
+            <div class="mu">The agent starts with what’s ready and picks up visual notes when they finish, in about 40 s.</div>
+            <span class="btn pri" style="text-align:center">Write brief →</span>
+          </div>
+          <div class="lbl" style="margin-top:6px">What the agent will see</div>
+          <div class="panel" style="padding:12px;font:12px/1.6 var(--mono);color:var(--m-mu)">
+            00:12.40 “So today I let Claude…” <span style="color:var(--m-hu)">[take 1 of 2]</span><br>
+            00:15.02 ‹pause 1.8s›<br>
+            00:16.90 “Okay. So today I let…” <span style="color:var(--m-ok)">[take 2]</span><br>
+            00:17.10 face: centre-left, smiling<br>
+            00:22.00 screen: Claude Code window
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="notes">
+      <div class="note"><span class="k">A</span><b>No settings to choose</b>Formats, frame rates and HDR are normalised for you. The originals are never touched until export.</div>
+      <div class="note"><span class="k">B</span><b>Senses run locally and in parallel</b>The cheap, specialised tools from the explainer. No upload, no cloud bill, results cached forever.</div>
+      <div class="note"><span class="k">C</span><b>Shows you what the agent will read</b>The dossier is visible, so when the agent gets something wrong you can see why.</div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="screen">
+    <div class="head"><span class="num">SCREEN 2</span><h3>Brief: one text box, a few chips, one button</h3></div>
+    <div class="scroller">
+    <div class="win">
+      <div class="bar"><div class="lights"><i></i><i></i><i></i></div><div class="ttl"><b>Rushes</b> · Ep 14 · New edit</div><div class="sp"></div><span class="pill ok">● footage ready</span></div>
+      <div class="bd" style="padding:22px 26px;grid-template-columns:1fr 300px;gap:22px">
+        <div style="display:grid;gap:14px;align-content:start">
+          <div style="font:700 22px var(--display)">What should this video be?</div>
+          <div class="composer">Make a ~12 min YouTube cut. Chatty but tight. Keep the spaghetti joke and the Ben Affleck bit. Cut to the wide camera when I point at the screen. Captions in my usual style, music low under the intro only.<span class="caret"></span></div>
+          <div class="chips">
+            <span class="chip"><span class="mu">Format</span> YouTube 16:9</span>
+            <span class="chip"><span class="mu">Length</span> ~12 min</span>
+            <span class="chip"><span class="mu">Style</span> My channel · learned from 6 edits</span>
+            <span class="chip"><span class="mu">Reference</span> ▶ Ep 11 (best retention)</span>
+            <span class="chip"><span class="mu">Also make</span> 5 shorts</span>
+          </div>
+          <div class="panel" style="padding:12px 14px;display:grid;gap:6px">
+            <div class="lbl">The agent will ask you before it</div>
+            <div>• removes any section longer than 30 seconds</div>
+            <div>• chooses between two takes it rates as close</div>
+            <div>• cuts anything you marked as a must-keep</div>
+          </div>
+        </div>
+        <div style="display:grid;gap:12px;align-content:start">
+          <div class="lbl">Editor</div>
+          <div class="agentpick" style="grid-template-columns:1fr">
+            <div class="o sel"><b>Claude Code</b><div class="mu">your Max plan · connected</div></div>
+            <div class="o"><b>Codex</b><div class="mu">your ChatGPT plan · connected</div></div>
+            <div class="o"><b>Any MCP client</b><div class="mu">Cursor, Claude Desktop…</div></div>
+          </div>
+          <div class="lbl" style="margin-top:6px">How involved do you want to be?</div>
+          <div class="agentpick" style="grid-template-columns:1fr 1fr 1fr">
+            <div class="o" style="text-align:center">Watch live</div>
+            <div class="o sel" style="text-align:center">Ping me</div>
+            <div class="o" style="text-align:center">Just finish</div>
+          </div>
+          <span class="btn ag" style="text-align:center;padding:12px">Start editing</span>
+          <div class="mu" style="font-size:12px;text-align:center">You can pause it or take over at any point.</div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="notes">
+      <div class="note"><span class="k">A</span><b>The brief is the whole interface</b>Plain language. Chips are just shortcuts the agent would otherwise have to ask about.</div>
+      <div class="note"><span class="k">B</span><b>Bring your own brain</b>The app starts your Claude Code or Codex with its tools plugged in. You never see a terminal unless you want to.</div>
+      <div class="note"><span class="k">C</span><b>Set the involvement dial up front</b>“Ping me” means questions come to your phone; the agent keeps working on everything else meanwhile.</div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="screen">
+    <div class="head"><span class="num">SCREEN 3</span><h3>Live: watch the edit being made, if you want to</h3></div>
+    <div class="scroller">
+    <div class="win">
+      <div class="bar"><div class="lights"><i></i><i></i><i></i></div><div class="ttl"><b>Rushes</b> · Ep 14 · v1 draft</div><span class="pill ag">● Claude is editing · step 14 of ~30</span><div class="sp"></div><span class="btn">Pause</span><span class="btn">Take over</span></div>
+      <div style="display:grid;grid-template-columns:290px 1fr 300px">
+        <div class="bd" style="border-right:1px solid var(--m-ln);align-content:start">
+          <div class="lbl">Transcript · the edit, in words</div>
+          <div class="tr">
+            <div><span class="ts">00:12</span><s>So today I let Claude… no wait.</s> <span class="pc">1.8s</span></div>
+            <div><span class="ts">00:16</span>Okay. So today I let Claude edit my <s>um</s> entire channel. <span class="p">0.3s</span></div>
+            <div><span class="ts">00:24</span>And honestly? <s>Like,</s> it went better than my last editor. <span class="pc">1.1s</span></div>
+            <div><span class="ts">00:31</span>Let’s start with the <mark>spaghetti thing, because you</mark> all asked.</div>
+            <div><span class="ts">00:38</span><s>Actually let me, let me set this up first.</s></div>
+            <div><span class="ts">00:44</span>Remember Will Smith eating spaghetti?</div>
+          </div>
+        </div>
+        <div class="bd" style="align-content:start">
+          <div class="frame"><div class="shelf"></div><div class="lamp"></div>
+            <svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="70" r="40" fill="#c9a58a"/><path d="M60 58 q40 -52 80 0 q-6 -30 -40 -32 q-34 2 -40 32z" fill="#2b2420"/><path d="M10 220 q10 -96 90 -100 q80 4 90 100z" fill="#2e3f5c"/></svg>
+            <span class="tc">00:31.20 · A-cam · proxy</span><span class="cap">the <em>spaghetti</em> thing</span></div>
+          <div class="row"><span class="mono mu">▶ 00:31 / 12:48 (estimated)</span><div class="sp grow"></div><span class="pill ok">no render needed</span></div>
+        </div>
+        <div class="bd" style="border-left:1px solid var(--m-ln);align-content:start;background:#17181b">
+          <div class="lbl">What Claude is doing, and why</div>
+          <div class="act">
+            <div class="e"><div class="w">Removed the false start at 00:12</div><div class="why">Take 2 is cleaner; take 1 stops mid-sentence.</div><div class="meta"><span>−4.6 s</span><span>snapped to word edge</span></div></div>
+            <div class="e"><div class="w">Tightened 47 pauses to 0.25–0.35 s</div><div class="why">Your style: keep a breath before punchlines.</div><div class="meta"><span>−1:52</span><span>3 kept long on purpose</span></div></div>
+            <div class="e c"><div class="w">Wide camera at 03:12–03:40</div><div class="why">You point at the screen; face is cropped on A-cam.</div><div class="meta"><span>B-cam</span><span>check ✓</span></div></div>
+            <div class="e q"><div class="w">Question for you</div><div class="why">Two Ben Affleck takes. A is 20 s shorter, B has the better ending. Keeping A for now.</div><div class="meta"><span>sent to phone</span><span>not blocking</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="tl">
+        <div class="ruler"><span>00:00</span><span>02:00</span><span>04:00</span><span>06:00</span><span>08:00</span><span>10:00</span><span>12:00</span></div>
+        <div class="trk"><span class="n">Graphics</span><div class="lane"><div class="clip gfx" style="left:1%;width:6%"></div><div class="clip gfx" style="left:38%;width:4%"></div></div></div>
+        <div class="trk"><span class="n">B-cam</span><div class="lane"><div class="clip b" style="left:25%;width:4%"></div><div class="clip b" style="left:47%;width:6%"></div></div></div>
+        <div class="trk"><span class="n">A-cam</span><div class="lane"><div class="clip" style="left:0;width:12%"></div><div class="clip" style="left:12.4%;width:10%"></div><div class="clip" style="left:22.8%;width:15%"></div><div class="clip" style="left:38.2%;width:17%"></div><div class="clip ghost" style="left:55.6%;width:44%"></div><div class="gap" style="left:12.2%"></div><div class="gap" style="left:22.6%"></div><div class="gap" style="left:38%"></div></div></div>
+        <div class="trk"><span class="n">Captions</span><div class="lane"><div class="clip cap" style="left:0;width:55.4%"></div></div></div>
+        <div class="trk"><span class="n">Voice</span><div class="lane wav"><div class="wave"></div></div></div>
+        <div class="cursor" style="left:calc(64px + 12px + (100% - 88px) * .556)"><span>Claude · 06:40</span></div>
+        <div class="ph" style="left:calc(64px + 12px + (100% - 88px) * .04)"></div>
+      </div>
+    </div>
+    </div>
+    <div class="notes">
+      <div class="note"><span class="k">A</span><b>The transcript is the edit</b>Struck-through words are cut. The dashed blue box is what the agent is deciding right now.</div>
+      <div class="note"><span class="k">B</span><b>Every change has a reason</b>“Snapped to word edge” means the app moved the agent’s rough cut point to a safe frame.</div>
+      <div class="note"><span class="k">C</span><b>Questions don’t block</b>The agent picks a sensible default, flags it, and carries on. Your answer changes it later.</div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="screen">
+    <div class="head"><span class="num">SCREEN 4</span><h3>Review: the screen you actually live in</h3></div>
+    <div class="scroller">
+    <div class="win">
+      <div class="bar"><div class="lights"><i></i><i></i><i></i></div><div class="ttl"><b>Rushes</b> · Ep 14 · <b>v1 ready for review</b></div><div class="sp"></div><span class="pill">12:41 from 42:18 raw</span><span class="pill ok">checks 14/14</span><span class="pill hu">2 questions</span></div>
+      <div style="display:grid;grid-template-columns:1fr 340px">
+        <div class="bd" style="align-content:start">
+          <div class="frame b"><div class="shelf" style="left:auto;right:8%;width:20%"></div>
+            <svg viewBox="0 0 200 220" aria-hidden="true" style="transform:translateX(-62%)"><circle cx="100" cy="70" r="40" fill="#c9a58a"/><path d="M60 58 q40 -52 80 0 q-6 -30 -40 -32 q-34 2 -40 32z" fill="#2b2420"/><path d="M10 220 q10 -96 90 -100 q80 4 90 100z" fill="#2e3f5c"/><path d="M170 150 l40 -30" stroke="#c9a58a" stroke-width="18" stroke-linecap="round"/></svg>
+            <span class="tc">04:12 · B-cam</span><span class="cap">and <em>this</em> is where it broke</span></div>
+          <div class="row"><span class="btn">▶</span><span class="mono mu">04:12 / 12:41</span><span class="pill">1.5×</span><div class="grow"></div><span class="mu">Click the video or press C to comment here</span></div>
+          <div class="scrub"><div class="done" style="width:33%"></div>
+            <span class="mk" style="left:9%;background:var(--m-hu)">1</span>
+            <span class="mk" style="left:33%;background:var(--m-hu)">2</span>
+            <span class="mk" style="left:46%;background:var(--m-ag);color:#0b1230">?</span>
+            <span class="mk" style="left:58%;background:var(--m-hu)">3</span>
+            <span class="mk" style="left:71%;background:var(--m-ag);color:#0b1230">?</span>
+            <span class="mk" style="left:88%;background:var(--m-hu)">4</span>
+          </div>
+          <div class="row mu" style="font-size:12px;gap:16px"><span><span class="dot" style="background:var(--m-hu)"></span> your comments</span><span><span class="dot" style="background:var(--m-ag)"></span> agent questions</span><span><span class="dot" style="background:var(--m-cut)"></span> failed checks (none)</span></div>
+        </div>
+        <div class="bd" style="border-left:1px solid var(--m-ln);align-content:start;background:#17181b">
+          <div class="panel" style="padding:12px;display:grid;gap:4px">
+            <div class="lbl">Summary from Claude</div>
+            <div>Cut 29:37 (70%). Kept both jokes. Moved the “why this matters” bit to the top as a hook. Wide camera used 9 times.</div>
+          </div>
+          <div class="cm"><div class="who"><span class="av" style="background:var(--m-hu)">Y</span>You <span class="mono mu">@ 04:12</span></div><div>This drags. Jump straight to the punchline.</div><div class="rep">Claude: will cut 04:12–04:31 in v2 and keep the reaction shot.</div></div>
+          <div class="cm" style="border:1px solid rgba(245,165,36,.4)"><div class="who"><span class="av" style="background:var(--m-ag)">C</span>Claude asks <span class="mono mu">@ 05:50</span></div><div>Which Ben Affleck take?</div>
+            <div class="qa"><div class="o sel"><b>A</b> · 0:42<br><span class="mu">shorter, flatter ending</span></div><div class="o"><b>B</b> · 1:03<br><span class="mu">better punchline</span></div></div></div>
+          <div class="cm"><div class="who"><span class="av" style="background:var(--m-hu)">Y</span>You <span class="mono mu">@ 07:20 · voice note 0:06</span></div><div class="mu">“Zoom in a bit here, it’s the key point.”</div></div>
+          <div class="row" style="margin-top:4px"><span class="btn grow" style="text-align:center">Request changes (4)</span><span class="btn pri">Approve v1</span></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="notes">
+      <div class="note"><span class="k">A</span><b>Comment by pointing</b>Click the frame, type or hold to talk. The comment is pinned to that moment, like notes on a draft.</div>
+      <div class="note"><span class="k">B</span><b>Questions and comments in one inbox</b>Both are anchored to time, so you answer them while you watch, never in a separate chat.</div>
+      <div class="note"><span class="k">C</span><b>Same screen on your phone</b>A private review link opens this view anywhere. Good for watching on the couch.</div>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="screen">
+    <div class="head"><span class="num">SCREEN 5</span><h3>What changed: v1 → v2, tied to your comments</h3></div>
+    <div class="scroller">
+    <div class="win">
+      <div class="bar"><div class="lights"><i></i><i></i><i></i></div><div class="ttl"><b>Rushes</b> · Ep 14 · compare</div><div class="sp"></div><span class="pill">v1 12:41</span><span class="mu">→</span><span class="pill ag">v2 12:03</span><span class="pill ok">4 of 4 comments answered</span></div>
+      <div style="display:grid;grid-template-columns:1fr 330px">
+        <div class="bd" style="align-content:start">
+          <div class="tr" style="display:grid;gap:10px">
+            <div class="panel" style="padding:10px 12px"><span class="ts">04:12</span>And this is where it broke. <s>So I went back and I tried it again, and again, and you can imagine how that went, I mean</s> It cut my face in half. <span class="pill hu" style="margin-left:6px">comment 1</span></div>
+            <div class="panel" style="padding:10px 12px"><span class="ts">05:50</span><s>[Ben Affleck take A, 0:42]</s> <ins>[Ben Affleck take B, 1:03]</ins> <span class="pill ag" style="margin-left:6px">your answer</span></div>
+            <div class="panel" style="padding:10px 12px"><span class="ts">07:20</span>This is the key point: <ins>zoom 115% on face, 07:20–07:34</ins> <span class="pill hu" style="margin-left:6px">comment 3</span></div>
+            <div class="panel" style="padding:10px 12px"><span class="ts">09:02</span>Your hand edit: trimmed 0.4 s before “anyway” <span class="pill" style="margin-left:6px">learned</span></div>
+          </div>
+        </div>
+        <div class="bd" style="border-left:1px solid var(--m-ln);align-content:start;background:#17181b">
+          <div class="lbl">Saved to your style</div>
+          <div class="panel" style="padding:12px;display:grid;gap:8px">
+            <div>“Cut long setups before a punchline; the reaction shot can stay.”</div>
+            <div>“Prefers the funnier take over the shorter one.”</div>
+            <div>“Leaves less air before ‘anyway’ and ‘so’.”</div>
+          </div>
+          <div class="mu" style="font-size:12px">You can edit or delete any of these. The next brief starts with them.</div>
+          <div class="row"><span class="btn grow" style="text-align:center">Back to v1</span><span class="btn pri">Approve v2</span></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="notes">
+      <div class="note"><span class="k">A</span><b>Diffs in words, not frames</b>You check a revision in 30 seconds, not by rewatching 12 minutes.</div>
+      <div class="note"><span class="k">B</span><b>Every version is kept</b>Going back is one click, so letting the agent try something bold costs nothing.</div>
+      <div class="note"><span class="k">C</span><b>Your fixes become rules</b>This is the taste memory, and the part a competitor can’t copy by plugging in the same model.</div>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="screen">
+    <div class="head"><span class="num">SCREEN 6</span><h3>Shorts: the agent proposes, you swipe</h3></div>
+    <div class="scroller">
+    <div class="win">
+      <div class="bar"><div class="lights"><i></i><i></i><i></i></div><div class="ttl"><b>Rushes</b> · Ep 14 · Shorts</div><div class="sp"></div><span class="pill ag">9 candidates from v2</span><span class="pill ok">2 kept</span></div>
+      <div class="bd">
+        <div class="shorts">
+          <div class="sh kept"><div class="frame v"><div class="lamp"></div><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="70" r="40" fill="#c9a58a"/><path d="M60 58 q40 -52 80 0 q-6 -30 -40 -32 q-34 2 -40 32z" fill="#2b2420"/><path d="M10 220 q10 -96 90 -100 q80 4 90 100z" fill="#2e3f5c"/></svg><div class="hook">Claude edited my video. Here’s the bill.</div><span class="cap">it cost <em>$0</em></span></div><div class="sc"><span>0:38</span><span>hook 8/10</span></div><div class="bt"><span>Kept</span><span>Skip</span></div></div>
+          <div class="sh kept"><div class="frame v b"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="70" r="40" fill="#c9a58a"/><path d="M60 58 q40 -52 80 0 q-6 -30 -40 -32 q-34 2 -40 32z" fill="#2b2420"/><path d="M10 220 q10 -96 90 -100 q80 4 90 100z" fill="#2e3f5c"/></svg><div class="hook">Will Smith, spaghetti, 2023 vs 2026</div><span class="cap">look at <em>this</em></span></div><div class="sc"><span>0:24</span><span>hook 9/10</span></div><div class="bt"><span>Kept</span><span>Skip</span></div></div>
+          <div class="sh"><div class="frame v"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="70" r="40" fill="#c9a58a"/><path d="M60 58 q40 -52 80 0 q-6 -30 -40 -32 q-34 2 -40 32z" fill="#2b2420"/><path d="M10 220 q10 -96 90 -100 q80 4 90 100z" fill="#2e3f5c"/></svg><div class="hook">The moment it cut my face in half</div><span class="cap">wait <em>what</em></span></div><div class="sc"><span>0:19</span><span>hook 7/10</span></div><div class="bt"><span>Keep</span><span>Skip</span></div></div>
+          <div class="sh"><div class="frame v b"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="70" r="40" fill="#c9a58a"/><path d="M60 58 q40 -52 80 0 q-6 -30 -40 -32 q-34 2 -40 32z" fill="#2b2420"/><path d="M10 220 q10 -96 90 -100 q80 4 90 100z" fill="#2e3f5c"/></svg><div class="hook">Faceless channels are a pyramid scheme</div><span class="cap">hear me <em>out</em></span></div><div class="sc"><span>0:51</span><span>hook 7/10</span></div><div class="bt"><span>Keep</span><span>Skip</span></div></div>
+          <div class="sh skip"><div class="frame v"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="70" r="40" fill="#c9a58a"/><path d="M60 58 q40 -52 80 0 q-6 -30 -40 -32 q-34 2 -40 32z" fill="#2b2420"/><path d="M10 220 q10 -96 90 -100 q80 4 90 100z" fill="#2e3f5c"/></svg><div class="hook">What is a keyframe?</div><span class="cap">so <em>basically</em></span></div><div class="sc"><span>0:44</span><span>hook 4/10</span></div><div class="bt"><span>Keep</span><span>Skipped</span></div></div>
+        </div>
+        <div class="panel" style="padding:10px 12px" ><span class="lbl">Why “Will Smith, spaghetti” scored 9</span> <span class="mu">· a visual payoff in the first second, a known meme, and it stands alone without the rest of the video.</span></div>
+      </div>
+    </div>
+    </div>
+    <div class="notes">
+      <div class="note"><span class="k">A</span><b>Reframed for you</b>Face tracking keeps you centred in 9:16. The hook text and captions are drafts you can edit inline.</div>
+      <div class="note"><span class="k">B</span><b>Scores come with reasons</b>A number alone teaches you nothing. The reason teaches you and the taste memory.</div>
+      <div class="note"><span class="k">C</span><b>Keep and Skip are training data</b>After a few batches, the agent stops proposing the kind you always skip.</div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="screen">
+    <div class="head"><span class="num">SCREEN 7</span><h3>Export: checks first, render once, upload as a draft</h3></div>
+    <div class="scroller">
+    <div class="win">
+      <div class="bar"><div class="lights"><i></i><i></i><i></i></div><div class="ttl"><b>Rushes</b> · Ep 14 · v2 approved</div><div class="sp"></div><span class="pill ok">approved by you · 14:02</span></div>
+      <div class="bd" style="grid-template-columns:1fr 1fr;gap:16px">
+        <div style="display:grid;gap:10px;align-content:start">
+          <div class="lbl">Final checks · run on the full-quality originals</div>
+          <div class="panel" style="padding:4px 12px">
+            <div class="chk"><span class="ok">✓</span><span>No cut inside a word</span><span class="mono mu">0 found</span></div>
+            <div class="chk"><span class="ok">✓</span><span>Loudness for YouTube</span><span class="mono mu">−14.1 LUFS</span></div>
+            <div class="chk"><span class="ok">✓</span><span>No black or frozen frames</span><span class="mono mu">0 found</span></div>
+            <div class="chk"><span class="ok">✓</span><span>Captions inside the safe area</span><span class="mono mu">412 lines</span></div>
+            <div class="chk"><span class="warn">!</span><span>Music licence <span class="mu">“Night Drive” is from your library, no Content ID info</span></span><span class="mono warn">check</span></div>
+            <div class="chk"><span class="ok">✓</span><span>AI voice or face used</span><span class="mono mu">none</span></div>
+          </div>
+        </div>
+        <div style="display:grid;gap:10px;align-content:start">
+          <div class="lbl">Render</div>
+          <div class="panel" style="padding:12px;display:grid;gap:8px">
+            <div class="row"><b class="grow">4K · H.264 · YouTube</b><span class="mono mu">≈ 1:40 on this Mac</span></div>
+            <div class="prog"><i style="width:38%;background:var(--m-ap)"></i></div>
+            <div class="mu" style="font-size:12px">Only the changed parts are re-encoded. Untouched stretches are copied straight from the original.</div>
+          </div>
+          <div class="lbl" style="margin-top:4px">Upload · as a private draft</div>
+          <div class="panel" style="padding:12px;display:grid;gap:6px">
+            <div><span class="mu">Title</span> · I let Claude edit my channel. It cost $0 and one argument.</div>
+            <div><span class="mu">Chapters</span> · 7, from the edit</div>
+            <div><span class="mu">Shorts</span> · 2 queued for Tue and Thu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="notes">
+      <div class="note"><span class="k">A</span><b>Only you can press render</b>The agent can prepare everything, but final output and publishing are always gated on your approval.</div>
+      <div class="note"><span class="k">B</span><b>Smart render</b>Stretches with no change are stream-copied, so the slow part of rendering shrinks to the cuts and effects.</div>
+      <div class="note"><span class="k">C</span><b>Warnings say what to do</b>A licence flag is a human question, so it stays a human question.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 5 SCENARIOS -->
+<section id="scenarios">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>05</b> Scenarios</div>
+    <h2>Six ways people would use it</h2>
+    <p>Same three players, same loop. What changes is which senses matter and where you spend your two minutes of attention.</p>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>Talking head → YouTube cut</h3><div class="who"><span class="tag t-h">you: brief, review</span><span class="tag t-a">agent: takes, pacing</span></div><p>The journey above. Senses that matter most: words, pauses, retakes. The headline win is removing two hours of scrubbing.</p></div>
+    <div class="card"><h3>One long video → 10 shorts</h3><div class="who"><span class="tag t-h">you: keep / skip</span><span class="tag t-a">agent: find hooks</span><span class="tag t-p">app: reframe 9:16</span></div><p>The agent searches the whole transcript for moments that stand alone. Face tracking reframes. You swipe through candidates in a minute.</p></div>
+    <div class="card"><h3>Voice-over + B-roll</h3><div class="who"><span class="tag t-a">agent: pick shots</span><span class="tag t-p">app: search by meaning</span></div><p>“Show me typing on a laptop” finds clips in your library by meaning. The agent lays B-roll over the voice and you swap any shot with one click.</p></div>
+    <div class="card"><h3>Podcast, two cameras</h3><div class="who"><span class="tag t-p">app: who is speaking</span><span class="tag t-a">agent: when to cut</span></div><p>Speaker detection gives the default camera; the agent adds reaction shots and wide shots for variety, and pulls three clips with captions.</p></div>
+    <div class="card"><h3>Data or faceless video</h3><div class="who"><span class="tag t-a">agent: script, data</span><span class="tag t-p">app: render templates</span></div><p>For channels like Grafels charts: the agent writes data and a script, fills a chart template, and times it to the voice-over. No camera at all.</p></div>
+    <div class="card"><h3>Teach it your style</h3><div class="who"><span class="tag t-h">you: hand edits</span><span class="tag t-p">app: remembers</span></div><p>Import two edits you’re proud of. The app compares raw and final, and writes your style notes: pause length, zoom habits, caption look.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- 6 MCP -->
+<section id="mcp">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>06</b> The agent’s toolbox</div>
+    <h2>Thirteen tools, designed so the agent can’t easily do the wrong thing</h2>
+    <p>The agent never writes raw JSON or runs ffmpeg. It calls a small set of tools with plain names. Each edit tool takes a reason, gets checked by the app, and answers with what actually happened.</p>
+  </div>
+  <div class="tblwrap">
+  <table class="tbl">
+    <thead><tr><th>Tool</th><th>What the agent gets back</th><th>Why it exists</th></tr></thead>
+    <tbody>
+      <tr><td><code>project_overview()</code></td><td>Files, length, cameras, which senses are ready</td><td>One cheap call to orient itself</td></tr>
+      <tr><td><code>read_dossier(range, layers)</code></td><td>The footage as text: words, pauses, takes, faces, shots, visual notes</td><td>The agent’s eyes and ears. Ask for a range and only the layers needed</td></tr>
+      <tr><td><code>search_footage(query)</code></td><td>Moments that match by meaning, with times</td><td>“me laughing”, “the screen recording of the error”</td></tr>
+      <tr><td><code>look(times, size)</code></td><td>A contact sheet of small frames</td><td>For the few decisions text can’t settle. Kept small to save tokens</td></tr>
+      <tr><td><code>get_timeline(version)</code></td><td>The current recipe, summarised</td><td>Always works from the source of truth, never memory</td></tr>
+      <tr><td><code>edit(ops, reason)</code></td><td>What changed, what got snapped, any warnings</td><td>The only way to change the video. Small typed steps, never free-form</td></tr>
+      <tr><td><code>ask_human(question, options, at)</code></td><td>Posts a question card and returns immediately</td><td>Ask instead of guess, without stopping work</td></tr>
+      <tr><td><code>run_checks()</code></td><td>Failed rules with times and suggested fixes</td><td>Stops “I’m done” when it isn’t</td></tr>
+      <tr><td><code>get_feedback(version)</code></td><td>Comments, answers, and your hand edits since last time</td><td>Your review becomes the next instruction</td></tr>
+      <tr><td><code>get_style()</code></td><td>Your style notes and brand kit</td><td>The taste memory, read at every brief</td></tr>
+      <tr><td><code>make_graphic(template, data)</code></td><td>A title, lower third or chart placed on the timeline</td><td>Motion graphics from templates, not from scratch</td></tr>
+      <tr><td><code>submit_for_review(version, summary)</code></td><td>Notifies you, opens the review screen</td><td>A clear “your turn” moment</td></tr>
+      <tr><td><code>prepare_export(preset)</code></td><td>Final checks and a render plan, waiting for your Approve</td><td>The agent can get it ready but can’t press the button</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="prose" style="margin-top:18px;color:var(--muted)">The <code style="font-family:var(--mono)">ops</code> vocabulary is deliberately small: <b>keep, cut, trim, swap_take, camera, zoom, overlay, caption_style, music, duck, transition</b>. Cut points are given as words or times; the app snaps each to the nearest word boundary, pause and audio zero-crossing. MCP also lets the app ship <b>resources</b> (the dossier, the style notes) and <b>prompt recipes</b> such as <code style="font-family:var(--mono)">/rough-cut</code>, <code style="font-family:var(--mono)">/shorts</code>, <code style="font-family:var(--mono)">/broll</code> and <code style="font-family:var(--mono)">/podcast</code>.</p>
+
+  <pre class="log" aria-label="Example session"><span class="c"># what the conversation between agent and app looks like (shortened)</span>
+<span class="a">→ project_overview()</span>
+<span class="r">← 3 files · 42:18 · 1 speaker · senses ready except search index</span>
+<span class="a">→ get_style()</span>
+<span class="r">← "pauses 0.25–0.35 s · breath before punchlines · zoom 110–115% on key points · captions: bold, yellow keyword"</span>
+<span class="a">→ read_dossier(range="00:00–05:00", layers=["words","pauses","takes"])</span>
+<span class="r">← 00:12.40 "So today I let Claude…" [take 1/2, stops mid-sentence] …</span>
+<span class="a">→ edit([cut "00:12.40–00:16.90"], reason="false start; take 2 is clean")</span>
+<span class="r">← ok · end snapped +0.08 s to word edge · −4.6 s</span>
+<span class="a">→ ask_human("Which Ben Affleck take?", ["A 0:42 shorter","B 1:03 better ending"], at="05:50")</span>
+<span class="r">← posted · defaulting to A until answered</span>
+<span class="a">→ run_checks()</span>
+<span class="w">← 2 issues · 06:10 jump cut with identical framing → try zoom or camera change</span>
+<span class="a">→ edit([zoom "06:10–06:32" scale=1.12 anchor=face], reason="hide jump cut")</span>
+<span class="r">← ok · checks 14/14</span>
+<span class="a">→ submit_for_review("v1", "12:41, kept both jokes, 2 open questions")</span></pre>
+</div>
+</section>
+
+<!-- 7 SIMPLE -->
+<section id="simple">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>07</b> Why it feels simple</div>
+    <h2>Seven design rules</h2>
+  </div>
+  <div style="margin-top:12px;max-width:820px">
+    <div class="rule"><span class="n">1</span><div><h3>Review is the home screen, the timeline is optional</h3><p>Most people want to watch and react, not operate. Pro controls exist, folded away.</p></div></div>
+    <div class="rule"><span class="n">2</span><div><h3>Nothing waits for a render</h3><p>The player follows the recipe live from proxies. You see every change the moment it happens.</p></div></div>
+    <div class="rule"><span class="n">3</span><div><h3>Every change carries a reason</h3><p>You can always ask “why is this cut here?” and get an answer in one line, right on the timeline.</p></div></div>
+    <div class="rule"><span class="n">4</span><div><h3>Ask instead of guess, but never block</h3><p>The agent picks a default, flags it, and keeps working. Your answer arrives when it arrives.</p></div></div>
+    <div class="rule"><span class="n">5</span><div><h3>Rules are code, not hope</h3><p>The boring correctness (frame-exact cuts, loudness, safe areas) is enforced by the app on every edit, whatever model is plugged in.</p></div></div>
+    <div class="rule"><span class="n">6</span><div><h3>Undo is free, so let the agent try things</h3><p>Every version is kept. A bold idea costs one click to reject.</p></div></div>
+    <div class="rule"><span class="n">7</span><div><h3>You can always grab the wheel</h3><p>Take over, fix a cut by hand, hand it back. Your fix becomes feedback the agent reads, not a conflict it fights.</p></div></div>
+  </div>
+</div>
+</section>
+
+<!-- 8 BEYOND -->
+<section id="beyond">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>08</b> More than MCP</div>
+    <h2>You were right that MCP alone isn’t enough</h2>
+    <p>MCP is the plug. Five other pieces make the experience feel like one product rather than a tool your terminal can call.</p>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>The app starts the agent for you</h3><p>The Brief button launches your installed Claude Code or Codex in the background, with the Rushes tools attached and a ready-made instruction file. You never open a terminal. Power users can still drive it from their own Claude Code session.</p></div>
+    <div class="card"><h3>An editing skill pack</h3><p>The app installs a short set of recipes (rough cut, shorts, B-roll, podcast) as agent skills, so any agent starts with good editing habits instead of improvising them each time.</p></div>
+    <div class="card"><h3>Notifications and a phone review link</h3><p>“v1 is ready” and agent questions reach your phone. The review screen works in a browser, so you can review on the couch or send it to a collaborator.</p></div>
+    <div class="card"><h3>Taste memory as a plain file</h3><p>Your style notes live in a readable file the agent loads at every brief. You can read and edit it, and it moves with you if you switch agents.</p></div>
+    <div class="card"><h3>A built-in brain, later</h3><p>For people without a Claude or ChatGPT plan, a pay-as-you-go option using an API key. Not needed for launch, but it’s how you reach the next audience.</p></div>
+    <div class="card"><h3>Template engine for graphics</h3><p>Titles, lower thirds, charts and captions as web-style templates the app renders locally, so the agent fills in data instead of drawing frames.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- 9 BUILD -->
+<section id="build">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>09</b> What to build first</div>
+    <h2>The smallest version that already beats a terminal</h2>
+    <p>Pick one job, one camera, and make the loop feel magical. Everything else is a later layer on the same three players.</p>
+  </div>
+  <div class="grid3">
+    <div class="card phase v0"><span class="tag t-r">v0 · first build</span><h3>Talking-head rough cut</h3><ul><li>Drop one file, proxies, words, pauses, fillers, retakes</li><li>Timeline document with versions</li><li>Live player from proxies</li><li>Seven tools: overview, dossier, look, edit, ask, checks, submit</li><li>Review screen with pinned comments</li><li>Render with the hardware encoder</li></ul></div>
+    <div class="card phase"><span class="tag t-p">v1 · after it works for you</span><h3>The full loop</h3><ul><li>Multiple cameras, synced by audio</li><li>Shorts picker with face reframing</li><li>Taste memory from your hand edits</li><li>v1 → v2 diff screen</li><li>App launches the agent itself</li></ul></div>
+    <div class="card phase"><span class="tag t-a">v2 · growth</span><h3>Beyond one creator</h3><ul><li>Search by meaning, B-roll library</li><li>Graphic templates</li><li>Phone review links, collaborators</li><li>Upload as a YouTube draft</li><li>API-key brain for people without a plan</li></ul></div>
+  </div>
+  <p class="prose" style="margin-top:20px;color:var(--muted)">A good test for v0: edit your own next video with it, and record that process for the channel. The product and the content feed each other.</p>
+</div>
+</section>
+
+<!-- 10 RISKS -->
+<section id="risks">
+<div class="wrap">
+  <div class="stack prose">
+    <div class="kicker"><b>10</b> Risks and open questions</div>
+    <h2>What could break this plan</h2>
+  </div>
+  <div style="margin-top:12px;max-width:900px">
+    <div class="risk"><b>Subscription rules</b><p>Having the app launch a user’s Claude Code or Codex on their own plan is the cheapest path, but check Anthropic’s and OpenAI’s current terms for third-party products before you rely on it. The safe fallback is the user running their own agent session with your MCP attached, plus an API-key mode.</p></div>
+    <div class="risk"><b>Agent reliability</b><p>Agents still report success when they haven’t succeeded. That’s why checks, self-review and the human Approve gate are part of the design, not extras.</p></div>
+    <div class="risk"><b>Image costs</b><p>Frames are the expensive part of every call. Small contact sheets, sent only for decisions text can’t settle, keep an edit cheap.</p></div>
+    <div class="risk"><b>Mac only</b><p>Native gives you speed and the media engine for free, but narrows the market. A browser review link softens this; Windows can come later.</p></div>
+    <div class="risk"><b>Crowded field</b><p>Descript, CapCut, ChatCut and open-source agent kits all move fast. The defensible parts here are the timeline you own, the review loop, and the taste memory, not access to a model everyone else can also call.</p></div>
+  </div>
+</div>
+</section>
+
+<footer>
+<div class="wrap">Product concept and interface mock-ups for discussion. Screens use example footage, names and numbers; timings are illustrative. Builds on the earlier explainer and tech-stack reports in this project.</div>
+</footer>
+</body>
+</html>
