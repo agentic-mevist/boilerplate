@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=block" rel="stylesheet">
+<style>
+:root{--bg:#0f1115;--panel:#181b22;--panel2:#1f232c;--line:#323845;--ink:#eceef2;--muted:#8d95a6;--red:#ff4d42;--green:#4fd18b;--blue:#7aa2ff;--amber:#f5b94a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+#stage{width:1920px;height:1080px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",sans-serif}
+.mono{font-family:"JetBrains Mono",monospace}
+.disp{font-family:"Bricolage Grotesque",sans-serif}
+.scene{position:absolute;inset:0;opacity:0}
+.abs{position:absolute}
+.box{position:absolute;background:var(--panel);border:2px solid var(--line);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px 18px}
+.box .t{font-size:34px;font-weight:600;line-height:1.15}
+.box .s{font-size:24px;color:var(--muted);margin-top:6px;line-height:1.3}
+.box.red{border-color:var(--red);background:#2a1716}
+.box.green{border-color:var(--green);background:#13261d}
+.box.hl{border-color:var(--red);box-shadow:0 0 0 6px rgba(255,77,66,.18)}
+.zone{position:absolute;border:2px dashed #2b303b;border-radius:26px;background:#13161c}
+.zl{position:absolute;font-family:"JetBrains Mono",monospace;font-size:22px;letter-spacing:.08em;color:var(--muted)}
+.head{position:absolute;left:120px;top:118px;font-size:30px;color:var(--muted)}
+.head b{color:var(--ink);font-weight:600}
+svg{position:absolute;inset:0;width:1920px;height:1080px;overflow:visible}
+.ln{stroke:#8d95a6;stroke-width:4;fill:none}
+.ln.red{stroke:var(--red)}
+.ln.dash{stroke-dasharray:14 10}
+.lbl{fill:var(--muted);font-size:24px;font-family:"IBM Plex Sans"}
+.lbl.red{fill:var(--red)}
+/* top bar */
+#bar{position:absolute;left:0;right:0;top:0;height:84px;display:flex;align-items:center;gap:26px;padding:0 48px;border-bottom:2px solid #1d2129;background:#0c0e12;z-index:5}
+#rec{display:flex;align-items:center;gap:12px;font-family:"JetBrains Mono";font-size:24px;font-weight:700}
+#rec i{width:16px;height:16px;border-radius:50%;background:var(--red);display:block}
+#chap{font-family:"JetBrains Mono";font-size:22px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+#track{flex:1;height:22px;position:relative;background:repeating-linear-gradient(90deg,#2a2f3a 0 2px,transparent 2px 5%)}
+#fill{position:absolute;left:0;top:0;bottom:0;background:rgba(255,77,66,.18)}
+#head{position:absolute;top:-10px;bottom:-10px;width:4px;background:var(--red)}
+#tc{font-family:"JetBrains Mono";font-size:24px;color:var(--muted);min-width:190px;text-align:right}
+/* captions */
+#cap{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);max-width:1560px;background:rgba(8,9,12,.82);border:1px solid #262b35;border-radius:14px;padding:14px 28px;font-size:36px;line-height:1.3;text-align:center;z-index:6;font-weight:500}
+/* chips */
+.chip{position:absolute;height:82px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:600;border:2px solid var(--green);background:#13261d}
+.chip.cut{border-color:var(--red);background:#2a1716;color:#ff8f88;text-decoration:line-through}
+.ts{position:absolute;font-family:"JetBrains Mono";font-size:22px;color:var(--muted);text-align:center}
+.code{position:absolute;background:#0b0d11;border:2px solid var(--line);border-radius:16px;padding:26px 30px;font-family:"JetBrains Mono";font-size:27px;line-height:1.55;white-space:pre;color:#cfd5e1}
+.code .k{color:var(--blue)} .code .n{color:var(--amber)} .code .s{color:var(--green)} .code .c{color:var(--muted)}
+.tag{display:inline-block;font-family:"JetBrains Mono";font-size:18px;padding:4px 10px;border-radius:8px;border:2px solid var(--line);color:var(--muted);letter-spacing:.05em}
+.tag.model{border-color:var(--red);color:var(--red)}
+.tag.comp{border-color:#3d4452;color:#aab2c2}
+.row{position:absolute;left:120px;width:1680px;height:104px;background:var(--panel);border:2px solid var(--line);border-radius:16px;display:flex;align-items:center;gap:28px;padding:0 28px}
+.row .num{font-family:"Bricolage Grotesque";font-weight:800;font-size:48px;color:var(--red);width:50px}
+.row .tt{font-size:32px;font-weight:600;width:520px}
+.row .cmd{font-family:"JetBrains Mono";font-size:25px;color:#cfd5e1;flex:1;white-space:nowrap;overflow:hidden}
+.card{position:absolute;background:var(--panel);border:2px solid var(--line);border-radius:20px;padding:28px 30px}
+.card .n{font-family:"Bricolage Grotesque";font-weight:800;font-size:56px;color:var(--red);line-height:1}
+.card .t{font-size:36px;font-weight:600;margin-top:12px}
+.card .s{font-size:25px;color:var(--muted);margin-top:8px;line-height:1.35}
+.lane-l{position:absolute;left:120px;width:360px;font-size:28px;font-weight:600}
+.lane-l small{display:block;font-size:20px;color:var(--muted);font-weight:400}
+.lane{position:absolute;left:500px;width:1300px;height:62px;border-bottom:2px solid #232833}
+.seg{position:absolute;top:10px;height:42px;border-radius:8px}
+.big-q{position:absolute;left:0;right:0;text-align:center;font-family:"Bricolage Grotesque";font-weight:800}
+.pkt{position:absolute;font-family:"JetBrains Mono";font-size:20px;padding:6px 12px;border-radius:8px;background:#232833;border:1px solid #3a4150;white-space:nowrap}
+.pkt.r{border-color:var(--red);color:#ffb3ad}
+</style></head>
+<body>
+<div id="stage"><svg style="position:absolute;width:0;height:0"><defs><marker id="m1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8d95a6"/></marker><marker id="m1r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#ff4d42"/></marker></defs></svg>
+<div id="bar"><div id="rec"><i></i>REC</div><div id="chap"></div><div id="track"><div id="fill"></div><div id="head"></div></div><div id="tc">00:00</div></div>
+
+<!-- TITLE -->
+<div class="scene" id="s-title" data-chap="intro">
+  <div class="big-q" style="top:300px;font-size:128px;line-height:1.02" data-b="0">How Claude edits<br>a video</div>
+  <div class="big-q" style="top:600px;font-size:44px;font-family:'IBM Plex Sans';font-weight:500;color:var(--muted)" data-b="1">a plain-words tour under the hood</div>
+  <div class="abs" id="t-strip" style="left:360px;top:720px;width:1200px;height:70px"></div>
+</div>
+
+<!-- BIG PICTURE -->
+<div class="scene" id="s-big" data-chap="01 · the big picture">
+  <div class="head" data-b="0"><b>Every AI video editor</b> = the same five boxes</div>
+  <div class="box" id="bb1" style="left:90px;top:360px;width:300px;height:210px" data-b="1"><div class="t">Your video</div><div class="s">raw.mp4</div></div>
+  <div class="box" id="bb2" style="left:450px;top:360px;width:300px;height:210px" data-b="2"><div class="t">Senses</div><div class="s">footage → text</div></div>
+  <div class="box red" id="bb3" style="left:810px;top:360px;width:300px;height:210px" data-b="3"><div class="t">Brain</div><div class="s">the language model decides the cuts</div></div>
+  <div class="box" id="bb4" style="left:1170px;top:360px;width:300px;height:210px" data-b="4"><div class="t">Recipe</div><div class="s">tiny text file: what to keep</div></div>
+  <div class="box" id="bb5" style="left:1530px;top:360px;width:300px;height:210px" data-b="5"><div class="t">Kitchen</div><div class="s">ffmpeg cooks final.mp4</div></div>
+  <svg>
+    <g data-b="2"><line class="ln" x1="392" y1="465" x2="444" y2="465" marker-end="url(#m1)"/></g>
+    <g data-b="3"><line class="ln" x1="752" y1="465" x2="804" y2="465" marker-end="url(#m1)"/></g>
+    <g data-b="4"><line class="ln" x1="1112" y1="465" x2="1164" y2="465" marker-end="url(#m1)"/></g>
+    <g data-b="5"><line class="ln" x1="1472" y1="465" x2="1524" y2="465" marker-end="url(#m1)"/></g>
+    <g data-b="6"><path class="ln red" d="M1680,574 L1680,700 L240,700 L240,580" marker-end="url(#m1r)"/><text class="lbl red" x="960" y="750" text-anchor="middle" style="font-size:30px">you watch it → give feedback → loop again</text></g>
+  </svg>
+</div>
+
+<!-- HARNESS -->
+<div class="scene" id="s-harness" data-chap="02 · claude never watches">
+  <div class="big-q" style="top:120px;font-size:56px" data-b="0">Claude never watches your video.</div>
+  <div class="zone" style="left:80px;top:230px;width:1000px;height:640px" data-b="1"></div><div class="zl" style="left:110px;top:250px" data-b="1">YOUR LAPTOP</div>
+  <div class="zone" style="left:1380px;top:230px;width:460px;height:640px" data-b="1"></div><div class="zl" style="left:1410px;top:250px" data-b="1">ANTHROPIC CLOUD</div>
+  <div class="box red" style="left:1420px;top:380px;width:380px;height:240px" data-b="1"><div class="t">Claude model</div><div class="s">reads text + a few pictures<br>writes text</div></div>
+  <div class="box" style="left:120px;top:310px;width:360px;height:420px;justify-content:flex-start;padding-top:30px" data-b="2"><div class="t">Your folder</div><div class="s mono" style="font-size:22px;text-align:left;margin-top:20px;line-height:1.8">raw.mp4 (4 GB)<br>audio.wav<br>transcript.json<br>cuts.txt<br>final.mp4</div></div>
+  <div class="box" style="left:600px;top:310px;width:440px;height:190px" data-b="2"><div class="t">Claude Code</div><div class="s">the harness: a program on your laptop</div></div>
+  <div class="box" style="left:600px;top:580px;width:440px;height:150px" data-b="2"><div class="t">Tools</div><div class="s">ffmpeg · whisper · python</div></div>
+  <svg>
+    <g data-b="2"><line class="ln" x1="820" y1="502" x2="820" y2="574" marker-end="url(#m1)"/><line class="ln" x1="598" y1="655" x2="486" y2="655" marker-end="url(#m1)"/>
+      <line class="ln" x1="1042" y1="370" x2="1414" y2="440" marker-end="url(#m1)"/><line class="ln" x1="1414" y1="560" x2="1042" y2="450" marker-end="url(#m1)"/></g>
+    <g data-b="3"><path class="ln red dash" d="M300,732 L300,810 L1300,810"/><circle cx="1320" cy="810" r="22" fill="#2a1716" stroke="#ff4d42" stroke-width="4"/><path d="M1308,798 L1332,822 M1332,798 L1308,822" stroke="#ff4d42" stroke-width="4"/>
+      <text class="lbl red" x="330" y="850" style="font-size:28px">the 4 GB video never leaves your computer</text></g>
+  </svg>
+  <div id="h-pkts"></div>
+</div>
+
+<!-- LOOP -->
+<div class="scene" id="s-loop" data-chap="03 · the agent loop">
+  <svg><circle cx="960" cy="540" r="300" class="ln" style="stroke:#2c313c;stroke-width:6"/>
+    <circle id="loopdot" cx="960" cy="240" r="16" fill="#ff4d42"/></svg>
+  <div class="box" id="ln1" style="left:740px;top:170px;width:440px;height:140px" data-b="0"><div class="t">1 · Harness sends</div><div class="s">your request + everything so far</div></div>
+  <div class="box" id="ln2" style="left:1050px;top:470px;width:440px;height:140px" data-b="1"><div class="t">2 · Model picks ONE step</div><div class="s">“transcribe the audio”</div></div>
+  <div class="box" id="ln3" style="left:740px;top:770px;width:440px;height:140px" data-b="2"><div class="t">3 · Harness runs it</div><div class="s">a real command, on your laptop</div></div>
+  <div class="box" id="ln4" style="left:430px;top:470px;width:440px;height:140px" data-b="3"><div class="t">4 · Result goes back</div><div class="s">output → conversation</div></div>
+  <div class="abs" style="left:1560px;top:200px;width:300px;text-align:center" data-b="4"><div class="mono" style="font-size:24px;color:var(--muted)">ROUND TRIP</div><div class="disp" id="turns" style="font-size:120px;font-weight:800;color:var(--red)">1</div></div>
+</div>
+
+<!-- STEPS -->
+<div class="scene" id="s-steps" data-chap="04 · a typical edit">
+  <div class="row" style="top:150px" data-b="0"><div class="num">1</div><div class="tt">Inspect the file</div><span class="tag comp">COMPUTER</span><div class="cmd" data-type="0">$ ffprobe raw.mp4  →  14:02 · 4K · 30 fps · HEVC</div></div>
+  <div class="row" style="top:268px" data-b="1"><div class="num">2</div><div class="tt">Pull out the audio</div><span class="tag comp">COMPUTER</span><div class="cmd" data-type="1">$ ffmpeg -i raw.mp4 -vn audio.wav</div></div>
+  <div class="row" style="top:386px" data-b="2"><div class="num">3</div><div class="tt">Transcribe every word</div><span class="tag comp">SPEECH MODEL</span><div class="cmd" data-type="2">{"word":"today","start":2.95,"end":3.28}</div></div>
+  <div class="row" style="top:504px;border-color:var(--red)" data-b="3"><div class="num">4</div><div class="tt">Read &amp; decide</div><span class="tag model">THE BRAIN</span><div class="cmd" data-type="3">retake at 0:01 · 41 long pauses · 12 “um”s</div></div>
+  <div class="row" style="top:622px" data-b="4"><div class="num">5</div><div class="tt">Write what to keep</div><span class="tag model">THE BRAIN</span><div class="cmd" data-type="4">keep 0.00–0.45 · keep 2.95–41.20 · keep 44.80–97.35 …</div></div>
+  <div class="row" style="top:740px" data-b="5"><div class="num">6</div><div class="tt">Render</div><span class="tag comp">COMPUTER</span><div class="cmd" style="position:relative;height:30px"><div id="rbar" style="position:absolute;left:0;top:4px;height:22px;width:0;background:var(--green);border-radius:6px"></div><span id="rtxt" style="position:absolute;right:0;top:0;color:var(--muted)">final.mp4</span></div></div>
+</div>
+
+<!-- CUT LIST -->
+<div class="scene" id="s-cutlist" data-chap="05 · what editing means to an LLM">
+  <div class="head" data-b="0"><b>The transcript:</b> every word knows when it starts</div>
+  <div id="chips"></div>
+  <div class="abs" style="left:96px;top:520px;width:1728px;height:40px" data-b="3" id="kbar"></div>
+  <div class="code" style="left:96px;top:620px;width:1728px;height:150px;font-size:32px;padding-top:44px" data-b="3">cuts.txt  →  <span class="s">keep 0.00–0.45</span>  ·  <span class="c" style="text-decoration:line-through">0.45–2.95</span>  ·  <span class="s">keep 2.95–4.95</span></div>
+  <div class="abs" style="left:96px;top:800px;font-size:34px;font-weight:600" data-b="3" data-d="2.5">That little text file <span style="color:var(--red)">is</span> the edit. Not a single pixel moved.</div>
+</div>
+
+<!-- CHALLENGES -->
+<div class="scene" id="s-challenges" data-chap="06 · where it breaks">
+  <div class="head" data-b="0"><b>Where it breaks</b></div>
+  <div class="card" style="left:120px;top:190px;width:540px;height:300px" data-b="1"><div class="n">01</div><div class="t">Blind and deaf</div><div class="s">only text + a few still frames</div></div>
+  <div class="card" style="left:690px;top:190px;width:540px;height:300px" data-b="2"><div class="n">02</div><div class="t">Clipped words</div><div class="s">timings ~0.1 s off → cuts chop “Cl-aude”</div><div id="wave" style="position:relative;height:70px;margin-top:16px"></div></div>
+  <div class="card" style="left:1260px;top:190px;width:540px;height:300px" data-b="3"><div class="n">03</div><div class="t">Re-render everything</div><div class="s">every tiny fix = the whole video again</div></div>
+  <div class="card" style="left:405px;top:520px;width:540px;height:300px" data-b="4"><div class="n">04</div><div class="t">No timeline</div><div class="s">you type “at 2:13…” instead of dragging</div></div>
+  <div class="card" style="left:975px;top:520px;width:540px;height:300px" data-b="5"><div class="n">05</div><div class="t">Says “done” too early</div><div class="s">agents claimed success in 93% of benchmark runs</div></div>
+</div>
+
+<!-- CODEC -->
+<div class="scene" id="s-codec" data-chap="07 · what a video file is">
+  <div class="head" data-b="0"><b>A video file</b> is a box</div>
+  <div class="zone" style="left:120px;top:180px;width:780px;height:380px" data-b="1"></div><div class="zl" style="left:150px;top:200px" data-b="1">raw.mp4 — THE CONTAINER</div>
+  <div class="box" style="left:160px;top:250px;width:700px;height:86px;flex-direction:row;gap:20px" data-b="1" data-d="0.5"><div class="t" style="font-size:30px">Picture track</div><div class="s" style="margin:0">codec: H.264</div></div>
+  <div class="box" style="left:160px;top:350px;width:700px;height:86px;flex-direction:row;gap:20px" data-b="1" data-d="0.9"><div class="t" style="font-size:30px">Sound track</div><div class="s" style="margin:0">codec: AAC</div></div>
+  <div class="box" style="left:160px;top:450px;width:700px;height:86px;flex-direction:row;gap:20px" data-b="1" data-d="1.3"><div class="t" style="font-size:30px">Metadata</div><div class="s" style="margin:0">length, timings, rotation</div></div>
+  <div class="abs" style="left:980px;top:200px;font-size:28px;font-weight:600" data-b="2">1 minute of 1080p</div>
+  <div class="abs" style="left:980px;top:260px;font-size:24px;color:var(--muted)" data-b="2">uncompressed</div>
+  <div class="abs" id="sz1" style="left:1200px;top:256px;height:38px;width:0;background:var(--red);border-radius:6px" data-b="2"></div>
+  <div class="abs" style="left:1220px;top:258px;font-size:26px;font-weight:700;color:#fff" data-b="2" data-d="1.2">≈ 11 GB</div>
+  <div class="abs" style="left:980px;top:330px;font-size:24px;color:var(--muted)" data-b="2" data-d="2.2">H.264</div>
+  <div class="abs" style="left:1200px;top:326px;height:38px;width:5px;background:var(--ink);border-radius:2px" data-b="2" data-d="2.2"></div>
+  <div class="abs" style="left:1220px;top:328px;font-size:26px;font-weight:700" data-b="2" data-d="2.2">≈ 60 MB   <span style="color:var(--muted);font-weight:400">(~190× smaller)</span></div>
+  <div class="zl" style="left:120px;top:600px" data-b="3">FRAMES IN TIME →</div>
+  <div id="gop" data-b="3"></div>
+  <svg><g data-b="4"><line class="ln red" x1="858" y1="630" x2="858" y2="760" style="stroke-width:6"/><path class="ln red dash" d="M840,760 C780,900 300,900 170,770" marker-end="url(#m1r)"/>
+    <text class="lbl red" x="872" y="632" style="font-size:28px">cut here?</text><text class="lbl red" x="500" y="930" text-anchor="middle" style="font-size:28px">frame 7 is only “changes since 6”… → rebuild = re-encode</text></g></svg>
+</div>
+
+<!-- PROXY -->
+<div class="scene" id="s-proxy" data-chap="08 · proxies">
+  <div class="head" data-b="0"><b>Proxy</b> = a small, light copy</div>
+  <div class="box" style="left:120px;top:200px;width:560px;height:320px;background:#1a1e27" data-b="0"><div class="t" style="font-size:44px">Original</div><div class="s">4K · 10 GB · never touched</div></div>
+  <div class="box red" style="left:820px;top:270px;width:300px;height:180px" data-b="0" data-d="1"><div class="t">Proxy</div><div class="s">540p · 300 MB</div></div>
+  <svg><g data-b="0" data-d="1"><line class="ln" x1="682" y1="360" x2="814" y2="360" marker-end="url(#m1)"/></g>
+    <g data-b="1"><line class="ln" x1="1122" y1="330" x2="1236" y2="230" marker-end="url(#m1)"/><line class="ln" x1="1122" y1="360" x2="1236" y2="330" marker-end="url(#m1)"/><line class="ln" x1="1122" y1="390" x2="1236" y2="430" marker-end="url(#m1)"/></g>
+    <g data-b="2"><line class="ln" x1="970" y1="452" x2="970" y2="596" marker-end="url(#m1)"/><line class="ln" x1="1122" y1="660" x2="1316" y2="660" marker-end="url(#m1)"/><text class="lbl" x="1220" y="645" text-anchor="middle">same times</text>
+      <path class="ln red" d="M400,522 L400,820 L1490,820 L1490,726" marker-end="url(#m1r)"/><text class="lbl red" x="945" y="866" text-anchor="middle" style="font-size:28px">only the final render reads the original pixels</text></g></svg>
+  <div class="box" style="left:1240px;top:190px;width:560px;height:80px" data-b="1"><div class="t" style="font-size:28px">analyse: words, faces, shots</div></div>
+  <div class="box" style="left:1240px;top:290px;width:560px;height:80px" data-b="1" data-d="0.4"><div class="t" style="font-size:28px">preview &amp; scrub smoothly</div></div>
+  <div class="box" style="left:1240px;top:390px;width:560px;height:80px" data-b="3"><div class="t" style="font-size:28px;color:var(--blue)">send to Gemini (shrinks frames anyway)</div></div>
+  <div class="box" style="left:820px;top:600px;width:300px;height:120px" data-b="2"><div class="t">Edit list</div><div class="s mono" style="font-size:20px">keep 2.95–312.4</div></div>
+  <div class="box green" style="left:1320px;top:600px;width:340px;height:120px" data-b="2"><div class="t">Final render</div><div class="s">4K final.mp4</div></div>
+</div>
+
+<!-- SENSES -->
+<div class="scene" id="s-senses" data-chap="09 · giving the model senses">
+  <div class="head" style="top:104px" data-b="0"><b>Senses</b> = small specialised tools, not big AI</div>
+  <div id="lanes"></div>
+  <div class="code" id="dossier" style="left:520px;top:250px;width:1300px;height:420px;font-size:28px" data-b="9"><span class="c">// the dossier: what the model actually reads</span>
+<span class="n">[02.95–14.50]</span> <span class="k">A (you)</span> · face centre · <span class="s">“man at desk”</span>
+   "Today we're editing with Claude…"   <span class="c">um @ 9.4</span>
+<span class="n">[14.50–16.90]</span> <span style="color:var(--red)">SILENCE 2.4 s  ← safe cut</span>
+<span class="n">[16.90–23.00]</span> <span class="k">B (guest)</span> · no face · <span class="s">“hands typing”</span>
+   "Wait, so it never actually watches it?"</div>
+</div>
+
+<!-- RECIPE -->
+<div class="scene" id="s-recipe" data-chap="10 · the recipe">
+  <div class="head" data-b="0"><b>JSON</b> = plain text with names and values</div>
+  <div class="code" id="json" style="left:120px;top:180px;width:880px;height:660px" data-b="0"></div>
+  <div class="abs disp" style="left:1100px;top:200px;font-size:64px;font-weight:800;line-height:1.05" data-b="2">No pixels.<br><span style="color:var(--muted);font-size:40px;font-family:'IBM Plex Sans';font-weight:500">a few kilobytes · the source of truth</span></div>
+  <div class="box red" style="left:1300px;top:560px;width:340px;height:110px" data-b="3"><div class="t">timeline.json</div></div>
+  <div class="box" style="left:1060px;top:390px;width:240px;height:90px" data-b="3" data-d="0.3"><div class="t" style="font-size:28px">You edit</div></div>
+  <div class="box" style="left:1640px;top:390px;width:240px;height:90px" data-b="3" data-d="0.9"><div class="t" style="font-size:28px">Claude edits</div></div>
+  <div class="box" style="left:1060px;top:760px;width:240px;height:90px" data-b="3" data-d="1.5"><div class="t" style="font-size:28px">Player reads</div></div>
+  <div class="box" style="left:1640px;top:760px;width:240px;height:90px" data-b="3" data-d="2.1"><div class="t" style="font-size:28px">Renderer cooks</div></div>
+  <svg><g data-b="3" data-d="0.3"><line class="ln" x1="1220" y1="482" x2="1350" y2="556" marker-end="url(#m1)"/></g><g data-b="3" data-d="0.9"><line class="ln" x1="1720" y1="482" x2="1590" y2="556" marker-end="url(#m1)"/></g>
+    <g data-b="3" data-d="1.5"><line class="ln" x1="1350" y1="672" x2="1220" y2="754" marker-end="url(#m1)"/></g><g data-b="3" data-d="2.1"><line class="ln" x1="1590" y1="672" x2="1720" y2="754" marker-end="url(#m1)"/></g></svg>
+</div>
+
+<!-- PREVIEW -->
+<div class="scene" id="s-preview" data-chap="11 · see it before it renders">
+  <div class="head" data-b="0"><b>Time until you can watch the edit</b></div>
+  <div class="abs" style="left:120px;top:210px;font-size:30px;font-weight:600" data-b="1">Render everything first</div>
+  <div class="abs" id="pb1" style="left:640px;top:208px;height:44px;width:0;background:var(--red);border-radius:8px" data-b="1"></div>
+  <div class="abs" style="left:120px;top:290px;font-size:30px;font-weight:600" data-b="1" data-d="1.5">Stream chunks as they finish</div>
+  <div class="abs" id="pb2" style="left:640px;top:288px;height:44px;width:0;background:#9aa2b2;border-radius:8px" data-b="1" data-d="1.5"></div>
+  <div class="abs" style="left:120px;top:370px;font-size:30px;font-weight:600;color:var(--green)" data-b="2">Play the recipe live</div>
+  <div class="abs" style="left:640px;top:368px;height:44px;width:10px;background:var(--green);border-radius:4px" data-b="2"></div>
+  <div class="abs" style="left:670px;top:372px;font-size:30px;color:var(--green);font-weight:600" data-b="2">instant</div>
+  <div class="abs" id="pt1" style="top:214px;font-size:26px;color:var(--muted)" data-b="1">minutes</div>
+  <div class="abs" id="pt2" style="top:294px;font-size:26px;color:var(--muted)" data-b="1" data-d="1.5">seconds</div>
+  <div class="abs" style="left:120px;top:500px;width:1680px;height:330px;background:var(--panel);border:2px solid var(--line);border-radius:18px" data-b="3"></div>
+  <div class="zl" style="left:150px;top:520px" data-b="3">YOUR APP · LIVE TIMELINE</div>
+  <div id="ptl" data-b="3"></div>
+  <div class="abs mono" id="plog" style="left:1290px;top:570px;width:490px;font-size:22px;line-height:1.7;color:#cfd5e1" data-b="3"></div>
+</div>
+
+<!-- APP -->
+<div class="scene" id="s-app" data-chap="12 · an app idea">
+  <div class="zone" style="left:80px;top:140px;width:1110px;height:760px" data-b="1"></div><div class="zl" style="left:110px;top:160px" data-b="1">YOUR NATIVE MAC APP · eyes, hands, screen</div>
+  <div class="box" style="left:120px;top:220px;width:480px;height:120px" data-b="1" data-d="0.2"><div class="t">Import</div><div class="s">normalise + make proxy</div></div>
+  <div class="box" style="left:120px;top:385px;width:480px;height:130px" data-b="1" data-d="0.6"><div class="t">Senses, on-device</div><div class="s">words · pauses · speakers · shots · faces</div></div>
+  <div class="box" style="left:660px;top:220px;width:480px;height:120px" data-b="1" data-d="1.0"><div class="t">Player</div><div class="s">plays the recipe live</div></div>
+  <div class="box red" style="left:660px;top:395px;width:480px;height:120px" data-b="1" data-d="1.4"><div class="t">timeline.json</div><div class="s">the source of truth</div></div>
+  <div class="box" style="left:660px;top:580px;width:480px;height:110px" data-b="1" data-d="1.8"><div class="t">Exporter</div><div class="s">hardware encoder → mp4</div></div>
+  <div class="box red" style="left:120px;top:720px;width:480px;height:140px" data-b="2"><div class="t">Local MCP server</div><div class="s">tools: get_transcript · cut · zoom · check</div></div>
+  <div class="zone" style="left:1290px;top:140px;width:560px;height:760px" data-b="2"></div><div class="zl" style="left:1320px;top:160px" data-b="2">THE BRAIN · user’s own</div>
+  <div class="box" style="left:1340px;top:220px;width:460px;height:120px" data-b="2"><div class="t">Model in the cloud</div><div class="s">Claude / GPT</div></div>
+  <div class="box" style="left:1340px;top:430px;width:460px;height:130px" data-b="2"><div class="t">Claude Code / Codex</div><div class="s">on the same Mac</div></div>
+  <svg>
+    <g data-b="1" data-d="1.4"><line class="ln" x1="602" y1="450" x2="654" y2="450" marker-end="url(#m1)"/><line class="ln" x1="900" y1="393" x2="900" y2="346" marker-end="url(#m1)"/><line class="ln" x1="900" y1="517" x2="900" y2="574" marker-end="url(#m1)"/><line class="ln" x1="360" y1="342" x2="360" y2="379" marker-end="url(#m1)"/></g>
+    <g data-b="2"><line class="ln" x1="1570" y1="428" x2="1570" y2="346" marker-end="url(#m1)"/>
+      <path class="ln red" d="M1338,495 L1240,495 L1240,800 L606,800" marker-end="url(#m1r)"/><text class="lbl red" x="1225" y="860" text-anchor="end" style="font-size:26px">tool calls (text)</text>
+      <path class="ln red" d="M602,760 L630,760 L630,490 L654,490" marker-end="url(#m1r)"/></g>
+  </svg>
+  <div class="abs" style="left:1320px;top:640px;width:500px;font-size:30px;line-height:1.35;font-weight:600;color:var(--green);border:2px solid var(--green);border-radius:16px;padding:22px 26px;background:#13261d" data-b="3">“never cut inside a word”<br><span style="color:var(--ink);font-weight:500">becomes code, not hope</span></div>
+</div>
+
+<!-- OUTRO -->
+<div class="scene" id="s-outro" data-chap="the end">
+  <div class="big-q" style="top:320px;font-size:96px;line-height:1.08" data-b="0">Claude doesn’t watch<br>your video. <span style="color:var(--red)">It reads it.</span></div>
+  <div class="big-q" style="top:620px;font-size:38px;font-family:'IBM Plex Sans';font-weight:500;color:var(--muted)" data-b="1">Better descriptions of the footage + boring rules turned into code = better edits</div>
+  <div class="big-q" style="top:760px;font-size:24px;font-family:'JetBrains Mono';font-weight:500;color:#5d6577" data-b="1" data-d="2">made with Claude · narration is an AI voice</div>
+</div>
+
+<div id="cap"></div>
+</div>
+
+<script src="timeline.js"></script>
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = x => Math.max(0, Math.min(1, x));
+const ease = x => { x = clamp(x); return 1 - Math.pow(1 - x, 3); };
+const SC = {}; TL.scenes.forEach(s => SC[s.id] = s);
+const bt = (id, k) => SC[id].beats[k].t;
+
+// ---------- build dynamic parts ----------
+// title strip
+(() => { const st = $('#t-strip'); for (let i = 0; i < 40; i++) { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = `left:${i * 30}px;top:${10 + (i % 5) * 4}px;width:22px;height:${50 - (i % 5) * 8}px;border-radius:4px;background:${i % 7 === 3 ? '#ff4d42' : '#2a2f3a'}`; st.appendChild(d); } })();
+// harness packets
+(() => { const h = $('#h-pkts'); for (let i = 0; i < 3; i++) { const a = document.createElement('div'); a.className = 'pkt'; a.textContent = ['text: transcript…', 'text: 41 pauses…', 'image: 6 frames'][i]; a.dataset.dir = 'r'; a.dataset.i = i; h.appendChild(a); const b = document.createElement('div'); b.className = 'pkt r'; b.textContent = ['run: ffmpeg …', 'run: whisper …', 'run: python …'][i]; b.dataset.dir = 'l'; b.dataset.i = i; h.appendChild(b); } })();
+// chips
+const WORDS = [["So", "0.00", 1], ["um", "0.45", 0], ["today", "0.90", 0], ["we’re", "1.20", 0], ["going", "1.45", 0], ["to—", "1.70", 0], ["sorry", "2.10", 0], ["today", "2.95", 1], ["we’re", "3.30", 1], ["editing", "3.55", 1], ["with", "4.10", 1], ["Claude", "4.35", 1]];
+(() => { const c = $('#chips'), s = $('#s-cutlist'); WORDS.forEach((w, i) => { const x = 96 + i * 144; const d = document.createElement('div'); d.className = 'chip'; d.style.cssText = `left:${x}px;top:250px;width:130px`; d.textContent = w[0]; d.dataset.i = i; c.appendChild(d); const t = document.createElement('div'); t.className = 'ts'; t.style.cssText = `left:${x}px;top:350px;width:130px`; t.textContent = w[1] + 's'; t.dataset.i = i; c.appendChild(t); });
+  const kb = $('#kbar'); WORDS.forEach((w, i) => { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = `left:${i * 144}px;top:0;width:144px;height:40px;background:${w[2] ? '#4fd18b' : '#3a1f1e'};border-right:2px solid #0f1115`; kb.appendChild(d); }); })();
+// wave
+(() => { const w = $('#wave'); for (let i = 0; i < 60; i++) { const x = i * 8; const env = (i > 14 && i < 52) ? Math.sin((i - 14) / 38 * Math.PI) : 0.05; const h = 4 + env * 60 * (0.5 + 0.5 * Math.abs(Math.sin(i * 1.7))); const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = `left:${x}px;top:${35 - h / 2}px;width:4px;height:${h}px;background:#8d95a6;border-radius:2px`; w.appendChild(d); }
+  const c = document.createElement('div'); c.className = 'abs'; c.style.cssText = 'left:142px;top:0;width:4px;height:70px;background:#ff4d42'; w.appendChild(c); const z = document.createElement('div'); z.className = 'abs'; z.style.cssText = 'left:114px;top:0;width:28px;height:70px;background:rgba(255,77,66,.25)'; w.appendChild(z); })();
+// gop
+(() => { const g = $('#gop'); for (let i = 0; i < 13; i++) { const key = i === 0 || i === 12; const x = 120 + i * 130; const f = document.createElement('div'); f.className = 'box' + (key ? ' red' : ''); f.style.cssText = `left:${x}px;top:640px;width:112px;height:96px;padding:0`; f.innerHTML = `<div class="t" style="font-size:${key ? 26 : 34}px">${key ? 'KEY' : 'Δ'}</div>`; g.appendChild(f); const bh = key ? 70 : 10 + (i % 3) * 4; const b = document.createElement('div'); b.className = 'abs'; b.style.cssText = `left:${x + 36}px;top:${830 - bh}px;width:40px;height:${bh}px;background:${key ? '#ff4d42' : '#8d95a6'};border-radius:4px`; g.appendChild(b); }
+  const l = document.createElement('div'); l.className = 'abs'; l.style.cssText = 'left:900px;top:604px;font-size:22px;color:#8d95a6;width:900px'; l.textContent = 'bar = data per frame: the keyframe is a full picture, Δ frames are tiny “what changed” notes'; g.appendChild(l); })();
+// lanes
+const LANES = [["Words", "transcription", "words"], ["Speech", "voice activity detection", "vad"], ["Fillers", "um · uh", "fill"], ["Speakers", "diarization", "spk"], ["Shots", "scene detection", "shot"], ["Face", "face tracking", "face"], ["On screen", "visual captions", "cap"], ["Meaning", "embeddings", "emb"]];
+(() => { const L = $('#lanes'); const X = t => 500 + 1300 * t / 30; LANES.forEach((ln, i) => { const y = 168 + i * 84; const lab = document.createElement('div'); lab.className = 'lane-l'; lab.style.top = (y + 8) + 'px'; lab.innerHTML = `${ln[0]}<small>${ln[1]}</small>`; lab.dataset.lane = i; L.appendChild(lab); const lane = document.createElement('div'); lane.className = 'lane'; lane.style.top = y + 'px'; lane.dataset.lane = i; L.appendChild(lane);
+  const add = (a, b, css, txt) => { const d = document.createElement('div'); d.className = 'seg'; d.style.cssText = `left:${X(a) - 500}px;width:${X(b) - X(a)}px;${css}`; if (txt) d.innerHTML = txt; lane.appendChild(d); };
+  const sp = [[0.5, 6.2], [7.8, 14.5], [16.9, 23.0], [23.6, 29.5]];
+  if (ln[2] === 'words') sp.forEach(([a, b]) => { for (let t = a; t < b - 0.3; t += 0.62) add(t, t + 0.4, 'background:#5b6273;top:16px;height:30px'); });
+  if (ln[2] === 'vad') sp.forEach(([a, b]) => add(a, b, 'background:#13261d;border:2px solid #4fd18b'));
+  if (ln[2] === 'fill') [3.1, 9.4, 18.2, 26.7].forEach(t => add(t, t + 0.6, 'background:#ff4d42;border-radius:50%;width:26px;top:18px;height:26px'));
+  if (ln[2] === 'spk') [[0.5, 14.5, 'A · you', '#2a1716', '#ff4d42'], [16.9, 23.0, 'B · guest', '#1b2233', '#7aa2ff'], [23.6, 29.5, 'A · you', '#2a1716', '#ff4d42']].forEach(([a, b, t, bg, bc]) => add(a, b, `background:${bg};border:2px solid ${bc};font-size:22px;padding:6px 12px`, t));
+  if (ln[2] === 'shot') [[0, 12, 'shot 1'], [12, 21, 'shot 2 · B-roll'], [21, 30, 'shot 3']].forEach(([a, b, t]) => add(a, b - 0.2, 'background:#1f232c;border:2px solid #4a5263;font-size:22px;padding:6px 12px', t));
+  if (ln[2] === 'face') [[0, 12, 'centre'], [12, 21, 'no face'], [21, 30, 'left third']].forEach(([a, b, t]) => add(a, b, 'font-size:22px;padding:8px 12px;color:#cfd5e1', t));
+  if (ln[2] === 'cap') [[0, 12, '“man at desk, mic”'], [12, 21, '“hands typing, laptop”'], [21, 30, '“same man, leaning in”']].forEach(([a, b, t]) => add(a, b, 'font-size:22px;padding:8px 12px;color:#7aa2ff', t));
+  if (ln[2] === 'emb') [[0, 12, '[0.12, −0.43, 0.88 …]'], [12, 21, '[0.71, 0.05, −0.30 …]'], [21, 30, '[0.10, −0.40, 0.85 …]']].forEach(([a, b, t]) => add(a, b, 'font-size:21px;padding:8px 12px;color:#f5b94a;font-family:JetBrains Mono', t));
+}); })();
+// json
+const JSON_LINES = [
+ '<span class="c">// timeline.json — the recipe</span>', '{', '  <span class="k">"source"</span>: <span class="s">"raw.mp4"</span>,', '  <span class="k">"clips"</span>: [',
+ '    { <span class="k">"in"</span>: <span class="n">0.00</span>, <span class="k">"out"</span>: <span class="n">0.45</span> },', '    { <span class="k">"in"</span>: <span class="n">7.95</span>, <span class="k">"out"</span>: <span class="n">312.4</span>,', '      <span class="k">"zoom"</span>: <span class="n">1.15</span> }', '  ],',
+ '  <span class="k">"captions"</span>: <span class="s">"bold-yellow"</span>,', '  <span class="k">"music"</span>: { <span class="k">"file"</span>: <span class="s">"lofi.mp3"</span>,', '             <span class="k">"duck_under_voice"</span>: <span class="n">true</span> }', '}'];
+(() => { const j = $('#json'); j.innerHTML = JSON_LINES.map((l, i) => `<div data-jl="${i}">${l}</div>`).join(''); })();
+// preview timeline clips
+const PCLIPS = [[0, 90], [96, 160], [166, 300], [306, 380], [386, 520], [526, 610], [616, 760], [766, 900], [906, 1060]];
+(() => { const p = $('#ptl'); PCLIPS.forEach((c, i) => { const d = document.createElement('div'); d.className = 'abs'; d.dataset.i = i; d.style.cssText = `top:610px;height:90px;border-radius:8px;background:#23324a;border:2px solid #7aa2ff`; p.appendChild(d); }); const ph = document.createElement('div'); ph.id = 'pph'; ph.className = 'abs'; ph.style.cssText = 'top:580px;width:4px;height:150px;background:#ff4d42'; p.appendChild(ph); })();
+const PLOG = ['removed pause 0:41', 'removed retake 1:12', 'removed “um” 2:03', 'tightened 3:30–3:52', 'zoom on punchline 4:10'];
+
+// ---------- render ----------
+function fmt(s) { s = Math.max(0, Math.floor(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+function captionAt(t) {
+  for (const sc of TL.scenes) for (let k = 0; k < sc.beats.length; k++) { const b = sc.beats[k]; if (t >= b.t - 0.15 && t <= b.t + b.d + 0.25) {
+    const txt = b.text; if (txt.length <= 105) return txt;
+    // split at sentence or comma nearest middle
+    const mid = txt.length / 2; let best = -1, bd = 1e9; for (let i = 0; i < txt.length; i++) if ('.,:?'.includes(txt[i]) && txt[i + 1] === ' ' && Math.abs(i - mid) < bd) { bd = Math.abs(i - mid); best = i; }
+    if (best < 0) return txt; const a = txt.slice(0, best + 1), c = txt.slice(best + 2); const split = b.t + b.d * (a.length / txt.length);
+    return t < split ? a : c; } }
+  return '';
+}
+function render(t) {
+  $('#tc').textContent = fmt(t) + ' / ' + fmt(TL.total);
+  const p = t / TL.total; $('#fill').style.width = (p * 100) + '%'; $('#head').style.left = `calc(${p * 100}% - 2px)`;
+  let chap = '';
+  for (const sc of TL.scenes) {
+    const el = $('#s-' + sc.id); const fin = ease((t - sc.start) / 0.5), fout = sc.id === 'outro' ? 1 : 1 - ease((t - (sc.end - 0.35)) / 0.35);
+    const o = (t >= sc.start && t < sc.end + 0.01) ? Math.min(fin, fout) : 0; el.style.opacity = o; el.style.display = o > 0 ? 'block' : 'none';
+    if (o <= 0) continue; chap = el.dataset.chap;
+    $$('[data-b]', el).forEach(e => { const k = +e.dataset.b, d = +(e.dataset.d || 0); const q = ease((t - (sc.beats[k].t + d)) / 0.5); e.style.opacity = q; if (e.tagName !== 'g') e.style.transform = `translateY(${(1 - q) * 26}px)`; });
+    if (SCN[sc.id]) SCN[sc.id](t, sc, el);
+  }
+  $('#chap').textContent = chap;
+  const c = captionAt(t); const cap = $('#cap'); cap.textContent = c; cap.style.display = c ? 'block' : 'none';
+}
+const SCN = {
+  big(t, sc) { for (let i = 1; i <= 5; i++) { const on = t >= sc.beats[i].t && t < (i < 5 ? sc.beats[i + 1].t : sc.beats[6].t); $('#bb' + i).classList.toggle('hl', on && i !== 3); } },
+  harness(t, sc, el) { const t0 = sc.beats[2].t + 1.2, per = 2.8; $$('.pkt', el).forEach(p => { const i = +p.dataset.i, r = p.dataset.dir === 'r'; const lt = t - t0 - (r ? 0 : per / 2); if (lt < 0) { p.style.opacity = 0; return; } const cyc = Math.floor(lt / per); if (cyc % 3 !== i) { p.style.opacity = 0; return; } const u = (lt % per) / per;
+      const x1 = r ? 1050 : 1390, x2 = r ? 1390 : 1050, y1 = r ? 372 : 540, y2 = r ? 438 : 458; const x = x1 + (x2 - x1) * u, y = y1 + (y2 - y1) * u; p.style.left = (x - (r ? 60 : 150)) + 'px'; p.style.top = (y - (r ? 56 : -12)) + 'px'; p.style.opacity = Math.min(1, Math.sin(u * Math.PI) * 2.5); }); },
+  loop(t, sc) { const b = sc.beats; let ang; if (t < b[4].t) { const seg = [b[0].t, b[1].t, b[2].t, b[3].t, b[4].t]; let k = 0; for (let i = 0; i < 4; i++) if (t >= seg[i]) k = i; const f = ease((t - seg[k]) / 1.2); ang = (k + f) * Math.PI / 2; for (let i = 1; i <= 4; i++) $('#ln' + i).classList.toggle('hl', i === k + 1); }
+    else { const lt = t - b[4].t; ang = 2 * Math.PI + lt * (2 * Math.PI / Math.max(0.35, 1.6 - lt * 0.12)); for (let i = 1; i <= 4; i++) $('#ln' + i).classList.toggle('hl', Math.floor((ang / (Math.PI / 2)) % 4) === i - 1); $('#turns').textContent = String(Math.min(37, 1 + Math.floor(lt * 2.6))); }
+    const dot = $('#loopdot'); dot.setAttribute('cx', 960 + 300 * Math.sin(ang)); dot.setAttribute('cy', 540 - 300 * Math.cos(ang)); },
+  steps(t, sc, el) { $$('[data-type]', el).forEach(e => { if (!e.dataset.full) e.dataset.full = e.textContent; const k = +e.dataset.type; const n = Math.floor(clamp((t - sc.beats[k].t - 0.3) / 1.4) * e.dataset.full.length); e.textContent = e.dataset.full.slice(0, n); });
+    const r = clamp((t - sc.beats[5].t - 0.5) / 4.5); $('#rbar').style.width = (r * 640) + 'px'; $('#rtxt').textContent = r >= 1 ? 'final.mp4 ✓' : 'rendering ' + Math.floor(r * 100) + '%'; },
+  cutlist(t, sc, el) { const b = sc.beats; $$('.chip', el).forEach(c => { const i = +c.dataset.i; const q = ease((t - b[1].t - i * 0.25) / 0.4); c.style.opacity = q; c.style.transform = `translateY(${(1 - q) * 30}px)`; const cut = !WORDS[i][2] && t > b[2].t + (i - 1) * 0.3; c.classList.toggle('cut', cut); });
+    $$('.ts', el).forEach(c => { const i = +c.dataset.i; c.style.opacity = ease((t - b[1].t - i * 0.25 - 0.2) / 0.4); }); },
+  codec(t, sc) { $('#sz1').style.width = (ease((t - sc.beats[2].t) / 1.4) * 600) + 'px'; },
+  senses(t, sc, el) { const b = sc.beats; $$('[data-lane]', el).forEach(e => { const i = +e.dataset.lane; const q = ease((t - b[i + 1].t) / 0.5); const dim = t > b[9].t ? 1 - 0.75 * ease((t - b[9].t) / 0.6) : 1; e.style.opacity = q * dim; e.style.transform = `translateX(${(1 - q) * -30}px)`; }); },
+  recipe(t, sc, el) { const b = sc.beats; $$('[data-jl]', el).forEach(e => { const i = +e.dataset.jl; const st = i < 4 ? b[0].t + 1 + i * 0.5 : b[1].t + (i - 4) * ((b[2].t - b[1].t - 1) / 8); e.style.opacity = ease((t - st) / 0.4); }); },
+  preview(t, sc, el) { const b = sc.beats; const w1 = ease((t - b[1].t) / 3.2) * 1100, w2 = ease((t - b[1].t - 1.5) / 0.8) * 120; $('#pb1').style.width = w1 + 'px'; $('#pb2').style.width = w2 + 'px'; $('#pt1').style.left = (660 + w1) + 'px'; $('#pt2').style.left = (660 + w2) + 'px';
+    const t3 = b[3].t; const removed = [1, 3, 5, 7]; const L = 160, W = 1080; let x = L; const rm = removed.map((ci, k) => ease((t - t3 - 0.8 - k * 1.1) / 0.6));
+    $$('[data-i]', $('#ptl')).forEach(d => { const i = +d.dataset.i; const [a, z] = PCLIPS[i]; let w = (z - a) * W / 1060; const k = removed.indexOf(i); if (k >= 0) { w *= 1 - rm[k]; d.style.borderColor = '#ff4d42'; d.style.background = '#3a1f1e'; d.style.opacity = 1 - rm[k] * 0.9; } d.style.left = x + 'px'; d.style.width = Math.max(0, w - 6) + 'px'; x += w; });
+    const ph = $('#pph'); const lt = Math.max(0, t - t3); ph.style.left = (L + ((lt * 90) % 900)) + 'px';
+    const nlog = Math.min(PLOG.length, Math.max(0, Math.floor((t - t3 - 0.6) / 1.1) + 1)); $('#plog').innerHTML = PLOG.slice(0, nlog).map((l, i) => `<div style="color:${i === nlog - 1 ? '#ff4d42' : '#cfd5e1'}">Claude › ${l}</div>`).join(''); },
+};
+window.render = render;
+window.READY = document.fonts.ready.then(() => true);
+</script>
+</body></html>

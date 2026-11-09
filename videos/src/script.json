@@ -1,0 +1,83 @@
+[
+ {"id":"title","beats":[
+  "Everyone says Claude edits videos now.",
+  "But what actually happens when you hand it a video? Let's open the hood, in plain words."]},
+ {"id":"big","beats":[
+  "Every AI editor, from a Claude Code recipe to a polished app, is the same five boxes.",
+  "Your video.",
+  "Senses, which turn the footage into text.",
+  "A brain, the language model, which reads that text and decides the cuts.",
+  "A recipe: a tiny text file listing what to keep.",
+  "And a kitchen, a tool called ffmpeg, that cooks the final video.",
+  "Then you watch it, give feedback, and the loop goes around again."]},
+ {"id":"harness","beats":[
+  "First, a surprise: Claude never watches your video.",
+  "There are two separate pieces. The model lives in Anthropic's data center. It only reads text, and the occasional picture.",
+  "The harness, Claude Code, is a normal program on your laptop. It can run commands and touch files.",
+  "So your four gigabyte video never leaves your computer. What travels is a description of it."]},
+ {"id":"loop","beats":[
+  "The harness runs a loop. It sends the model your request, plus everything that has happened so far.",
+  "The model picks one next step. Say, transcribe the audio.",
+  "The harness runs it on your computer.",
+  "And the result goes back into the conversation.",
+  "Repeat, dozens of times, until the model says done. There's no master plan, which is why the same request can turn out differently each time."]},
+ {"id":"steps","beats":[
+  "Here's a typical edit. Inspect the file.",
+  "Pull out the audio.",
+  "Transcribe every word, with its exact start and end time.",
+  "Read the transcript, and spot the retakes, pauses and filler words.",
+  "Write down which time ranges to keep.",
+  "Then ffmpeg cuts, joins, adds captions, and renders a brand new file in your folder."]},
+ {"id":"cutlist","beats":[
+  "This is the key idea.",
+  "To a language model, editing means reading words that carry timestamps,",
+  "crossing some of them out,",
+  "and writing the kept ranges down. That little text file is the edit. The model never moves a single pixel."]},
+ {"id":"challenges","beats":[
+  "And that's also where it breaks.",
+  "It's blind and deaf. It only knows what the text and a few still frames tell it.",
+  "Transcript timings are often a tenth of a second off, so cuts chop the start of words.",
+  "Every small fix re-renders the whole video.",
+  "There's no timeline you can grab and drag.",
+  "And it often says done when it isn't."]},
+ {"id":"codec","beats":[
+  "Quick detour. What is a video file?",
+  "It's a box, called the container, holding a picture track and a sound track. Each one is squeezed by a codec.",
+  "Uncompressed, one minute of 1080p is about eleven gigabytes. Compressed, about sixty megabytes.",
+  "The trick: store one full picture, called a keyframe, then only tiny notes about what changed.",
+  "Small files. But cut between keyframes, and the computer has to rebuild those frames. That's re-encoding, and it's where render time goes."]},
+ {"id":"proxy","beats":[
+  "So professional editors use proxies: a small, low resolution copy of the video.",
+  "You analyse, preview and decide using the light copy.",
+  "Because the timings are identical, every decision applies to the original, which only gets touched once, for the final render.",
+  "It's also what you should send to Gemini, which shrinks every frame anyway."]},
+ {"id":"senses","beats":[
+  "Now, how do we help a blind model perceive a video? With senses: small, specialised tools. Not big AI.",
+  "Transcription, for the words.",
+  "Voice activity detection, for speech versus silence.",
+  "Filler detection, for the ums and uhs.",
+  "Diarization, for who is speaking.",
+  "Shot detection, for where the camera changes.",
+  "Face tracking, for where you are in the frame.",
+  "Visual captions, for what's on screen.",
+  "And embeddings: a meaning fingerprint, so you can search your footage for typing on a laptop.",
+  "Line them all up on one timeline, turn them into text, and that's the dossier the model actually reads."]},
+ {"id":"recipe","beats":[
+  "The edit itself should live as a recipe, written in JSON. That's just plain text with names and values.",
+  "Play raw dot mp4 from zero to point four five seconds. Then from seven point nine five. Zoom in fifteen percent. Add captions. Lower the music under the voice.",
+  "No pixels at all. That recipe is the source of truth.",
+  "You edit it. Claude edits it. The player reads it. The renderer cooks from it."]},
+ {"id":"preview","beats":[
+  "Which means you don't have to wait for a render to see the edit.",
+  "Rendering everything first takes minutes. Streaming chunks as they finish takes seconds.",
+  "But a player can simply follow the recipe live, straight from the proxies. Instantly.",
+  "And you could watch the timeline change as Claude works, and grab a cut the moment it gets one wrong."]},
+ {"id":"app","beats":[
+  "Put it all together, and here's an app idea.",
+  "A native Mac app that is the eyes, the hands and the screen. It makes proxies, runs the senses on the device, holds the recipe, and plays it live.",
+  "Claude Code or Codex plugs in through a local MCP server, as the brain, on the user's own subscription.",
+  "And rules like never cut inside a word become code, instead of hope."]},
+ {"id":"outro","beats":[
+  "So: Claude doesn't watch your video. It reads it.",
+  "The better we describe the footage, and the more of the boring rules we turn into code, the better the edit gets."]}
+]
