@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 CONTENT = ROOT / "content"
 
-DOCS = {"cheatsheet.md": "cheatsheet.html", "method.md": "method.html", "tactics.md": "tactics.html"}
+DOCS = {"cheatsheet.md": "cheatsheet.html", "method.md": "method.html", "tactics.md": "tactics.html", "films.md": "films.html"}
 
 
 def build_docs():
@@ -28,6 +28,9 @@ def build_docs():
 
 def build_questions():
     qs = json.loads((ROOT / "data" / "questions.json").read_text(encoding="utf-8"))
+    extra = ROOT / "data" / "film_questions.json"
+    if extra.exists():
+        qs += json.loads(extra.read_text(encoding="utf-8"))
     ids = set()
     problems = []
     for q in qs:

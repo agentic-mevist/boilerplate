@@ -11,14 +11,15 @@
   function showTab(name) {
     document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.id === 'tab-' + name));
-    if (name !== 'quiz' && !loaded[name]) loadDoc(name);
+    if (name === 'music') { if (!loaded.music) loadMusic(); }
+    else if (name !== 'quiz' && !loaded[name]) loadDoc(name);
     history.replaceState(null, '', '#' + name);
     window.scrollTo({ top: 0 });
   }
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
 
   async function loadDoc(name) {
-    const map = { cheat: ['cheatsheet.html', '#cheatDoc'], method: ['method.html', '#methodDoc'], tactics: ['tactics.html', '#tacticsDoc'] };
+    const map = { cheat: ['cheatsheet.html', '#cheatDoc'], method: ['method.html', '#methodDoc'], tactics: ['tactics.html', '#tacticsDoc'], films: ['films.html', '#filmsDoc'] };
     const [file, sel] = map[name];
     try {
       const r = await fetch(file, { cache: 'no-cache' });
@@ -27,37 +28,71 @@
     } catch (e) { $(sel).textContent = 'Не удалось загрузить ' + file; }
   }
 
-  // ---------- cheat sheet search ----------
-  $('#cheatSearch').addEventListener('input', (e) => {
-    const term = e.target.value.trim().toLowerCase();
-    const doc = $('#cheatDoc');
-    doc.querySelectorAll('mark').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
-    doc.normalize();
-    const blocks = [...doc.querySelectorAll('li, p, tr, h3, blockquote')];
-    if (!term) { doc.querySelectorAll('.hide').forEach(x => x.classList.remove('hide')); return; }
-    // descendants first, so a parent item knows whether any nested item matched
-    blocks.reverse().forEach(b => {
-      const kids = [...b.querySelectorAll('li, tr')];
-      const kidVisible = kids.some(x => !x.classList.contains('hide'));
-      const hit = b.textContent.toLowerCase().includes(term);
-      b.classList.toggle('hide', !(kidVisible || hit));
+  // ---------- search in docs (cheat sheet, films) ----------
+  function attachSearch(inputSel, docSel) {
+    $(inputSel).addEventListener('input', (e) => {
+      const term = e.target.value.trim().toLowerCase();
+      const doc = $(docSel);
+      doc.querySelectorAll('mark').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+      doc.normalize();
+      const blocks = [...doc.querySelectorAll('li, p, tr, h3, blockquote')];
+      if (!term) { doc.querySelectorAll('.hide').forEach(x => x.classList.remove('hide')); return; }
+      blocks.reverse().forEach(b => {
+        const kids = [...b.querySelectorAll('li, tr')];
+        const kidVisible = kids.some(x => !x.classList.contains('hide'));
+        const hit = b.textContent.toLowerCase().includes(term);
+        b.classList.toggle('hide', !(kidVisible || hit));
+      });
+      doc.querySelectorAll('ul, ol, table').forEach(l => {
+        const any = [...l.querySelectorAll('li, tr')].some(x => !x.classList.contains('hide'));
+        l.classList.toggle('hide', !any);
+      });
+      const walker = document.createTreeWalker(doc, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(n => {
+        const i = n.nodeValue.toLowerCase().indexOf(term);
+        if (i < 0 || n.parentElement.closest('.hide')) return;
+        const m = document.createElement('mark');
+        const after = n.splitText(i); after.splitText(term.length);
+        m.textContent = after.nodeValue; after.replaceWith(m);
+      });
     });
-    doc.querySelectorAll('ul, ol, table').forEach(l => {
-      const any = [...l.querySelectorAll('li, tr')].some(x => !x.classList.contains('hide'));
-      l.classList.toggle('hide', !any);
-    });
-    // highlight
-    const walker = document.createTreeWalker(doc, NodeFilter.SHOW_TEXT);
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(n => {
-      const i = n.nodeValue.toLowerCase().indexOf(term);
-      if (i < 0 || n.parentElement.closest('.hide')) return;
-      const m = document.createElement('mark');
-      const after = n.splitText(i); after.splitText(term.length);
-      m.textContent = after.nodeValue; after.replaceWith(m);
-    });
-  });
+  }
+  attachSearch('#cheatSearch', '#cheatDoc');
+  attachSearch('#filmSearch', '#filmsDoc');
+
+  // ---------- music ----------
+  async function loadMusic() {
+    const box = $('#musicList');
+    try {
+      const songs = await (await fetch('songs.json', { cache: 'no-cache' })).json();
+      const groups = [...new Set(songs.map(x => x.group))];
+      box.innerHTML = groups.map(g => `<h2 class="mgroup">${esc(g)}</h2>` + songs.filter(x => x.group === g).map((x, i) => {
+        const q = encodeURIComponent(x.artist + ' ' + x.title);
+        const id = x.youtube_id;
+        return `<div class="song">
+          <div class="sh"><div><b>${esc(x.title)}</b> — ${esc(x.artist)} <span class="yr">${esc(x.year)}</span></div></div>
+          ${x.hook ? `<p class="hook">${esc(x.hook)}</p>` : ''}
+          <div class="sbtn">
+            ${id ? `<button class="ghost play" data-id="${esc(id)}">▶ Слушать здесь</button>
+            <a class="ghost" href="https://www.youtube.com/watch?v=${esc(id)}" target="_blank" rel="noopener">YouTube ↗</a>` : ''}
+            <a class="ghost" href="https://www.youtube.com/results?search_query=${q}" target="_blank" rel="noopener" title="Другие версии на YouTube">🔎</a>
+          </div>
+          <div class="player"></div>
+        </div>`;
+      }).join('')).join('');
+      box.querySelectorAll('.play').forEach(b => b.addEventListener('click', () => {
+        const pl = b.closest('.song').querySelector('.player');
+        if (pl.innerHTML) { pl.innerHTML = ''; b.textContent = '▶ Слушать здесь'; return; }
+        box.querySelectorAll('.player').forEach(p => { p.innerHTML = ''; });
+        box.querySelectorAll('.play').forEach(p => { p.textContent = '▶ Слушать здесь'; });
+        pl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.id}?autoplay=1&rel=0" title="YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>`;
+        b.textContent = '■ Закрыть';
+      }));
+      loaded.music = true;
+    } catch (e) { box.textContent = 'Не удалось загрузить список песен.'; }
+  }
 
   // ---------- quiz ----------
   function saveMarks() { localStorage.setItem(LS, JSON.stringify(marks)); }
@@ -177,6 +212,6 @@
   fetch('questions.json', { cache: 'no-cache' }).then(r => r.json()).then(data => {
     Q = data; buildFilters(); rebuild();
     const h = location.hash.slice(1);
-    if (['cheat', 'method', 'tactics'].includes(h)) showTab(h);
+    if (['cheat', 'method', 'tactics', 'music', 'films'].includes(h)) showTab(h);
   }).catch(() => { $('#qText').textContent = 'Не удалось загрузить вопросы.'; });
 })();

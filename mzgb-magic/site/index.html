@@ -6,6 +6,7 @@
 <title>Магия и эзотерика: подготовка к квизу</title>
 <meta name="description" content="Тренировочный квиз из 100 вопросов, шпаргалка и разбор того, как устроены вопросы квиза Мозгобойня / MozgoQuiz.">
 <meta name="theme-color" content="#120d22">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -21,7 +22,9 @@
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="quiz" class="active">Квиз</button>
     <button role="tab" data-tab="cheat">Шпаргалка</button>
-    <button role="tab" data-tab="method">Как пишут вопросы</button>
+    <button role="tab" data-tab="method">Метод</button>
+    <button role="tab" data-tab="music">Музыка</button>
+    <button role="tab" data-tab="films">Кино</button>
     <button role="tab" data-tab="tactics">Тактика</button>
   </nav>
 </header>
@@ -83,6 +86,21 @@
   <!-- METHOD REPORT -->
   <section id="tab-method" class="tab" role="tabpanel">
     <div class="doc" id="methodDoc">Загрузка…</div>
+  </section>
+
+  <!-- MUSIC -->
+  <section id="tab-music" class="tab" role="tabpanel">
+    <div class="doc intro">
+      <h1>Музыка о магии</h1>
+      <p>Песни и пьесы о магии, ведьмах и колдовстве, которые могут прозвучать в музыкальном туре. «▶ Слушать здесь» открывает клип прямо на странице, «YouTube ↗» — в приложении, «🔎» — другие версии и каверы.</p>
+    </div>
+    <div id="musicList">Загрузка…</div>
+  </section>
+
+  <!-- FILMS -->
+  <section id="tab-films" class="tab" role="tabpanel">
+    <div class="search"><input id="filmSearch" type="search" placeholder="Поиск по фильмам: ведьмы, Гудини, таро…"></div>
+    <div class="doc" id="filmsDoc">Загрузка…</div>
   </section>
 
   <!-- TACTICS -->

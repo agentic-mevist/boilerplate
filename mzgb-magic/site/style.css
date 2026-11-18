@@ -91,3 +91,12 @@ mark{background:var(--gold);color:#1a1230;border-radius:3px;padding:0 2px}
   .search{top:82px}
   .chip{padding:5px 10px;font-size:12px}
 }
+/* music */
+.intro h1{margin-top:12px}
+.mgroup{font-size:19px;color:var(--gold);margin:22px 0 10px}
+.song{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.song .yr{color:var(--mute);font-size:13px}
+.song .hook{color:#d9d1ff;font-size:14px;margin:6px 0 4px}
+.sbtn{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.sbtn a,.sbtn button{text-decoration:none;font-size:14px}
+.player iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin-top:10px;background:#000}
