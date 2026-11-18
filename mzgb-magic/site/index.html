@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Магия и эзотерика: подготовка к квизу</title>
+<meta name="description" content="Тренировочный квиз из 100 вопросов, шпаргалка и разбор того, как устроены вопросы квиза Мозгобойня / MozgoQuiz.">
+<meta name="theme-color" content="#120d22">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="orb" aria-hidden="true">🔮</span>
+    <div>
+      <h1>Магия и эзотерика</h1>
+      <p class="sub">подготовка к тематической игре квиза «Мозгобойня / MozgoQuiz»</p>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="quiz" class="active">Квиз</button>
+    <button role="tab" data-tab="cheat">Шпаргалка</button>
+    <button role="tab" data-tab="method">Как пишут вопросы</button>
+    <button role="tab" data-tab="tactics">Тактика</button>
+  </nav>
+</header>
+
+<main>
+  <!-- QUIZ -->
+  <section id="tab-quiz" class="tab active" role="tabpanel">
+    <div class="toolbar">
+      <div class="filters" id="roundFilters"></div>
+      <div class="tools">
+        <label class="sel">Порядок
+          <select id="orderSel">
+            <option value="seq">по порядку</option>
+            <option value="shuffle">перемешать</option>
+            <option value="unknown">только «не знал»</option>
+            <option value="unseen">только непройденные</option>
+          </select>
+        </label>
+        <button class="ghost" id="modeBtn" title="Переключить карточки / список">☰ Список</button>
+        <button class="ghost" id="resetBtn" title="Сбросить отметки">↺ Сброс</button>
+      </div>
+    </div>
+
+    <div class="score" id="scoreBar"></div>
+
+    <div id="cardView">
+      <article class="card" id="card">
+        <div class="meta"><span id="qRound"></span><span id="qTopic"></span><span id="qNum"></span></div>
+        <figure id="qFig" class="qfig" hidden><img id="qImg" alt=""><figcaption id="qImgCap"></figcaption></figure>
+        <p class="question" id="qText"></p>
+        <button class="primary" id="revealBtn">Показать ответ <kbd>Space</kbd></button>
+        <div class="answer" id="answerBox" hidden>
+          <p class="ans"><span class="lbl">Ответ:</span> <strong id="qAns"></strong></p>
+          <p class="acc" id="qAcc"></p>
+          <div class="expl" id="qExpl"></div>
+          <p class="src" id="qSrc"></p>
+          <div class="mark">
+            <button class="good" id="knewBtn">✓ Знал <kbd>1</kbd></button>
+            <button class="bad" id="didntBtn">✗ Не знал <kbd>2</kbd></button>
+          </div>
+        </div>
+      </article>
+      <div class="nav">
+        <button class="ghost" id="prevBtn">← Назад</button>
+        <span id="pos"></span>
+        <button class="ghost" id="nextBtn">Дальше →</button>
+      </div>
+    </div>
+
+    <div id="listView" hidden></div>
+  </section>
+
+  <!-- CHEAT SHEET -->
+  <section id="tab-cheat" class="tab" role="tabpanel">
+    <div class="search"><input id="cheatSearch" type="search" placeholder="Поиск по шпаргалке: таро, Гудини, алхимия…"></div>
+    <div class="doc" id="cheatDoc">Загрузка…</div>
+  </section>
+
+  <!-- METHOD REPORT -->
+  <section id="tab-method" class="tab" role="tabpanel">
+    <div class="doc" id="methodDoc">Загрузка…</div>
+  </section>
+
+  <!-- TACTICS -->
+  <section id="tab-tactics" class="tab" role="tabpanel">
+    <div class="doc" id="tacticsDoc">Загрузка…</div>
+  </section>
+</main>
+
+<footer class="foot">
+  Неофициальный тренировочный проект для подготовки к игре. Не связан с «Мозгобойней / MozgoQuiz».
+  Изображения — Wikimedia Commons (общественное достояние), см. подписи.
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

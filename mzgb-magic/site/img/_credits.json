@@ -1,0 +1,20 @@
+{
+ "nostradamus.jpg": {
+  "title": "File:Nostradamus by Cesar.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Nostradamus_by_Cesar.jpg",
+  "artist": "César de Notre-Dame",
+  "license": "Public domain"
+ },
+ "vrubel_demon.jpg": {
+  "title": "File:Vrubel Demon.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Vrubel_Demon.jpg",
+  "artist": "Mikhail Vrubel",
+  "license": "Public domain"
+ },
+ "blavatsky.jpg": {
+  "title": "File:Helena Petrovna Blavatsky.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Helena_Petrovna_Blavatsky.jpg",
+  "artist": "Unsure",
+  "license": "Public domain"
+ }
+}
