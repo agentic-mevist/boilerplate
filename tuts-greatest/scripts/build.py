@@ -48,6 +48,10 @@ def squash(s):
     return re.sub(r"[^a-z0-9]", "", s)
 
 
+def squash_accents(s):
+    return unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode()
+
+
 def apple_ok(song, am):
     """Reject Apple matches that point to another performer (karaoke, original instead of cover)."""
     if not am:
@@ -85,7 +89,13 @@ def rank_videos(song, cs):
             d = 0
         return 60 <= d <= 900
     words = [w for w in norm(song["song"]).split() if len(w) > 2]
-    rel = [c for c in cs if ok_dur(c) and (not words or sum(w in norm(c.get("title")) for w in words) >= max(1, len(words) - 1))]
+    art = {w for part in re.split(r" feat\. | and | & |, ", song["artist"]) for w in norm(squash_accents(part)).split() if len(w) > 2 and w != "the"}
+
+    def by_artist(c):
+        # the clip must name the performer, otherwise it is usually somebody's cover
+        t = norm(squash_accents(c.get("title"))) + " " + norm(squash_accents(c.get("channel")))
+        return not art or any(w in t.split() or w in t for w in art)
+    rel = [c for c in cs if ok_dur(c) and by_artist(c) and (not words or sum(w in norm(c.get("title")) for w in words) >= max(1, len(words) - 1))]
     off = sorted([c for c in rel if vscore(c.get("title")) > 0], key=lambda c: -score(song, c))
     live = [c for c in rel if is_live(c.get("title")) and c not in off]
     seen, out = set(), []
@@ -111,6 +121,7 @@ def build_songs():
     over = load("yt_overrides.json", {})
     vcands = load("video_candidates.json", {})
     vover = load("video_overrides.json", {})
+    vover.update(load("video_manual.json", {}))  # hand-checked fixes win over automatic ones
     apple = load("apple_meta.json", {})
     rsimg = load("rs_images.json", {})
     facts = {}

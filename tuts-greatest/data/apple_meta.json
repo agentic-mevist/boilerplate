@@ -1714,12 +1714,26 @@
   "apple_track": "Straight Outta Compton",
   "apple_artist": "N.W.A"
  },
+ "249": {
+  "album": "Bad Reputation (Expanded Edition)",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/da/4d/d7/da4dd7de-933f-9abd-9771-819e3b00bd77/886447249321_Cover.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fb/55/1d/fb551def-8677-bd82-6fab-bfc25b56908d/mzaf_12036831116328597708.plus.aac.p.m4a",
+  "apple_track": "Bad Reputation",
+  "apple_artist": "Joan Jett"
+ },
  "250": {
   "album": "Are You Experienced (Deluxe Version)",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/00/67/45/006745f5-95d5-5a06-35ed-d515e9cfd7d8/dj.tbwlxwoh.jpg/600x600bb.jpg",
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9f/99/84/9f9984a6-e21f-c2da-cf74-e66fb824573f/mzaf_12825826496232280545.plus.aac.p.m4a",
   "apple_track": "Purple Haze",
   "apple_artist": "The Jimi Hendrix Experience"
+ },
+ "251": {
+  "album": "20th Century Masters - The Millennium Collection: The Best of Gloria Gaynor",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/33/12/df/3312dfbf-2cd2-e149-1ccb-9688e2a60980/00731454913720.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e7/40/66/e74066a0-d000-1896-cd2e-7b2bc97393ad/mzaf_6935563640938257821.plus.aac.p.m4a",
+  "apple_track": "I Will Survive",
+  "apple_artist": "Gloria Gaynor"
  },
  "252": {
   "album": "Funkentelechy vs. The Placebo Syndrome",
@@ -1762,6 +1776,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/11/d2/f6/11d2f6ca-0c55-e3d2-5e78-5252bd0dadd9/mzaf_5700340528231661343.plus.aac.p.m4a",
   "apple_track": "(Love Is Like a) Heat Wave",
   "apple_artist": "Martha Reeves & The Vandellas"
+ },
+ "258": {
+  "album": "Pieces of a Man",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/f8/e8/5b/f8e85bc3-8854-a257-9622-524e0dbc7b76/29667527484.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/58/5c/da/585cdae0-5666-3c2f-3162-23b2dd043f03/mzaf_11553477277296058924.plus.aac.p.m4a",
+  "apple_track": "The Revolution Will Not Be Televised",
+  "apple_artist": "Gil Scott-Heron"
  },
  "259": {
   "album": "Harvest",
@@ -1847,6 +1868,13 @@
   "apple_track": "Closer",
   "apple_artist": "Nine Inch Nails"
  },
+ "271": {
+  "album": "A Whiter Shade of Pale (50th Anniversary Stereo Mix) - Single",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/cc/33/cd/cc33cd3c-4b00-fdc7-9a95-0a5400b9502e/79.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/12/4c/d2/124cd2bb-f97f-e40a-adcb-ddc93bd19a8c/mzaf_13060464901119105904.plus.aac.p.m4a",
+  "apple_track": "A Whiter Shade of Pale (50th Anniversary Stereo Mix)",
+  "apple_artist": "Procol Harum"
+ },
  "273": {
   "album": "Killing Me Softly",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music/e4/71/97/mzi.mgwzviyu.jpg/600x600bb.jpg",
@@ -1910,6 +1938,27 @@
   "apple_track": "Grindin'",
   "apple_artist": "Clipse"
  },
+ "282": {
+  "album": "The Best of INXS",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music1/v4/d2/4b/6b/d24b6b60-b72b-a4e3-c3da-ffe962cbe5a7/dj.qvyexbhe.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f3/95/2e/f3952edf-7251-d328-4f16-bbdc9db7a7b2/mzaf_2849961891843003446.plus.aac.p.m4a",
+  "apple_track": "Never Tear Us Apart",
+  "apple_artist": "INXS"
+ },
+ "283": {
+  "album": "Georgia on My Mind (Original Master Recording) - Single",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5d/db/65/5ddb6517-726a-1d5a-ae5a-64ed658fbc71/107887.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/21/56/76/215676ad-17ee-00cc-5bfa-47c161253df1/mzaf_12538635504043700720.plus.aac.p.m4a",
+  "apple_track": "Georgia on My Mind (Original Master Recording)",
+  "apple_artist": "Ray Charles"
+ },
+ "284": {
+  "album": "The Essential Leonard Cohen",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/b6/d8/5d/b6d85d2e-537e-5a8f-793f-78763de08dab/mzi.ppysthnn.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/13/12/6d/13126d08-fad7-2896-c5c8-1ec039718db4/mzaf_5406071501697087536.plus.aac.p.m4a",
+  "apple_track": "Suzanne",
+  "apple_artist": "Leonard Cohen"
+ },
  "285": {
   "album": "The Writing's On the Wall",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/c9/29/74/c92974ce-2bdd-4b86-a261-01adc901bb65/mzi.cmambura.jpg/600x600bb.jpg",
@@ -1930,6 +1979,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/37/3a/f1/373af1af-20e2-cf85-ac54-13d99531667a/mzaf_14967856267404443580.plus.aac.p.m4a",
   "apple_track": "You Shook Me All Night Long",
   "apple_artist": "AC/DC"
+ },
+ "288": {
+  "album": "That's the Joint - Single",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/e0/3b/cf/e03bcf74-4d82-96ae-50e0-6002ba4cf4f4/603497836154.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fe/dd/c8/feddc879-ab33-5505-584a-c7282fa8fe18/mzaf_1907667205234939857.plus.aac.p.m4a",
+  "apple_track": "That's the Joint",
+  "apple_artist": "Funky 4+1"
  },
  "289": {
   "album": "Nebraska",
@@ -2057,6 +2113,20 @@
   "apple_track": "Chain of Fools",
   "apple_artist": "Aretha Franklin"
  },
+ "307": {
+  "album": "St. Elsewhere",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/fc/6e/1e/fc6e1e95-7f93-09d8-455e-2f24a537a71f/603497823703.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ec/e1/4e/ece14e48-8c7b-ff66-7fe1-fa2af50cdc10/mzaf_15490780879090368893.plus.aac.p.m4a",
+  "apple_track": "Crazy",
+  "apple_artist": "Gnarls Barkley"
+ },
+ "308": {
+  "album": "Exile In Guyville (2018 Remaster)",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/f0/96/e6/f096e697-a41a-2ec3-e48e-754b4f85aada/744861111450.png/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/96/6a/2c/966a2c77-5bfa-64da-b45b-18dd8db4d537/mzaf_17217750975788907941.plus.aac.p.m4a",
+  "apple_track": "Never Said (2018 Remaster)",
+  "apple_artist": "Liz Phair"
+ },
  "309": {
   "album": "Just As I Am",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/1b/b9/16/1bb9167c-e0eb-5418-960d-e9adb61d0fdd/mzi.kqpazwnw.jpg/600x600bb.jpg",
@@ -2140,6 +2210,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/97/b4/f6/97b4f65f-f334-771c-a4f5-5e7b9b42634f/mzaf_17056874752218225925.plus.aac.p.m4a",
   "apple_track": "Blank Space",
   "apple_artist": "Taylor Swift"
+ },
+ "321": {
+  "album": "All Eyez On Me",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/55/e5/7c/55e57cf2-8325-a088-7d54-3aeedad1143f/21UM1IM16263.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/25/c3/5d/25c35d8e-13a2-a67a-5750-9c8fac55ad3b/mzaf_81027516995072444.plus.aac.p.m4a",
+  "apple_track": "California Love (feat. Dr. Dre & Roger Troutman) [Remix]",
+  "apple_artist": "2Pac"
  },
  "322": {
   "album": "The Joshua Tree",
@@ -2239,6 +2316,13 @@
   "apple_track": "Ripple",
   "apple_artist": "Grateful Dead"
  },
+ "336": {
+  "album": "Move Your Body (The House Music Anthem) [feat. Curtis McClain] [Sped Up] - Single",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/6f/7b/38/6f7b3819-1d74-1bc4-66c6-716c97b00e90/0196762006487.png/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/a4/1c/75/a41c75e7-6c4a-881f-fb0e-dc70847285d4/mzaf_15530163738558946689.plus.aac.p.m4a",
+  "apple_track": "Move Your Body (The House Music Anthem) [feat. Curtis McClain] [Sped Up]",
+  "apple_artist": "Marshall Jefferson & Stereo Love"
+ },
  "337": {
   "album": "Abandoned Luncheonette",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ff/7d/c1/ff7dc1cd-e089-8796-54b8-9a7a8b723318/mzi.krlkfqzk.jpg/600x600bb.jpg",
@@ -2309,6 +2393,13 @@
   "apple_track": "It's Too Late",
   "apple_artist": "Carole King"
  },
+ "347": {
+  "album": "PERMISSION TO DANCE ON STAGE (LIVE)",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2b/f6/82/2bf682ab-f6c5-a82e-d204-306faede272e/198704579318_Cover.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/63/cf/fd/63cffd1b-1f32-0d6b-afba-d445b91271bc/mzaf_9755088333292945190.plus.aac.p.m4a",
+  "apple_track": "Dynamite (Live)",
+  "apple_artist": "BTS"
+ },
  "348": {
   "album": "The Essential Elvis Presley",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3e/63/93/3e6393fb-5fe2-1ef4-1c0d-6452919a351c/828768904824.jpg/600x600bb.jpg",
@@ -2322,6 +2413,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1b/09/d0/1b09d087-2be6-fd42-1cef-f70d5666c038/mzaf_7829975988089780628.plus.aac.p.m4a",
   "apple_track": "Virginia Plain",
   "apple_artist": "Roxy Music"
+ },
+ "350": {
+  "album": "Odessey and Oracle (Mono Remastered)",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/21/5a/a5/215aa554-bc35-193a-9d80-08247cac571c/810183320198.png/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/13/31/3d/13313db2-a0e8-84c4-11b0-2846d333f6b1/mzaf_3340483753380264463.plus.aac.p.m4a",
+  "apple_track": "Time of the Season (Mono Remastered)",
+  "apple_artist": "The Zombies"
  },
  "351": {
   "album": "John Prine",
@@ -2407,6 +2505,13 @@
   "apple_track": "Merry Go 'Round",
   "apple_artist": "Kacey Musgraves"
  },
+ "363": {
+  "album": "Uprising",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/80/61/a5/8061a5cc-3372-7679-7396-e42e86041d21/15UMGIM05274.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d7/c2/e6/d7c2e642-0fa6-891b-8e26-8ce4bb58f0ce/mzaf_12970064457125857774.plus.aac.p.m4a",
+  "apple_track": "Could You Be Loved (Errol Brown and Alex Sadkin Remix)",
+  "apple_artist": "Bob Marley & The Wailers"
+ },
  "364": {
   "album": "American Beauty",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/f5/27/20/f5272061-2466-6375-c2d1-f20d14be569f/603497920952.jpg/600x600bb.jpg",
@@ -2427,6 +2532,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview113/v4/a0/b6/2b/a0b62b31-1839-0ba1-8677-c3206c4e9ffc/mzaf_3783447452461505087.plus.aac.p.m4a",
   "apple_track": "Da Doo Ron Ron",
   "apple_artist": "The Crystals"
+ },
+ "367": {
+  "album": "channel ORANGE",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/04/f8/63/04f863fc-2852-604f-c910-a97ac069506b/12UMGIM40339.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7e/a3/11/7ea311f5-790a-84ec-3cae-940f89599e62/mzaf_14067239133136508975.plus.aac.p.m4a",
+  "apple_track": "Thinkin Bout You",
+  "apple_artist": "Frank Ocean"
  },
  "368": {
   "album": "Telephantasm (Deluxe Version)",
@@ -2533,6 +2645,13 @@
   "apple_track": "Paper Bag",
   "apple_artist": "Fiona Apple"
  },
+ "383": {
+  "album": "Redbone (Originally Performed by Childish Gambino) [Karaoke Version] - Single",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/fe/da/c9/fedac9e7-cd68-8906-f103-a6aeb3319765/Redbone-Childish-Gambino.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/7f/16/cb/7f16cbc5-bbaf-b681-d5fe-88dd56c96a30/mzaf_11014895037301362273.plus.aac.p.m4a",
+  "apple_track": "Redbone (Originally Performed by Childish Gambino) [Karaoke Version]",
+  "apple_artist": "Starstruck Backing Tracks"
+ },
  "384": {
   "album": "Invasion of Privacy",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/6a/f7/6c/6af76c1c-4d8e-c761-8856-34d273b4703b/075679873682.jpg/600x600bb.jpg",
@@ -2546,6 +2665,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/50/6e/ac/506eac39-ab88-5690-a4b4-b3044567b44b/mzaf_7335323125447306079.plus.aac.p.m4a",
   "apple_track": "I'm Coming Out",
   "apple_artist": "Diana Ross"
+ },
+ "386": {
+  "album": "Lola Versus Powerman and the Moneygoround, Part One (Deluxe Edition) [2020 Stereo Remaster]",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7b/ed/f5/7bedf5ba-9f25-68f6-d6e8-9fc7a2cb9ad7/4050538643596.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f8/e5/41/f8e5417f-a512-1630-d6e1-1f36f0668fa8/mzaf_8926206948038860060.plus.aac.p.m4a",
+  "apple_track": "Lola",
+  "apple_artist": "The Kinks"
  },
  "387": {
   "album": "New York Dolls",
@@ -2567,6 +2693,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/16/ff/2c/16ff2c32-625a-a7fc-e55b-34fe0859275b/mzaf_4250331136127546724.plus.aac.p.m4a",
   "apple_track": "Brass In Pocket",
   "apple_artist": "Pretenders"
+ },
+ "390": {
+  "album": "Metallica (Deluxe Box Set)",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/2e/94/95/2e9495d7-dfe3-ddc8-87ef-6ef797a60218/850007452056.png/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/53/8a/fc/538afc1c-b9cd-24ab-b401-2fa8c81abc46/mzaf_3160131754964321707.plus.aac.p.m4a",
+  "apple_track": "Enter Sandman",
+  "apple_artist": "Metallica"
  },
  "391": {
   "album": "Chief",
@@ -2596,6 +2729,13 @@
   "apple_track": "Grace",
   "apple_artist": "Jeff Buckley"
  },
+ "395": {
+  "album": "Planet Rock (Digital 45) - Single",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/5f/50/ab/5f50abcd-e98c-1c84-4bd5-6faa15453507/603497973613.png/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0b/d1/39/0bd1390d-b5f7-d8a4-004b-0d29e89bbdd1/mzaf_3028737004424913980.plus.aac.p.m4a",
+  "apple_track": "Planet Rock",
+  "apple_artist": "Afrika Bambaataa & The Soulsonic Force"
+ },
  "396": {
   "album": "My Aim Is True",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/db/76/78/db76781b-76d9-6bba-fb7e-70a280c7d5ae/00602547382160.rgb.jpg/600x600bb.jpg",
@@ -2624,6 +2764,13 @@
   "apple_track": "You Make Me Feel (Mighty Real)",
   "apple_artist": "Sylvester"
  },
+ "400": {
+  "album": "Lover",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/49/3d/ab/493dab54-f920-9043-6181-80993b8116c9/19UMGIM53909.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/af/81/44af8168-9609-1b85-5048-ada08dceacf3/mzaf_1341699644335558812.plus.aac.p.m4a",
+  "apple_track": "Cruel Summer",
+  "apple_artist": "Taylor Swift"
+ },
  "401": {
   "album": "Rumours (Super Deluxe Edition)",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/2a/eb/dc/2aebdc18-c2c0-0fdd-fb85-07538a925700/603497925766.jpg/600x600bb.jpg",
@@ -2637,6 +2784,20 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/71/42/7b/71427b93-9917-e3a9-a243-3d59725069b0/mzaf_6898539609186099191.plus.aac.p.m4a",
   "apple_track": "Ain't Nobody",
   "apple_artist": "Chaka Khan"
+ },
+ "404": {
+  "album": "Greatest Kiss",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/5a/82/dc/5a82dc38-bbaf-0444-a928-5e851bd07d78/14UMGIM16164.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ac/db/cc/acdbcceb-d067-058c-70a0-e6c84c3f3bdb/mzaf_4893608575402832057.plus.aac.p.m4a",
+  "apple_track": "Rock and Roll All Nite",
+  "apple_artist": "Kiss"
+ },
+ "405": {
+  "album": "Amor Prohibido (Bonus Track Version)",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a6/1a/40/a61a408a-c4e1-fb7c-849c-fe3281d234e1/15UMGIM04863.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e9/e0/88/e9e08860-e087-16bd-a507-42899ae205dd/mzaf_7786993142762889875.plus.aac.p.m4a",
+  "apple_track": "Amor Prohibido",
+  "apple_artist": "Selena"
  },
  "406": {
   "album": "Run-D.M.C.",
@@ -2673,6 +2834,13 @@
   "apple_track": "Whipping Post",
   "apple_artist": "The Allman Brothers Band"
  },
+ "411": {
+  "album": "Yankee Hotel Foxtrot",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4c/1f/fb/4c1ffbb3-9c33-69d2-266e-28620ca81ec4/075597896954_01.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0d/e6/91/0de6917c-cf82-127d-fc26-373dee56d270/mzaf_1278214045852638328.plus.aac.p.m4a",
+  "apple_track": "Heavy Metal Drummer (2022 Remaster)",
+  "apple_artist": "Wilco"
+ },
  "412": {
   "album": "Raw Like Sushi",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/ff/19/bf/ff19bff3-2703-6fc6-51d3-0362ea98a7b0/05099920668754.rgb.jpg/600x600bb.jpg",
@@ -2680,12 +2848,26 @@
   "apple_track": "Buffalo Stance",
   "apple_artist": "Neneh Cherry"
  },
+ "413": {
+  "album": "The \"Angry\" Young Them!",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/38/a5/28/38a528d0-3e60-79ae-c8cb-e8edfa24245e/198704630101_Cover.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ce/6f/83/ce6f8340-bab5-6ecf-1071-9ba034fe6c63/mzaf_17180441311644259485.plus.aac.p.m4a",
+  "apple_track": "Gloria (Mono Version)",
+  "apple_artist": "Them"
+ },
  "414": {
   "album": "Made In Lagos",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/b0/09/8e/b0098ed0-ef53-f2b5-386a-c8e6181f3c8a/886448775256.jpg/600x600bb.jpg",
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b3/dc/ba/b3dcba73-7f33-9abe-089c-73557a6dcb54/mzaf_16412591162283722395.plus.aac.p.m4a",
   "apple_track": "Essence (feat. Tems)",
   "apple_artist": "Wizkid"
+ },
+ "415": {
+  "album": "Violator  The 12\" Singles",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/a1/67/9c/a1679c06-1050-239c-bd3a-c374f7c6459e/886449952601.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/eb/ea/96/ebea965e-31b5-b75d-9e9b-260e35a7013c/mzaf_11893712329603215445.plus.aac.p.m4a",
+  "apple_track": "Enjoy the Silence",
+  "apple_artist": "Depeche Mode"
  },
  "416": {
   "album": "Ten",
@@ -2771,6 +2953,20 @@
   "apple_track": "Rapper's Delight (7\" Single Version)",
   "apple_artist": "The Sugarhill Gang"
  },
+ "428": {
+  "album": "RENAISSANCE",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/05/05/f3/0505f338-9873-feb4-af7f-27a470405e5f/196589246974.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fa/60/b4/fa60b48b-5906-0a64-6853-92b5c648c953/mzaf_1241862116086704234.plus.aac.p.m4a",
+  "apple_track": "BREAK MY SOUL",
+  "apple_artist": "Beyoncé"
+ },
+ "429": {
+  "album": "Re:Call 3",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/f0/fe/1b/f0fe1bbe-2dc6-f6a5-8eea-c9221ef4158a/190295842246.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f2/3e/ff/f23effa2-7a28-44a2-11a0-c2d7bcdf536f/mzaf_11060724122080581434.plus.aac.p.m4a",
+  "apple_track": "Under Pressure (Single Version) [2017 Remastered Version]",
+  "apple_artist": "Queen & David Bowie"
+ },
  "430": {
   "album": "Mecca and the Soul Brother",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/f4/af/9e/f4af9e48-72fc-3a4b-eec2-3e49cc812f1f/mzi.fftpsysp.jpg/600x600bb.jpg",
@@ -2792,6 +2988,13 @@
   "apple_track": "Summertime Blues",
   "apple_artist": "Eddie Cochran"
  },
+ "433": {
+  "album": "Please: Further Listening 1984-1986 (Deluxe Edition) [2018 Remaster]",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/3a/00/04/3a0004fb-5532-fa36-f7cd-01a2b3da8efd/190295758547.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b5/90/09/b5900978-bbfb-7e6c-93d8-0fe4713211da/mzaf_16813858284806810472.plus.aac.p.m4a",
+  "apple_track": "West End Girls",
+  "apple_artist": "Pet Shop Boys"
+ },
  "434": {
   "album": "Rocket to Russia (Deluxe Edition)",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Features115/v4/e6/0b/f2/e60bf2bf-68d5-e014-e873-99c611fb6744/dj.zmwcwcur.jpg/600x600bb.jpg",
@@ -2812,6 +3015,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5e/0b/c4/5e0bc4b4-51fb-c992-4953-8cc13ecfb773/mzaf_4904797060238555261.plus.aac.p.m4a",
   "apple_track": "Call Me Maybe",
   "apple_artist": "Carly Rae Jepsen"
+ },
+ "437": {
+  "album": "Lucinda Williams (Deluxe Edition)",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/96/3f/83/963f832d-0fb7-c5d2-7542-8f223aa88ee6/792755877951_Cover.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/95/05/8e/95058e92-b756-ea50-281c-530fe3f5e7ed/mzaf_8258468740711287987.plus.aac.p.m4a",
+  "apple_track": "Passionate Kisses",
+  "apple_artist": "Lucinda Williams"
  },
  "438": {
   "album": "Savage Remix (feat. Beyoncé) - Single",
@@ -2840,6 +3050,13 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2c/8f/c2/2c8fc24a-6557-6271-ebb7-b0b111754363/mzaf_9365955747718078187.plus.aac.p.m4a",
   "apple_track": "The House That Built Me",
   "apple_artist": "Miranda Lambert"
+ },
+ "442": {
+  "album": "Ace of Spades (Expanded Edition)",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/4a/f9/88/4af988c8-5a08-72e1-a97f-7b8d2010cc40/5414939548673.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c9/92/05/c992051c-dc1e-eed5-b153-3bd6d9c5d581/mzaf_12000067792525113010.plus.aac.p.m4a",
+  "apple_track": "Ace of Spades",
+  "apple_artist": "Motörhead"
  },
  "443": {
   "album": "From Under the Cork Tree",
@@ -2897,6 +3114,13 @@
   "apple_track": "Powderfinger",
   "apple_artist": "Neil Young & Crazy Horse"
  },
+ "451": {
+  "album": "Bad and Boujee (feat. Lil Uzi Vert) - Single",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/bb/e4/9d/bbe49de2-c275-5590-4de3-279a94be1410/22UMGIM27537.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a2/fe/49/a2fe49c5-07fc-1c2e-bd06-02744b93fb95/mzaf_6869075444120585471.plus.aac.p.m4a",
+  "apple_track": "Bad and Boujee (feat. Lil Uzi Vert)",
+  "apple_artist": "Migos"
+ },
  "452": {
   "album": "Toto IV",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/69/ce/d2/69ced240-07a7-2a04-bbab-2afbacf30809/074643772822.jpg/600x600bb.jpg",
@@ -2911,12 +3135,26 @@
   "apple_track": "The Rain (Supa Dupa Fly)",
   "apple_artist": "Missy Elliott"
  },
+ "454": {
+  "album": "Dancehall 101, Vol. 2",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/05/35/6b/05356b8f-730f-bc36-7ca5-3a139d95dd2b/mzi.eqjkwcds.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/36/63/02366330-f6e2-f19f-9268-ff50ea6e8ee5/mzaf_6913894601823472595.plus.aac.p.m4a",
+  "apple_track": "Bam Bam",
+  "apple_artist": "Sister Nancy"
+ },
  "455": {
   "album": "Jefferson Airplane Loves You",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music111/v4/f8/0d/a0/f80da042-6cee-e5a7-1189-a4cab2f5c8a7/078636111025.jpg/600x600bb.jpg",
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/25/14/96/251496d2-9197-121c-9a49-789b6be4dc16/mzaf_191051953009051461.plus.aac.p.m4a",
   "apple_track": "White Rabbit",
   "apple_artist": "Jefferson Airplane"
+ },
+ "456": {
+  "album": "Young Manhood and Other Donatable Organs",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ea/98/f2/ea98f2b8-5131-29ae-2064-997234ef13bc/093624812647.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/91/e2/a4/91e2a43b-9724-fd7f-94ed-52ec2c3897a2/mzaf_12439316399550841263.plus.aac.p.m4a",
+  "apple_track": "Lies (feat. Lana Del Rey)",
+  "apple_artist": "Zach Bryan & Lana Del Rey"
  },
  "457": {
   "album": "Slippery When Wet",
@@ -3163,6 +3401,13 @@
   "apple_track": "So What",
   "apple_artist": "Miles Davis"
  },
+ "493": {
+  "album": "Graduation",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/39/25/2d/39252d65-2d50-b991-0962-f7a98a761271/00602517483507.rgb.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9e/cc/69/9ecc6918-a8dc-354f-909f-ccc20a0a7a33/mzaf_7863921970418240507.plus.aac.p.m4a",
+  "apple_track": "Stronger",
+  "apple_artist": "Kanye West"
+ },
  "494": {
   "album": "Surfer Rosa (2007 Remaster)",
   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/68/b7/c0/68b7c018-dc15-f44a-2611-be10237fc9a5/652637080308.png/600x600bb.jpg",
@@ -3204,5 +3449,12 @@
   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8b/64/48/8b644878-2527-f201-5383-8470ffa206fd/mzaf_3209347682694900601.plus.aac.p.m4a",
   "apple_track": "Pancho and Lefty",
   "apple_artist": "Townes Van Zandt"
+ },
+ "500": {
+  "album": "Harry's House",
+  "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/2a/19/fb/2a19fb85-2f70-9e44-f2a9-82abe679b88e/886449990061.jpg/600x600bb.jpg",
+  "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/67/10/16/67101606-3869-ca44-6c03-e13d6322cb51/mzaf_1135399237022217274.plus.aac.p.m4a",
+  "apple_track": "As It Was",
+  "apple_artist": "Harry Styles"
  }
 }
