@@ -1,5 +1,10 @@
 # Плейлисты
 
+## YouTube: все 500 одним плейлистом
+
+- **[Rolling Stone's 500 Greatest Songs of All Time (2024)](https://www.youtube.com/playlist?list=PLNPGM2D7aODe_gJBA_9fYKx1bZJU793Ke)**. Публичный плейлист пользователя Vaeltaja: 500 видео с 1-го места по 500-е. Порядок сверен с рейтингом 2024 года, все 500 позиций совпадают. Отличие одно: на #397 «Bring the Noise» стоит версия Anthrax и Public Enemy. На 25 ноября 2026 года удалённых видео в нём нет.
+- [Rolling Stone's 500 Greatest Songs](https://www.youtube.com/playlist?list=PLL0ooGQ0asg7z3po-wBmpPdJ87lzDVxpm) — плейлист официального канала Rolling Stone. В нём не песни, а 25 коротких видео-историй о песнях из списка («I Feel Love», «Ms. Jackson», «Believe», «Dreams» и другие). Полезно для фактов.
+
 ## Spotify
 
 - **[The 500 Greatest Songs of All Time — официальный плейлист Rolling Stone](https://open.spotify.com/playlist/34LEBeUTaAPT9BD3B4Xgsy)**. Создан аккаунтом Rolling Stone, порядок совпадает с актуальной версией: 1. «Respect», 2. «Fight the Power», 3. «A Change Is Gonna Come».
