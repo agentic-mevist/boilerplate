@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Величайшие песни всех времён — тренажёр</title>
+<meta name="theme-color" content="#140f0f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">🎸</span>
+    <div>
+      <h1>Величайшие песни всех времён</h1>
+      <p class="sub">тренажёр к музыкальному квизу по рейтингу Rolling Stone 500</p>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="train" class="active">Тренажёр</button>
+    <button role="tab" data-tab="list">500 песен</button>
+    <button role="tab" data-tab="cheat">Шпаргалка</button>
+    <button role="tab" data-tab="format">Формат</button>
+  </nav>
+</header>
+
+<main>
+  <!-- TRAINER -->
+  <section id="tab-train" class="tab active">
+    <div class="controls">
+      <label>Песни
+        <select id="tRange">
+          <option value="50">Топ-50</option>
+          <option value="100" selected>Топ-100</option>
+          <option value="200">Топ-200</option>
+          <option value="500">Все 500</option>
+          <option value="unknown">Только «не угадал»</option>
+        </select>
+      </label>
+      <label>Эпоха
+        <select id="tDecade"><option value="all">Все</option></select>
+      </label>
+      <label>Фрагмент
+        <select id="tStart">
+          <option value="intro">Интро (с начала)</option>
+          <option value="mid" selected>Середина (припев)</option>
+          <option value="random">Случайное место</option>
+        </select>
+      </label>
+      <label>Длина
+        <select id="tLen">
+          <option value="3">3 с (блиц)</option>
+          <option value="5">5 с</option>
+          <option value="10">10 с</option>
+          <option value="20" selected>20 с</option>
+          <option value="0">без ограничения</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="stage">
+      <div class="screen" id="screen">
+        <div class="placeholder" id="placeholder">Нажмите «Следующий трек»</div>
+        <div class="cover" id="cover" hidden><span>🎧 Если звук не пошёл — нажмите в центр экрана</span></div>
+      </div>
+      <div class="row">
+        <button class="primary" id="nextBtn">▶ Следующий трек</button>
+        <button class="ghost" id="replayBtn" disabled>↻ Ещё раз</button>
+        <button class="ghost" id="revealBtn" disabled>Показать ответ</button>
+      </div>
+      <div class="answer" id="answer" hidden>
+        <div class="ans-title"><span id="aRank" class="rank"></span> <b id="aSong"></b> — <span id="aArtist"></span> <span id="aYear" class="yr"></span></div>
+        <p class="fact" id="aFact"></p>
+        <div class="row">
+          <button class="mark" id="gotArtist">✓ Угадал исполнителя</button>
+          <button class="mark" id="gotSong">✓ Угадал название</button>
+          <a class="ghost small" id="aLink" target="_blank" rel="noopener">YouTube ↗</a>
+        </div>
+      </div>
+      <div class="score" id="tScore"></div>
+    </div>
+  </section>
+
+  <!-- LIST -->
+  <section id="tab-list" class="tab">
+    <div class="controls">
+      <input id="lSearch" type="search" placeholder="Поиск: исполнитель, песня, факт…">
+      <select id="lDecade"><option value="all">Все эпохи</option></select>
+      <select id="lTag">
+        <option value="all">Все песни</option>
+        <option value="cover">Каверы (оригинал у другого)</option>
+        <option value="covered">Есть знаменитый кавер</option>
+        <option value="film">Связаны с кино/ТВ</option>
+        <option value="riff">Знаменитый рифф / интро</option>
+        <option value="sample">Сэмплы</option>
+        <option value="no1">№1 в чартах</option>
+        <option value="unknown">Мои «не угадал»</option>
+      </select>
+    </div>
+    <div class="count" id="lCount"></div>
+    <div id="list"></div>
+  </section>
+
+  <!-- CHEAT -->
+  <section id="tab-cheat" class="tab"><div class="doc" id="cheatDoc">Загрузка…</div></section>
+  <!-- FORMAT -->
+  <section id="tab-format" class="tab"><div class="doc" id="formatDoc">Загрузка…</div></section>
+</main>
+
+<footer class="foot">Неофициальный тренажёр. Рейтинг — Rolling Stone «The 500 Greatest Songs of All Time» (обновление 2024). Видео — YouTube.</footer>
+<script src="app.js"></script>
+</body>
+</html>

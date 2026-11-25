@@ -1,0 +1,3502 @@
+[
+ {
+  "rank": 1,
+  "artist": "Aretha Franklin",
+  "song": "Respect",
+  "year": "1967",
+  "writers": "Otis Redding"
+ },
+ {
+  "rank": 2,
+  "artist": "Public Enemy",
+  "song": "Fight the Power",
+  "year": "1989",
+  "writers": "Carlton Ridenhour, Eric Sadler, Hank Shocklee, Keith Shocklee"
+ },
+ {
+  "rank": 3,
+  "artist": "Sam Cooke",
+  "song": "A Change Is Gonna Come",
+  "year": "1964",
+  "writers": "Sam Cooke"
+ },
+ {
+  "rank": 4,
+  "artist": "Bob Dylan",
+  "song": "Like a Rolling Stone",
+  "year": "1965",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 5,
+  "artist": "Nirvana",
+  "song": "Smells Like Teen Spirit",
+  "year": "1991",
+  "writers": "Kurt Cobain"
+ },
+ {
+  "rank": 6,
+  "artist": "Marvin Gaye",
+  "song": "What’s Going On",
+  "year": "1971",
+  "writers": "Marvin Gaye, Renaldo Benson, Al Cleveland"
+ },
+ {
+  "rank": 7,
+  "artist": "The Beatles",
+  "song": "Strawberry Fields Forever",
+  "year": "1967",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 8,
+  "artist": "Missy Elliott",
+  "song": "Get Ur Freak On",
+  "year": "2001",
+  "writers": "Missy Elliott, Timbaland"
+ },
+ {
+  "rank": 9,
+  "artist": "Fleetwood Mac",
+  "song": "Dreams",
+  "year": "1977",
+  "writers": "Stevie Nicks"
+ },
+ {
+  "rank": 10,
+  "artist": "Outkast",
+  "song": "Hey Ya!",
+  "year": "2003",
+  "writers": "André Benjamin"
+ },
+ {
+  "rank": 11,
+  "artist": "The Beach Boys",
+  "song": "God Only Knows",
+  "year": "1966",
+  "writers": "Brian Wilson, Tony Asher"
+ },
+ {
+  "rank": 12,
+  "artist": "Stevie Wonder",
+  "song": "Superstition",
+  "year": "1972",
+  "writers": "Stevie Wonder"
+ },
+ {
+  "rank": 13,
+  "artist": "The Rolling Stones",
+  "song": "Gimme Shelter",
+  "year": "1969",
+  "writers": "Mick Jagger, Keith Richards"
+ },
+ {
+  "rank": 14,
+  "artist": "The Kinks",
+  "song": "Waterloo Sunset",
+  "year": "1967",
+  "writers": "Ray Davies"
+ },
+ {
+  "rank": 15,
+  "artist": "The Beatles",
+  "song": "I Want to Hold Your Hand",
+  "year": "1963",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 16,
+  "artist": "Beyoncé feat. Jay-Z",
+  "song": "Crazy in Love",
+  "year": "2003",
+  "writers": "Shaun Carter, Beyoncé Knowles, Eugene Record, Rich Harrison"
+ },
+ {
+  "rank": 17,
+  "artist": "Queen",
+  "song": "Bohemian Rhapsody",
+  "year": "1975",
+  "writers": "Freddie Mercury"
+ },
+ {
+  "rank": 18,
+  "artist": "Prince and the Revolution",
+  "song": "Purple Rain",
+  "year": "1984",
+  "writers": "Prince"
+ },
+ {
+  "rank": 19,
+  "artist": "John Lennon",
+  "song": "Imagine",
+  "year": "1971",
+  "writers": "John Lennon, Yoko Ono"
+ },
+ {
+  "rank": 20,
+  "artist": "Robyn",
+  "song": "Dancing on My Own",
+  "year": "2010",
+  "writers": "Robin Miriam Carlsson, Patrik Berger"
+ },
+ {
+  "rank": 21,
+  "artist": "Billie Holiday",
+  "song": "Strange Fruit",
+  "year": "1939",
+  "writers": "Lewis Allan"
+ },
+ {
+  "rank": 22,
+  "artist": "The Ronettes",
+  "song": "Be My Baby",
+  "year": "1963",
+  "writers": "Jeff Barry, Ellie Greenwich, Phil Spector"
+ },
+ {
+  "rank": 23,
+  "artist": "David Bowie",
+  "song": "Heroes",
+  "year": "1977",
+  "writers": "David Bowie, Brian Eno"
+ },
+ {
+  "rank": 24,
+  "artist": "The Beatles",
+  "song": "A Day in the Life",
+  "year": "1967",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 25,
+  "artist": "Kanye West feat. Pusha T",
+  "song": "Runaway",
+  "year": "2010",
+  "writers": "Emile Haynie, John Roger Branch, Kanye West, Malik Yusef, Pete Rock, Terrence Thornton, Jeff Bhasker, Mike Dean"
+ },
+ {
+  "rank": 26,
+  "artist": "Joni Mitchell",
+  "song": "A Case of You",
+  "year": "1971",
+  "writers": "Joni Mitchell"
+ },
+ {
+  "rank": 27,
+  "artist": "Bruce Springsteen",
+  "song": "Born to Run",
+  "year": "1975",
+  "writers": "Bruce Springsteen"
+ },
+ {
+  "rank": 28,
+  "artist": "Talking Heads",
+  "song": "Once in a Lifetime",
+  "year": "1980",
+  "writers": "Brian Eno, Chris Frantz, David Byrne, Jerry Harrison, Tina Weymouth"
+ },
+ {
+  "rank": 29,
+  "artist": "Dr. Dre feat. Snoop Doggy Dogg",
+  "song": "Nuthin’ but a ‘G’ Thang",
+  "year": "1992",
+  "writers": "Calvin Broadus, Frederick Knight, Leon Haywood"
+ },
+ {
+  "rank": 30,
+  "artist": "Lorde",
+  "song": "Royals",
+  "year": "2011",
+  "writers": "Ella Yelich O'Connor, Joel Little"
+ },
+ {
+  "rank": 31,
+  "artist": "The Rolling Stones",
+  "song": "(I Can’t Get No) Satisfaction",
+  "year": "1965",
+  "writers": "Mick Jagger, Keith Richards"
+ },
+ {
+  "rank": 32,
+  "artist": "Notorious B.I.G.",
+  "song": "Juicy",
+  "year": "1994",
+  "writers": "Diddy, James Mtume, Jean-Claude Olivier, The Notorious B.I.G."
+ },
+ {
+  "rank": 33,
+  "artist": "Chuck Berry",
+  "song": "Johnny B. Goode",
+  "year": "1958",
+  "writers": "Chuck Berry"
+ },
+ {
+  "rank": 34,
+  "artist": "James Brown",
+  "song": "Papa’s Got a Brand New Bag",
+  "year": "1966",
+  "writers": "James Brown"
+ },
+ {
+  "rank": 35,
+  "artist": "Little Richard",
+  "song": "Tutti-Frutti",
+  "year": "1955",
+  "writers": "Dorothy LaBostrie, Richard Penniman, Joe Lubin"
+ },
+ {
+  "rank": 36,
+  "artist": "The White Stripes",
+  "song": "Seven Nation Army",
+  "year": "2003",
+  "writers": "Jack White"
+ },
+ {
+  "rank": 37,
+  "artist": "Prince and the Revolution",
+  "song": "When Doves Cry",
+  "year": "1984",
+  "writers": "Prince"
+ },
+ {
+  "rank": 38,
+  "artist": "Otis Redding",
+  "song": "(Sittin’ On) the Dock of the Bay",
+  "year": "1967",
+  "writers": "Otis Redding, Steve Cropper"
+ },
+ {
+  "rank": 39,
+  "artist": "Outkast",
+  "song": "B.O.B.",
+  "year": "2000",
+  "writers": "André Benjamin, Antwan Patton, David Sheats"
+ },
+ {
+  "rank": 40,
+  "artist": "The Jimi Hendrix Experience",
+  "song": "All Along the Watchtower",
+  "year": "1968",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 41,
+  "artist": "Joy Division",
+  "song": "Love Will Tear Us Apart",
+  "year": "1980",
+  "writers": "Bernard Sumner, Ian Curtis, Peter Hook, Stephen Morris"
+ },
+ {
+  "rank": 42,
+  "artist": "Bob Marley and the Wailers",
+  "song": "Redemption Song",
+  "year": "1980",
+  "writers": "Bob Marley and the Wailers"
+ },
+ {
+  "rank": 43,
+  "artist": "The Temptations",
+  "song": "My Girl",
+  "year": "1965",
+  "writers": "Ronald White, Smokey Robinson"
+ },
+ {
+  "rank": 44,
+  "artist": "Michael Jackson",
+  "song": "Billie Jean",
+  "year": "1982",
+  "writers": "Michael J. Jackson"
+ },
+ {
+  "rank": 45,
+  "artist": "Kendrick Lamar",
+  "song": "Alright",
+  "year": "2015",
+  "writers": "Kendrick Lamar, M. Spears, P. Williams"
+ },
+ {
+  "rank": 46,
+  "artist": "M.I.A.",
+  "song": "Paper Planes",
+  "year": "2008",
+  "writers": "Joe Strummer, Maya Arulpragasam, Mick Jones, Nick Headon, Paul Simonon, Wesley Pentz"
+ },
+ {
+  "rank": 47,
+  "artist": "Elton John",
+  "song": "Tiny Dancer",
+  "year": "1972",
+  "writers": "Bernie Taupin, Elton John"
+ },
+ {
+  "rank": 48,
+  "artist": "Radiohead",
+  "song": "Idioteque",
+  "year": "2000",
+  "writers": "Arthur Krieger, Colin Greenwood, Ed O'Brien, Jonny Greenwood, Paul Lansky, Philip Selway, Thom Yorke"
+ },
+ {
+  "rank": 49,
+  "artist": "Lauryn Hill",
+  "song": "Doo Wop (That Thing)",
+  "year": "1998",
+  "writers": "Lauryn Hill"
+ },
+ {
+  "rank": 50,
+  "artist": "Daddy Yankee",
+  "song": "Gasolina",
+  "year": "2010",
+  "writers": "Francisco Saldaña, Ramon Ayala, Victor Cabrera"
+ },
+ {
+  "rank": 51,
+  "artist": "Dionne Warwick",
+  "song": "Walk on By",
+  "year": "1964",
+  "writers": "Burt Bacharach, Hal David"
+ },
+ {
+  "rank": 52,
+  "artist": "Donna Summer",
+  "song": "I Feel Love",
+  "year": "1977",
+  "writers": "Donna Summer, Giorgio Moroder, Pete Bellotte"
+ },
+ {
+  "rank": 53,
+  "artist": "The Beach Boys",
+  "song": "Good Vibrations",
+  "year": "1966",
+  "writers": "Brian Wilson, Mike Love"
+ },
+ {
+  "rank": 54,
+  "artist": "Smokey Robinson and the Miracles",
+  "song": "The Tracks of My Tears",
+  "year": "1965",
+  "writers": "Marvin Tarplin, William Robinson, Warren Moore"
+ },
+ {
+  "rank": 55,
+  "artist": "Madonna",
+  "song": "Like a Prayer",
+  "year": "1989",
+  "writers": "Madonna, Patrick Leonard"
+ },
+ {
+  "rank": 56,
+  "artist": "Missy Elliott",
+  "song": "Work It",
+  "year": "2000",
+  "writers": "Melissa Elliott, Timothy Mosley"
+ },
+ {
+  "rank": 57,
+  "artist": "Sly and the Family Stone",
+  "song": "Family Affair",
+  "year": "1971",
+  "writers": "Sylvester Stewart"
+ },
+ {
+  "rank": 58,
+  "artist": "The Band",
+  "song": "The Weight",
+  "year": "1968",
+  "writers": "Robbie Robertson"
+ },
+ {
+  "rank": 59,
+  "artist": "Grandmaster Flash and the Furious Five",
+  "song": "The Message",
+  "year": "1982",
+  "writers": "Edward Fletcher, Melvin Glover, Clifton Chase, Sylvia Robinson"
+ },
+ {
+  "rank": 60,
+  "artist": "Kate Bush",
+  "song": "Running Up That Hill",
+  "year": "1985",
+  "writers": "Kate Bush"
+ },
+ {
+  "rank": 61,
+  "artist": "Led Zeppelin",
+  "song": "Stairway to Heaven",
+  "year": "1971",
+  "writers": "Jimmy Page, Robert Plant"
+ },
+ {
+  "rank": 62,
+  "artist": "U2",
+  "song": "One",
+  "year": "1992",
+  "writers": "Bono, Larry Mullen Jr., The Edge, Adam Clayton"
+ },
+ {
+  "rank": 63,
+  "artist": "Dolly Parton",
+  "song": "Jolene",
+  "year": "1974",
+  "writers": "Dolly Parton"
+ },
+ {
+  "rank": 64,
+  "artist": "Ramones",
+  "song": "Blitzkrieg Bop",
+  "year": "1976",
+  "writers": "Tommy Ramone, Dee Dee Ramone"
+ },
+ {
+  "rank": 65,
+  "artist": "Earth, Wind, and Fire",
+  "song": "September",
+  "year": "1978",
+  "writers": "Albert McKay, Allee Willis, Maurice White"
+ },
+ {
+  "rank": 66,
+  "artist": "Simon and Garfunkel",
+  "song": "Bridge Over Troubled Water",
+  "year": "1970",
+  "writers": "Paul Simon"
+ },
+ {
+  "rank": 67,
+  "artist": "Bob Dylan",
+  "song": "Tangled Up in Blue",
+  "year": "1975",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 68,
+  "artist": "Chic",
+  "song": "Good Times",
+  "year": "1979",
+  "writers": "Bernard Edwards, Nile Rodgers"
+ },
+ {
+  "rank": 69,
+  "artist": "Taylor Swift",
+  "song": "All Too Well",
+  "year": "2012",
+  "writers": "Taylor Swift, Liz Rose"
+ },
+ {
+  "rank": 70,
+  "artist": "Elvis Presley",
+  "song": "Suspicious Minds",
+  "year": "1969",
+  "writers": "Mark James"
+ },
+ {
+  "rank": 71,
+  "artist": "Tracy Chapman",
+  "song": "Fast Car",
+  "year": "1988",
+  "writers": "Tracy Chapman"
+ },
+ {
+  "rank": 72,
+  "artist": "The Beatles",
+  "song": "Yesterday",
+  "year": "1965",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 73,
+  "artist": "Beyoncé",
+  "song": "Formation",
+  "year": "2016",
+  "writers": "Aaquil Brown, Beyoncé, Khalif Brown, Michael L. Williams II"
+ },
+ {
+  "rank": 74,
+  "artist": "Leonard Cohen",
+  "song": "Hallelujah",
+  "year": "1984",
+  "writers": "Leonard Cohen"
+ },
+ {
+  "rank": 75,
+  "artist": "Pulp",
+  "song": "Common People",
+  "year": "1996",
+  "writers": "Candida Doyle, Jarvis Cocker, Nick Banks, Russell Senior, Steve Mackey"
+ },
+ {
+  "rank": 76,
+  "artist": "Johnny Cash",
+  "song": "I Walk the Line",
+  "year": "1956",
+  "writers": "Johnny Cash"
+ },
+ {
+  "rank": 77,
+  "artist": "The Modern Lovers",
+  "song": "Roadrunner",
+  "year": "1976",
+  "writers": "Jonathan Richman"
+ },
+ {
+  "rank": 78,
+  "artist": "The Four Tops",
+  "song": "Reach Out (I’ll Be There)",
+  "year": "1967",
+  "writers": "Brian Holland, Eddie Holland, Lamont Dozier"
+ },
+ {
+  "rank": 79,
+  "artist": "Amy Winehouse",
+  "song": "Back to Black",
+  "year": "2006",
+  "writers": "Amy Winehouse, Mark Ronson"
+ },
+ {
+  "rank": 80,
+  "artist": "Ray Charles",
+  "song": "What’d I Say",
+  "year": "1957",
+  "writers": "Ray Charles"
+ },
+ {
+  "rank": 81,
+  "artist": "The Velvet Underground",
+  "song": "I’m Waiting for the Man",
+  "year": "1967",
+  "writers": "Lou Reed"
+ },
+ {
+  "rank": 82,
+  "artist": "Adele",
+  "song": "Rolling in the Deep",
+  "year": "2011",
+  "writers": "Adele Laurie Blue Adkins, Paul Richard Epworth"
+ },
+ {
+  "rank": 83,
+  "artist": "Bob Dylan",
+  "song": "Desolation Row",
+  "year": "1965",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 84,
+  "artist": "Al Green",
+  "song": "Let’s Stay Together",
+  "year": "1971",
+  "writers": "Al Green, Al Jackson Jr., Willie Mitchell"
+ },
+ {
+  "rank": 85,
+  "artist": "Prince",
+  "song": "Kiss",
+  "year": "1986",
+  "writers": "Prince"
+ },
+ {
+  "rank": 86,
+  "artist": "The Rolling Stones",
+  "song": "Tumbling Dice",
+  "year": "1972",
+  "writers": "Mick Jagger, Keith Richards"
+ },
+ {
+  "rank": 87,
+  "artist": "LCD Soundsystem",
+  "song": "All My Friends",
+  "year": "2007",
+  "writers": "Pat Mahoney, James Murphy, Tyler Pope"
+ },
+ {
+  "rank": 88,
+  "artist": "Guns N’ Roses",
+  "song": "Sweet Child O’ Mine",
+  "year": "1987",
+  "writers": "Duff McKagan, Jeffrey Isbell, Saul Hudson, Steven Adler, W. Axl Rose"
+ },
+ {
+  "rank": 89,
+  "artist": "The Beatles",
+  "song": "Hey Jude",
+  "year": "1968",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 90,
+  "artist": "Aretha Franklin",
+  "song": "(You Make Me Feel Like) A Natural Woman",
+  "year": "1967",
+  "writers": "Carole King, Gerry Goffin, Jerry Wexler"
+ },
+ {
+  "rank": 91,
+  "artist": "UGK feat. Outkast",
+  "song": "Int’l Players Anthem (I Choose You)",
+  "year": "2007",
+  "writers": "Bernard Freeman, Chad Butler, Andre Benjamin, Antwan Patton, Jordan Houston, Paul Beauregard"
+ },
+ {
+  "rank": 92,
+  "artist": "Little Richard",
+  "song": "Good Golly, Miss Molly",
+  "year": "1958",
+  "writers": "Robert Blackwell, John Marascalco"
+ },
+ {
+  "rank": 93,
+  "artist": "Kelly Clarkson",
+  "song": "Since U Been Gone",
+  "year": "2004",
+  "writers": "Lukasz Gottwald, Martin Sandberg"
+ },
+ {
+  "rank": 94,
+  "artist": "Whitney Houston",
+  "song": "I Will Always Love You",
+  "year": "1992",
+  "writers": "Dolly Parton"
+ },
+ {
+  "rank": 95,
+  "artist": "Oasis",
+  "song": "Wonderwall",
+  "year": "1995",
+  "writers": "Noel Gallagher"
+ },
+ {
+  "rank": 96,
+  "artist": "Jay-Z",
+  "song": "99 Problems",
+  "year": "2003",
+  "writers": "Shawn Carter, Fredrick Rubin, Norman Landsberg, Felix Pappalardi, William Squier, John Ventura, Leslie Weinstein, Tracy Marrow, Alphonso Henderson, Bernard Freeman"
+ },
+ {
+  "rank": 97,
+  "artist": "Patti Smith",
+  "song": "Gloria",
+  "year": "1975",
+  "writers": "Patti Smith, Van Morrison"
+ },
+ {
+  "rank": 98,
+  "artist": "The Beatles",
+  "song": "In My Life",
+  "year": "1965",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 99,
+  "artist": "Bee Gees",
+  "song": "Stayin’ Alive",
+  "year": "1977",
+  "writers": "Robin Gibb, Maurice Gibb, Barry Gibb"
+ },
+ {
+  "rank": 100,
+  "artist": "Bob Dylan",
+  "song": "Blowin’ in the Wind",
+  "year": "1963",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 101,
+  "artist": "Yeah Yeah Yeahs",
+  "song": "Maps",
+  "year": "2003",
+  "writers": "Brian Chase, Karen Lee Orzolek, Nicholas Joseph Zinner"
+ },
+ {
+  "rank": 102,
+  "artist": "Chuck Berry",
+  "song": "Maybelline",
+  "year": "1955",
+  "writers": "Chuck Berry"
+ },
+ {
+  "rank": 103,
+  "artist": "Alanis Morissette",
+  "song": "You Oughta Know",
+  "year": "1995",
+  "writers": "Alanis Morissette, Glen Ballard"
+ },
+ {
+  "rank": 104,
+  "artist": "The Jackson 5",
+  "song": "I Want You Back",
+  "year": "1969",
+  "writers": "Alphonso Mizell, Berry Gordy, Dennis Lussier, Freddie Perren"
+ },
+ {
+  "rank": 105,
+  "artist": "David Bowie",
+  "song": "Life on Mars?",
+  "year": "1971",
+  "writers": "David Bowie"
+ },
+ {
+  "rank": 106,
+  "artist": "The Rolling Stones",
+  "song": "Sympathy for the Devil",
+  "year": "1968",
+  "writers": "Keith Richards, Mick Jagger"
+ },
+ {
+  "rank": 107,
+  "artist": "Wu-Tang Clan",
+  "song": "C.R.E.A.M.",
+  "year": "1994",
+  "writers": "Wu-Tang Clan"
+ },
+ {
+  "rank": 108,
+  "artist": "The Cure",
+  "song": "Just Like Heaven",
+  "year": "1987",
+  "writers": "Boris Williams, Lol Tolhurst, Porl Thompson, Robert Smith, Simon Gallup"
+ },
+ {
+  "rank": 109,
+  "artist": "Sly and the Family Stone",
+  "song": "Everyday People",
+  "year": "1968",
+  "writers": "Sylvester Stewart"
+ },
+ {
+  "rank": 110,
+  "artist": "The Beatles",
+  "song": "Something",
+  "year": "1969",
+  "writers": "George Harrison"
+ },
+ {
+  "rank": 111,
+  "artist": "Bruce Springsteen",
+  "song": "Thunder Road",
+  "year": "1975",
+  "writers": "Bruce Springsteen"
+ },
+ {
+  "rank": 112,
+  "artist": "R.E.M.",
+  "song": "Losing My Religion",
+  "year": "1991",
+  "writers": "Michael Mills, Michael Stipe, Peter Buck, William Berry"
+ },
+ {
+  "rank": 113,
+  "artist": "Stevie Wonder",
+  "song": "Higher Ground",
+  "year": "1973",
+  "writers": "Stevie Wonder"
+ },
+ {
+  "rank": 114,
+  "artist": "Britney Spears",
+  "song": "Toxic",
+  "year": "2003",
+  "writers": "Cathy Dennis, CKS Garage, Henrik Jonback, Pontus Winnberg"
+ },
+ {
+  "rank": 115,
+  "artist": "Etta James",
+  "song": "At Last",
+  "year": "1960",
+  "writers": "Harry Warren, Mack Gordon"
+ },
+ {
+  "rank": 116,
+  "artist": "Rob Base and DJ E-Z Rock",
+  "song": "It Takes Two",
+  "year": "1988",
+  "writers": "Robert Ginyard"
+ },
+ {
+  "rank": 117,
+  "artist": "Aretha Franklin",
+  "song": "I Say a Little Prayer",
+  "year": "1968",
+  "writers": "Burt Bacharach, Hal David"
+ },
+ {
+  "rank": 118,
+  "artist": "Radiohead",
+  "song": "Creep",
+  "year": "1992",
+  "writers": "Albert Hammond, Colin Greenwood, Ed O'Brien, Jonny Greenwood, Mike Hazlewood, Philip Selway, Thom Yorke"
+ },
+ {
+  "rank": 119,
+  "artist": "Marvin Gaye",
+  "song": "I Heard It Through the Grapevine",
+  "year": "1968",
+  "writers": "Barrett Strong, Norman Whitfield"
+ },
+ {
+  "rank": 120,
+  "artist": "X-Ray Spex",
+  "song": "Oh Bondage! Up Yours!",
+  "year": "1977",
+  "writers": "Poly Styrene"
+ },
+ {
+  "rank": 121,
+  "artist": "The Beatles",
+  "song": "Let It Be",
+  "year": "1970",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 122,
+  "artist": "The Impressions",
+  "song": "People Get Ready",
+  "year": "1965",
+  "writers": "Curtis Mayfield"
+ },
+ {
+  "rank": 123,
+  "artist": "Talking Heads",
+  "song": "This Must Be the Place (Naive Melody)",
+  "year": "1983",
+  "writers": "Chris Frantz, David Byrne, Jerry Harrison, Tina Weymouth"
+ },
+ {
+  "rank": 124,
+  "artist": "Buddy Holly",
+  "song": "That’ll Be the Day",
+  "year": "1957",
+  "writers": "Buddy Holly, Jerry Allison, Norman Petty"
+ },
+ {
+  "rank": 125,
+  "artist": "Sex Pistols",
+  "song": "Anarchy in the U.K.",
+  "year": "1977",
+  "writers": "John Lydon, Glenn Matlock, Paul Cook, Simon Ritchie, Steve Jones"
+ },
+ {
+  "rank": 126,
+  "artist": "George Michael",
+  "song": "Freedom! ’90",
+  "year": "1990",
+  "writers": "George Michael"
+ },
+ {
+  "rank": 127,
+  "artist": "TLC",
+  "song": "Waterfalls",
+  "year": "1995",
+  "writers": "Brandon Bennett, Lisa \"Left Eye\" Lopes, Marqueze Etheridge, Rico Wade, Ray Murray, Sleepy Brown"
+ },
+ {
+  "rank": 128,
+  "artist": "Led Zeppelin",
+  "song": "Whole Lotta Love",
+  "year": "1969",
+  "writers": "John Bonham, John Paul Jones, Jimmy Page, Robert Plant, Willie Dixon"
+ },
+ {
+  "rank": 129,
+  "artist": "Drake feat. Majid Jordan",
+  "song": "Hold On, We’re Going Home",
+  "year": "2013",
+  "writers": "Aubrey Graham, Jordan Ullman, Majid Maskati, Noah Shebib, Paul Jeffries"
+ },
+ {
+  "rank": 130,
+  "artist": "Martha and the Vandellas",
+  "song": "Dancing in the Street",
+  "year": "1964",
+  "writers": "Ivy Joe Hunter, Marvin Gaye, William Stevenson"
+ },
+ {
+  "rank": 131,
+  "artist": "Ben E. King",
+  "song": "Stand by Me",
+  "year": "1961",
+  "writers": "Ben E. King, Jerry Leiber, Mike Stoller"
+ },
+ {
+  "rank": 132,
+  "artist": "Eric B. and Rakim",
+  "song": "Paid in Full",
+  "year": "1987",
+  "writers": "Eric Barrier, William Griffin"
+ },
+ {
+  "rank": 133,
+  "artist": "Journey",
+  "song": "Don’t Stop Believin",
+  "year": "1981",
+  "writers": "Jonathan Cain, Neal Schon, Stephen Perry"
+ },
+ {
+  "rank": 134,
+  "artist": "Tina Turner",
+  "song": "What’s Love Got to Do With It",
+  "year": "1984",
+  "writers": "Graham Lyle, Terry Britten"
+ },
+ {
+  "rank": 135,
+  "artist": "The Beatles",
+  "song": "She Loves You",
+  "year": "1964",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 136,
+  "artist": "Otis Redding",
+  "song": "Try a Little Tenderness",
+  "year": "1966",
+  "writers": "Harry Woods, James Campbell, Reginald Connelly"
+ },
+ {
+  "rank": 137,
+  "artist": "Ariana Grande",
+  "song": "Thank U, Next",
+  "year": "2019",
+  "writers": "Kimberly Krysiuk, Tayla Parx, Victoria McCants, Ariana Grande, Charles Anderson, Michael Foster, Njomza Vitia, Tommy Brown"
+ },
+ {
+  "rank": 138,
+  "artist": "Blondie",
+  "song": "Heart of Glass",
+  "year": "1979",
+  "writers": "Chris Stein, Debbie Harry"
+ },
+ {
+  "rank": 139,
+  "artist": "Madonna",
+  "song": "Vogue",
+  "year": "1990",
+  "writers": "Madonna, Shep Pettibone"
+ },
+ {
+  "rank": 140,
+  "artist": "Bob Marley and the Wailers",
+  "song": "No Woman No Cry",
+  "year": "1975",
+  "writers": "Vincent Ford, Bob Marley"
+ },
+ {
+  "rank": 141,
+  "artist": "Rod Stewart",
+  "song": "Maggie May",
+  "year": "1971",
+  "writers": "Rod Stewart, Martin Quittenton"
+ },
+ {
+  "rank": 142,
+  "artist": "George Jones",
+  "song": "He Stopped Loving Her Today",
+  "year": "1980",
+  "writers": "Bobby Braddock, Curly Putnam"
+ },
+ {
+  "rank": 143,
+  "artist": "The Clash",
+  "song": "London Calling",
+  "year": "1980",
+  "writers": "Mick Jones, Joe Strummer"
+ },
+ {
+  "rank": 144,
+  "artist": "The Rolling Stones",
+  "song": "Jumpin’ Jack Flash",
+  "year": "1968",
+  "writers": "Mick Jagger, Keith Richards"
+ },
+ {
+  "rank": 145,
+  "artist": "Outkast",
+  "song": "Ms. Jackson",
+  "year": "2000",
+  "writers": "André Benjamin, Antwan Patton, David Sheats"
+ },
+ {
+  "rank": 146,
+  "artist": "James Taylor",
+  "song": "Fire and Rain",
+  "year": "1970",
+  "writers": "James Taylor"
+ },
+ {
+  "rank": 147,
+  "artist": "Fats Domino",
+  "song": "Blueberry Hill",
+  "year": "1956",
+  "writers": "Al Lewis, Larry Stock, Vincent Rose"
+ },
+ {
+  "rank": 148,
+  "artist": "Led Zeppelin",
+  "song": "Kashmir",
+  "year": "1975",
+  "writers": "John Bonham, Jimmy Page, Robert Plant"
+ },
+ {
+  "rank": 149,
+  "artist": "Elton John",
+  "song": "Rocket Man",
+  "year": "1972",
+  "writers": "Elton John, Bernie Taupin"
+ },
+ {
+  "rank": 150,
+  "artist": "Green Day",
+  "song": "Basket Case",
+  "year": "1994",
+  "writers": "Billie Joe Armstrong, Mike Dirnt, Tre Cool"
+ },
+ {
+  "rank": 151,
+  "artist": "The Shirelles",
+  "song": "Will You Love Me Tomorrow",
+  "year": "1960",
+  "writers": "Gerry Goffin, Carole King"
+ },
+ {
+  "rank": 152,
+  "artist": "Creedence Clearwater Revival",
+  "song": "Proud Mary",
+  "year": "1969",
+  "writers": "John Fogerty"
+ },
+ {
+  "rank": 153,
+  "artist": "Rick James",
+  "song": "Super Freak",
+  "year": "1981",
+  "writers": "Rick James, Alonzo Miller"
+ },
+ {
+  "rank": 154,
+  "artist": "Howlin’ Wolf",
+  "song": "Spoonful",
+  "year": "1960",
+  "writers": "Willie Dixon"
+ },
+ {
+  "rank": 155,
+  "artist": "The Strokes",
+  "song": "Last Nite",
+  "year": "2001",
+  "writers": "Julian Casablancas"
+ },
+ {
+  "rank": 156,
+  "artist": "The Kingsmen",
+  "song": "Louie Louie",
+  "year": "1963",
+  "writers": "Richard Berry"
+ },
+ {
+  "rank": 157,
+  "artist": "Sonic Youth",
+  "song": "Teenage Riot",
+  "year": "1988",
+  "writers": "Thurston Moore, Kim Gordon, Lee Ranaldo, Steve Shelley"
+ },
+ {
+  "rank": 158,
+  "artist": "The Meters",
+  "song": "Cissy Strut",
+  "year": "1969",
+  "writers": "Leo Nocentelli, Arthur Neville, George Porter, Joseph Modeliste"
+ },
+ {
+  "rank": 159,
+  "artist": "The Who",
+  "song": "Baba O’Riley",
+  "year": "1971",
+  "writers": "Pete Townshend"
+ },
+ {
+  "rank": 160,
+  "artist": "R.E.M.",
+  "song": "Nightswimming",
+  "year": "1992",
+  "writers": "Bill Berry, Peter Buck, Mike Mills, Michael Stipe"
+ },
+ {
+  "rank": 161,
+  "artist": "Madonna",
+  "song": "Into the Groove",
+  "year": "1985",
+  "writers": "Madonna, Stephen Bray"
+ },
+ {
+  "rank": 162,
+  "artist": "Nick Drake",
+  "song": "Pink Moon",
+  "year": "1972",
+  "writers": "Nick Drake"
+ },
+ {
+  "rank": 163,
+  "artist": "Fleetwood Mac",
+  "song": "Landslide",
+  "year": "1975",
+  "writers": "Stevie Nicks"
+ },
+ {
+  "rank": 164,
+  "artist": "Bob Dylan",
+  "song": "Mr. Tambourine Man",
+  "year": "1965",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 165,
+  "artist": "Hank Williams",
+  "song": "I’m So Lonesome I Could Cry",
+  "year": "1949",
+  "writers": "Hank Williams"
+ },
+ {
+  "rank": 166,
+  "artist": "Mott the Hoople",
+  "song": "All the Young Dudes",
+  "year": "1972",
+  "writers": "David Bowie"
+ },
+ {
+  "rank": 167,
+  "artist": "Eminem",
+  "song": "Lose Yourself",
+  "year": "2002",
+  "writers": "Marshall Mathers"
+ },
+ {
+  "rank": 168,
+  "artist": "Dusty Springfield",
+  "song": "Son of a Preacher Man",
+  "year": "1968",
+  "writers": "John Hurley, Ronnie Wilkins"
+ },
+ {
+  "rank": 169,
+  "artist": "Tom Petty and the Heartbreakers",
+  "song": "American Girl",
+  "year": "1976",
+  "writers": "Tom Petty"
+ },
+ {
+  "rank": 170,
+  "artist": "The Five Satins",
+  "song": "In the Still of the Night",
+  "year": "1956",
+  "writers": "Fred Parris"
+ },
+ {
+  "rank": 171,
+  "artist": "Louis Armstrong",
+  "song": "What a Wonderful World",
+  "year": "1967",
+  "writers": "G.D. Weiss, G. Douglas"
+ },
+ {
+  "rank": 172,
+  "artist": "Nina Simone",
+  "song": "Mississippi Goddam",
+  "year": "1964",
+  "writers": "Nina Simone"
+ },
+ {
+  "rank": 173,
+  "artist": "Television",
+  "song": "Marquee Moon",
+  "year": "1977",
+  "writers": "Tom Verlaine"
+ },
+ {
+  "rank": 174,
+  "artist": "R.E.M.",
+  "song": "Radio Free Europe",
+  "year": "1983",
+  "writers": "Bill Berry, Peter Buck, Mike Mills, Michael Stipe"
+ },
+ {
+  "rank": 175,
+  "artist": "The Flamingos",
+  "song": "I Only Have Eyes for You",
+  "year": "1959",
+  "writers": "Al Dubin, Harry Warren"
+ },
+ {
+  "rank": 176,
+  "artist": "The Kinks",
+  "song": "You Really Got Me",
+  "year": "1964",
+  "writers": "Ray Davies"
+ },
+ {
+  "rank": 177,
+  "artist": "Van Halen",
+  "song": "Jump",
+  "year": "1983",
+  "writers": "Edward Van Halen, Alex Van Halen, Michael Anthony, David Lee Roth"
+ },
+ {
+  "rank": 178,
+  "artist": "Billie Eilish",
+  "song": "Bad Guy",
+  "year": "2019",
+  "writers": "Finneas O'Connell, Billie Eilish O'Connell"
+ },
+ {
+  "rank": 179,
+  "artist": "Pink Floyd",
+  "song": "Comfortably Numb",
+  "year": "1979",
+  "writers": "David Gilmour, Roger Waters"
+ },
+ {
+  "rank": 180,
+  "artist": "Lou Reed",
+  "song": "Walk on the Wild Side",
+  "year": "1972",
+  "writers": "Lou Reed"
+ },
+ {
+  "rank": 181,
+  "artist": "The Byrds",
+  "song": "Eight Miles High",
+  "year": "1966",
+  "writers": "Gene Clark, James McGuinn, David Crosby"
+ },
+ {
+  "rank": 182,
+  "artist": "Simon and Garfunkel",
+  "song": "The Sounds of Silence",
+  "year": "1964",
+  "writers": "Paul Simon"
+ },
+ {
+  "rank": 183,
+  "artist": "Stevie Wonder",
+  "song": "You Are the Sunshine of My Life",
+  "year": "1972",
+  "writers": "Stevie Wonder"
+ },
+ {
+  "rank": 184,
+  "artist": "Sinéad O’Connor",
+  "song": "Nothing Compares 2 U",
+  "year": "1990",
+  "writers": "Prince"
+ },
+ {
+  "rank": 185,
+  "artist": "Michael Jackson",
+  "song": "Beat It",
+  "year": "1982",
+  "writers": "Michael Jackson"
+ },
+ {
+  "rank": 186,
+  "artist": "The Staple Singers",
+  "song": "I’ll Take You There",
+  "year": "1972",
+  "writers": "Alvertis Isbell"
+ },
+ {
+  "rank": 187,
+  "artist": "Bob Dylan",
+  "song": "Subterranean Homesick Blues",
+  "year": "1965",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 188,
+  "artist": "The Jimi Hendrix Experience",
+  "song": "Little Wing",
+  "year": "1967",
+  "writers": "Jimi Hendrix"
+ },
+ {
+  "rank": 189,
+  "artist": "David Bowie",
+  "song": "Space Oddity",
+  "year": "1969",
+  "writers": "David Bowie"
+ },
+ {
+  "rank": 190,
+  "artist": "N.W.A",
+  "song": "Fuck tha Police",
+  "year": "1988",
+  "writers": "MC Ren, Ice Cube"
+ },
+ {
+  "rank": 191,
+  "artist": "Bobbie Gentry",
+  "song": "Ode to Billie Joe",
+  "year": "1967",
+  "writers": "Bobbie Gentry"
+ },
+ {
+  "rank": 192,
+  "artist": "Geto Boys",
+  "song": "Mind Playing Tricks on Me",
+  "year": "1991",
+  "writers": "Brad Jordan, J. Prince"
+ },
+ {
+  "rank": 193,
+  "artist": "The Rolling Stones",
+  "song": "Wild Horses",
+  "year": "1971",
+  "writers": "Mick Jagger, Keith Richards"
+ },
+ {
+  "rank": 194,
+  "artist": "PJ Harvey",
+  "song": "Rid of Me",
+  "year": "1993",
+  "writers": "PJ Harvey"
+ },
+ {
+  "rank": 195,
+  "artist": "Patsy Cline",
+  "song": "Crazy",
+  "year": "1961",
+  "writers": "Willie Nelson"
+ },
+ {
+  "rank": 196,
+  "artist": "James Brown",
+  "song": "Get Up (I Feel Like Being A) Sex Machine",
+  "year": "1970",
+  "writers": "Bobby Byrd, James Brown, Ron Lenhoff"
+ },
+ {
+  "rank": 197,
+  "artist": "Ann Peebles",
+  "song": "I Can’t Stand the Rain",
+  "year": "1973",
+  "writers": "Ann Peebles, Don Bryant, Bernard Miller"
+ },
+ {
+  "rank": 198,
+  "artist": "Marvin Gaye",
+  "song": "Sexual Healing",
+  "year": "1982",
+  "writers": "Marvin Gaye, Odell Brown"
+ },
+ {
+  "rank": 199,
+  "artist": "Aerosmith",
+  "song": "Dream On",
+  "year": "1973",
+  "writers": "Steven Tyler"
+ },
+ {
+  "rank": 200,
+  "artist": "David Bowie",
+  "song": "Changes",
+  "year": "1971",
+  "writers": "David Bowie"
+ },
+ {
+  "rank": 201,
+  "artist": "Johnny Cash",
+  "song": "Ring of Fire",
+  "year": "1963",
+  "writers": "June Carter, Merle Kilgore"
+ },
+ {
+  "rank": 202,
+  "artist": "Elton John",
+  "song": "Your Song",
+  "year": "1970",
+  "writers": "Elton John, Bernie Taupin"
+ },
+ {
+  "rank": 203,
+  "artist": "Stevie Wonder",
+  "song": "Signed, Sealed, Delivered I’m Yours",
+  "year": "1970",
+  "writers": "Stevie Wonder, Lee Garrett, Syreeta Wright, Lula May Hardaway"
+ },
+ {
+  "rank": 204,
+  "artist": "David Bowie",
+  "song": "Young Americans",
+  "year": "1975",
+  "writers": "David Bowie"
+ },
+ {
+  "rank": 205,
+  "artist": "Britney Spears",
+  "song": "…Baby One More Time",
+  "year": "1998",
+  "writers": "Karl Sandberg"
+ },
+ {
+  "rank": 206,
+  "artist": "Glen Campbell",
+  "song": "Wichita Lineman",
+  "year": "1968",
+  "writers": "Jimmy Webb"
+ },
+ {
+  "rank": 207,
+  "artist": "Rage Against the Machine",
+  "song": "Killing in the Name",
+  "year": "1992",
+  "writers": "Tim Commerford, Zack de la Rocha, Tom Morello, Brad Wilk"
+ },
+ {
+  "rank": 208,
+  "artist": "Hole",
+  "song": "Doll Parts",
+  "year": "1994",
+  "writers": "Courtney Love, Eric Erlandson, Kristen Pfaff, Patty Schemel"
+ },
+ {
+  "rank": 209,
+  "artist": "Don Henley",
+  "song": "Boys of Summer",
+  "year": "1984",
+  "writers": "Don Henley, Mike Campbell"
+ },
+ {
+  "rank": 210,
+  "artist": "Funkadelic",
+  "song": "One Nation Under a Groove",
+  "year": "1978",
+  "writers": "George Clinton, Garry Shider, Walter Morrison"
+ },
+ {
+  "rank": 211,
+  "artist": "U2",
+  "song": "With or Without You",
+  "year": "1987",
+  "writers": "Bono, Larry Mullen Jr., the Edge, Adam Clayton"
+ },
+ {
+  "rank": 212,
+  "artist": "Boston",
+  "song": "More Than a Feeling",
+  "year": "1976",
+  "writers": "Tom Scholz"
+ },
+ {
+  "rank": 213,
+  "artist": "The Rolling Stones",
+  "song": "Paint It, Black",
+  "year": "1966",
+  "writers": "Mick Jagger, Keith Richards"
+ },
+ {
+  "rank": 214,
+  "artist": "Steely Dan",
+  "song": "Deacon Blues",
+  "year": "1977",
+  "writers": "Walter Becker, Donald Fagen"
+ },
+ {
+  "rank": 215,
+  "artist": "Mobb Deep",
+  "song": "Shook Ones, Pt. II",
+  "year": "1995",
+  "writers": "Albert Johnson, Kejuan Muchita"
+ },
+ {
+  "rank": 216,
+  "artist": "Elvis Presley",
+  "song": "Jailhouse Rock",
+  "year": "1957",
+  "writers": "Jerry Leiber, Mike Stoller"
+ },
+ {
+  "rank": 217,
+  "artist": "Stevie Nicks",
+  "song": "Edge of Seventeen",
+  "year": "1981",
+  "writers": "Stevie Nicks"
+ },
+ {
+  "rank": 218,
+  "artist": "Wilson Pickett",
+  "song": "In the Midnight Hour",
+  "year": "1965",
+  "writers": "Wilson Pickett, Steve Cropper"
+ },
+ {
+  "rank": 219,
+  "artist": "Tom Petty",
+  "song": "Free Fallin",
+  "year": "1989",
+  "writers": "Jeff Lynne, Tom Petty, Mike Campbell"
+ },
+ {
+  "rank": 220,
+  "artist": "New Order",
+  "song": "Bizarre Love Triangle",
+  "year": "1986",
+  "writers": "Gillian Gilbert, Peter Hook, Stephen Morris, Bernard Sumner"
+ },
+ {
+  "rank": 221,
+  "artist": "Ike and Tina Turner",
+  "song": "River Deep, Mountain High",
+  "year": "1966",
+  "writers": "Phil Spector, Jeff Barry, Ellie Greenwich"
+ },
+ {
+  "rank": 222,
+  "artist": "Crosby, Stills, and Nash",
+  "song": "Suite: Judy Blue Eyes",
+  "year": "1969",
+  "writers": "Stephen Stills"
+ },
+ {
+  "rank": 223,
+  "artist": "Eminem feat. Dido",
+  "song": "Stan",
+  "year": "2000",
+  "writers": "Marshall Mathers, Dido Armstrong, Paul Herman"
+ },
+ {
+  "rank": 224,
+  "artist": "Derek and the Dominos",
+  "song": "Layla",
+  "year": "1970",
+  "writers": "Eric Clapton, Jim Gordon"
+ },
+ {
+  "rank": 225,
+  "artist": "Joni Mitchell",
+  "song": "Both Sides Now",
+  "year": "1969",
+  "writers": "Joni Mitchell"
+ },
+ {
+  "rank": 226,
+  "artist": "The Smiths",
+  "song": "There Is a Light That Never Goes Out",
+  "year": "1986",
+  "writers": "Johnny Marr, Morrissey"
+ },
+ {
+  "rank": 227,
+  "artist": "Creedence Clearwater Revival",
+  "song": "Fortunate Son",
+  "year": "1969",
+  "writers": "John Fogerty"
+ },
+ {
+  "rank": 228,
+  "artist": "Beyoncé",
+  "song": "Single Ladies (Put a Ring On It)",
+  "year": "2008",
+  "writers": "Beyoncé Knowles, Christopher Stewart, Terius Nash, Thaddis Harrell"
+ },
+ {
+  "rank": 229,
+  "artist": "Woody Guthrie",
+  "song": "This Land Is Your Land",
+  "year": "1951",
+  "writers": "Woody Guthrie"
+ },
+ {
+  "rank": 230,
+  "artist": "The Byrds",
+  "song": "Mr. Tambourine Man",
+  "year": "1965",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 231,
+  "artist": "Whitney Houston",
+  "song": "I Wanna Dance With Somebody (Who Loves Me)",
+  "year": "1987",
+  "writers": "George Merrill, Shannon Rubicam"
+ },
+ {
+  "rank": 232,
+  "artist": "The Who",
+  "song": "My Generation",
+  "year": "1965",
+  "writers": "Pete Townshend"
+ },
+ {
+  "rank": 233,
+  "artist": "Deee-Lite",
+  "song": "Groove Is in the Heart",
+  "year": "1990",
+  "writers": "Dmitry Brill, Chung Dong-Hwa, Kierin Kirby"
+ },
+ {
+  "rank": 234,
+  "artist": "The Supremes",
+  "song": "You Keep Me Hangin’ On",
+  "year": "1966",
+  "writers": "Lamont Dozier, Brian Holland, Eddie Holland"
+ },
+ {
+  "rank": 235,
+  "artist": "New Order",
+  "song": "Blue Monday",
+  "year": "1983",
+  "writers": "Gillian Gilbert, Peter Hook, Stephen Morris, Bernard Sumner"
+ },
+ {
+  "rank": 236,
+  "artist": "Bill Withers",
+  "song": "Lean on Me",
+  "year": "1972",
+  "writers": "Bill Withers"
+ },
+ {
+  "rank": 237,
+  "artist": "Hank Williams",
+  "song": "Your Cheatin’ Heart",
+  "year": "1953",
+  "writers": "Hank Williams"
+ },
+ {
+  "rank": 238,
+  "artist": "Aaliyah",
+  "song": "Are You That Somebody?",
+  "year": "1998",
+  "writers": "Stephen Garrett, Timothy Mosley"
+ },
+ {
+  "rank": 239,
+  "artist": "Big Star",
+  "song": "September Gurls",
+  "year": "1974",
+  "writers": "Alex Chilton"
+ },
+ {
+  "rank": 240,
+  "artist": "Backstreet Boys",
+  "song": "I Want It That Way",
+  "year": "1999",
+  "writers": "Andreas Carlsson, Karl Sandberg"
+ },
+ {
+  "rank": 241,
+  "artist": "Digital Underground",
+  "song": "The Humpty Dance",
+  "year": "1990",
+  "writers": "Earl Humphrey, Gregory Jacobs"
+ },
+ {
+  "rank": 242,
+  "artist": "Jerry Lee Lewis",
+  "song": "Great Balls of Fire",
+  "year": "1957",
+  "writers": "Otis Blackwell, Jack Hammer"
+ },
+ {
+  "rank": 243,
+  "artist": "The Beatles",
+  "song": "Eleanor Rigby",
+  "year": "1966",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 244,
+  "artist": "Pavement",
+  "song": "Summer Babe (Winter Version)",
+  "year": "1992",
+  "writers": "Stephen Malkmus"
+ },
+ {
+  "rank": 245,
+  "artist": "Beastie Boys",
+  "song": "Sabotage",
+  "year": "1994",
+  "writers": "Michael Diamond, Adam Horovitz, Adam Yauch"
+ },
+ {
+  "rank": 246,
+  "artist": "Faces",
+  "song": "Ooh La La",
+  "year": "1973",
+  "writers": "Ronnie Lane, Ronnie Wood"
+ },
+ {
+  "rank": 247,
+  "artist": "Joni Mitchell",
+  "song": "River",
+  "year": "1971",
+  "writers": "Joni Mitchell"
+ },
+ {
+  "rank": 248,
+  "artist": "N.W.A",
+  "song": "Straight Outta Compton",
+  "year": "1988",
+  "writers": "MC Ren, Ice Cube, Eazy-E"
+ },
+ {
+  "rank": 249,
+  "artist": "Joan Jett",
+  "song": "Bad Reputation",
+  "year": "1980",
+  "writers": "Joan Jett, Kenny Laguna, Marty Kupersmith, Ritchie Cordell"
+ },
+ {
+  "rank": 250,
+  "artist": "The Jimi Hendrix Experience",
+  "song": "Purple Haze",
+  "year": "1967",
+  "writers": "Jimi Hendrix"
+ },
+ {
+  "rank": 251,
+  "artist": "Gloria Gaynor",
+  "song": "I Will Survive",
+  "year": "1978",
+  "writers": "Dino Fekaris, Freddie Perren"
+ },
+ {
+  "rank": 252,
+  "artist": "Parliament",
+  "song": "Flash Light",
+  "year": "1977",
+  "writers": "George Clinton, Bootsy Collins, Bernie Worrel"
+ },
+ {
+  "rank": 253,
+  "artist": "Willie Nelson",
+  "song": "Blue Eyes Crying in the Rain",
+  "year": "1975",
+  "writers": "Fred Rose"
+ },
+ {
+  "rank": 254,
+  "artist": "The Supremes",
+  "song": "Stop! In the Name of Love",
+  "year": "1965",
+  "writers": "Lamont Dozier, Brian Holland, Eddie Holland"
+ },
+ {
+  "rank": 255,
+  "artist": "Loretta Lynn",
+  "song": "Coal Miner’s Daughter",
+  "year": "1970",
+  "writers": "Loretta Lynn"
+ },
+ {
+  "rank": 256,
+  "artist": "Metallica",
+  "song": "Master of Puppets",
+  "year": "1986",
+  "writers": "Cliff Burton, Kirk Hammett, James Hetfield, Lars Ulrich"
+ },
+ {
+  "rank": 257,
+  "artist": "Martha Reeves and the Vandellas",
+  "song": "Heat Wave",
+  "year": "1963",
+  "writers": "Brian Holland, Eddie Holland, Lamont Dozier"
+ },
+ {
+  "rank": 258,
+  "artist": "Gil-Scott Heron",
+  "song": "The Revolution Will Not Be Televised",
+  "year": "1971",
+  "writers": "Gil-Scott Heron"
+ },
+ {
+  "rank": 259,
+  "artist": "Neil Young",
+  "song": "Heart of Gold",
+  "year": "1972",
+  "writers": "Neil Young"
+ },
+ {
+  "rank": 260,
+  "artist": "The Wailers",
+  "song": "Get Up, Stand Up",
+  "year": "1973",
+  "writers": "Bob Marley, Peter Tosh"
+ },
+ {
+  "rank": 261,
+  "artist": "Curtis Mayfield",
+  "song": "Pusherman",
+  "year": "1972",
+  "writers": "Curtis Mayfield"
+ },
+ {
+  "rank": 262,
+  "artist": "Paul Simon",
+  "song": "American Tune",
+  "year": "1973",
+  "writers": "Paul Simon"
+ },
+ {
+  "rank": 263,
+  "artist": "Dolly Parton",
+  "song": "Coat of Many Colors",
+  "year": "1971",
+  "writers": "Dolly Parton"
+ },
+ {
+  "rank": 264,
+  "artist": "Marvin Gaye",
+  "song": "Let’s Get It On",
+  "year": "1973",
+  "writers": "Marvin Gaye, Ed Townsend"
+ },
+ {
+  "rank": 265,
+  "artist": "The Replacements",
+  "song": "Left of the Dial",
+  "year": "1985",
+  "writers": "Paul Westerberg"
+ },
+ {
+  "rank": 266,
+  "artist": "Augustus Pablo",
+  "song": "King Tubby Meets the Rockers Uptown",
+  "year": "1974",
+  "writers": "Augustus Pablo"
+ },
+ {
+  "rank": 267,
+  "artist": "SZA",
+  "song": "Kill Bill",
+  "year": "2022",
+  "writers": "Carter Lang, Rob Bisel, Solána Rowe"
+ },
+ {
+  "rank": 268,
+  "artist": "The Isley Brothers",
+  "song": "Shout (Parts 1 and 2)",
+  "year": "1959",
+  "writers": "Rudolph Isley, Ronald Isley, O'Kelly Isley"
+ },
+ {
+  "rank": 269,
+  "artist": "The Righteous Brothers",
+  "song": "Unchained Melody",
+  "year": "1965",
+  "writers": "Alex North, Hy Zaret"
+ },
+ {
+  "rank": 270,
+  "artist": "Nine Inch Nails",
+  "song": "Closer",
+  "year": "1994",
+  "writers": "Trent Reznor"
+ },
+ {
+  "rank": 271,
+  "artist": "Procol Harum",
+  "song": "A Whiter Shade of Pale",
+  "year": "1967",
+  "writers": "Keith Reid, Gary Brooker"
+ },
+ {
+  "rank": 272,
+  "artist": "Thin Lizzy",
+  "song": "The Boys Are Back in Town",
+  "year": "1976",
+  "writers": "Phil Lynott"
+ },
+ {
+  "rank": 273,
+  "artist": "Roberta Flack",
+  "song": "Killing Me Softly With His Song",
+  "year": "1973",
+  "writers": "Norman Gimbel, Charles Fox"
+ },
+ {
+  "rank": 274,
+  "artist": "Al Green",
+  "song": "Love and Happiness",
+  "year": "1972",
+  "writers": "Al Green, Mabon Hodges"
+ },
+ {
+  "rank": 275,
+  "artist": "Randy Newman",
+  "song": "Sail Away",
+  "year": "1972",
+  "writers": "Randy Newman"
+ },
+ {
+  "rank": 276,
+  "artist": "Buzzcocks",
+  "song": "Ever Fallen in Love (With Someone You Shouldn’t’ve)",
+  "year": "1978",
+  "writers": "Peter Shelley"
+ },
+ {
+  "rank": 277,
+  "artist": "Bo Diddley",
+  "song": "Bo Diddley",
+  "year": "1955",
+  "writers": "Ellas McDaniel"
+ },
+ {
+  "rank": 278,
+  "artist": "Toots and the Maytals",
+  "song": "Pressure Drop",
+  "year": "1973",
+  "writers": "Toots Hibbert"
+ },
+ {
+  "rank": 279,
+  "artist": "Radiohead",
+  "song": "Karma Police",
+  "year": "1997",
+  "writers": "Thom Yorke, Jonny Greenwood, Ed O'Brien, Colin Greenwood, Philip Selway"
+ },
+ {
+  "rank": 280,
+  "artist": "BTS",
+  "song": "Spring Day",
+  "year": "2017",
+  "writers": "Adora, Arlissa Ruppert, Bang Si- hyuk, Pdogg, Peter Ibsen, Rap Monster, SUGA"
+ },
+ {
+  "rank": 281,
+  "artist": "Clipse",
+  "song": "Grindin",
+  "year": "2002",
+  "writers": "Gene Thornton, Terrence Thornton, Pharrell Williams, Chad Hugo"
+ },
+ {
+  "rank": 282,
+  "artist": "INXS",
+  "song": "Never Tear Us Apart",
+  "year": "1988",
+  "writers": "Andrew Farriss, Michael Hutchence"
+ },
+ {
+  "rank": 283,
+  "artist": "Ray Charles",
+  "song": "Georgia on My Mind",
+  "year": "1960",
+  "writers": "Hoagy Carmichael, Stuart Gorrell"
+ },
+ {
+  "rank": 284,
+  "artist": "Leonard Cohen",
+  "song": "Suzanne",
+  "year": "1967",
+  "writers": "Leonard Cohen"
+ },
+ {
+  "rank": 285,
+  "artist": "Destiny’s Child",
+  "song": "Say My Name",
+  "year": "1999",
+  "writers": "LaShawn Daniels, Rodney Jerkins, Fred Jerkins III, Beyoncé Knowles, LeToya Luckett, LaTavia Roberson, Kelly Rowland"
+ },
+ {
+  "rank": 286,
+  "artist": "ABBA",
+  "song": "Dancing Queen",
+  "year": "1976",
+  "writers": "Benny Andersson, Björn Ulvaeus, Stig Anderson"
+ },
+ {
+  "rank": 287,
+  "artist": "AC/DC",
+  "song": "You Shook Me All Night Long",
+  "year": "1980",
+  "writers": "Angus Young, Malcolm Young, Brian Johnson"
+ },
+ {
+  "rank": 288,
+  "artist": "The Funky 4 + 1",
+  "song": "That’s the Joint",
+  "year": "1980",
+  "writers": "Clifton \"Jiggs\" Chase, Sylvia Robinson, Keith Caesar, Sharon Green, Jeffrey Myree, Kevin Smith, Rodney Stone"
+ },
+ {
+  "rank": 289,
+  "artist": "Bruce Springsteen",
+  "song": "Atlantic City",
+  "year": "1982",
+  "writers": "Bruce Springsteen"
+ },
+ {
+  "rank": 290,
+  "artist": "Usher feat. Lil Jon and Ludacris",
+  "song": "Yeah!",
+  "year": "2004",
+  "writers": "Christopher Bridges, James Phillips, Jonathan Smith, LaMarquis Jefferson, Patrick Smith, Sean Garrett"
+ },
+ {
+  "rank": 291,
+  "artist": "Phil Collins",
+  "song": "In the Air Tonight",
+  "year": "1981",
+  "writers": "Phil Collins"
+ },
+ {
+  "rank": 292,
+  "artist": "A Tribe Called Quest",
+  "song": "Can I Kick It?",
+  "year": "1990",
+  "writers": "Lou Reed"
+ },
+ {
+  "rank": 293,
+  "artist": "Alice Cooper",
+  "song": "School’s Out",
+  "year": "1972",
+  "writers": "Alice Cooper, Michael Bruce, Glen Buxton, Dennis Dunaway, Neal Smith"
+ },
+ {
+  "rank": 294,
+  "artist": "The Velvet Underground",
+  "song": "Sweet Jane",
+  "year": "1970",
+  "writers": "Lou Reed"
+ },
+ {
+  "rank": 295,
+  "artist": "The Who",
+  "song": "Won’t Get Fooled Again",
+  "year": "1971",
+  "writers": "Pete Townshend"
+ },
+ {
+  "rank": 296,
+  "artist": "Bikini Kill",
+  "song": "Rebel Girl",
+  "year": "1993",
+  "writers": "Kathleen Hanna, Billy Karren, Tobi Vail, Kathi Wilcox"
+ },
+ {
+  "rank": 297,
+  "artist": "Beach Boys",
+  "song": "Wouldn’t It Be Nice",
+  "year": "1966",
+  "writers": "Brian Wilson, Tony Asher, Mike Love"
+ },
+ {
+  "rank": 298,
+  "artist": "Bruce Springsteen",
+  "song": "Jungleland",
+  "year": "1975",
+  "writers": "Bruce Springsteen"
+ },
+ {
+  "rank": 299,
+  "artist": "Screamin’ Jay Hawkins",
+  "song": "I Put a Spell on You",
+  "year": "1956",
+  "writers": "Jalacy Hawkins, Herb Slotkin"
+ },
+ {
+  "rank": 300,
+  "artist": "The B-52’s",
+  "song": "Rock Lobster",
+  "year": "1978",
+  "writers": "Fred Schneider, Ricky Wilson"
+ },
+ {
+  "rank": 301,
+  "artist": "Bob Seger",
+  "song": "Night Moves",
+  "year": "1976",
+  "writers": "Bob Seger"
+ },
+ {
+  "rank": 302,
+  "artist": "Pink Floyd",
+  "song": "Wish You Were Here",
+  "year": "1975",
+  "writers": "David Gilmour, Roger Waters"
+ },
+ {
+  "rank": 303,
+  "artist": "TLC",
+  "song": "No Scrubs",
+  "year": "1999",
+  "writers": "Kandi Burruss, Tameka  Cottle,  Kevin  Briggs"
+ },
+ {
+  "rank": 304,
+  "artist": "Kraftwerk",
+  "song": "Trans-Europe Express",
+  "year": "1977",
+  "writers": "Ralf Hütter, Emil Schult"
+ },
+ {
+  "rank": 305,
+  "artist": "The Police",
+  "song": "Every Breath You Take",
+  "year": "1983",
+  "writers": "Sting"
+ },
+ {
+  "rank": 306,
+  "artist": "Aretha Franklin",
+  "song": "Chain of Fools",
+  "year": "1967",
+  "writers": "Don Covay"
+ },
+ {
+  "rank": 307,
+  "artist": "Gnarls Barkley",
+  "song": "Crazy",
+  "year": "2006",
+  "writers": "Brian Burton, Thomas Callaway, Gian Franco Reverberi, Gian Piero Reverberi"
+ },
+ {
+  "rank": 308,
+  "artist": "Liz Phair",
+  "song": "Divorce Song",
+  "year": "1993",
+  "writers": "Liz Phair"
+ },
+ {
+  "rank": 309,
+  "artist": "Bill Withers",
+  "song": "Ain’t No Sunshine",
+  "year": "1971",
+  "writers": "Bill Withers"
+ },
+ {
+  "rank": 310,
+  "artist": "The Doors",
+  "song": "Light My Fire",
+  "year": "1967",
+  "writers": "Robby Krieger, John Densmore, Jim Morrison, Ray Manzarek"
+ },
+ {
+  "rank": 311,
+  "artist": "The Eagles",
+  "song": "Hotel California",
+  "year": "1976",
+  "writers": "Don Felder, Glenn Frey, Don Henley"
+ },
+ {
+  "rank": 312,
+  "artist": "Isaac Hayes",
+  "song": "Walk on By",
+  "year": "1969",
+  "writers": "Burt Bacharach, Hal David"
+ },
+ {
+  "rank": 313,
+  "artist": "Smokey Robinson and the Miracles",
+  "song": "The Tears of a Clown",
+  "year": "1967",
+  "writers": "Henry Cosby, William Robinson, Stevie Wonder"
+ },
+ {
+  "rank": 314,
+  "artist": "The Stooges",
+  "song": "I Wanna Be Your Dog",
+  "year": "1969",
+  "writers": "Dave Alexander, Ron Asheton, Scott Asheton, Iggy Pop"
+ },
+ {
+  "rank": 315,
+  "artist": "John Coltrane",
+  "song": "Pt. 1-Acknowledgement",
+  "year": "1965",
+  "writers": "John Coltrane"
+ },
+ {
+  "rank": 316,
+  "artist": "The Shangri-Las",
+  "song": "Leader of the Pack",
+  "year": "1964",
+  "writers": "George Francis Morton, Jeff Barry, Ellie Greenwich"
+ },
+ {
+  "rank": 317,
+  "artist": "Bob Dylan",
+  "song": "Visions of Johanna",
+  "year": "1966",
+  "writers": "Bob Dylan"
+ },
+ {
+  "rank": 318,
+  "artist": "Big Mama Thornton",
+  "song": "Hound Dog",
+  "year": "1953",
+  "writers": "Jerry Leiber, Mike Stoller"
+ },
+ {
+  "rank": 319,
+  "artist": "Tears for Fears",
+  "song": "Everybody Wants to Rule the World",
+  "year": "1985",
+  "writers": "Roland Orzabal, Ian Stanley, Chris Hughes"
+ },
+ {
+  "rank": 320,
+  "artist": "Taylor Swift",
+  "song": "Blank Space",
+  "year": "2014",
+  "writers": "Taylor Swift, Karl Sandberg, Karl Schuster"
+ },
+ {
+  "rank": 321,
+  "artist": "2Pac",
+  "song": "California Love",
+  "year": "1995",
+  "writers": "Tupac Shakur, Andre Young, Larry Troutman, Mikel Hooks, Norman Durham, Ronnie Hudson, Woody Cunningham"
+ },
+ {
+  "rank": 322,
+  "artist": "U2",
+  "song": "I Still Haven’t Found What I’m Looking For",
+  "year": "1987",
+  "writers": "Bono, Larry Mullen Jr., the Edge, Adam Clayton"
+ },
+ {
+  "rank": 323,
+  "artist": "Neil Young",
+  "song": "After the Gold Rush",
+  "year": "1970",
+  "writers": "Neil Young"
+ },
+ {
+  "rank": 324,
+  "artist": "Everly Brothers",
+  "song": "All I Have to Do Is Dream",
+  "year": "1958",
+  "writers": "Boudleaux Bryant, Felice Bryant"
+ },
+ {
+  "rank": 325,
+  "artist": "Billy Joel",
+  "song": "Scenes From an Italian Restaurant",
+  "year": "1977",
+  "writers": "Billy Joel"
+ },
+ {
+  "rank": 326,
+  "artist": "Iggy Pop",
+  "song": "Lust for Life",
+  "year": "1977",
+  "writers": "David Bowie, Iggy Pop"
+ },
+ {
+  "rank": 327,
+  "artist": "Rilo Kiley",
+  "song": "Portions for Foxes",
+  "year": "2004",
+  "writers": "Jenny Lewis, Blake Sennett"
+ },
+ {
+  "rank": 328,
+  "artist": "Mary J. Blige",
+  "song": "Real Love",
+  "year": "1992",
+  "writers": "Mark Rooney, Mark Morales"
+ },
+ {
+  "rank": 329,
+  "artist": "Red Hot Chili Peppers",
+  "song": "Under the Bridge",
+  "year": "1991",
+  "writers": "Anthony Kiedis, Flea, John Frusciante, Chad Smith"
+ },
+ {
+  "rank": 330,
+  "artist": "Bad Bunny",
+  "song": "Safaera",
+  "year": "2020",
+  "writers": "Sly Dunbar, Benito Martínez, Lloyd Willis, Jose Cruz, Freddy Montalvo Alicia, Melissa Elliott, Timothy Mosley, Bob Marley, Ormani Perez, Shaun Pizzonia, Richard Lied, Felix Rodriguez, Marco Masis, Joel Munoz, Randy Ortiz, Edwin Rosa"
+ },
+ {
+  "rank": 331,
+  "artist": "The Notorious B.I.G.",
+  "song": "Big Poppa",
+  "year": "1994",
+  "writers": "Christopher Wallace, Rudolph Isley, O'Kelly Isley, Ronald Isley, Ernest Isley, Marvin Isley, Chris Jasper"
+ },
+ {
+  "rank": 332,
+  "artist": "The Marvelettes",
+  "song": "Please Mr. Postman",
+  "year": "1961",
+  "writers": "Georgia Dobbins, William Garrett, Freddie Gorman, Brian Holland, Robert Bateman"
+ },
+ {
+  "rank": 333,
+  "artist": "Rihanna feat. Jay-Z",
+  "song": "Umbrella",
+  "year": "2007",
+  "writers": "Christopher Stewart, Terius Nash, Kuk Harrell, Shawn Carter"
+ },
+ {
+  "rank": 334,
+  "artist": "The Temptations",
+  "song": "Papa Was a Rollin’ Stone",
+  "year": "1972",
+  "writers": "Norman Whitfield, Barrett Strong"
+ },
+ {
+  "rank": 335,
+  "artist": "The Grateful Dead",
+  "song": "Ripple",
+  "year": "1970",
+  "writers": "Jerry Garcia, Robert Hunter"
+ },
+ {
+  "rank": 336,
+  "artist": "Marshall Jefferson",
+  "song": "Move Your Body (The House Music Anthem)",
+  "year": "1986",
+  "writers": "Marshall Jefferson"
+ },
+ {
+  "rank": 337,
+  "artist": "Hall and Oates",
+  "song": "She’s Gone",
+  "year": "1973",
+  "writers": "Daryl Hall, John Oates"
+ },
+ {
+  "rank": 338,
+  "artist": "Cher",
+  "song": "Believe",
+  "year": "1998",
+  "writers": "Brian Higgins, Stuart McLennen, Paul Barry, Steven Torch, Matthew Gray, Timothy Powell, Cher"
+ },
+ {
+  "rank": 339,
+  "artist": "Black Sabbath",
+  "song": "Paranoid",
+  "year": "1970",
+  "writers": "Geezer Butler, Tony Iommi, Ozzy Osbourne, William Ward"
+ },
+ {
+  "rank": 340,
+  "artist": "Prince",
+  "song": "1999",
+  "year": "1982",
+  "writers": "Prince"
+ },
+ {
+  "rank": 341,
+  "artist": "The Clash",
+  "song": "(White Man) in Hammersmith Palais",
+  "year": "1978",
+  "writers": "Mick Jones, Joe Strummer"
+ },
+ {
+  "rank": 342,
+  "artist": "The Monkees",
+  "song": "I’m a Believer",
+  "year": "1966",
+  "writers": "Neil Diamond"
+ },
+ {
+  "rank": 343,
+  "artist": "Chuck Berry",
+  "song": "Promised Land",
+  "year": "1964",
+  "writers": "Chuck Berry"
+ },
+ {
+  "rank": 344,
+  "artist": "The Doobie Brothers",
+  "song": "What a Fool Believes",
+  "year": "1979",
+  "writers": "Kenny Loggins, Michael McDonald"
+ },
+ {
+  "rank": 345,
+  "artist": "Black Sabbath",
+  "song": "Iron Man",
+  "year": "1971",
+  "writers": "Bill Ward, Geezer Butler, Ozzy Osbourne, Tony Iommi"
+ },
+ {
+  "rank": 346,
+  "artist": "Carole King",
+  "song": "It’s Too Late",
+  "year": "1971",
+  "writers": "Carole King, Toni Stern"
+ },
+ {
+  "rank": 347,
+  "artist": "BTS",
+  "song": "Dynamite",
+  "year": "2020",
+  "writers": "David Stewart, Jessica Agombar"
+ },
+ {
+  "rank": 348,
+  "artist": "Elvis Presley",
+  "song": "Heartbreak Hotel",
+  "year": "1958",
+  "writers": "Mae Boren Axton, Thomas Durden, Elvis Presley"
+ },
+ {
+  "rank": 349,
+  "artist": "Roxy Music",
+  "song": "Virginia Plain",
+  "year": "1972",
+  "writers": "Bryan Ferry"
+ },
+ {
+  "rank": 350,
+  "artist": "The Zombies",
+  "song": "Time of the Season",
+  "year": "1968",
+  "writers": "Rod Argent"
+ },
+ {
+  "rank": 351,
+  "artist": "John Prine",
+  "song": "Angel From Montgomery",
+  "year": "1971",
+  "writers": "John Prine"
+ },
+ {
+  "rank": 352,
+  "artist": "Jorge Ben",
+  "song": "Ponta de Lança Africano (Umbabarauma)",
+  "year": "1976",
+  "writers": "Jorge Ben"
+ },
+ {
+  "rank": 353,
+  "artist": "Ice Cube",
+  "song": "It Was a Good Day",
+  "year": "1992",
+  "writers": "O'Shea Jackson"
+ },
+ {
+  "rank": 354,
+  "artist": "Eurythmics",
+  "song": "Sweet Dreams (Are Made of This)",
+  "year": "1983",
+  "writers": "Annie Lennox, Dave Stewart"
+ },
+ {
+  "rank": 355,
+  "artist": "Michael Jackson",
+  "song": "Rock With You",
+  "year": "1979",
+  "writers": "Rod Temperton"
+ },
+ {
+  "rank": 356,
+  "artist": "Thelma Houston",
+  "song": "Don’t Leave Me This Way",
+  "year": "1976",
+  "writers": "Cary Gilbert, Kenneth Gamble, Leon Huff"
+ },
+ {
+  "rank": 357,
+  "artist": "Cheap Trick",
+  "song": "Surrender",
+  "year": "1978",
+  "writers": "Rick Nielsen"
+ },
+ {
+  "rank": 358,
+  "artist": "Patti Smith",
+  "song": "Because the Night",
+  "year": "1978",
+  "writers": "Patti Smith, Bruce Springsteen"
+ },
+ {
+  "rank": 359,
+  "artist": "Fugees",
+  "song": "Killing Me Softly With His Song",
+  "year": "1996",
+  "writers": "Norman Gamble, Charles Fox"
+ },
+ {
+  "rank": 360,
+  "artist": "Prince",
+  "song": "Little Red Corvette",
+  "year": "1982",
+  "writers": "Prince"
+ },
+ {
+  "rank": 361,
+  "artist": "Jimmy Cliff",
+  "song": "The Harder They Come",
+  "year": "1972",
+  "writers": "Jimmy Cliff"
+ },
+ {
+  "rank": 362,
+  "artist": "Kacey Musgraves",
+  "song": "Merry Go ‘Round",
+  "year": "2013",
+  "writers": "Kacey Musgraves, Luke Laird, Shane McAnally"
+ },
+ {
+  "rank": 363,
+  "artist": "Bob Marley and the Wailers",
+  "song": "Could You Be Loved",
+  "year": "1980",
+  "writers": "Bob Marley"
+ },
+ {
+  "rank": 364,
+  "artist": "The Grateful Dead",
+  "song": "Box of Rain",
+  "year": "1970",
+  "writers": "Phil Lesh, Robert Hunter"
+ },
+ {
+  "rank": 365,
+  "artist": "Sex Pistols",
+  "song": "God Save the Queen",
+  "year": "1977",
+  "writers": "Glen Matlock, Johnny Rotten, Paul Thomas Cook, Stephen Philip Jones"
+ },
+ {
+  "rank": 366,
+  "artist": "The Crystals",
+  "song": "Da Doo Ron Ron",
+  "year": "1963",
+  "writers": "Ellie Greenwich, Jeff Barry, Phil Spector"
+ },
+ {
+  "rank": 367,
+  "artist": "Frank Ocean",
+  "song": "Thinkin Bout You",
+  "year": "2012",
+  "writers": "Shea Taylor, Lonnie Breaux"
+ },
+ {
+  "rank": 368,
+  "artist": "Soundgarden",
+  "song": "Black Hole Sun",
+  "year": "1994",
+  "writers": "Chris Cornell"
+ },
+ {
+  "rank": 369,
+  "artist": "The Cars",
+  "song": "Just What I Needed",
+  "year": "1978",
+  "writers": "Ric Ocasek"
+ },
+ {
+  "rank": 370,
+  "artist": "Buddy Holly",
+  "song": "Peggy Sue",
+  "year": "1958",
+  "writers": "Buddy Holly, Jerry Allison, Norman Petty"
+ },
+ {
+  "rank": 371,
+  "artist": "Elton John",
+  "song": "Bennie and the Jets",
+  "year": "1973",
+  "writers": "Bernie Taupin, Elton John"
+ },
+ {
+  "rank": 372,
+  "artist": "Bonnie Raitt",
+  "song": "I Can’t Make You Love Me",
+  "year": "1991",
+  "writers": "Michael Reid, Allen Shamblin"
+ },
+ {
+  "rank": 373,
+  "artist": "Drake",
+  "song": "Hotline Bling",
+  "year": "2015",
+  "writers": "Aubrey Graham, Paul Jefferies, Timmy Thomas"
+ },
+ {
+  "rank": 374,
+  "artist": "William DeVaughn",
+  "song": "Be Thankful for What You Got",
+  "year": "1974",
+  "writers": "William DeVaughn"
+ },
+ {
+  "rank": 375,
+  "artist": "The Drifters",
+  "song": "Up on the Roof",
+  "year": "1964",
+  "writers": "Carole King, Gerry Goffin"
+ },
+ {
+  "rank": 376,
+  "artist": "Merle Haggard",
+  "song": "Mama Tried",
+  "year": "1968",
+  "writers": "Merle Haggard"
+ },
+ {
+  "rank": 377,
+  "artist": "Olivia Rodrigo",
+  "song": "Driver’s License",
+  "year": "2021",
+  "writers": "Daniel Nigro, Olivia Rodrigo"
+ },
+ {
+  "rank": 378,
+  "artist": "The Killers",
+  "song": "Mr. Brightside",
+  "year": "2003",
+  "writers": "Brandon Flowers, Dave Keuning"
+ },
+ {
+  "rank": 379,
+  "artist": "D’Angelo",
+  "song": "Untitled (How Does It Feel)",
+  "year": "2000",
+  "writers": "D’Angelo, Raphael Saadiq"
+ },
+ {
+  "rank": 380,
+  "artist": "Fountains of Wayne",
+  "song": "Radiation Vibe",
+  "year": "1996",
+  "writers": "Chris Collingwood, Adam Schlesinger"
+ },
+ {
+  "rank": 381,
+  "artist": "The Slits",
+  "song": "Typical Girls",
+  "year": "1979",
+  "writers": "Ariane Forster, Paloma Romero, Tessa Pollitt, Viviane Albertine"
+ },
+ {
+  "rank": 382,
+  "artist": "Fiona Apple",
+  "song": "Paper Bag",
+  "year": "1999",
+  "writers": "Fiona Apple"
+ },
+ {
+  "rank": 383,
+  "artist": "Childish Gambino",
+  "song": "Redbone",
+  "year": "2016",
+  "writers": "Ludwig Göransson, Donald Glover"
+ },
+ {
+  "rank": 384,
+  "artist": "Cardi B, J Balvin, and Bad Bunny",
+  "song": "I Like It",
+  "year": "2018",
+  "writers": "Tainy, Anthony Germaine White, Belcalis Almanzar, Benito Antonio Ocasio Matinez, Benny Bonilla, Edgar Machuca, Edgar Wilmer Semper Vargas, Jordan Thorpe, Jose Alvaro Balvin Osorio, Luian Malavé, Manny Rodriguez, Marcos E. Masis, Noah Assad, Tony Pabon, Vincent Watson, Xavier Semer Vargas"
+ },
+ {
+  "rank": 385,
+  "artist": "Diana Ross",
+  "song": "I’m Coming Out",
+  "year": "1980",
+  "writers": "Bernard Edwards, Nile Rodgers"
+ },
+ {
+  "rank": 386,
+  "artist": "The Kinks",
+  "song": "Lola",
+  "year": "1970",
+  "writers": "Ray Davies"
+ },
+ {
+  "rank": 387,
+  "artist": "New York Dolls",
+  "song": "Personality Crisis",
+  "year": "1973",
+  "writers": "David Johansen, Johnny Thunders"
+ },
+ {
+  "rank": 388,
+  "artist": "DMX",
+  "song": "Party Up (Up in Here)",
+  "year": "1999",
+  "writers": "Earl Simmons, Kasseem Dean"
+ },
+ {
+  "rank": 389,
+  "artist": "Pretenders",
+  "song": "Brass in Pocket",
+  "year": "1979",
+  "writers": "Chrissie Hynde, James Honeyman-Scott"
+ },
+ {
+  "rank": 390,
+  "artist": "Metallica",
+  "song": "Enter Sandman",
+  "year": "1991",
+  "writers": "James Hetfield, Kirk Hammett, Lars Ulrich"
+ },
+ {
+  "rank": 391,
+  "artist": "Eric Church",
+  "song": "Springsteen",
+  "year": "2011",
+  "writers": "Eric Church, Jeff Hyde, Ryan Tyndell"
+ },
+ {
+  "rank": 392,
+  "artist": "Coldplay",
+  "song": "Fix You",
+  "year": "2005",
+  "writers": "Chris Martin, Guy Berryman, Jonny Buckland, Will Champion"
+ },
+ {
+  "rank": 393,
+  "artist": "James Brown",
+  "song": "Say It Loud (I’m Black and I’m Proud)",
+  "year": "1968",
+  "writers": "Alfred Ellis, James Brown"
+ },
+ {
+  "rank": 394,
+  "artist": "Jeff Buckley",
+  "song": "Grace",
+  "year": "1994",
+  "writers": "Gary Lucas, Jeff Buckley"
+ },
+ {
+  "rank": 395,
+  "artist": "Afrika Bambaataa and the Soulsonic Force",
+  "song": "Planet Rock",
+  "year": "1982",
+  "writers": "Arthur Baker, Afrika Bambaataa, Ellis Williams, John Robie, John Miller, Robert Allen, The Soulsonic Force"
+ },
+ {
+  "rank": 396,
+  "artist": "Elvis Costello",
+  "song": "Alison",
+  "year": "1977",
+  "writers": "Elvis Costello"
+ },
+ {
+  "rank": 397,
+  "artist": "Public Enemy",
+  "song": "Bring the Noise",
+  "year": "1987",
+  "writers": "Carlton Ridenhour, Charlie Benante, Daniel Alan Spitz, Eric Sadler, Frank Joseph Bello, Hank Shocklee, Joseph Bellardini, Scott Ian Rosenfeld"
+ },
+ {
+  "rank": 398,
+  "artist": "Duran Duran",
+  "song": "Hungry Like the Wolf",
+  "year": "1982",
+  "writers": "Andy Taylor, John Taylor, Nick Rhodes, Roger Taylor, Simon Le Bon"
+ },
+ {
+  "rank": 399,
+  "artist": "Sylvester",
+  "song": "You Make Me Feel (Mighty Real)",
+  "year": "1978",
+  "writers": "Sylvester, James Wirrick"
+ },
+ {
+  "rank": 400,
+  "artist": "Taylor Swift",
+  "song": "Cruel Summer",
+  "year": "2019",
+  "writers": "Taylor Swift, Annie Clark, Jack Antonoff"
+ },
+ {
+  "rank": 401,
+  "artist": "Fleetwood Mac",
+  "song": "Go Your Own Way",
+  "year": "1977",
+  "writers": "Lindsey Buckingham"
+ },
+ {
+  "rank": 402,
+  "artist": "Eslabon Armado and Peso Pluma",
+  "song": "Ella Baila Sola",
+  "year": "2023",
+  "writers": "Pedro Julian Tovar"
+ },
+ {
+  "rank": 403,
+  "artist": "Rufus and Chaka Khan",
+  "song": "Ain’t Nobody",
+  "year": "1983",
+  "writers": "David Wolinski"
+ },
+ {
+  "rank": 404,
+  "artist": "Kiss",
+  "song": "Rock and Roll All Nite",
+  "year": "1975",
+  "writers": "Gene Simmons, Paul Stanley"
+ },
+ {
+  "rank": 405,
+  "artist": "Selena",
+  "song": "Amor Prohibido",
+  "year": "1994",
+  "writers": "A.B. Quintanilla III, Pete Astudillo, Selena"
+ },
+ {
+  "rank": 406,
+  "artist": "Run-DMC",
+  "song": "Sucker MC’s",
+  "year": "1984",
+  "writers": "Darryl McDaniels, Joseph Ward Simmons, Lawrence Smith"
+ },
+ {
+  "rank": 407,
+  "artist": "Lynyrd Skynyrd",
+  "song": "Free Bird",
+  "year": "1973",
+  "writers": "Allen Collins, Ronnie Van Zant"
+ },
+ {
+  "rank": 408,
+  "artist": "Cat Stevens/Yusuf",
+  "song": "Father and Son",
+  "year": "1970",
+  "writers": "Cat Stevens/Yusuf"
+ },
+ {
+  "rank": 409,
+  "artist": "Foo Fighters",
+  "song": "Everlong",
+  "year": "1997",
+  "writers": "Dave Grohl"
+ },
+ {
+  "rank": 410,
+  "artist": "Allman Brothers Band",
+  "song": "Whipping Post",
+  "year": "1969",
+  "writers": "Gregg Allman"
+ },
+ {
+  "rank": 411,
+  "artist": "Wilco",
+  "song": "Heavy Metal Drummer",
+  "year": "2002",
+  "writers": "Jeff Tweedy"
+ },
+ {
+  "rank": 412,
+  "artist": "Neneh Cherry",
+  "song": "Buffalo Stance",
+  "year": "1988",
+  "writers": "Cameron McVey, Jamie Morgan, Neneh Cherry, Phil Ramacon"
+ },
+ {
+  "rank": 413,
+  "artist": "Them",
+  "song": "Gloria",
+  "year": "1965",
+  "writers": "Van Morrison"
+ },
+ {
+  "rank": 414,
+  "artist": "Wizkid feat. Tems",
+  "song": "Essence",
+  "year": "2021",
+  "writers": "Ayodeji Ibrahim, Uzezi Oniko, Okiemute Oniko, Richard Isong, Temilade Openiyi"
+ },
+ {
+  "rank": 415,
+  "artist": "Depeche Mode",
+  "song": "Enjoy the Silence",
+  "year": "1990",
+  "writers": "Martin Gore"
+ },
+ {
+  "rank": 416,
+  "artist": "Pearl Jam",
+  "song": "Alive",
+  "year": "1991",
+  "writers": "Stone Gossard, Eddie Vedder"
+ },
+ {
+  "rank": 417,
+  "artist": "Mark Ronson feat. Bruno Mars",
+  "song": "Uptown Funk",
+  "year": "2015",
+  "writers": "Charles Wilson, Devon Gallaspy, Jeff Bhasker, Lonnie Simmons, Nicholaus Williams, Peter Hernandez, Philip Lawrence, Robert Wilson, Ronnie Wilson, Rudolph Taylor"
+ },
+ {
+  "rank": 418,
+  "artist": "Booker T. and the MGs",
+  "song": "Green Onions",
+  "year": "1962",
+  "writers": "Al Jackson Jr., Booker T. Jones, Lewie Steinberg, Steve Cropper"
+ },
+ {
+  "rank": 419,
+  "artist": "Mariah Carey",
+  "song": "Fantasy",
+  "year": "1995",
+  "writers": "Adrian Belew, Christopher Frantz, Dave Hall, Mariah Carey, Steven Stanley, Tina Weymouth"
+ },
+ {
+  "rank": 420,
+  "artist": "The Mamas and the Papas",
+  "song": "California Dreamin",
+  "year": "1965",
+  "writers": "John Phillips, Michelle Phillips"
+ },
+ {
+  "rank": 421,
+  "artist": "The Smiths",
+  "song": "How Soon Is Now?",
+  "year": "1984",
+  "writers": "Johnny Marr,  Morrissey"
+ },
+ {
+  "rank": 422,
+  "artist": "Craig Mack feat. Notorious B.I.G., LL Cool J, Busta Rhymes, Rampage",
+  "song": "Flava in Ya Ear (Remix)",
+  "year": "1994",
+  "writers": "Craig Mack, Roger Nichols, Paul Williams"
+ },
+ {
+  "rank": 423,
+  "artist": "Fiona Apple",
+  "song": "Criminal",
+  "year": "1996",
+  "writers": "Fiona Apple"
+ },
+ {
+  "rank": 424,
+  "artist": "Blackstreet feat. Dr. Dre and Queen Pen",
+  "song": "No Diggity",
+  "year": "1996",
+  "writers": "Bill Withers, Chauncey Hannibal, Edward Theodore Riley, Lynise Walters, Richard Vick, William Stewart"
+ },
+ {
+  "rank": 425,
+  "artist": "Muddy Waters",
+  "song": "Mannish Boy",
+  "year": "1955",
+  "writers": "Ellas McDaniel, McKinley Morganfield, Melvin London"
+ },
+ {
+  "rank": 426,
+  "artist": "Nicki Minaj",
+  "song": "Super Bass",
+  "year": "2010",
+  "writers": "Daniel Johnson, Esther Renay Dean, Jeremy Coleman, Onika Maraj, Roahn Hylton, Ester Dean"
+ },
+ {
+  "rank": 427,
+  "artist": "Sugar Hill Gang",
+  "song": "Rapper’s Delight",
+  "year": "1979",
+  "writers": "Bernard Edwards, Gregory Rodgers, Nile Rodgers, The Sugarhill Gang"
+ },
+ {
+  "rank": 428,
+  "artist": "Beyonce",
+  "song": "Break My Soul",
+  "year": "2022",
+  "writers": "Beyoncé, Terius Nash, Christopher Stewart, Shawn Carter, Freddie Ross, Adam Pigott, Allen George, Fred McFarlane"
+ },
+ {
+  "rank": 429,
+  "artist": "Queen and David Bowie",
+  "song": "Under Pressure",
+  "year": "1981",
+  "writers": "Brian May, David Bowie, Freddie Mercury, John Deacon, Roger Taylor"
+ },
+ {
+  "rank": 430,
+  "artist": "Pete Rock and CL Smooth",
+  "song": "They Reminisce Over You",
+  "year": "1992",
+  "writers": "Maxwell Dixon, Peter Phillips"
+ },
+ {
+  "rank": 431,
+  "artist": "Prince",
+  "song": "Adore",
+  "year": "1987",
+  "writers": "Prince"
+ },
+ {
+  "rank": 432,
+  "artist": "Eddie Cochran",
+  "song": "Summertime Blues",
+  "year": "1958",
+  "writers": "Eddie Cochran, Jerry Capehart"
+ },
+ {
+  "rank": 433,
+  "artist": "Pet Shop Boys",
+  "song": "West End Girls",
+  "year": "1984",
+  "writers": "Chris Lowe, Neil Tennant"
+ },
+ {
+  "rank": 434,
+  "artist": "Ramones",
+  "song": "Sheena Is a Punk Rocker",
+  "year": "1977",
+  "writers": "Dee Dee Ramone, Joey Ramone, Johnny Ramone, Tommy Ramone"
+ },
+ {
+  "rank": 435,
+  "artist": "Rush",
+  "song": "Limelight",
+  "year": "1981",
+  "writers": "Alex Lifeson, Geddy Lee, Neil Peart"
+ },
+ {
+  "rank": 436,
+  "artist": "Carly Rae Jepsen",
+  "song": "Call Me Maybe",
+  "year": "2012",
+  "writers": "Carly Rae Jepsen, Josh Ramsay, Tavish Crowe"
+ },
+ {
+  "rank": 437,
+  "artist": "Lucinda Williams",
+  "song": "Passionate Kisses",
+  "year": "1988",
+  "writers": "Lucinda Williams"
+ },
+ {
+  "rank": 438,
+  "artist": "Megan Thee Stallion feat. Beyoncé",
+  "song": "Savage (Remix)",
+  "year": "2020",
+  "writers": "Megan Pete, Anthony White, Beyoncé Knowles, Bobby Session Jr., Terius Nash, Brittany Starrah Hazzard, Derrick Milano, Jorden Kyle Lanier Thorpe, Shaun Carter,"
+ },
+ {
+  "rank": 439,
+  "artist": "Celia Cruz",
+  "song": "La Vida Es un Carnaval",
+  "year": "1998",
+  "writers": "Victor Daniel"
+ },
+ {
+  "rank": 440,
+  "artist": "Alicia Keys",
+  "song": "If I Ain’t Got You",
+  "year": "2003",
+  "writers": "Alicia Keys"
+ },
+ {
+  "rank": 441,
+  "artist": "Miranda Lambert",
+  "song": "The House That Built Me",
+  "year": "2010",
+  "writers": "Allen Shamblin, Tom Douglas"
+ },
+ {
+  "rank": 442,
+  "artist": "Motörhead",
+  "song": "Ace of Spades",
+  "year": "1980",
+  "writers": "Eddie Clarke, Ian Kilmister, Phil Taylor"
+ },
+ {
+  "rank": 443,
+  "artist": "Fall Out Boy",
+  "song": "Sugar, We’re Goin Down",
+  "year": "2005",
+  "writers": "Andy Hurley, Joe Trohman, Patrick Stump, Pete Wentz"
+ },
+ {
+  "rank": 444,
+  "artist": "50 Cent",
+  "song": "In Da Club",
+  "year": "2003",
+  "writers": "Andre R. Young, Curtis Jackson, Mike Elizondo"
+ },
+ {
+  "rank": 445,
+  "artist": "T. Rex",
+  "song": "Cosmic Dancer",
+  "year": "1971",
+  "writers": "Marc Bolan"
+ },
+ {
+  "rank": 446,
+  "artist": "Bruce Springsteen",
+  "song": "Rosalita (Come Out Tonight)",
+  "year": "1973",
+  "writers": "Bruce Springsteen"
+ },
+ {
+  "rank": 447,
+  "artist": "The Beatles",
+  "song": "Help!",
+  "year": "1965",
+  "writers": "John Lennon, Paul McCartney"
+ },
+ {
+  "rank": 448,
+  "artist": "Erykah Badu",
+  "song": "Tyrone",
+  "year": "1997",
+  "writers": "Erica Wright, Erykah Badu, Norman Hurt"
+ },
+ {
+  "rank": 449,
+  "artist": "Blue Öyster Cult",
+  "song": "(Don’t Fear) The Reaper",
+  "year": "1976",
+  "writers": "Donald Roeser"
+ },
+ {
+  "rank": 450,
+  "artist": "Neil Young",
+  "song": "Powderfinger",
+  "year": "1979",
+  "writers": "Neil Young"
+ },
+ {
+  "rank": 451,
+  "artist": "Migos feat. Lil Uzi Vert",
+  "song": "Bad and Boujee",
+  "year": "2016",
+  "writers": "Robert Mandell, Kiari Cephus, Kirsnick Ball, Leland Wayne, Quavious Marshall, Symere Woods"
+ },
+ {
+  "rank": 452,
+  "artist": "Toto",
+  "song": "Africa",
+  "year": "1982",
+  "writers": "David Paich, Jeffrey Porcaro"
+ },
+ {
+  "rank": 453,
+  "artist": "Missy Elliot",
+  "song": "The Rain (Supa Dupa Fly)",
+  "year": "1997",
+  "writers": "Melissa Elliott, Ann Peebles, Bernard Miller, Don Bryant, Timothy Mosley, William Hart"
+ },
+ {
+  "rank": 454,
+  "artist": "Sister Nancy",
+  "song": "Bam Bam",
+  "year": "1982",
+  "writers": "Ophlin Russell"
+ },
+ {
+  "rank": 455,
+  "artist": "Jefferson Airplane",
+  "song": "White Rabbit",
+  "year": "1967",
+  "writers": "Grace Slick"
+ },
+ {
+  "rank": 456,
+  "artist": "Lana Del Rey",
+  "song": "A&W",
+  "year": "2023",
+  "writers": "Lana Del Rey, Jack Antonoff, Sam Dew"
+ },
+ {
+  "rank": 457,
+  "artist": "Bon Jovi",
+  "song": "Livin’ on a Prayer",
+  "year": "1986",
+  "writers": "Desmond Child, Jon Bon Jovi, Richie Sambora"
+ },
+ {
+  "rank": 458,
+  "artist": "Beck",
+  "song": "Loser",
+  "year": "1993",
+  "writers": "Beck Hansen, Karl F. Stephenson"
+ },
+ {
+  "rank": 459,
+  "artist": "Sade",
+  "song": "No Ordinary Love",
+  "year": "1992",
+  "writers": "Helen Adu, Stuart Matthewman"
+ },
+ {
+  "rank": 460,
+  "artist": "Steel Pulse",
+  "song": "Ku Klux Klan",
+  "year": "1978",
+  "writers": "David Hinds"
+ },
+ {
+  "rank": 461,
+  "artist": "Roy Orbison",
+  "song": "Crying",
+  "year": "1962",
+  "writers": "Joe Melson, Roy Orbison"
+ },
+ {
+  "rank": 462,
+  "artist": "Van Morrison",
+  "song": "Into the Mystic",
+  "year": "1970",
+  "writers": "Van Morrison"
+ },
+ {
+  "rank": 463,
+  "artist": "John Lee Hooker",
+  "song": "Boom Boom",
+  "year": "1962",
+  "writers": "John Lee Hooker"
+ },
+ {
+  "rank": 464,
+  "artist": "Joni Mitchell",
+  "song": "Help Me",
+  "year": "1974",
+  "writers": "Joni Mitchell"
+ },
+ {
+  "rank": 465,
+  "artist": "Daft Punk feat. Pharrell Williams",
+  "song": "Get Lucky",
+  "year": "2013",
+  "writers": "Thomas Bangalter, Guy-Manuel de Homem-Christo, Nile Rodgers, Pharrell Williams"
+ },
+ {
+  "rank": 466,
+  "artist": "Luther Vandross",
+  "song": "Never Too Much",
+  "year": "1981",
+  "writers": "Luther Vandross"
+ },
+ {
+  "rank": 467,
+  "artist": "Nirvana",
+  "song": "Come as You Are",
+  "year": "1991",
+  "writers": "Kurt Cobain"
+ },
+ {
+  "rank": 468,
+  "artist": "Mazzy Star",
+  "song": "Fade Into You",
+  "year": "1993",
+  "writers": "David Roback, Hope Sandoval"
+ },
+ {
+  "rank": 469,
+  "artist": "Dixie Chicks",
+  "song": "Goodbye Earl",
+  "year": "2000",
+  "writers": "Dennis Linde"
+ },
+ {
+  "rank": 470,
+  "artist": "Gladys Knight and the Pips",
+  "song": "Midnight Train to Georgia",
+  "year": "1973",
+  "writers": "Jim Weatherly"
+ },
+ {
+  "rank": 471,
+  "artist": "The Animals",
+  "song": "The House of the Rising Sun",
+  "year": "1964",
+  "writers": "Alan Price"
+ },
+ {
+  "rank": 472,
+  "artist": "Peter Gabriel",
+  "song": "Solsbury Hill",
+  "year": "1977",
+  "writers": "Peter Gabriel"
+ },
+ {
+  "rank": 473,
+  "artist": "Tammy Wynette",
+  "song": "Stand by Your Man",
+  "year": "1968",
+  "writers": "Billy Sherrill, Tammy Wynette"
+ },
+ {
+  "rank": 474,
+  "artist": "Curtis Mayfield",
+  "song": "Move On Up",
+  "year": "1970",
+  "writers": "Curtis Mayfield"
+ },
+ {
+  "rank": 475,
+  "artist": "Janet Jackson",
+  "song": "Rhythm Nation",
+  "year": "1989",
+  "writers": "James Harris, Janet Jackson, Sly Stone, Terry Lewis"
+ },
+ {
+  "rank": 476,
+  "artist": "Kris Kristofferson",
+  "song": "Sunday Mornin’ Comin’ Down",
+  "year": "1970",
+  "writers": "Kris Kristofferson"
+ },
+ {
+  "rank": 477,
+  "artist": "The Go-Gos",
+  "song": "Our Lips Are Sealed",
+  "year": "1981",
+  "writers": "Jane Wiedlin, Terence Edward Hall"
+ },
+ {
+  "rank": 478,
+  "artist": "Juvenile feat. Lil Wayne and Mannie Fresh",
+  "song": "Back That Azz Up",
+  "year": "1998",
+  "writers": "Byron Thomas, Terius Gray"
+ },
+ {
+  "rank": 479,
+  "artist": "Santana",
+  "song": "Oye Como Va",
+  "year": "1970",
+  "writers": "Tito Puente"
+ },
+ {
+  "rank": 480,
+  "artist": "Biz Markie",
+  "song": "Just a Friend",
+  "year": "1989",
+  "writers": "Marcell Hall, Marley Marl"
+ },
+ {
+  "rank": 481,
+  "artist": "Robert Johnson",
+  "song": "Cross Road Blues",
+  "year": "1937",
+  "writers": "Robert Johnson"
+ },
+ {
+  "rank": 482,
+  "artist": "Lady Gaga",
+  "song": "Bad Romance",
+  "year": "2009",
+  "writers": "Stefani Germanotta, Nadir Khayat"
+ },
+ {
+  "rank": 483,
+  "artist": "The Four Tops",
+  "song": "I Can’t Help Myself (Sugar Pie, Honey Bunch)",
+  "year": "1965",
+  "writers": "Brian Holland, Eddie Holland, Lamont Dozier"
+ },
+ {
+  "rank": 484,
+  "artist": "Weezer",
+  "song": "Buddy Holly",
+  "year": "1994",
+  "writers": "Rivers Cuomo"
+ },
+ {
+  "rank": 485,
+  "artist": "Azealia Banks",
+  "song": "212",
+  "year": "2011",
+  "writers": "Azealia Banks, Jef Martens"
+ },
+ {
+  "rank": 486,
+  "artist": "Lil Wayne",
+  "song": "A Milli",
+  "year": "2009",
+  "writers": "Ali Shaheed Jones-Muhammad, Dwayne Carter, Kamaal Fareed, Shondrae Crawford"
+ },
+ {
+  "rank": 487,
+  "artist": "Solange",
+  "song": "Cranes in the Sky",
+  "year": "2016",
+  "writers": "Raphael Saadiq, Solange Knowles"
+ },
+ {
+  "rank": 488,
+  "artist": "The Weeknd",
+  "song": "House of Balloons",
+  "year": "2011",
+  "writers": "Abel Tesfaye, Carlo Montagnese, Dom McKinney, John Martin, Peter Clarke, Steven Severin, Susan Ballion"
+ },
+ {
+  "rank": 489,
+  "artist": "The Breeders",
+  "song": "Cannonball",
+  "year": "1993",
+  "writers": "Kim Deal"
+ },
+ {
+  "rank": 490,
+  "artist": "Lil Nas X",
+  "song": "Old Town Road",
+  "year": "2019",
+  "writers": "Atticus Matthew Ross, Kiowa Roukema, Michael Trent Reznor, Montero Lamar Hill"
+ },
+ {
+  "rank": 491,
+  "artist": "Bad Bunny",
+  "song": "Titi Me Pregunto",
+  "year": "2022/",
+  "writers": "MAG, Benito Antonio Martinez Ocasio"
+ },
+ {
+  "rank": 492,
+  "artist": "Miles Davis",
+  "song": "So What",
+  "year": "1959",
+  "writers": "Miles Davis"
+ },
+ {
+  "rank": 493,
+  "artist": "Kanye West",
+  "song": "Stronger",
+  "year": "2007",
+  "writers": "Mike Dean, Edwin Birdsong, Guy-Manuel de Homem-Christo, Kanye West, Thomas Banghalter"
+ },
+ {
+  "rank": 494,
+  "artist": "The Pixies",
+  "song": "Where Is My Mind?",
+  "year": "1988",
+  "writers": "Black Francis"
+ },
+ {
+  "rank": 495,
+  "artist": "Cyndi Lauper",
+  "song": "Time After Time",
+  "year": "1983",
+  "writers": "Cyndi Lauper, Rob Hyman"
+ },
+ {
+  "rank": 496,
+  "artist": "Carly Simon",
+  "song": "You’re So Vain",
+  "year": "1972",
+  "writers": "Carly Simon"
+ },
+ {
+  "rank": 497,
+  "artist": "Harry Nilsson",
+  "song": "Without You",
+  "year": "1971",
+  "writers": "Peter Ham, Tom Evans"
+ },
+ {
+  "rank": 498,
+  "artist": "Lizzo",
+  "song": "Truth Hurts",
+  "year": "2017",
+  "writers": "Eric Frederic, Amina Patrice, Bogle-Barriteau, Melissa Jefferson, Steven Cheungjesse Saint John"
+ },
+ {
+  "rank": 499,
+  "artist": "Townes Van Zandt",
+  "song": "Pancho and Lefty",
+  "year": "1972",
+  "writers": "Townes Van Zandt"
+ },
+ {
+  "rank": 500,
+  "artist": "Harry Styles",
+  "song": "As It Was",
+  "year": "2022",
+  "writers": "Thomas Hull, Tyler Johnson, Harry Styles"
+ }
+]
