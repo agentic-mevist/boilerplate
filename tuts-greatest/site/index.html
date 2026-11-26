@@ -35,13 +35,12 @@
       <button data-mode="cover"><span>💿</span>Обложка</button>
     </div>
     <div class="controls">
-      <label>Песни
-        <select id="tRange">
-          <option value="50">Топ-50</option>
-          <option value="100" selected>Топ-100</option>
-          <option value="200">Топ-200</option>
-          <option value="500">Все 500</option>
-          <option value="unknown">Только «не угадал»</option>
+      <label>Песни <select id="tRange"></select></label>
+      <label>Какие
+        <select id="tWhich">
+          <option value="all">Все</option>
+          <option value="left">Не выученные</option>
+          <option value="miss">Только ошибки</option>
         </select>
       </label>
       <label>Эпоха <select id="tDecade"><option value="all">Все</option></select></label>
@@ -77,6 +76,7 @@
         <button class="btn" id="revealBtn" disabled>Показать ответ</button>
       </div>
       <p class="note" id="modeNote"></p>
+      <p class="round" id="round"></p>
       <div class="answer" id="answer" hidden>
         <img class="anscover" id="aCover" alt="">
         <div>
@@ -85,9 +85,11 @@
           <div class="asong" id="aSong"></div>
           <div class="ameta" id="aMeta"></div>
           <p class="fact" id="aFact"></p>
+          <p class="ask">Что угадали? Песня считается выученной, когда отмечены и исполнитель, и название.</p>
           <div class="row">
             <button class="mark" id="gotArtist">✓ Исполнитель</button>
             <button class="mark" id="gotSong">✓ Название</button>
+            <button class="mark" id="gotBoth">✓ Всё угадал</button>
             <a class="btn small" id="aLink" target="_blank" rel="noopener">YouTube ↗</a>
           </div>
         </div>
@@ -100,6 +102,7 @@
   <section id="tab-list" class="tab">
     <div class="controls">
       <input id="lSearch" type="search" placeholder="Поиск: исполнитель, песня, альбом, факт…">
+      <select id="lPack"><option value="all">Все 500</option></select>
       <select id="lDecade"><option value="all">Все эпохи</option></select>
       <select id="lTag">
         <option value="all">Все песни</option>
@@ -109,7 +112,9 @@
         <option value="riff">Знаменитый рифф / интро</option>
         <option value="sample">Сэмплы</option>
         <option value="no1">№1 в чартах</option>
-        <option value="unknown">Мои «не угадал»</option>
+        <option value="left">Мои: не выученные</option>
+        <option value="miss">Мои: ошибки</option>
+        <option value="known">Мои: выученные</option>
       </select>
     </div>
     <div class="count" id="lCount"></div>

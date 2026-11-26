@@ -1,15 +1,44 @@
 (() => {
   const $ = (s) => document.querySelector(s);
-  const LS = 'groove-marks-v1';
+  // Progress lives only in this browser (localStorage), so every friend has their own.
+  const LS = 'groove-marks-v1', PREFS = 'groove-prefs-v1';
   let S = [];
   let marks = {};
   try { marks = JSON.parse(localStorage.getItem(LS) || '{}'); } catch (e) { marks = {}; }
+  let prefs = {};
+  try { prefs = JSON.parse(localStorage.getItem(PREFS) || '{}'); } catch (e) { prefs = {}; }
   const save = () => localStorage.setItem(LS, JSON.stringify(marks));
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const TAGS = { cover: 'кавер', covered: 'есть кавер', film: 'кино/ТВ', riff: 'рифф/интро', sample: 'сэмпл', debut: 'дебют', no1: '№1' };
-  const known = (r) => marks[r] && marks[r].a && marks[r].s;
-  const unknown = (r) => marks[r] && marks[r].seen && !known(r);
+  const known = (r) => !!(marks[r] && marks[r].a && marks[r].s);
+  const missed = (r) => !!(marks[r] && marks[r].seen && !known(r));
+  const fresh = (r) => !(marks[r] && marks[r].seen);
   const thumb = (u, n) => (u || '').replace('600x600bb', `${n}x${n}bb`);
+  const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+  // ---------- ranges: packs of 50 and tops ----------
+  const PACKS = Array.from({ length: 10 }, (_, i) => i * 50 + 1);
+  const inRange = (x, v) => {
+    if (!v || v === 'all') return true;
+    if (v.startsWith('p:')) { const a = +v.slice(2); return x.rank >= a && x.rank < a + 50; }
+    if (v.startsWith('top:')) return x.rank <= +v.slice(4);
+    return true;
+  };
+  const rangeName = (v) => v.startsWith('p:') ? `Места ${+v.slice(2)}–${+v.slice(2) + 49}` : (v === 'top:500' ? 'Все 500' : 'Топ-' + v.slice(4));
+  const stats = (v) => {
+    const l = S.filter(x => inRange(x, v));
+    return { total: l.length, known: l.filter(x => known(x.rank)).length, miss: l.filter(x => missed(x.rank)).length, fresh: l.filter(x => fresh(x.rank)).length };
+  };
+  function fillRanges() {
+    const opt = (v) => { const st = stats(v); return `<option value="${v}">${rangeName(v).replace('Места ', '')} · выучено ${st.known}/${st.total}</option>`; };
+    const t = $('#tRange'), keep = t.value || prefs.range || 'p:1';
+    t.innerHTML = `<optgroup label="Паки по 50">${PACKS.map(a => opt('p:' + a)).join('')}</optgroup>` +
+      `<optgroup label="Больше">${['top:100', 'top:200', 'top:500'].map(opt).join('')}</optgroup>`;
+    t.value = keep; if (!t.value) t.value = 'p:1';
+    const l = $('#lPack'), lk = l.value || 'all';
+    l.innerHTML = `<option value="all">Все 500</option>` + PACKS.map(a => { const st = stats('p:' + a); return `<option value="p:${a}">Места ${a}–${a + 49} · выучено ${st.known}/${st.total}</option>`; }).join('');
+    l.value = lk;
+  }
 
   // ---------- tabs ----------
   const loaded = {};
@@ -19,48 +48,84 @@
     if (['cheat', 'format', 'playlists'].includes(name) && !loaded[name]) {
       fetch(name + '.html', { cache: 'no-cache' }).then(r => r.text()).then(h => { $('#' + name + 'Doc').innerHTML = h; loaded[name] = true; });
     }
-    if (name === 'list' && !loaded.list) { renderList(); loaded.list = true; }
+    if (name === 'list') renderList();
     history.replaceState(null, '', '#' + name);
   }
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
 
   // ---------- trainer ----------
-  let mode = 'audio', cur = null, curSrc = '', recent = [];
+  let mode = 'audio', cur = null, curSrc = '';
+  let deck = [], deckKey = '', deckTotal = 0, deckDone = 0;
   const NOTES = {
     audio: 'Только звук: экран закрыт, угадывайте исполнителя и название на слух.',
     clip: 'Клип со звуком: видно клип, название и логотипы закрыты плашками. В пул попадают только песни, для которых найден клип или живое выступление.',
     mute: 'Клип без звука: угадайте песню по видеоряду — как в механике «клип с чужой музыкой».',
     cover: 'Обложка: по обложке альбома или сингла угадайте исполнителя, песню (и альбом).',
   };
-  document.querySelectorAll('#modes button').forEach(b => b.addEventListener('click', () => {
-    mode = b.dataset.mode;
-    document.querySelectorAll('#modes button').forEach(x => x.classList.toggle('on', x === b));
+  const WHICH = { all: '', left: ' (не выученные)', miss: ' (только ошибки)' };
+  function savePrefs() {
+    prefs = { mode, range: $('#tRange').value, which: $('#tWhich').value, decade: $('#tDecade').value, start: $('#tStart').value, len: $('#tLen').value };
+    localStorage.setItem(PREFS, JSON.stringify(prefs));
+  }
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll('#modes button').forEach(x => x.classList.toggle('on', x.dataset.mode === m));
     $('#lblStart').hidden = mode === 'cover'; $('#lblLen').hidden = mode === 'cover';
-    $('#modeNote').textContent = NOTES[mode] + ` Доступно песен: ${pool().length}.`;
-    clearStage();
+  }
+  document.querySelectorAll('#modes button').forEach(b => b.addEventListener('click', () => {
+    setMode(b.dataset.mode); savePrefs(); clearStage(); updateNote();
   }));
   function pool() {
-    const r = $('#tRange').value, d = $('#tDecade').value;
+    const r = $('#tRange').value, d = $('#tDecade').value, w = $('#tWhich').value;
     let p = S.filter(x => mode === 'cover' ? x.cover : (mode === 'audio' ? x.yt : x.vid));
-    if (r === 'unknown') p = p.filter(x => unknown(x.rank));
-    else p = p.filter(x => x.rank <= +r);
+    p = p.filter(x => inRange(x, r));
     if (d !== 'all') p = p.filter(x => String(x.decade) === d);
+    if (w === 'left') p = p.filter(x => !known(x.rank));
+    if (w === 'miss') p = p.filter(x => missed(x.rank));
     return p;
   }
-  function clearStage() {
+  const settingsKey = () => [mode, $('#tRange').value, $('#tWhich').value, $('#tDecade').value].join('|');
+  function updateNote() {
+    $('#modeNote').textContent = NOTES[mode] + ` В выбранном наборе${WHICH[$('#tWhich').value]}: ${pool().length} песен.`;
+    renderRound();
+  }
+  function renderRound() {
+    const el = $('#round');
+    if (deckKey !== settingsKey() || !deckTotal) { el.textContent = 'Песни идут в случайном порядке без повторов, пока не пройдёте весь набор.'; return; }
+    el.innerHTML = `Круг: <b>${deckDone}</b> из <b>${deckTotal}</b> · осталось <b>${deck.length}</b>`;
+  }
+  function clearStage(msg) {
     $('#screen').querySelectorAll('iframe').forEach(f => f.remove());
     $('#coverImg').hidden = true; $('#cover').hidden = true; $('#shadeTop').hidden = true; $('#shadeBottom').hidden = true;
     $('#placeholder').hidden = false; $('#answer').hidden = true;
+    $('#placeholder').querySelector('p').innerHTML = msg || 'Нажмите «Следующий трек»';
     $('#revealBtn').disabled = true; $('#replayBtn').disabled = true; cur = null;
   }
+  function onSettingsChange() {
+    savePrefs(); deckKey = ''; deck = []; deckTotal = 0; deckDone = 0;
+    const w = $('#tWhich').value, empty = !pool().length;
+    clearStage(empty && w === 'left' ? '🎉 Все песни набора выучены' : (empty && w === 'miss' ? 'Ошибок в этом наборе нет' : (empty ? 'Нет песен для этих настроек' : '')));
+    updateNote(); renderScore();
+  }
   function next() {
-    const p = pool();
-    if (!p.length) { clearStage(); $('#placeholder').querySelector('p').textContent = 'Нет песен для этих настроек'; return; }
-    let cand = p.filter(x => !recent.includes(x.rank));
-    if (!cand.length) { recent = []; cand = p; }
-    cur = cand[Math.floor(Math.random() * cand.length)];
-    recent.push(cur.rank); if (recent.length > Math.min(40, p.length - 1)) recent.shift();
-    $('#answer').hidden = true; $('#revealBtn').disabled = false; $('#gotArtist').classList.remove('on'); $('#gotSong').classList.remove('on');
+    const p = pool(), key = settingsKey();
+    if (key !== deckKey) { deck = shuffle(p.map(x => x.rank)); deckKey = key; deckTotal = deck.length; deckDone = 0; }
+    const ok = new Set(p.map(x => x.rank));
+    while (deck.length && !ok.has(deck[0])) deck.shift();
+    if (!deck.length) {
+      const st = stats($('#tRange').value), w = $('#tWhich').value;
+      let msg;
+      if (!p.length) msg = w === 'all' ? 'Нет песен для этих настроек' : (w === 'left' ? '🎉 Все песни набора выучены' : 'Ошибок в этом наборе нет');
+      else msg = `Круг пройден! ${rangeName($('#tRange').value)}: выучено <b>${st.known}</b> из ${st.total}.<br>Нажмите «Следующий трек» для нового круга` + (w === 'all' && st.known < st.total ? ' или выберите «Не выученные».' : '.');
+      deckKey = ''; deckTotal = 0;
+      clearStage(msg); renderRound();
+      return;
+    }
+    const rk = deck.shift();
+    cur = S.find(x => x.rank === rk); deckDone++;
+    renderRound();
+    $('#answer').hidden = true; $('#revealBtn').disabled = false;
+    ['#gotArtist', '#gotSong', '#gotBoth'].forEach(id => $(id).classList.remove('on'));
     if (mode === 'cover') {
       $('#screen').querySelectorAll('iframe').forEach(f => f.remove());
       $('#placeholder').hidden = true; $('#cover').hidden = true; $('#shadeTop').hidden = true; $('#shadeBottom').hidden = true;
@@ -101,38 +166,52 @@
     const link = (mode === 'audio' || !cur.vid) ? cur.yt : cur.vid;
     $('#aLink').href = 'https://www.youtube.com/watch?v=' + link; $('#aLink').hidden = !link;
     $('#answer').hidden = false;
-    const m = marks[cur.rank] || (marks[cur.rank] = {});
-    m.seen = true; m.a = false; m.s = false; save(); renderScore();
+    // the latest attempt counts: until you tick the boxes, the song is "not guessed"
+    marks[cur.rank] = { seen: true, a: false, s: false };
+    save(); syncMarks();
   }
-  function toggle(key, btn) {
+  function setMark(a, s) {
     if (!cur) return;
-    const m = marks[cur.rank] || (marks[cur.rank] = { seen: true });
-    m[key] = !m[key]; btn.classList.toggle('on', m[key]); save(); renderScore();
+    marks[cur.rank] = { seen: true, a, s };
+    $('#gotArtist').classList.toggle('on', a); $('#gotSong').classList.toggle('on', s); $('#gotBoth').classList.toggle('on', a && s);
+    save(); syncMarks();
   }
+  function syncMarks() { fillRanges(); renderScore(); updateNote(); }
   function renderScore() {
-    const seen = Object.values(marks).filter(m => m.seen);
-    const a = seen.filter(m => m.a).length, s = seen.filter(m => m.s).length;
-    $('#tScore').innerHTML = `Прослушано <b>${seen.length}</b> · исполнитель <b>${a}</b> · название <b>${s}</b> · «не угадал» <b>${seen.filter(m => !(m.a && m.s)).length}</b> &nbsp; <button class="btn small" id="resetBtn">Сбросить</button>`;
-    $('#resetBtn').onclick = () => { if (confirm('Сбросить статистику?')) { marks = {}; save(); renderScore(); } };
+    const v = $('#tRange').value || 'p:1', st = stats(v), all = stats('top:500');
+    $('#tScore').innerHTML = `<b>${rangeName(v)}</b>: выучено <b>${st.known}</b> из ${st.total} · ошибки <b>${st.miss}</b> · ещё не было <b>${st.fresh}</b>` +
+      ` &nbsp;·&nbsp; Всего выучено <b>${all.known}</b> из 500` +
+      ` <span class="resets"><button class="btn small" id="resetPack">Сбросить этот набор</button> <button class="btn small" id="resetAll">Сбросить всё</button></span>` +
+      `<br><span class="hint">Прогресс хранится только в этом браузере на этом устройстве — у друзей он свой.</span>`;
+    $('#resetPack').onclick = () => {
+      if (!confirm(`Сбросить прогресс: ${rangeName(v)}?`)) return;
+      S.filter(x => inRange(x, v)).forEach(x => delete marks[x.rank]); save(); onSettingsChange(); fillRanges();
+    };
+    $('#resetAll').onclick = () => { if (confirm('Сбросить весь прогресс по 500 песням?')) { marks = {}; save(); onSettingsChange(); fillRanges(); } };
   }
   $('#nextBtn').onclick = next;
   $('#replayBtn').onclick = () => { if (curSrc && mode !== 'cover') play(); };
   $('#revealBtn').onclick = reveal;
-  $('#gotArtist').onclick = (e) => toggle('a', e.currentTarget);
-  $('#gotSong').onclick = (e) => toggle('s', e.currentTarget);
-  $('#tRange').onchange = $('#tDecade').onchange = () => { $('#modeNote').textContent = NOTES[mode] + ` Доступно песен: ${pool().length}.`; };
+  $('#gotArtist').onclick = () => { const m = marks[cur?.rank] || {}; setMark(!m.a, !!m.s); };
+  $('#gotSong').onclick = () => { const m = marks[cur?.rank] || {}; setMark(!!m.a, !m.s); };
+  $('#gotBoth').onclick = () => { const m = marks[cur?.rank] || {}; const both = !(m.a && m.s); setMark(both, both); };
+  ['#tRange', '#tWhich', '#tDecade'].forEach(id => { $(id).onchange = onSettingsChange; });
+  ['#tStart', '#tLen'].forEach(id => { $(id).onchange = savePrefs; });
 
   // ---------- list ----------
   function renderList() {
-    const q = $('#lSearch').value.trim().toLowerCase(), d = $('#lDecade').value, t = $('#lTag').value;
-    let l = S;
+    const q = $('#lSearch').value.trim().toLowerCase(), d = $('#lDecade').value, t = $('#lTag').value, pk = $('#lPack').value;
+    let l = S.filter(x => inRange(x, pk));
     if (d !== 'all') l = l.filter(x => String(x.decade) === d);
-    if (t === 'unknown') l = l.filter(x => unknown(x.rank));
+    if (t === 'left') l = l.filter(x => !known(x.rank));
+    else if (t === 'miss') l = l.filter(x => missed(x.rank));
+    else if (t === 'known') l = l.filter(x => known(x.rank));
     else if (t !== 'all') l = l.filter(x => (x.tags || []).includes(t));
     if (q) l = l.filter(x => [x.artist, x.song, x.album, x.fact, x.writers].join(' ').toLowerCase().includes(q));
-    $('#lCount').textContent = `Найдено: ${l.length}`;
+    const st = pk === 'all' ? stats('top:500') : stats(pk);
+    $('#lCount').textContent = `Найдено: ${l.length} · выучено ${st.known} из ${st.total}`;
     $('#list').innerHTML = l.map(x => `
-      <article class="song ${unknown(x.rank) ? 'unk' : ''}">
+      <article class="song ${missed(x.rank) ? 'unk' : ''} ${known(x.rank) ? 'known' : ''}" data-rank="${x.rank}">
         <div class="num">${x.rank}</div>
         ${x.img ? `<img loading="lazy" src="${esc(x.img)}?w=200" alt="">` : (x.cover ? `<img loading="lazy" src="${esc(thumb(x.cover, 200))}" alt="">` : '<img alt="">')}
         <div>
@@ -145,6 +224,7 @@
             ${x.yt ? `<button class="btn small play" data-id="${esc(x.yt)}">▶ Слушать</button>` : ''}
             ${x.vid && x.vid !== x.yt ? `<button class="btn small play" data-id="${esc(x.vid)}">🎬 Клип</button>` : ''}
             <a class="btn small" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(x.artist + ' ' + x.song)}">🔎 YouTube</a>
+            <button class="mark small learn ${known(x.rank) ? 'on' : ''}">${known(x.rank) ? '✓ Выучено' : '☐ Знаю'}</button>
           </div>
         </div>
         <div class="player"></div>
@@ -157,10 +237,21 @@
       pl.dataset.id = b.dataset.id;
       pl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.id}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
     });
+    $('#list').querySelectorAll('.learn').forEach(b => b.onclick = () => {
+      const art = b.closest('.song'), r = +art.dataset.rank;
+      if (known(r)) marks[r] = { seen: true, a: false, s: false }; else marks[r] = { seen: true, a: true, s: true };
+      save();
+      const k = known(r);
+      b.classList.toggle('on', k); b.textContent = k ? '✓ Выучено' : '☐ Знаю';
+      art.classList.toggle('known', k); art.classList.toggle('unk', !k);
+      const s2 = pk === 'all' ? stats('top:500') : stats(pk);
+      $('#lCount').textContent = `Найдено: ${l.length} · выучено ${s2.known} из ${s2.total}`;
+      fillRanges(); renderScore(); updateNote();
+    });
   }
   let tmr;
   $('#lSearch').oninput = () => { clearTimeout(tmr); tmr = setTimeout(renderList, 200); };
-  $('#lDecade').onchange = renderList; $('#lTag').onchange = renderList;
+  $('#lDecade').onchange = renderList; $('#lTag').onchange = renderList; $('#lPack').onchange = renderList;
 
   // ---------- init ----------
   fetch('songs.json', { cache: 'no-cache' }).then(r => r.json()).then(d => {
@@ -168,8 +259,13 @@
     const decs = [...new Set(S.map(x => x.decade))].sort();
     const opts = decs.map(x => `<option value="${x}">${x < 1950 ? 'до 1950' : String(x).slice(2) + '-е'} (${S.filter(s => s.decade === x).length})</option>`).join('');
     $('#tDecade').insertAdjacentHTML('beforeend', opts); $('#lDecade').insertAdjacentHTML('beforeend', opts);
-    $('#modeNote').textContent = NOTES[mode] + ` Доступно песен: ${pool().length}.`;
-    renderScore();
+    fillRanges();
+    if (prefs.which) $('#tWhich').value = prefs.which;
+    if (prefs.decade && [...$('#tDecade').options].some(o => o.value === prefs.decade)) $('#tDecade').value = prefs.decade;
+    if (prefs.start) $('#tStart').value = prefs.start;
+    if (prefs.len) $('#tLen').value = prefs.len;
+    setMode(prefs.mode || 'audio');
+    updateNote(); renderScore();
     const h = location.hash.slice(1);
     if (['list', 'cheat', 'format', 'playlists'].includes(h)) showTab(h);
   });
