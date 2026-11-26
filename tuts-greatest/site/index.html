@@ -109,6 +109,7 @@
         <option value="year-desc">По году: новые → старые</option>
       </select>
       <select id="lPack"><option value="all">Все 500</option></select>
+      <select id="lGenre"><option value="all">Все стили</option></select>
       <select id="lDecade"><option value="all">Все эпохи</option></select>
       <select id="lTag">
         <option value="all">Все песни</option>
@@ -132,8 +133,14 @@
     <div class="kpis" id="kpis"></div>
 
     <div class="ccard">
+      <h2 class="ctitle">Стили</h2>
+      <p class="csub">Нажмите на стиль, и он подсветится на графиках ниже. Справа — годы, на которые приходится половина песен стиля.</p>
+      <div class="gbars" id="genreChart"></div>
+    </div>
+
+    <div class="ccard">
       <h2 class="ctitle">Сколько песен из каждого года</h2>
-      <p class="csub">Нажмите на столбик, и ниже появятся песни этого года.</p>
+      <p class="csub" id="yearSub">Нажмите на столбик, и ниже появятся песни этого года.</p>
       <div class="chart" id="yearChart"></div>
     </div>
     <div class="yearbox" id="yearBox" hidden></div>
@@ -144,6 +151,7 @@
       <div class="cctrl">
         <label><input type="checkbox" id="hlKnown"> Подсветить мои выученные</label>
         <button class="btn small" id="clearYear" hidden>Сбросить выбор года</button>
+        <button class="btn small" id="clearGenre" hidden>Сбросить стиль</button>
       </div>
       <div class="chart" id="scatter"></div>
     </div>

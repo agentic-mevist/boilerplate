@@ -127,6 +127,9 @@ def build_songs():
     facts = {}
     for f in ("facts_1.json", "facts_2.json"):
         facts.update(load(f, {}))
+    genres = {}
+    for f in ("genres_1.json", "genres_2.json", "genres_manual.json"):  # manual fixes last, so they win
+        genres.update(load(f, {}))
     out = []
     for s in rs:
         cs = cands.get(s["rank"], [])
@@ -154,10 +157,11 @@ def build_songs():
             "album": am.get("album", ""), "cover": am.get("cover", ""),
             "img": rsimg.get(str(s["rank"]), ""),
             "fact": fx.get("fact", ""), "tags": fx.get("tags", []),
+            "g": genres.get(str(s["rank"]), {}).get("g", ""), "sub": genres.get(str(s["rank"]), {}).get("sub", ""),
         })
     (SITE / "songs.json").write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
     print("songs:", len(out), "with audio video:", sum(1 for x in out if x["yt"]), "with clip:", sum(1 for x in out if x["vid"]),
-          "with cover:", sum(1 for x in out if x["cover"]), "with facts:", sum(1 for x in out if x["fact"]))
+          "with cover:", sum(1 for x in out if x["cover"]), "with facts:", sum(1 for x in out if x["fact"]), "with style:", sum(1 for x in out if x["g"]))
     return out
 
 
@@ -177,6 +181,22 @@ def auto_cheat(songs):
             break
         titles = ", ".join(f"«{x['song']}» (#{x['rank']})" for x in songs if main_artist(x["artist"]) == a)
         L.append(f"- **{a}** — {n}: {titles}")
+    GEN = {"rock": "Классический рок", "soul": "Соул, Motown и фанк", "pop": "Поп", "hiphop": "Хип-хоп", "alt": "Альтернатива и инди",
+           "punk": "Панк, пост-панк, нью-вейв", "rnb": "Современный R&B", "folk": "Фолк, кантри, авторская песня",
+           "rocknroll": "Рок-н-ролл и ду-воп", "dance": "Диско, дэнс, электроника", "roots": "Блюз, джаз, госпел", "world": "Регги, латино и мир"}
+    gc = collections.Counter(x["g"] for x in songs if x["g"])
+    if gc:
+        L.append("\n## Стили\n")
+        L.append("Разметка стилей наша (в рейтинге Rolling Stone её нет): у каждой песни один основной стиль. В тренажёре есть паки по стилям.\n")
+        L.append("| Стиль | Песен | Половина песен — в годах | Самые высокие места |\n|---|---|---|---|")
+        for g, n in gc.most_common():
+            xs = sorted((x for x in songs if x["g"] == g), key=lambda x: x["rank"])
+            ys = sorted(int(x["year"][:4]) for x in xs)
+            a, b = ys[len(ys) // 4], ys[min(len(ys) - 1, 3 * len(ys) // 4)]
+            top = "; ".join(f"#{x['rank']} {x['artist']} — {x['song']}" for x in xs[:3])
+            L.append(f"| {GEN.get(g, g)} | {n} | {a}–{b} | {top} |")
+        subs = collections.Counter(x["sub"] for x in songs if x["sub"])
+        L.append("\n**Самые частые поджанры:** " + ", ".join(f"{k} ({v})" for k, v in subs.most_common(20)) + ".")
     for tag, title in [("cover", "Каверы: песня в рейтинге — не оригинал (важно для механики «узнай оригинал по каверу»)"),
                        ("covered", "У песни есть знаменитый кавер"),
                        ("film", "Песни, связанные с кино, сериалами и рекламой"),

@@ -3,7 +3,7 @@
   const $ = (s) => document.querySelector(s);
   const NS = 'http://www.w3.org/2000/svg';
   const RED = '#ec1c24', RED_DARK = '#b3121a', GRAY = '#d6d6d6', INK = '#111', MUTE = '#6b6b6b', GRID = '#e8e8e8';
-  let selYear = null, pickRank = null, built = false;
+  let selYear = null, selGenre = null, pickRank = null, built = false;
 
   const G = () => window.GROOVE;
   const yr = (x) => +String(x.year).slice(0, 4);
@@ -60,8 +60,10 @@
   // ---------- column chart: songs per year ----------
   function yearChart(S) {
     const box = $('#yearChart'); box.textContent = '';
-    const by = {};
-    S.forEach(x => { by[yr(x)] = (by[yr(x)] || 0) + 1; });
+    const by = {}, bg = {};
+    S.forEach(x => { by[yr(x)] = (by[yr(x)] || 0) + 1; if (selGenre && x.g === selGenre) bg[yr(x)] = (bg[yr(x)] || 0) + 1; });
+    const gname = selGenre ? G().GENRES[selGenre] : '';
+    $('#yearSub').textContent = selGenre ? `Красным — ${gname}, серым — остальные песни года. Нажмите на столбик, чтобы увидеть песни.` : 'Нажмите на столбик, и ниже появятся песни этого года.';
     const y0 = Math.min(...Object.keys(by).map(Number)), y1 = Math.max(...Object.keys(by).map(Number));
     const years = []; for (let y = y0; y <= y1; y++) years.push(y);
     const max = Math.max(...Object.values(by));
@@ -84,13 +86,21 @@
       el('rect', { x: m.l + slot * i, y: m.t, width: slot, height: ph, fill: 'transparent' }, g); // hit area = whole column
       if (n) {
         const top = ys(n), bottom = ys(0), r = Math.min(rad, bottom - top);
-        el('path', { class: 'col', d: `M${x},${bottom}V${top + r}Q${x},${top} ${x + r},${top}H${x + bw - r}Q${x + bw},${top} ${x + bw},${top + r}V${bottom}Z` }, g);
+        const colPath = (b, t2, rr) => `M${x},${b}V${t2 + rr}Q${x},${t2} ${x + rr},${t2}H${x + bw - rr}Q${x + bw},${t2} ${x + bw},${t2 + rr}V${b}Z`;
+        if (!selGenre) el('path', { class: 'col', d: colPath(bottom, top, r) }, g);
+        else {
+          // selected style in red from the baseline, the rest of the year in gray above it, 2px surface gap between
+          const k = bg[y] || 0, gt = ys(k);
+          if (k < n) el('path', { class: 'col rest', d: colPath(k ? gt - 2 : bottom, top, Math.min(r, (k ? gt - 2 : bottom) - top)) }, g);
+          if (k) el('path', { class: 'col', d: colPath(bottom, gt, Math.min(r, bottom - gt)) }, g);
+        }
         if (n === max) { const t = el('text', { x: x + bw / 2, y: top - 5, 'text-anchor': 'middle', class: 'vlabel' }, svg); t.textContent = n; }
       }
-      const enter = (e) => { g.classList.add('hover'); showTip(e, songsWord(n), `${y} год`); };
+      const tipText = () => selGenre ? [`${bg[y] || 0} из ${n}`, `${y} год · ${gname}`] : [songsWord(n), `${y} год`];
+      const enter = (e) => { g.classList.add('hover'); showTip(e, ...tipText()); };
       g.addEventListener('pointermove', enter);
       g.addEventListener('pointerleave', () => { g.classList.remove('hover'); hideTip(); });
-      g.addEventListener('focus', () => { g.classList.add('hover'); const r = g.getBoundingClientRect(); showTip({ clientX: r.left + r.width / 2, clientY: r.top }, songsWord(n), `${y} год`); });
+      g.addEventListener('focus', () => { g.classList.add('hover'); const r = g.getBoundingClientRect(); showTip({ clientX: r.left + r.width / 2, clientY: r.top }, ...tipText()); });
       g.addEventListener('blur', () => { g.classList.remove('hover'); hideTip(); });
       g.addEventListener('click', () => { if (n) selectYear(y, true); });
       g.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && n) { e.preventDefault(); selectYear(y, true); } });
@@ -120,20 +130,20 @@
     const box = $('#yearBox');
     $('#clearYear').hidden = selYear === null;
     if (selYear === null) { box.hidden = true; box.textContent = ''; return; }
-    const S = G().songs(), list = S.filter(x => yr(x) === selYear).sort((a, b) => a.rank - b.rank);
+    const S = G().songs(), list = S.filter(x => yr(x) === selYear && (!selGenre || x.g === selGenre)).sort((a, b) => a.rank - b.rank);
     const years = [...new Set(S.map(yr))].sort((a, b) => a - b), i = years.indexOf(selYear);
     const prev = years[i - 1], next = years[i + 1], esc = G().esc;
     box.innerHTML = `
       <div class="yhead">
         <button class="btn small" ${prev ? `data-go="${prev}"` : 'disabled'}>← ${prev || ''}</button>
-        <h3>${selYear} <span>${songsWord(list.length)}</span></h3>
+        <h3>${selYear} <span>${selGenre ? esc(G().GENRES[selGenre]) + ': ' : ''}${songsWord(list.length)}</span></h3>
         <button class="btn small" ${next ? `data-go="${next}"` : 'disabled'}>${next || ''} →</button>
         <button class="btn small close" data-close="1">✕</button>
       </div>
       <ol class="ylist">${list.map(x => `
         <li data-rank="${x.rank}">
           <span class="yr">#${x.rank}</span>
-          <span class="ys"><b>${esc(x.artist)}</b> — ${esc(x.song)}${G().known(x.rank) ? ' <i class="ok">✓</i>' : ''}</span>
+          <span class="ys"><b>${esc(x.artist)}</b> — ${esc(x.song)}${G().known(x.rank) ? ' <i class="ok">✓</i>' : ''}${x.sub ? ` <span class="gchip">${esc(x.sub)}</span>` : ''}</span>
           ${x.yt ? `<button class="btn small yplay" data-id="${esc(x.yt)}">▶</button>` : ''}
           <div class="yplayer"></div>
         </li>`).join('')}</ol>`;
@@ -210,7 +220,7 @@
   function paintDots() {
     const hl = $('#hlKnown').checked, known = G().known;
     pts.forEach(p => {
-      const on = (selYear === null || yr(p.s) === selYear) && (!hl || known(p.s.rank));
+      const on = (selYear === null || yr(p.s) === selYear) && (!selGenre || p.s.g === selGenre) && (!hl || known(p.s.rank));
       p.el.classList.toggle('dim', !on);
     });
     // bring highlighted dots to the front
@@ -244,6 +254,31 @@
     if (!silent) peek(box);
   }
 
+  // ---------- styles: ranked bars ----------
+  function genreChart(S) {
+    const box = $('#genreChart'), GEN = G().GENRES, order = G().gorder();
+    if (!order.length) { box.closest('.ccard').hidden = true; return; }
+    const cnt = {}, yrs = {};
+    S.forEach(x => { if (!x.g) return; cnt[x.g] = (cnt[x.g] || 0) + 1; (yrs[x.g] = yrs[x.g] || []).push(yr(x)); });
+    const max = Math.max(...Object.values(cnt));
+    const q = (a, f) => { const s2 = [...a].sort((u, v) => u - v); return s2[Math.min(s2.length - 1, Math.floor(f * s2.length))]; };
+    box.innerHTML = order.map(g => {
+      const a = q(yrs[g], 0.25), b = q(yrs[g], 0.75);
+      return `<button class="grow ${selGenre && selGenre !== g ? 'dim' : ''} ${selGenre === g ? 'sel' : ''}" data-g="${g}" aria-pressed="${selGenre === g}">
+        <span class="gname">${G().esc(GEN[g])}</span>
+        <span class="gtrack"><span class="gbar" style="width:${(cnt[g] / max * 100).toFixed(1)}%"></span><span class="gnum">${cnt[g]}</span></span>
+        <span class="gyears">${a === b ? a : `${a}–${b}`}</span>
+      </button>`;
+    }).join('');
+    box.querySelectorAll('.grow').forEach(b => b.onclick = () => selectGenre(b.dataset.g));
+  }
+  function selectGenre(g) {
+    selGenre = (g === selGenre) ? null : g;
+    $('#clearGenre').hidden = !selGenre;
+    const S = G().songs();
+    genreChart(S); yearChart(S); paintDots(); renderYearBox();
+  }
+
   // ---------- render ----------
   function render() {
     const S = G() && G().songs();
@@ -252,9 +287,10 @@
       kpis(S);
       $('#hlKnown').onchange = paintDots;
       $('#clearYear').onclick = () => selectYear(null);
+      $('#clearGenre').onclick = () => selectGenre(null);
       built = true;
     }
-    yearChart(S); scatter(S); renderYearBox();
+    genreChart(S); yearChart(S); scatter(S); renderYearBox();
   }
   window.renderCharts = render;
   let rt;

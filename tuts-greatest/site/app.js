@@ -18,13 +18,20 @@
 
   // ---------- ranges: packs of 50 and tops ----------
   const PACKS = Array.from({ length: 10 }, (_, i) => i * 50 + 1);
+  const GENRES = {
+    rock: 'Классический рок', soul: 'Соул, Motown и фанк', pop: 'Поп', hiphop: 'Хип-хоп', alt: 'Альтернатива и инди',
+    punk: 'Панк, пост-панк, нью-вейв', rnb: 'Современный R&B', folk: 'Фолк, кантри, авторская песня', rocknroll: 'Рок-н-ролл и ду-воп',
+    dance: 'Диско, дэнс, электроника', roots: 'Блюз, джаз, госпел', world: 'Регги, латино и мир',
+  };
+  let GORDER = [];  // genres sorted by size, filled after load
   const inRange = (x, v) => {
     if (!v || v === 'all') return true;
     if (v.startsWith('p:')) { const a = +v.slice(2); return x.rank >= a && x.rank < a + 50; }
     if (v.startsWith('top:')) return x.rank <= +v.slice(4);
+    if (v.startsWith('g:')) return x.g === v.slice(2);
     return true;
   };
-  const rangeName = (v) => v.startsWith('p:') ? `Места ${+v.slice(2)}–${+v.slice(2) + 49}` : (v === 'top:500' ? 'Все 500' : 'Топ-' + v.slice(4));
+  const rangeName = (v) => v.startsWith('p:') ? `Места ${+v.slice(2)}–${+v.slice(2) + 49}` : (v.startsWith('g:') ? (GENRES[v.slice(2)] || v.slice(2)) : (v === 'top:500' ? 'Все 500' : 'Топ-' + v.slice(4)));
   const stats = (v) => {
     const l = S.filter(x => inRange(x, v));
     return { total: l.length, known: l.filter(x => known(x.rank)).length, miss: l.filter(x => missed(x.rank)).length, fresh: l.filter(x => fresh(x.rank)).length };
@@ -33,11 +40,15 @@
     const opt = (v) => { const st = stats(v); return `<option value="${v}">${rangeName(v).replace('Места ', '')} · выучено ${st.known}/${st.total}</option>`; };
     const t = $('#tRange'), keep = t.value || prefs.range || 'p:1';
     t.innerHTML = `<optgroup label="Паки по 50">${PACKS.map(a => opt('p:' + a)).join('')}</optgroup>` +
-      `<optgroup label="Больше">${['top:100', 'top:200', 'top:500'].map(opt).join('')}</optgroup>`;
+      `<optgroup label="Больше">${['top:100', 'top:200', 'top:500'].map(opt).join('')}</optgroup>` +
+      (GORDER.length ? `<optgroup label="По стилям">${GORDER.map(g => opt('g:' + g)).join('')}</optgroup>` : '');
     t.value = keep; if (!t.value) t.value = 'p:1';
     const l = $('#lPack'), lk = l.value || 'all';
     l.innerHTML = `<option value="all">Все 500</option>` + PACKS.map(a => { const st = stats('p:' + a); return `<option value="p:${a}">Места ${a}–${a + 49} · выучено ${st.known}/${st.total}</option>`; }).join('');
     l.value = lk;
+    const lg = $('#lGenre'), gk = lg.value || 'all';
+    lg.innerHTML = `<option value="all">Все стили</option>` + GORDER.map(g => { const st = stats('g:' + g); return `<option value="${g}">${GENRES[g]} (${st.total}) · выучено ${st.known}</option>`; }).join('');
+    lg.value = gk;
   }
 
   // ---------- tabs ----------
@@ -162,7 +173,7 @@
     $('#aCover').src = pic || ''; $('#aCover').hidden = !pic;
     $('#aRank').textContent = '#' + cur.rank;
     $('#aArtist').textContent = cur.artist; $('#aSong').textContent = cur.song;
-    $('#aMeta').innerHTML = (cur.cover && cur.img ? `<img class="mini" src="${esc(thumb(cur.cover, 100))}" alt="">` : '') + esc([cur.album ? 'Альбом: ' + cur.album : '', cur.year].filter(Boolean).join(' · '));
+    $('#aMeta').innerHTML = (cur.cover && cur.img ? `<img class="mini" src="${esc(thumb(cur.cover, 100))}" alt="">` : '') + esc([cur.album ? 'Альбом: ' + cur.album : '', cur.year, cur.sub ? 'стиль: ' + cur.sub : ''].filter(Boolean).join(' · '));
     $('#aFact').textContent = cur.fact || '';
     const link = (mode === 'audio' || !cur.vid) ? cur.yt : cur.vid;
     $('#aLink').href = 'https://www.youtube.com/watch?v=' + link; $('#aLink').hidden = !link;
@@ -203,12 +214,14 @@
   function renderList() {
     const q = $('#lSearch').value.trim().toLowerCase(), d = $('#lDecade').value, t = $('#lTag').value, pk = $('#lPack').value;
     let l = S.filter(x => inRange(x, pk));
+    const gsel = $('#lGenre').value;
+    if (gsel !== 'all') l = l.filter(x => x.g === gsel);
     if (d !== 'all') l = l.filter(x => String(x.decade) === d);
     if (t === 'left') l = l.filter(x => !known(x.rank));
     else if (t === 'miss') l = l.filter(x => missed(x.rank));
     else if (t === 'known') l = l.filter(x => known(x.rank));
     else if (t !== 'all') l = l.filter(x => (x.tags || []).includes(t));
-    if (q) l = l.filter(x => [x.artist, x.song, x.album, x.fact, x.writers].join(' ').toLowerCase().includes(q));
+    if (q) l = l.filter(x => [x.artist, x.song, x.album, x.fact, x.writers, x.sub, GENRES[x.g]].join(' ').toLowerCase().includes(q));
     const sort = $('#lSort').value, yr = (x) => +String(x.year).slice(0, 4);
     if (sort !== 'rank') l = [...l].sort((a, b) => (sort === 'year' ? yr(a) - yr(b) : yr(b) - yr(a)) || a.rank - b.rank);
     const perYear = {}; l.forEach(x => { perYear[yr(x)] = (perYear[yr(x)] || 0) + 1; });
@@ -219,8 +232,8 @@
       const n = perYear[lastYear];
       return `<h3 class="yearhead">${lastYear} <span>${n} ${n % 10 === 1 && n % 100 !== 11 ? 'песня' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'песни' : 'песен')}</span></h3>`;
     };
-    const st = pk === 'all' ? stats('top:500') : stats(pk);
-    $('#lCount').textContent = `Найдено: ${l.length} · выучено ${st.known} из ${st.total}`;
+    const lcount = () => { $('#lCount').textContent = `Найдено: ${l.length} · из них выучено ${l.filter(x => known(x.rank)).length}`; };
+    lcount();
     $('#list').innerHTML = l.map(x => head(x) + `
       <article class="song ${missed(x.rank) ? 'unk' : ''} ${known(x.rank) ? 'known' : ''}" data-rank="${x.rank}">
         <div class="num">${x.rank}</div>
@@ -228,7 +241,7 @@
         <div>
           <div class="who">${esc(x.artist)}</div>
           <div class="what">${esc(x.song)}</div>
-          <div class="meta">${x.cover && x.img ? `<img class="mini" loading="lazy" src="${esc(thumb(x.cover, 100))}" alt="">` : ''}${esc([x.album, x.year].filter(Boolean).join(' · '))}</div>
+          <div class="meta">${x.cover && x.img ? `<img class="mini" loading="lazy" src="${esc(thumb(x.cover, 100))}" alt="">` : ''}${esc([x.album, x.year].filter(Boolean).join(' · '))}${x.sub ? ` · <span class="gchip" title="${esc(GENRES[x.g] || '')}">${esc(x.sub)}</span>` : ''}</div>
           ${x.fact ? `<p class="f">${esc(x.fact)}</p>` : ''}
           ${(x.tags || []).length ? `<div class="tags">${x.tags.map(g => `<span class="tag">${esc(TAGS[g] || g)}</span>`).join('')}</div>` : ''}
           <div class="row">
@@ -255,16 +268,15 @@
       const k = known(r);
       b.classList.toggle('on', k); b.textContent = k ? '✓ Выучено' : '☐ Знаю';
       art.classList.toggle('known', k); art.classList.toggle('unk', !k);
-      const s2 = pk === 'all' ? stats('top:500') : stats(pk);
-      $('#lCount').textContent = `Найдено: ${l.length} · выучено ${s2.known} из ${s2.total}`;
+      lcount();
       fillRanges(); renderScore(); updateNote();
     });
   }
   let tmr;
   $('#lSearch').oninput = () => { clearTimeout(tmr); tmr = setTimeout(renderList, 200); };
-  $('#lDecade').onchange = renderList; $('#lTag').onchange = renderList; $('#lPack').onchange = renderList; $('#lSort').onchange = renderList;
+  $('#lDecade').onchange = renderList; $('#lTag').onchange = renderList; $('#lPack').onchange = renderList; $('#lSort').onchange = renderList; $('#lGenre').onchange = renderList;
 
-  window.GROOVE = { songs: () => S, known, esc, thumb, refresh: () => { fillRanges(); renderScore(); updateNote(); } };
+  window.GROOVE = { songs: () => S, known, esc, thumb, GENRES, gorder: () => GORDER, refresh: () => { fillRanges(); renderScore(); updateNote(); } };
 
   // ---------- init ----------
   fetch('songs.json', { cache: 'no-cache' }).then(r => r.json()).then(d => {
@@ -272,6 +284,8 @@
     const decs = [...new Set(S.map(x => x.decade))].sort();
     const opts = decs.map(x => `<option value="${x}">${x < 1950 ? 'до 1950' : String(x).slice(2) + '-е'} (${S.filter(s => s.decade === x).length})</option>`).join('');
     $('#tDecade').insertAdjacentHTML('beforeend', opts); $('#lDecade').insertAdjacentHTML('beforeend', opts);
+    const gc = {}; S.forEach(x => { if (x.g) gc[x.g] = (gc[x.g] || 0) + 1; });
+    GORDER = Object.keys(GENRES).filter(g => gc[g]).sort((a, b) => gc[b] - gc[a]);
     fillRanges();
     if (prefs.which) $('#tWhich').value = prefs.which;
     if (prefs.decade && [...$('#tDecade').options].some(o => o.value === prefs.decade)) $('#tDecade').value = prefs.decade;
