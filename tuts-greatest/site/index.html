@@ -19,6 +19,7 @@
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="train" class="active">Тренажёр</button>
     <button role="tab" data-tab="list">500 песен</button>
+    <button role="tab" data-tab="charts">Графики</button>
     <button role="tab" data-tab="playlists">Плейлисты</button>
     <button role="tab" data-tab="cheat">Шпаргалка</button>
     <button role="tab" data-tab="format">Формат</button>
@@ -102,6 +103,11 @@
   <section id="tab-list" class="tab">
     <div class="controls">
       <input id="lSearch" type="search" placeholder="Поиск: исполнитель, песня, альбом, факт…">
+      <select id="lSort">
+        <option value="rank">По месту</option>
+        <option value="year">По году: старые → новые</option>
+        <option value="year-desc">По году: новые → старые</option>
+      </select>
       <select id="lPack"><option value="all">Все 500</option></select>
       <select id="lDecade"><option value="all">Все эпохи</option></select>
       <select id="lTag">
@@ -121,6 +127,36 @@
     <div id="list"></div>
   </section>
 
+  <!-- CHARTS -->
+  <section id="tab-charts" class="tab">
+    <div class="kpis" id="kpis"></div>
+
+    <div class="ccard">
+      <h2 class="ctitle">Сколько песен из каждого года</h2>
+      <p class="csub">Нажмите на столбик, и ниже появятся песни этого года.</p>
+      <div class="chart" id="yearChart"></div>
+    </div>
+    <div class="yearbox" id="yearBox" hidden></div>
+
+    <div class="ccard">
+      <h2 class="ctitle">Каждая песня — точка: год и место в рейтинге</h2>
+      <p class="csub">По горизонтали год, по вертикали место: №1 наверху, №500 внизу. Наведите на точку, чтобы увидеть песню; нажмите, чтобы послушать.</p>
+      <div class="cctrl">
+        <label><input type="checkbox" id="hlKnown"> Подсветить мои выученные</label>
+        <button class="btn small" id="clearYear" hidden>Сбросить выбор года</button>
+      </div>
+      <div class="chart" id="scatter"></div>
+    </div>
+    <div class="pick" id="pick" hidden></div>
+
+    <details class="ctable">
+      <summary>Таблица: год — количество песен</summary>
+      <div id="yearTable"></div>
+    </details>
+    <p class="note">Весь список по годам — во вкладке «500 песен», сортировка «По году».</p>
+  </section>
+  <div class="tip" id="tip" hidden></div>
+
   <section id="tab-playlists" class="tab"><div class="doc" id="playlistsDoc">Загрузка…</div></section>
   <section id="tab-cheat" class="tab"><div class="doc" id="cheatDoc">Загрузка…</div></section>
   <section id="tab-format" class="tab"><div class="doc" id="formatDoc">Загрузка…</div></section>
@@ -128,5 +164,6 @@
 
 <footer class="foot">Неофициальный учебный проект. Рейтинг — Rolling Stone «The 500 Greatest Songs of All Time» (обновление 2024). Видео — YouTube, обложки — Apple Music.</footer>
 <script src="app.js"></script>
+<script src="charts.js"></script>
 </body>
 </html>

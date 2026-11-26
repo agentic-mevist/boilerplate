@@ -106,3 +106,65 @@ input[type=search]{flex:1;min-width:200px}
 .score .resets{white-space:nowrap}
 .song.known .num{color:#b9b9b9}
 .song.known .what:after{content:"’ ✓";color:var(--red)}
+/* charts */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.kpi{all:unset;box-sizing:border-box;border-top:3px solid var(--ink);padding:10px 2px 4px;display:flex;flex-direction:column;gap:3px}
+.kpi[data-year]{cursor:pointer}
+.kpi[data-year]:hover .kval,.kpi[data-year]:focus-visible .kval{color:var(--red)}
+.kpi:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.klabel{font:800 10px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.kval{font:700 30px/1.05 var(--sans);color:var(--ink)}
+.ksub{font-size:13px;color:var(--mute);line-height:1.35}
+.ccard{margin:8px 0 18px}
+.ctitle{font:900 24px/1.15 var(--serif);margin:0 0 4px;padding-top:12px;border-top:3px solid var(--ink)}
+.csub{color:var(--mute);font-size:14px;margin:0 0 10px}
+.cctrl{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:0 0 8px;font-size:14px}
+.cctrl input{accent-color:var(--red);width:16px;height:16px;vertical-align:-3px}
+.chart{width:100%;position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .tick{font:500 11px var(--sans);fill:#666;font-variant-numeric:tabular-nums}
+.chart .vlabel{font:700 12px var(--sans);fill:var(--ink)}
+.chart .dlabel{font:600 12px var(--sans);fill:var(--ink);paint-order:stroke;stroke:#fff;stroke-width:3px}
+.bar{cursor:pointer;outline:none}
+.bar .col{fill:var(--red);transition:fill .15s}
+.bar.hover .col,.bar:focus-visible .col{fill:#b3121a}
+.bar.dim .col{fill:#d6d6d6}
+.bar.dim.hover .col{fill:#b5b5b5}
+.dot{fill:var(--red);stroke:#fff;stroke-width:2;transition:fill .15s}
+.dot.dim{fill:#dcdcdc}
+.ring{fill:none;stroke:var(--ink);stroke-width:2;pointer-events:none}
+.pickring{stroke:var(--red);stroke-width:2.5}
+.tip{position:fixed;z-index:20;pointer-events:none;background:#fff;border:1px solid #d0d0d0;box-shadow:0 4px 14px rgba(0,0,0,.12);padding:7px 10px;max-width:280px;font-size:13px;line-height:1.35}
+.tip b{display:block;font:700 14px var(--sans);color:var(--ink)}
+.tip span{color:var(--mute)}
+.yearbox{border:2px solid var(--ink);padding:12px 14px;margin:0 0 22px}
+.yhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.yhead h3{font:900 28px/1 var(--serif);margin:0 8px;flex:1;text-align:center}
+.yhead h3 span{font:700 13px var(--sans);color:var(--mute);letter-spacing:.04em}
+.yhead .close{margin-left:4px}
+.ylist{list-style:none;margin:10px 0 0;padding:0}
+.ylist li{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}
+.ylist .yr{font:900 18px var(--serif);color:var(--red)}
+.ylist .ys{font-size:15px}
+.ylist .ok{color:var(--red);font-style:normal}
+.yplayer,.pplayer{grid-column:1/-1}
+.yplayer iframe,.pplayer iframe{width:100%;aspect-ratio:16/9;border:0;margin-top:6px}
+.pick{display:grid;grid-template-columns:120px 1fr;gap:16px;border:2px solid var(--ink);padding:14px;margin:0 0 22px}
+.pick img{width:120px;height:120px;object-fit:cover;background:var(--soft)}
+.prank{font:900 32px/1 var(--serif);color:var(--red)}
+.prank span{font:700 15px var(--sans);color:var(--mute)}
+.ctable{margin:6px 0 10px}
+.ctable summary{cursor:pointer;font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.ctable table{border-collapse:collapse;width:100%;font-size:14px;margin-top:8px}
+.ctable td,.ctable th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+.ctable th{font:800 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid var(--ink)}
+.ctable td:nth-child(-n+2){font-variant-numeric:tabular-nums}
+.yearhead{font:900 30px/1 var(--serif);margin:26px 0 0;padding-top:10px;border-top:3px solid var(--ink)}
+.yearhead span{font:700 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-left:8px}
+@media (max-width:640px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .kval{font-size:24px}
+  .pick{grid-template-columns:80px 1fr;gap:12px}
+  .pick img{width:80px;height:80px}
+  .ylist li{grid-template-columns:44px 1fr auto}
+}

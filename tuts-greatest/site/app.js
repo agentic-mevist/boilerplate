@@ -49,6 +49,7 @@
       fetch(name + '.html', { cache: 'no-cache' }).then(r => r.text()).then(h => { $('#' + name + 'Doc').innerHTML = h; loaded[name] = true; });
     }
     if (name === 'list') renderList();
+    if (name === 'charts' && window.renderCharts) window.renderCharts();
     history.replaceState(null, '', '#' + name);
   }
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
@@ -208,9 +209,19 @@
     else if (t === 'known') l = l.filter(x => known(x.rank));
     else if (t !== 'all') l = l.filter(x => (x.tags || []).includes(t));
     if (q) l = l.filter(x => [x.artist, x.song, x.album, x.fact, x.writers].join(' ').toLowerCase().includes(q));
+    const sort = $('#lSort').value, yr = (x) => +String(x.year).slice(0, 4);
+    if (sort !== 'rank') l = [...l].sort((a, b) => (sort === 'year' ? yr(a) - yr(b) : yr(b) - yr(a)) || a.rank - b.rank);
+    const perYear = {}; l.forEach(x => { perYear[yr(x)] = (perYear[yr(x)] || 0) + 1; });
+    let lastYear = null;
+    const head = (x) => {
+      if (sort === 'rank' || yr(x) === lastYear) return '';
+      lastYear = yr(x);
+      const n = perYear[lastYear];
+      return `<h3 class="yearhead">${lastYear} <span>${n} ${n % 10 === 1 && n % 100 !== 11 ? 'песня' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'песни' : 'песен')}</span></h3>`;
+    };
     const st = pk === 'all' ? stats('top:500') : stats(pk);
     $('#lCount').textContent = `Найдено: ${l.length} · выучено ${st.known} из ${st.total}`;
-    $('#list').innerHTML = l.map(x => `
+    $('#list').innerHTML = l.map(x => head(x) + `
       <article class="song ${missed(x.rank) ? 'unk' : ''} ${known(x.rank) ? 'known' : ''}" data-rank="${x.rank}">
         <div class="num">${x.rank}</div>
         ${x.img ? `<img loading="lazy" src="${esc(x.img)}?w=200" alt="">` : (x.cover ? `<img loading="lazy" src="${esc(thumb(x.cover, 200))}" alt="">` : '<img alt="">')}
@@ -251,7 +262,9 @@
   }
   let tmr;
   $('#lSearch').oninput = () => { clearTimeout(tmr); tmr = setTimeout(renderList, 200); };
-  $('#lDecade').onchange = renderList; $('#lTag').onchange = renderList; $('#lPack').onchange = renderList;
+  $('#lDecade').onchange = renderList; $('#lTag').onchange = renderList; $('#lPack').onchange = renderList; $('#lSort').onchange = renderList;
+
+  window.GROOVE = { songs: () => S, known, esc, thumb, refresh: () => { fillRanges(); renderScore(); updateNote(); } };
 
   // ---------- init ----------
   fetch('songs.json', { cache: 'no-cache' }).then(r => r.json()).then(d => {
@@ -267,6 +280,6 @@
     setMode(prefs.mode || 'audio');
     updateNote(); renderScore();
     const h = location.hash.slice(1);
-    if (['list', 'cheat', 'format', 'playlists'].includes(h)) showTab(h);
+    if (['list', 'charts', 'cheat', 'format', 'playlists'].includes(h)) showTab(h);
   });
 })();

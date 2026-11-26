@@ -201,6 +201,13 @@ def youtube_playlists(songs):
     for i in range(0, 500, 50):
         ids = [x["yt"] for x in songs[i:i + 50] if x["yt"]]
         L.append(f"- [Места {i + 1}–{i + 50}](https://www.youtube.com/watch_videos?video_ids={','.join(ids)}) — {len(ids)} видео")
+    chrono = sorted(songs, key=lambda x: (int(x["year"][:4]), x["rank"]))
+    L.append("\n## YouTube: весь рейтинг в хронологическом порядке\n")
+    L.append("Те же видео, но по году выхода: от самых старых песен к самым новым. Внутри года — по месту в рейтинге.\n")
+    for i in range(0, 500, 50):
+        part = [x for x in chrono[i:i + 50]]
+        ids = [x["yt"] for x in part if x["yt"]]
+        L.append(f"- [{part[0]['year'][:4]}–{part[-1]['year'][:4]}](https://www.youtube.com/watch_videos?video_ids={','.join(ids)}) — {len(ids)} видео")
     return "\n".join(L)
 
 
